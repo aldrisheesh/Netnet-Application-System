@@ -23,7 +23,7 @@ public class Homepage extends JFrame {
         setContentPane(background);
         
         // Logo image
-        ImageIcon originalIcon = new ImageIcon(getClass().getResource("/images/converge_logo.png"));
+        ImageIcon originalIcon = new ImageIcon(getClass().getResource("images/converge_logo.png"));
         Image scaledImage = originalIcon.getImage().getScaledInstance(123, 44, Image.SCALE_SMOOTH);
         ImageIcon logoIcon = new ImageIcon(scaledImage);
 
