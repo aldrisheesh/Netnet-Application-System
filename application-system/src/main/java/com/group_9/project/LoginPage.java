@@ -19,7 +19,7 @@ public class LoginPage extends JFrame {
         setLayout(null);
 
         // Gradient background panel
-        BackgroundPanel background = new BackgroundPanel(4);
+        BackgroundPanel background = new BackgroundPanel(1);
         background.setLayout(null);
         setContentPane(background);
 
