@@ -177,7 +177,6 @@ public class SignUp1 extends JFrame {
         String[] steps = {"YOUR INFO", "CHOOSE A PLAN", "PAY HERE", "CHECK STATUS"};
 
         for (int i = 0; i < steps.length; i++) {
-            final int index = i;
             JPanel stepPanel = new JPanel();
             stepPanel.setLayout(new BoxLayout(stepPanel, BoxLayout.Y_AXIS));
             stepPanel.setOpaque(false);
