@@ -18,7 +18,7 @@ public class Homepage extends JFrame {
         setLayout(null);
 
         // Gradient background panel
-        GradientBackground background = new GradientBackground();
+        BackgroundPanel  background = new BackgroundPanel(1);
         background.setLayout(null);
         setContentPane(background);
         
