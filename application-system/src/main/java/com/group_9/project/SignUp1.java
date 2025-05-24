@@ -3,21 +3,27 @@ package com.group_9.project;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.lang.reflect.Method;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 
 public class SignUp1 extends JFrame {
     private static final int RADIUS = 15;
 
+    // Sets up the main frame
     public SignUp1() {
         setTitle("Service Application");
-        setSize(1000, 750);
+        setSize(1440, 1024); 
+        setResizable(false); 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        // creates a gradient background
         GradientBackground background = new GradientBackground();
         background.setLayout(new GridBagLayout());
 
+        // creates a container panel for the form
         JPanel container = new JPanel();
         container.setBackground(Color.decode("#fdf5fe"));
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
@@ -27,27 +33,33 @@ public class SignUp1 extends JFrame {
                 BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(0, 0, 0, 38))
         ));
 
+        // adds spacing
         container.add(Box.createRigidArea(new Dimension(0, 20)));
 
+        // creates title label
         JLabel title = new JLabel("SERVICE APPLICATION", SwingConstants.CENTER);
         title.setFont(new Font("SansSerif", Font.BOLD, 24));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setForeground(Color.DARK_GRAY);
         container.add(title);
 
+        // adds spacing
         container.add(Box.createRigidArea(new Dimension(0, 20)));
 
+        // step tracker panel
         JPanel stepWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
         stepWrapper.setOpaque(false);
         stepWrapper.add(createStepTracker());
         container.add(stepWrapper);
         container.add(Box.createRigidArea(new Dimension(0, 20)));
 
+        // personal info panel
         JPanel infoPanel = new JPanel();
         infoPanel.setOpaque(false);
         infoPanel.setLayout(new BorderLayout());
         infoPanel.setMaximumSize(new Dimension(700, 60));
 
+        // left labels for the info panel 
         JPanel leftLabels = new JPanel();
         leftLabels.setLayout(new BoxLayout(leftLabels, BoxLayout.Y_AXIS));
         leftLabels.setOpaque(false);
@@ -67,7 +79,7 @@ public class SignUp1 extends JFrame {
         infoPanel.add(leftLabels, BorderLayout.WEST);
         container.add(infoPanel);
 
-        // Add horizontal line (separator)
+        // adds horizontal separator
         JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
         separator.setMaximumSize(new Dimension(700, 2));
         separator.setForeground(Color.decode("#B2B2B2"));
@@ -76,6 +88,7 @@ public class SignUp1 extends JFrame {
         container.add(separator);
         container.add(Box.createRigidArea(new Dimension(0, 20)));
 
+        // form panel for input fields
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -83,6 +96,7 @@ public class SignUp1 extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 0.5;
 
+        // input fields to the form panel
         gbc.gridx = 0; gbc.gridy = 0;
         formPanel.add(createPlaceholderField("Username"), gbc);
         gbc.gridx = 1;
@@ -106,6 +120,7 @@ public class SignUp1 extends JFrame {
         container.add(formPanel);
         container.add(Box.createRigidArea(new Dimension(0, 20)));
 
+        // button panel for action buttons
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.setOpaque(false);
@@ -131,6 +146,7 @@ public class SignUp1 extends JFrame {
             }
         };
 
+        // button properties
         nextButton.setContentAreaFilled(false);
         nextButton.setFocusPainted(false);
         nextButton.setOpaque(false);
@@ -139,6 +155,7 @@ public class SignUp1 extends JFrame {
         nextButton.setFont(new Font("Outfit", Font.BOLD, 14));
         nextButton.setPreferredSize(new Dimension(140, 40));
 
+        // mouse listener for button hover and click effects
         nextButton.addMouseListener(new java.awt.event.MouseAdapter() {
             Color defaultBg = new Color(50, 0, 90);
             Color hoverBg = new Color(80, 0, 130);
@@ -169,6 +186,7 @@ public class SignUp1 extends JFrame {
         setVisible(true);
     }
 
+    // method to create the step tracker for the form
     private JPanel createStepTracker() {
         JPanel pagination = new JPanel();
         pagination.setLayout(new BoxLayout(pagination, BoxLayout.X_AXIS));
@@ -195,6 +213,7 @@ public class SignUp1 extends JFrame {
             circlePanel.setLayout(new BorderLayout());
             circlePanel.setOpaque(false);
 
+            // label for step number
             JLabel number = new JLabel(String.valueOf(i + 1), SwingConstants.CENTER);
             number.setFont(new Font("Outfit", Font.BOLD, 14));
             number.setForeground(Color.WHITE);
@@ -203,6 +222,7 @@ public class SignUp1 extends JFrame {
             number.setVerticalAlignment(SwingConstants.CENTER);
             circlePanel.add(number, BorderLayout.CENTER);
 
+            // label for step description
             JLabel label = new JLabel(steps[i]);
             label.setFont(new Font("Outfit", Font.PLAIN, 12));
             label.setForeground(new Color(80, 0, 150));
@@ -227,6 +247,7 @@ public class SignUp1 extends JFrame {
         return pagination;
     }
 
+    // method to create a text field with placeholder functionality
     private JTextField createPlaceholderField(String placeholder) {
         JTextField field = new JTextField(placeholder);
         field.setFont(new Font("Outfit", Font.PLAIN, 14));
@@ -251,6 +272,7 @@ public class SignUp1 extends JFrame {
         return field;
     }
 
+    // method to create a password field with placeholder functionality
     private JPasswordField createPlaceholderPasswordField(String placeholder) {
         JPasswordField field = new JPasswordField(placeholder);
         field.setFont(new Font("Outfit", Font.PLAIN, 14));
@@ -278,6 +300,7 @@ public class SignUp1 extends JFrame {
         return field;
     }
 
+    // method to create a styled combo box
     private JComboBox<String> styleComboBoxField(String[] options) {
         JComboBox<String> box = new JComboBox<>(options);
         box.setFont(new Font("Outfit", Font.PLAIN, 14));
@@ -305,6 +328,7 @@ public class SignUp1 extends JFrame {
         return box;
     }
 
+    // method to create a panel with two components side by side
     private JPanel createPairPanel(JComponent left, JComponent right) {
         JPanel panel = new JPanel(new GridLayout(1, 2, 10, 0));
         panel.setOpaque(false);
@@ -313,6 +337,7 @@ public class SignUp1 extends JFrame {
         return panel;
     }
 
+    // class to create a rounded border
     static class RoundedBorder implements Border {
         private int radius;
         public RoundedBorder(int radius) { this.radius = radius; }
@@ -326,6 +351,7 @@ public class SignUp1 extends JFrame {
         }
     }
 
+    // main method
     public static void main(String[] args) {
         SwingUtilities.invokeLater(SignUp1::new);
     }
