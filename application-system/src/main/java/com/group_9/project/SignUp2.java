@@ -6,11 +6,11 @@ import java.awt.event.FocusEvent;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-public class SignUp1 extends JFrame {
+public class SignUp2 extends JFrame {
     private static final int RADIUS = 15;
 
     // Sets up the main frame
-    public SignUp1() {
+    public SignUp2() {
         setTitle("Service Application");
         setSize(1440, 1024); 
         setResizable(false); 
@@ -95,25 +95,36 @@ public class SignUp1 extends JFrame {
         gbc.weightx = 0.5;
 
         // input fields to the form panel
-        gbc.gridx = 0; gbc.gridy = 0;
-        formPanel.add(createPlaceholderField("Username"), gbc);
+        // gbc.gridx = 0; gbc.gridy = 0;
+        // formPanel.add(createPlaceholderField("Username"), gbc);
+        // gbc.gridx = 1;
+        // formPanel.add(createPlaceholderPasswordField("Password"), gbc);
+
+        // gbc.gridx = 0; gbc.gridy++;
+        // formPanel.add(createPlaceholderField("Customer Name"), gbc);
+        // gbc.gridx = 1;
+        // formPanel.add(createPairPanel(createPlaceholderField("Birthday"), styleComboBoxField(new String[]{"Male", "Female", "Other"})), gbc);
+
+        // gbc.gridx = 0; gbc.gridy++;
+        // formPanel.add(createPairPanel(styleComboBoxField(new String[]{"Single", "Married", "Divorced", "Widowed"}), createPlaceholderField("Nationality")), gbc);
+        // gbc.gridx = 1;
+        // formPanel.add(createPairPanel(createPlaceholderField("Mobile No."), createPlaceholderField("Email")), gbc);
+
+        // START NEW
+        gbc.gridx = 0; gbc.gridy++;
+        formPanel.add(createPlaceholderField("Name of Owner"), gbc);
         gbc.gridx = 1;
-        formPanel.add(createPlaceholderPasswordField("Password"), gbc);
+        formPanel.add(createPlaceholderField("Contact No."), gbc);
 
         gbc.gridx = 0; gbc.gridy++;
-        formPanel.add(createPlaceholderField("Customer Name"), gbc);
+        formPanel.add(createPlaceholderField("House/Room No./Floor"), gbc);
         gbc.gridx = 1;
-        formPanel.add(createPairPanel(createPlaceholderField("Birthday"), styleComboBoxField(new String[]{"Male", "Female", "Other"})), gbc);
+        formPanel.add(createPlaceholderField("Apartment/Compund/Building"), gbc);
 
         gbc.gridx = 0; gbc.gridy++;
-        formPanel.add(createPairPanel(styleComboBoxField(new String[]{"Single", "Married", "Divorced", "Widowed"}), createPlaceholderField("Nationality")), gbc);
+        formPanel.add(createPlaceholderField("Subdivision"), gbc);
         gbc.gridx = 1;
-        formPanel.add(createPairPanel(createPlaceholderField("Mobile No."), createPlaceholderField("Email")), gbc);
-
-        gbc.gridx = 0; gbc.gridy++;
-        formPanel.add(createPlaceholderField("Full Mother's Maiden Name"), gbc);
-        gbc.gridx = 1;
-        formPanel.add(createPlaceholderField("Spouse Name (if married)"), gbc);
+        formPanel.add(createPlaceholderField("Apartment/Compund/Building"), gbc);
 
         container.add(formPanel);
         container.add(Box.createRigidArea(new Dimension(0, 20)));
@@ -271,69 +282,69 @@ public class SignUp1 extends JFrame {
     }
 
     // method to create a password field with placeholder functionality
-    private JPasswordField createPlaceholderPasswordField(String placeholder) {
-        JPasswordField field = new JPasswordField(placeholder);
-        field.setFont(new Font("Outfit", Font.PLAIN, 14));
-        field.setEchoChar((char) 0);
-        field.setForeground(Color.GRAY);
-        field.setBorder(new RoundedBorder(RADIUS));
-        field.setMargin(new Insets(5, 10, 5, 10));
-        field.setPreferredSize(new Dimension(200, 30));
-        field.addFocusListener(new FocusAdapter() {
-            public void focusGained(FocusEvent e) {
-                if (new String(field.getPassword()).equals(placeholder)) {
-                    field.setText("");
-                    field.setEchoChar('•');
-                    field.setForeground(Color.BLACK);
-                }
-            }
-            public void focusLost(FocusEvent e) {
-                if (field.getPassword().length == 0) {
-                    field.setEchoChar((char) 0);
-                    field.setForeground(Color.GRAY);
-                    field.setText(placeholder);
-                }
-            }
-        });
-        return field;
-    }
+    // private JPasswordField createPlaceholderPasswordField(String placeholder) {
+    //     JPasswordField field = new JPasswordField(placeholder);
+    //     field.setFont(new Font("Outfit", Font.PLAIN, 14));
+    //     field.setEchoChar((char) 0);
+    //     field.setForeground(Color.GRAY);
+    //     field.setBorder(new RoundedBorder(RADIUS));
+    //     field.setMargin(new Insets(5, 10, 5, 10));
+    //     field.setPreferredSize(new Dimension(200, 30));
+    //     field.addFocusListener(new FocusAdapter() {
+    //         public void focusGained(FocusEvent e) {
+    //             if (new String(field.getPassword()).equals(placeholder)) {
+    //                 field.setText("");
+    //                 field.setEchoChar('•');
+    //                 field.setForeground(Color.BLACK);
+    //             }
+    //         }
+    //         public void focusLost(FocusEvent e) {
+    //             if (field.getPassword().length == 0) {
+    //                 field.setEchoChar((char) 0);
+    //                 field.setForeground(Color.GRAY);
+    //                 field.setText(placeholder);
+    //             }
+    //         }
+    //     });
+    //     return field;
+    // }
 
-    // method to create a styled combo box
-    private JComboBox<String> styleComboBoxField(String[] options) {
-        JComboBox<String> box = new JComboBox<>(options);
-        box.setFont(new Font("Outfit", Font.PLAIN, 14));
-        box.setForeground(Color.BLACK);
-        box.setBackground(Color.WHITE);
-        box.setBorder(new RoundedBorder(RADIUS));
-        box.setPreferredSize(new Dimension(200, 30));
-        box.setFocusable(false);
+    // // method to create a styled combo box
+    // private JComboBox<String> styleComboBoxField(String[] options) {
+    //     JComboBox<String> box = new JComboBox<>(options);
+    //     box.setFont(new Font("Outfit", Font.PLAIN, 14));
+    //     box.setForeground(Color.BLACK);
+    //     box.setBackground(Color.WHITE);
+    //     box.setBorder(new RoundedBorder(RADIUS));
+    //     box.setPreferredSize(new Dimension(200, 30));
+    //     box.setFocusable(false);
 
-        box.setUI(new javax.swing.plaf.basic.BasicComboBoxUI() {
-            @Override
-            protected JButton createArrowButton() {
-                JButton button = super.createArrowButton();
-                button.setFocusPainted(false);
-                button.setBorder(BorderFactory.createEmptyBorder());
-                return button;
-            }
+    //     box.setUI(new javax.swing.plaf.basic.BasicComboBoxUI() {
+    //         @Override
+    //         protected JButton createArrowButton() {
+    //             JButton button = super.createArrowButton();
+    //             button.setFocusPainted(false);
+    //             button.setBorder(BorderFactory.createEmptyBorder());
+    //             return button;
+    //         }
 
-            @Override
-            public void paintCurrentValueBackground(Graphics g, Rectangle bounds, boolean hasFocus) {
-                super.paintCurrentValueBackground(g, bounds, false);
-            }
-        });
+    //         @Override
+    //         public void paintCurrentValueBackground(Graphics g, Rectangle bounds, boolean hasFocus) {
+    //             super.paintCurrentValueBackground(g, bounds, false);
+    //         }
+    //     });
 
-        return box;
-    }
+    //     return box;
+    // }
 
     // method to create a panel with two components side by side
-    private JPanel createPairPanel(JComponent left, JComponent right) {
-        JPanel panel = new JPanel(new GridLayout(1, 2, 10, 0));
-        panel.setOpaque(false);
-        panel.add(left);
-        panel.add(right);
-        return panel;
-    }
+    // private JPanel createPairPanel(JComponent left, JComponent right) {
+    //     JPanel panel = new JPanel(new GridLayout(1, 2, 10, 0));
+    //     panel.setOpaque(false);
+    //     panel.add(left);
+    //     panel.add(right);
+    //     return panel;
+    // }
 
     // class to create a rounded border
     static class RoundedBorder implements Border {
@@ -351,6 +362,6 @@ public class SignUp1 extends JFrame {
 
     // main method
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(SignUp1::new);
+        SwingUtilities.invokeLater(SignUp2::new);
     }
 }
