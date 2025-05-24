@@ -175,7 +175,6 @@ public class Homepage extends JFrame {
         RoundedPanel stepsPanel = new RoundedPanel(30);
         stepsPanel.setLayout(null);
         stepsPanel.setBounds(700, 520, 520, 320);
-        stepsPanel.setBackground(new Color(255, 255, 255, 220)); // semi-transparent white
         background.add(stepsPanel);
         
 
@@ -312,20 +311,7 @@ class RoundedPanel extends JPanel {
         int w = getWidth();
         int h = getHeight();
 
-        // Approximate 116deg gradient direction using coordinates
-        Point2D start = new Point2D.Float(0, h * 0.15f);
-        Point2D end = new Point2D.Float(w, h * 0.85f);        
-
-        float[] dist = {0.0f, 0.5493f, 0.9912f};
-        Color[] colors = {
-            Color.WHITE,
-            new Color(255, 255, 255),
-            new Color(116, 204, 214) 
-        };
-
-        LinearGradientPaint gradient = new LinearGradientPaint(start, end, dist, colors, CycleMethod.NO_CYCLE);
-
-        g2.setPaint(gradient);
+        g2.setColor(new Color(255, 255, 255, 180));
         g2.fillRoundRect(0, 0, w, h, arc, arc);
 
         // Optional soft border

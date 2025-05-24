@@ -16,10 +16,10 @@ public class TrackingPage extends JFrame {
         setLayout(null);
 
         // Gradient background panel
-        BackgroundPanel  background = new BackgroundPanel(1);
+        BackgroundPanel background = new BackgroundPanel(4);
         background.setLayout(null);
         setContentPane(background);
-        
+
         // Logo image
         ImageIcon originalIcon = new ImageIcon(getClass().getClassLoader().getResource("images/converge_logo.png"));
         Image scaledImage = originalIcon.getImage().getScaledInstance(123, 44, Image.SCALE_SMOOTH);
@@ -58,22 +58,21 @@ public class TrackingPage extends JFrame {
 
         JButton loginBtn = new JButton("Log In");
         loginBtn.setBounds(1300, 30, 80, 35);
-        loginBtn.setFont(FontUtil.getOutfitFont(16f));
+        loginBtn.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         loginBtn.setFocusPainted(false);
         loginBtn.setFocusable(false);
         ButtonHoverEffect.apply(
-                                loginBtn, 
-                                new Color(62, 10, 118),          //hover bg
-                                Color.WHITE,                           //hover fg
-                                new Color(42, 2, 67),            //normal bg
-                                Color.WHITE,                           //normal fg
-                                new Color(62, 10, 118),          //hover border
-                                new Color(42, 2, 67)             //normal border
+                loginBtn,
+                new Color(62, 10, 118),
+                Color.WHITE,
+                new Color(42, 2, 67),
+                Color.WHITE,
+                new Color(62, 10, 118),
+                new Color(42, 2, 67)
         );
         background.add(loginBtn);
-        
 
-        // Main headline - enlarged and repositioned
+        // Headline
         JLabel headline = new JLabel("<html><div style='text-align:center;color:#2B0243;font-weight:700;'>Supercharge your home with<br>ultra-fast internet and endless entertainment.</div></html>", SwingConstants.CENTER);
         headline.setFont(FontUtil.getOutfitFont(50f));
         headline.setForeground(new Color(0x2B0243));
@@ -86,107 +85,85 @@ public class TrackingPage extends JFrame {
         background.add(subHeadline);
 
         JButton viewPlans = new JButton("VIEW PLANS");
-        viewPlans.setFont(FontUtil.getOutfitFont(16f));
+        viewPlans.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         viewPlans.setBounds(530, 400, 160, 45);
         viewPlans.setFocusPainted(false);
-        ButtonHoverEffect.apply(
-                                viewPlans, 
-                                new Color(62, 10, 118),          //hover bg
-                                Color.WHITE,                           //hover fg
-                                new Color(42, 2, 67),            //normal bg
-                                Color.WHITE,                           //normal fg
-                                new Color(62, 10, 118),          //hover border
-                                new Color(42, 2, 67)             //normal border
+        ButtonHoverEffect.apply(viewPlans,
+                new Color(62, 10, 118),
+                Color.WHITE,
+                new Color(42, 2, 67),
+                Color.WHITE,
+                new Color(62, 10, 118),
+                new Color(42, 2, 67)
         );
         background.add(viewPlans);
 
         JButton checkAvailability = new JButton("CHECK AVAILABILITY");
-        checkAvailability.setFont(FontUtil.getOutfitFont(16f));
+        checkAvailability.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         checkAvailability.setBounds(700, 400, 220, 45);
         checkAvailability.setFocusPainted(false);
         checkAvailability.setContentAreaFilled(false);
-        ButtonHoverEffect.apply(
-                                checkAvailability, 
-                                new Color(62, 10, 118),          //hover bg
-                                new Color(62, 10, 118),          //hover fg
-                                new Color(0, 0, 0, 0),         //normal bg
-                                new Color(38, 6, 67),            //normal fg
-                                new Color(62, 10, 118),          //hover border
-                                new Color(42, 2, 67)             //normal border
+        ButtonHoverEffect.apply(checkAvailability,
+                new Color(62, 10, 118),
+                new Color(62, 10, 118),
+                new Color(0, 0, 0, 0),
+                new Color(38, 6, 67),
+                new Color(62, 10, 118),
+                new Color(42, 2, 67)
         );
         background.add(checkAvailability);
-        
-        // Wi-Fi Image Centered Top
+
+        // Wi-Fi Image
         ImageIcon wifiIconRaw = new ImageIcon(getClass().getClassLoader().getResource("images/wifi.png"));
-        Image wifiImg = wifiIconRaw.getImage().getScaledInstance(256, 256, Image.SCALE_SMOOTH);
+        Image wifiImg = wifiIconRaw.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         ImageIcon wifiIcon = new ImageIcon(wifiImg);
         JLabel wifiLabel = new JLabel(wifiIcon);
-        wifiLabel.setBounds(160, 580, 256, 256); // Center horizontally in ~500px block
+        wifiLabel.setBounds(302, 495, 200, 200);
         background.add(wifiLabel);
 
-        int xPosLeft = 190;
-        int yPosLeft = 750;
+        int xPosLeft = 140;
+        int yPosLeft = 780;
 
-        // "Ready to Upgrade Your Setup?" Text
-        JLabel upgradeTitle = new JLabel("Ready to Upgrade Your Setup?");
-        upgradeTitle.setFont(FontUtil.getOutfitFont(24f));
+        // Upgrade section
+        JLabel upgradeTitle = new JLabel("<html><div style='text-align:left;color:#2B0243;font-weight:700;'>Ready to Upgrade Your Setup?</div></html>");
+        upgradeTitle.setFont(FontUtil.getInterFont(35f));
         upgradeTitle.setForeground(new Color(43, 2, 67));
-        upgradeTitle.setBounds(xPosLeft, yPosLeft, 400, 30); // center within ~500px
+        upgradeTitle.setBounds(xPosLeft, yPosLeft - 50, 600, 45);
         upgradeTitle.setHorizontalAlignment(SwingConstants.LEFT);
         background.add(upgradeTitle);
 
-        // Description
-        JLabel upgradeDesc = new JLabel("Start with one, then add more plans as your needs grow.");
-        upgradeDesc.setFont(FontUtil.getInterFont(14f));
+        JLabel upgradeDesc = new JLabel("<html>Start with one, then add more plans as your<br>needs grow.</html>");
+        upgradeDesc.setFont(FontUtil.getInterFont(16f));
         upgradeDesc.setForeground(new Color(43, 2, 67));
-        upgradeDesc.setBounds(xPosLeft, yPosLeft + 30, 400, 30);
+        upgradeDesc.setBounds(xPosLeft, yPosLeft, 450, 50);
         upgradeDesc.setHorizontalAlignment(SwingConstants.LEFT);
         background.add(upgradeDesc);
 
-        // Button
         JButton morePlansBtn = new JButton("GET MORE PLANS");
-        morePlansBtn.setFont(FontUtil.getOutfitFont(14f));
-        morePlansBtn.setBounds(xPosLeft, yPosLeft + 40, 160, 40);
+        morePlansBtn.setFont(FontUtil.getOutfitFont(14f).deriveFont(Font.BOLD));
+        morePlansBtn.setBounds(xPosLeft, yPosLeft + 60, 160, 40);
         morePlansBtn.setFocusPainted(false);
-        ButtonHoverEffect.apply(
-                                morePlansBtn, 
-                                new Color(62, 10, 118), 
-                                Color.WHITE, 
-                                new Color(42, 2, 67), 
-                                Color.WHITE, 
-                                new Color(62, 10, 118), 
-                                new Color(42, 2, 67)
+        ButtonHoverEffect.apply(morePlansBtn,
+                new Color(62, 10, 118),
+                Color.WHITE,
+                new Color(42, 2, 67),
+                Color.WHITE,
+                new Color(62, 10, 118),
+                new Color(42, 2, 67)
         );
         background.add(morePlansBtn);
 
-
-
-        // Application Tracker Section
-        JPanel trackerPanel = new JPanel();
-        trackerPanel.setLayout(null);
-        trackerPanel.setBackground(new Color(255, 255, 255, 180));
-        trackerPanel.setBounds(700, 550, 550, 300);
-        trackerPanel.setBorder(BorderFactory.createLineBorder(new Color(210, 190, 255), 1));
-        background.add(trackerPanel);
-
-        JLabel trackerTitle = new JLabel("APPLICATION TRACKER", SwingConstants.CENTER);
-        trackerTitle.setFont(FontUtil.getOutfitFont(20f));
+        // Dynamic Application Tracker
+        JLabel trackerTitle = new JLabel("<html><div style='color:#2A0243;font-weight:700;'>APPLICATION TRACKER</div></html>", SwingConstants.CENTER);
+        trackerTitle.setFont(FontUtil.getOutfitFont(26f));
         trackerTitle.setForeground(new Color(43, 2, 67));
-        trackerTitle.setBounds(0, 10, 500, 30);
-        trackerPanel.add(trackerTitle);
 
         JTextField searchField = new JTextField();
-        searchField.setBounds(40, 50, 420, 30);
         searchField.setFont(FontUtil.getInterFont(14f));
         searchField.setBorder(BorderFactory.createLineBorder(new Color(200, 180, 255), 1));
-        trackerPanel.add(searchField);
 
-        JPanel cardPanel = new JPanel();
-        cardPanel.setLayout(null);
+        JPanel cardPanel = new JPanel(null);
         cardPanel.setBackground(new Color(92, 12, 168));
-        cardPanel.setBounds(40, 100, 420, 100);
-        cardPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        trackerPanel.add(cardPanel);
 
         JLabel appNumber = new JLabel("Application No. A00001");
         appNumber.setFont(FontUtil.getOutfitFont(14f));
@@ -219,6 +196,26 @@ public class TrackingPage extends JFrame {
         });
         cardPanel.add(viewSummary);
 
+        JPanel trackerPanel = new JPanel(null) {
+            @Override
+            public void doLayout() {
+                int padding = 30;
+                int width = getWidth();
+                int innerWidth = width - 2 * padding;
+
+                trackerTitle.setBounds(0, 10, width, 30);
+                searchField.setBounds(padding, 50, innerWidth, 30);
+                cardPanel.setBounds(padding, 100, innerWidth, 100);
+            }
+        };
+        trackerPanel.setBackground(new Color(255, 255, 255, 180));
+        trackerPanel.setBounds(800, 515, 484, 300);
+        trackerPanel.setBorder(BorderFactory.createLineBorder(new Color(210, 190, 255), 1));
+
+        trackerPanel.add(trackerTitle);
+        trackerPanel.add(searchField);
+        trackerPanel.add(cardPanel);
+        background.add(trackerPanel);
     }
 
     private void openNewWindow(String title) {
