@@ -123,13 +123,13 @@ public class ErrorPage extends JFrame {
 
         // "Return to " (normal text)
         JLabel returnText = new JLabel("Return to ");
-        returnText.setFont(FontUtil.getOutfitFont(18f));
+        returnText.setFont(FontUtil.getInterFont(18f));
         returnText.setForeground(Color.DARK_GRAY);
         returnPanel.add(returnText);
 
         // "home page" (clickable link)
         JLabel homeLink = new JLabel("<html><u>home page</u></html>");
-        homeLink.setFont(FontUtil.getOutfitFont(18f));
+        homeLink.setFont(FontUtil.getInterFont(18f));
         homeLink.setForeground(new Color(62, 10, 118));
         homeLink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
