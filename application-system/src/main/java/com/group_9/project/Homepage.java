@@ -2,8 +2,6 @@ package com.group_9.project;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class Homepage extends JFrame {
 

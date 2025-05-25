@@ -2,7 +2,6 @@ package com.group_9.project;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class LoginPage extends JFrame {
 
@@ -147,17 +146,6 @@ public class LoginPage extends JFrame {
         background.add(keepSignedIn);
 
         SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
-    }
-
-    private void openNewWindow(String title) {
-        JFrame newFrame = new JFrame(title);
-        newFrame.setSize(600, 400);
-        newFrame.setLocationRelativeTo(null);
-        newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        JLabel message = new JLabel("This is the " + title + " window", SwingConstants.CENTER);
-        message.setFont(FontUtil.getOutfitFont(18f));
-        newFrame.add(message);
-        newFrame.setVisible(true);
     }
 
     public static void main(String[] args) {
