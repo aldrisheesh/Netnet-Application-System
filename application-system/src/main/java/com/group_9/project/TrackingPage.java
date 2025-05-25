@@ -27,38 +27,77 @@ public class TrackingPage extends JFrame {
         logo.setBounds(40, 30, 123, 44);
         background.add(logo);
 
+        //Navigation Menu
         String[] navItems = {"Home", "Plans", "Help & Support", "About Us"};
         int xPos = 900;
         int spacing = 30;
+        Color normalColor = new Color(22, 6, 48, 128);
+        Color hoverColor = new Color(62, 10, 118);
 
         for (String item : navItems) {
             JLabel label = new JLabel(item);
             label.setFont(FontUtil.getOutfitFont(16f));
-            label.setForeground(new Color(22, 6, 48, 128));
-            label.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            FontMetrics fm = label.getFontMetrics(label.getFont());
-            int textWidth = fm.stringWidth(item);
-            label.setBounds(xPos, 30, textWidth + 10, 40);
+            label.setForeground(normalColor);
+            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-            label.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    openNewWindow(item);
-                    dispose();
+            label.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent e) {
+                    label.setForeground(hoverColor);
+                }
+
+                public void mouseExited(java.awt.event.MouseEvent e) {
+                    label.setForeground(normalColor);
+                }
+
+                public void mouseClicked(java.awt.event.MouseEvent e) {
+                    switch (item) {
+                        case "Home" -> {
+                            new Homepage().setVisible(true);
+                            dispose();
+                        }
+                        case "Plans" -> {
+                            new ErrorPage().setVisible(true);
+                            dispose();
+                        }
+                        case "Help & Support" -> {
+                            new HelpSupportPage().setVisible(true);
+                            dispose();
+                        }
+                        case "About Us" -> {
+                            new ErrorPage().setVisible(true);
+                            dispose();
+                        }
+                    }
                 }
             });
 
+            int textWidth = label.getPreferredSize().width;
+            label.setBounds(xPos, 30, textWidth + 10, 40);
             background.add(label);
             xPos += textWidth + spacing + 10;
         }
 
+        // Login button
         JButton loginBtn = new JButton("Log In");
         loginBtn.setBounds(1300, 30, 80, 35);
         loginBtn.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         loginBtn.setFocusPainted(false);
         loginBtn.setFocusable(false);
-        ButtonHoverEffect.apply(loginBtn, new Color(62, 10, 118), Color.WHITE,
-                new Color(42, 2, 67), Color.WHITE, new Color(62, 10, 118), new Color(42, 2, 67));
+        ButtonHoverEffect.apply(
+                loginBtn,
+                new Color(62, 10, 118),
+                Color.WHITE,
+                new Color(42, 2, 67),
+                Color.WHITE,
+                new Color(62, 10, 118),
+                new Color(42, 2, 67)
+        );
+
+        loginBtn.addActionListener(e -> {
+            new LoginPage().setVisible(true);
+            dispose();
+        });
+
         background.add(loginBtn);
 
         JLabel headline = new JLabel("<html><div style='text-align:center;color:#2B0243;font-weight:700;'>Supercharge your home with<br>ultra-fast internet and endless entertainment.</div></html>", SwingConstants.CENTER);
@@ -78,8 +117,14 @@ public class TrackingPage extends JFrame {
         viewPlans.setFocusPainted(false);
         ButtonHoverEffect.apply(viewPlans, new Color(62, 10, 118), Color.WHITE,
                 new Color(42, 2, 67), Color.WHITE, new Color(62, 10, 118), new Color(42, 2, 67));
+        
+        viewPlans.addActionListener(e -> {
+            new ErrorPage().setVisible(true);
+            dispose();
+        });
+        
         background.add(viewPlans);
-
+        
         JButton checkAvailability = new JButton("CHECK AVAILABILITY");
         checkAvailability.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         checkAvailability.setBounds(700, 400, 220, 45);
@@ -87,7 +132,14 @@ public class TrackingPage extends JFrame {
         checkAvailability.setContentAreaFilled(false);
         ButtonHoverEffect.apply(checkAvailability, new Color(62, 10, 118), new Color(62, 10, 118),
                 new Color(0, 0, 0, 0), new Color(38, 6, 67), new Color(62, 10, 118), new Color(42, 2, 67));
+        
+        checkAvailability.addActionListener(e -> {
+            new ErrorPage().setVisible(true);
+            dispose();
+        });
+        
         background.add(checkAvailability);
+        
 
         ImageIcon wifiIconRaw = new ImageIcon(getClass().getClassLoader().getResource("images/wifi.png"));
         Image wifiImg = wifiIconRaw.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
@@ -118,7 +170,14 @@ public class TrackingPage extends JFrame {
         morePlansBtn.setFocusPainted(false);
         ButtonHoverEffect.apply(morePlansBtn, new Color(62, 10, 118), Color.WHITE,
                 new Color(42, 2, 67), Color.WHITE, new Color(62, 10, 118), new Color(42, 2, 67));
+        
+        morePlansBtn.addActionListener(e -> {
+            new ErrorPage().setVisible(true);
+            dispose();
+        });
+        
         background.add(morePlansBtn);
+        
 
         JLabel trackerTitle = new JLabel("<html><div style='color:#2A0243;font-weight:700;'>APPLICATION TRACKER</div></html>", SwingConstants.CENTER);
         trackerTitle.setFont(FontUtil.getOutfitFont(26f));

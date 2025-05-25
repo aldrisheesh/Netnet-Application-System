@@ -29,47 +29,78 @@ public class Homepage extends JFrame {
         logo.setBounds(40, 30, 123, 44);
         background.add(logo);
 
-        // Navigation Menu with Clickable Labels
+        //Navigation Menu
         String[] navItems = {"Home", "Plans", "Help & Support", "About Us"};
         int xPos = 900;
         int spacing = 30;
+        Color normalColor = new Color(22, 6, 48, 128);
+        Color hoverColor = new Color(62, 10, 118);
 
         for (String item : navItems) {
             JLabel label = new JLabel(item);
             label.setFont(FontUtil.getOutfitFont(16f));
-            label.setForeground(new Color(22, 6, 48, 128));
-            label.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            label.setForeground(normalColor);
+            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-            FontMetrics fm = label.getFontMetrics(label.getFont());
-            int textWidth = fm.stringWidth(item);
-            label.setBounds(xPos, 30, textWidth + 10, 40);
+            label.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent e) {
+                    label.setForeground(hoverColor);
+                }
 
-            label.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    openNewWindow(item);
-                    dispose();
+                public void mouseExited(java.awt.event.MouseEvent e) {
+                    label.setForeground(normalColor);
+                }
+
+                public void mouseClicked(java.awt.event.MouseEvent e) {
+                    switch (item) {
+                        case "Home" -> {
+                            new Homepage().setVisible(true);
+                            dispose();
+                        }
+                        case "Plans" -> {
+                            new ErrorPage().setVisible(true);
+                            dispose();
+                        }
+                        case "Help & Support" -> {
+                            new HelpSupportPage().setVisible(true);
+                            dispose();
+                        }
+                        case "About Us" -> {
+                            new ErrorPage().setVisible(true);
+                            dispose();
+                        }
+                    }
                 }
             });
 
+            int textWidth = label.getPreferredSize().width;
+            label.setBounds(xPos, 30, textWidth + 10, 40);
             background.add(label);
             xPos += textWidth + spacing + 10;
         }
+        
 
+        // Login button
         JButton loginBtn = new JButton("Log In");
         loginBtn.setBounds(1300, 30, 80, 35);
-        loginBtn.setFont(FontUtil.getOutfitFont(16f));
+        loginBtn.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         loginBtn.setFocusPainted(false);
         loginBtn.setFocusable(false);
         ButtonHoverEffect.apply(
-                                loginBtn, 
-                                new Color(62, 10, 118),          //hover bg
-                                Color.WHITE,                           //hover fg
-                                new Color(42, 2, 67),            //normal bg
-                                Color.WHITE,                           //normal fg
-                                new Color(62, 10, 118),          //hover border
-                                new Color(42, 2, 67)             //normal border
+                loginBtn,
+                new Color(62, 10, 118),
+                Color.WHITE,
+                new Color(42, 2, 67),
+                Color.WHITE,
+                new Color(62, 10, 118),
+                new Color(42, 2, 67)
         );
+
+        loginBtn.addActionListener(e -> {
+            new LoginPage().setVisible(true);
+            dispose();
+        });
+
         background.add(loginBtn);
         
 
@@ -86,34 +117,32 @@ public class Homepage extends JFrame {
         background.add(subHeadline);
 
         JButton viewPlans = new JButton("VIEW PLANS");
-        viewPlans.setFont(FontUtil.getOutfitFont(16f));
+        viewPlans.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         viewPlans.setBounds(530, 400, 160, 45);
         viewPlans.setFocusPainted(false);
-        ButtonHoverEffect.apply(
-                                viewPlans, 
-                                new Color(62, 10, 118),          //hover bg
-                                Color.WHITE,                           //hover fg
-                                new Color(42, 2, 67),            //normal bg
-                                Color.WHITE,                           //normal fg
-                                new Color(62, 10, 118),          //hover border
-                                new Color(42, 2, 67)             //normal border
-        );
+        ButtonHoverEffect.apply(viewPlans, new Color(62, 10, 118), Color.WHITE,
+                new Color(42, 2, 67), Color.WHITE, new Color(62, 10, 118), new Color(42, 2, 67));
+        
+        viewPlans.addActionListener(e -> {
+            new ErrorPage().setVisible(true);
+            dispose();
+        });
+        
         background.add(viewPlans);
-
+        
         JButton checkAvailability = new JButton("CHECK AVAILABILITY");
-        checkAvailability.setFont(FontUtil.getOutfitFont(16f));
+        checkAvailability.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         checkAvailability.setBounds(700, 400, 220, 45);
         checkAvailability.setFocusPainted(false);
         checkAvailability.setContentAreaFilled(false);
-        ButtonHoverEffect.apply(
-                                checkAvailability, 
-                                new Color(62, 10, 118),          //hover bg
-                                Color.WHITE,                           //hover fg
-                                new Color(0, 0, 0, 0),         //normal bg
-                                new Color(38, 6, 67),            //normal fg
-                                Color.WHITE,                           //hover border
-                                new Color(42, 2, 67)             //normal border
-        );
+        ButtonHoverEffect.apply(checkAvailability, new Color(62, 10, 118), new Color(62, 10, 118),
+                new Color(0, 0, 0, 0), new Color(38, 6, 67), new Color(62, 10, 118), new Color(42, 2, 67));
+        
+        checkAvailability.addActionListener(e -> {
+            new ErrorPage().setVisible(true);
+            dispose();
+        });
+        
         background.add(checkAvailability);
 
         // Apply Now Section
@@ -132,7 +161,7 @@ public class Homepage extends JFrame {
         background.add(applyDesc);
 
         JButton getStarted = new JButton("GET STARTED");
-        getStarted.setFont(FontUtil.getOutfitFont(16f));
+        getStarted.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         getStarted.setBounds(applyX, applyY + 105, 160, 45);
         getStarted.setFocusPainted(false);
         ButtonHoverEffect.apply(
@@ -155,19 +184,31 @@ public class Homepage extends JFrame {
         // Clickable "Log in!" part
         JLabel loginClickable = new JLabel(" Log in!");
         loginClickable.setFont(FontUtil.getInterFont(16f));
-        loginClickable.setForeground(new Color(22, 6, 48, 128)); // semi-transparent
-        loginClickable.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        loginClickable.setBounds(applyX + 200, applyY + 155, 60, 30); // adjust X to align
-
-        loginClickable.addMouseListener(new MouseAdapter() {
+        
+        loginClickable.setForeground(normalColor);
+        loginClickable.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        loginClickable.setBounds(applyX + 200, applyY + 155, 60, 30);
+        
+        loginClickable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                openNewWindow("Log In");
+            public void mouseEntered(java.awt.event.MouseEvent e) {
+                loginClickable.setForeground(hoverColor);
+            }
+        
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent e) {
+                loginClickable.setForeground(normalColor);
+            }
+        
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                new LoginPage().setVisible(true);
                 dispose();
             }
         });
+        
         background.add(loginClickable);
-
+             
 
         // Steps Panel
         RoundedPanel stepsPanel = new RoundedPanel(30);
@@ -228,17 +269,6 @@ public class Homepage extends JFrame {
         
         
         
-    }
-
-    private void openNewWindow(String title) {
-        JFrame newFrame = new JFrame(title);
-        newFrame.setSize(600, 400);
-        newFrame.setLocationRelativeTo(null);
-        newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        JLabel message = new JLabel("This is the " + title + " window", SwingConstants.CENTER);
-        message.setFont(FontUtil.getOutfitFont(18f));
-        newFrame.add(message);
-        newFrame.setVisible(true);
     }
 
     public static void main(String[] args) {

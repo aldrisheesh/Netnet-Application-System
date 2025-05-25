@@ -28,28 +28,52 @@ public class LoginPage extends JFrame {
         logo.setBounds(40, 30, 123, 44);
         background.add(logo);
 
-        // Navigation Menu
+        //Navigation Menu
         String[] navItems = {"Home", "Plans", "Help & Support", "About Us"};
         int xPos = 900;
         int spacing = 30;
+        Color normalColor = new Color(22, 6, 48, 128);
+        Color hoverColor = new Color(62, 10, 118);
 
         for (String item : navItems) {
             JLabel label = new JLabel(item);
             label.setFont(FontUtil.getOutfitFont(16f));
-            label.setForeground(new Color(22, 6, 48, 128));
-            label.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            FontMetrics fm = label.getFontMetrics(label.getFont());
-            int textWidth = fm.stringWidth(item);
-            label.setBounds(xPos, 30, textWidth + 10, 40);
+            label.setForeground(normalColor);
+            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
             label.addMouseListener(new java.awt.event.MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    openNewWindow(item);
-                    dispose();
+                public void mouseEntered(java.awt.event.MouseEvent e) {
+                    label.setForeground(hoverColor);
+                }
+
+                public void mouseExited(java.awt.event.MouseEvent e) {
+                    label.setForeground(normalColor);
+                }
+
+                public void mouseClicked(java.awt.event.MouseEvent e) {
+                    switch (item) {
+                        case "Home" -> {
+                            new Homepage().setVisible(true);
+                            dispose();
+                        }
+                        case "Plans" -> {
+                            new ErrorPage().setVisible(true);
+                            dispose();
+                        }
+                        case "Help & Support" -> {
+                            new HelpSupportPage().setVisible(true);
+                            dispose();
+                        }
+                        case "About Us" -> {
+                            new ErrorPage().setVisible(true);
+                            dispose();
+                        }
+                    }
                 }
             });
 
+            int textWidth = label.getPreferredSize().width;
+            label.setBounds(xPos, 30, textWidth + 10, 40);
             background.add(label);
             xPos += textWidth + spacing + 10;
         }
