@@ -173,6 +173,7 @@ public class Homepage extends JFrame {
         RoundedPanel stepsPanel = new RoundedPanel(30);
         stepsPanel.setLayout(null);
         stepsPanel.setBounds(700, 520, 520, 320);
+        stepsPanel.setBackground(new Color(255, 255, 255, 180));
         background.add(stepsPanel);
         
 
@@ -191,7 +192,7 @@ public class Homepage extends JFrame {
             int y = i * 75 + 25;
         
             JLabel number = new JLabel(String.valueOf(i + 1), SwingConstants.CENTER);
-            number.setBounds(20, y, 43, 43);
+            number.setBounds(30, y, 43, 43);
             number.setOpaque(false); // disable default opaque rect rendering
             number.setFont(FontUtil.getOutfitFont(20f));
         
@@ -210,18 +211,18 @@ public class Homepage extends JFrame {
             if (i < stepTitles.length - 1) {
                 JPanel connector = new JPanel();
                 connector.setBackground(new Color(126, 76, 165));
-                connector.setBounds(38, y + 40, 4, 35);
+                connector.setBounds(48, y + 40, 4, 35);
                 stepsPanel.add(connector);
             }
         
             JLabel title = new JLabel(stepTitles[i]);
             title.setFont(FontUtil.getOutfitFont(18f).deriveFont(Font.BOLD));
-            title.setBounds(80, y, 420, 25);
+            title.setBounds(90, y, 420, 25);
             stepsPanel.add(title);
         
             JLabel description = new JLabel(stepDescriptions[i]);
             description.setFont(FontUtil.getOutfitFont(15f));
-            description.setBounds(80, y + 15, 420, 30);
+            description.setBounds(90, y + 15, 420, 30);
             stepsPanel.add(description);
         }
         
