@@ -129,7 +129,7 @@ public class SignUp2 extends JFrame {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         buttonPanel.setOpaque(false);
 
-        // Create BACK button
+        // BACK button
         JButton backButton = new JButton("BACK") {
             @Override
             protected void paintComponent(Graphics g) {
@@ -145,27 +145,24 @@ public class SignUp2 extends JFrame {
             protected void paintBorder(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(getForeground());
+                g2.setColor(new Color(43, 2, 67)); // border color #2B0243
                 g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, RADIUS, RADIUS);
                 g2.dispose();
             }
         };
+        Color defaultBg = new Color(255, 241, 255);   // #FFF1FF
+        Color hoverBg = new Color(255, 248, 255);     // lightened
+        Color clickBg = new Color(240, 220, 240);     // darkened
 
-        // BACK button properties
         backButton.setContentAreaFilled(false);
         backButton.setFocusPainted(false);
         backButton.setOpaque(false);
-        backButton.setForeground(Color.WHITE);
-        backButton.setBackground(new Color(50, 0, 90));
+        backButton.setForeground(new Color(43, 2, 67)); // text color to match border
+        backButton.setBackground(defaultBg);
         backButton.setFont(new Font("Outfit", Font.BOLD, 14));
         backButton.setPreferredSize(new Dimension(140, 40));
 
-        // Mouse listener for BACK button hover and click effects
         backButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            Color defaultBg = new Color(50, 0, 90);
-            Color hoverBg = new Color(80, 0, 130);
-            Color clickBg = new Color(30, 0, 60);
-
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 backButton.setBackground(hoverBg);
             }
@@ -183,7 +180,7 @@ public class SignUp2 extends JFrame {
             }
         });
 
-        // NEXT button creation and properties
+        // NEXT button
         JButton nextButton = new JButton("NEXT") {
             @Override
             protected void paintComponent(Graphics g) {
@@ -213,31 +210,30 @@ public class SignUp2 extends JFrame {
         nextButton.setFont(new Font("Outfit", Font.BOLD, 14));
         nextButton.setPreferredSize(new Dimension(140, 40));
 
-        // mouse listener for next button hover and click effects
         nextButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            Color defaultBg = new Color(50, 0, 90);
-            Color hoverBg = new Color(80, 0, 130);
-            Color clickBg = new Color(30, 0, 60);
+            Color nextDefaultBg = new Color(50, 0, 90);
+            Color nextHoverBg = new Color(80, 0, 130);
+            Color nextClickBg = new Color(30, 0, 60);
 
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                nextButton.setBackground(hoverBg);
+                nextButton.setBackground(nextHoverBg);
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                nextButton.setBackground(defaultBg);
+                nextButton.setBackground(nextDefaultBg);
             }
 
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                nextButton.setBackground(clickBg);
+                nextButton.setBackground(nextClickBg);
             }
 
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                nextButton.setBackground(hoverBg);
+                nextButton.setBackground(nextHoverBg);
             }
         });
 
         buttonPanel.add(backButton);
-        buttonPanel.add(Box.createHorizontalGlue()); 
+        buttonPanel.add(Box.createHorizontalGlue());
         buttonPanel.add(nextButton);
         container.add(buttonPanel);
 
