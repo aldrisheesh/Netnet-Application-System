@@ -27,38 +27,78 @@ public class Template extends JFrame {
         logo.setBounds(40, 30, 123, 44);
         background.add(logo);
 
-        // Navigation Menu with Clickable Labels
+        //Navigation Menu
         String[] navItems = {"Home", "Plans", "Help & Support", "About Us"};
         int xPos = 900;
         int spacing = 30;
+        Color normalColor = new Color(22, 6, 48, 128);
+        Color hoverColor = new Color(62, 10, 118);
 
         for (String item : navItems) {
             JLabel label = new JLabel(item);
             label.setFont(FontUtil.getOutfitFont(16f));
-            label.setForeground(new Color(22, 6, 48, 128));
-            label.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            label.setForeground(normalColor);
+            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-            FontMetrics fm = label.getFontMetrics(label.getFont());
-            int textWidth = fm.stringWidth(item);
+            label.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent e) {
+                    label.setForeground(hoverColor);
+                }
+
+                public void mouseExited(java.awt.event.MouseEvent e) {
+                    label.setForeground(normalColor);
+                }
+
+                public void mouseClicked(java.awt.event.MouseEvent e) {
+                    switch (item) {
+                        case "Home" -> {
+                            new Homepage().setVisible(true);
+                            dispose();
+                        }
+                        case "Plans" -> {
+                            new ErrorPage().setVisible(true);
+                            dispose();
+                        }
+                        case "Help & Support" -> {
+                            new HelpSupportPage().setVisible(true);
+                            dispose();
+                        }
+                        case "About Us" -> {
+                            new ErrorPage().setVisible(true);
+                            dispose();
+                        }
+                    }
+                }
+            });
+
+            int textWidth = label.getPreferredSize().width;
             label.setBounds(xPos, 30, textWidth + 10, 40);
             background.add(label);
             xPos += textWidth + spacing + 10;
         }
+        
 
+        // Login button
         JButton loginBtn = new JButton("Log In");
         loginBtn.setBounds(1300, 30, 80, 35);
-        loginBtn.setFont(FontUtil.getOutfitFont(16f));
+        loginBtn.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         loginBtn.setFocusPainted(false);
         loginBtn.setFocusable(false);
         ButtonHoverEffect.apply(
-                                loginBtn, 
-                                new Color(62, 10, 118),          //hover bg
-                                Color.WHITE,                           //hover fg
-                                new Color(42, 2, 67),            //normal bg
-                                Color.WHITE,                           //normal fg
-                                new Color(62, 10, 118),          //hover border
-                                new Color(42, 2, 67)             //normal border
+                loginBtn,
+                new Color(62, 10, 118),
+                Color.WHITE,
+                new Color(42, 2, 67),
+                Color.WHITE,
+                new Color(62, 10, 118),
+                new Color(42, 2, 67)
         );
+
+        loginBtn.addActionListener(e -> {
+            new LoginPage().setVisible(true);
+            dispose();
+        });
+
         background.add(loginBtn);
         
     }
