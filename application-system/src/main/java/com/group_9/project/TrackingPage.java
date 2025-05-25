@@ -15,12 +15,10 @@ public class TrackingPage extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(null);
 
-        // Gradient background panel
-        BackgroundPanel background = new BackgroundPanel(4);
+        BackgroundPanel background = new BackgroundPanel(1);
         background.setLayout(null);
         setContentPane(background);
 
-        // Logo image
         ImageIcon originalIcon = new ImageIcon(getClass().getClassLoader().getResource("images/converge_logo.png"));
         Image scaledImage = originalIcon.getImage().getScaledInstance(123, 44, Image.SCALE_SMOOTH);
         ImageIcon logoIcon = new ImageIcon(scaledImage);
@@ -29,7 +27,6 @@ public class TrackingPage extends JFrame {
         logo.setBounds(40, 30, 123, 44);
         background.add(logo);
 
-        // Navigation Menu with Clickable Labels
         String[] navItems = {"Home", "Plans", "Help & Support", "About Us"};
         int xPos = 900;
         int spacing = 30;
@@ -39,7 +36,6 @@ public class TrackingPage extends JFrame {
             label.setFont(FontUtil.getOutfitFont(16f));
             label.setForeground(new Color(22, 6, 48, 128));
             label.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
             FontMetrics fm = label.getFontMetrics(label.getFont());
             int textWidth = fm.stringWidth(item);
             label.setBounds(xPos, 30, textWidth + 10, 40);
@@ -61,18 +57,10 @@ public class TrackingPage extends JFrame {
         loginBtn.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         loginBtn.setFocusPainted(false);
         loginBtn.setFocusable(false);
-        ButtonHoverEffect.apply(
-                loginBtn,
-                new Color(62, 10, 118),
-                Color.WHITE,
-                new Color(42, 2, 67),
-                Color.WHITE,
-                new Color(62, 10, 118),
-                new Color(42, 2, 67)
-        );
+        ButtonHoverEffect.apply(loginBtn, new Color(62, 10, 118), Color.WHITE,
+                new Color(42, 2, 67), Color.WHITE, new Color(62, 10, 118), new Color(42, 2, 67));
         background.add(loginBtn);
 
-        // Headline
         JLabel headline = new JLabel("<html><div style='text-align:center;color:#2B0243;font-weight:700;'>Supercharge your home with<br>ultra-fast internet and endless entertainment.</div></html>", SwingConstants.CENTER);
         headline.setFont(FontUtil.getOutfitFont(50f));
         headline.setForeground(new Color(0x2B0243));
@@ -88,14 +76,8 @@ public class TrackingPage extends JFrame {
         viewPlans.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         viewPlans.setBounds(530, 400, 160, 45);
         viewPlans.setFocusPainted(false);
-        ButtonHoverEffect.apply(viewPlans,
-                new Color(62, 10, 118),
-                Color.WHITE,
-                new Color(42, 2, 67),
-                Color.WHITE,
-                new Color(62, 10, 118),
-                new Color(42, 2, 67)
-        );
+        ButtonHoverEffect.apply(viewPlans, new Color(62, 10, 118), Color.WHITE,
+                new Color(42, 2, 67), Color.WHITE, new Color(62, 10, 118), new Color(42, 2, 67));
         background.add(viewPlans);
 
         JButton checkAvailability = new JButton("CHECK AVAILABILITY");
@@ -103,28 +85,19 @@ public class TrackingPage extends JFrame {
         checkAvailability.setBounds(700, 400, 220, 45);
         checkAvailability.setFocusPainted(false);
         checkAvailability.setContentAreaFilled(false);
-        ButtonHoverEffect.apply(checkAvailability,
-                new Color(62, 10, 118),
-                new Color(62, 10, 118),
-                new Color(0, 0, 0, 0),
-                new Color(38, 6, 67),
-                new Color(62, 10, 118),
-                new Color(42, 2, 67)
-        );
+        ButtonHoverEffect.apply(checkAvailability, new Color(62, 10, 118), new Color(62, 10, 118),
+                new Color(0, 0, 0, 0), new Color(38, 6, 67), new Color(62, 10, 118), new Color(42, 2, 67));
         background.add(checkAvailability);
 
-        // Wi-Fi Image
         ImageIcon wifiIconRaw = new ImageIcon(getClass().getClassLoader().getResource("images/wifi.png"));
         Image wifiImg = wifiIconRaw.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-        ImageIcon wifiIcon = new ImageIcon(wifiImg);
-        JLabel wifiLabel = new JLabel(wifiIcon);
+        JLabel wifiLabel = new JLabel(new ImageIcon(wifiImg));
         wifiLabel.setBounds(302, 495, 200, 200);
         background.add(wifiLabel);
 
         int xPosLeft = 140;
         int yPosLeft = 780;
 
-        // Upgrade section
         JLabel upgradeTitle = new JLabel("<html><div style='text-align:left;color:#2B0243;font-weight:700;'>Ready to Upgrade Your Setup?</div></html>");
         upgradeTitle.setFont(FontUtil.getInterFont(35f));
         upgradeTitle.setForeground(new Color(43, 2, 67));
@@ -143,24 +116,16 @@ public class TrackingPage extends JFrame {
         morePlansBtn.setFont(FontUtil.getOutfitFont(14f).deriveFont(Font.BOLD));
         morePlansBtn.setBounds(xPosLeft, yPosLeft + 60, 160, 40);
         morePlansBtn.setFocusPainted(false);
-        ButtonHoverEffect.apply(morePlansBtn,
-                new Color(62, 10, 118),
-                Color.WHITE,
-                new Color(42, 2, 67),
-                Color.WHITE,
-                new Color(62, 10, 118),
-                new Color(42, 2, 67)
-        );
+        ButtonHoverEffect.apply(morePlansBtn, new Color(62, 10, 118), Color.WHITE,
+                new Color(42, 2, 67), Color.WHITE, new Color(62, 10, 118), new Color(42, 2, 67));
         background.add(morePlansBtn);
 
-        // Dynamic Application Tracker
         JLabel trackerTitle = new JLabel("<html><div style='color:#2A0243;font-weight:700;'>APPLICATION TRACKER</div></html>", SwingConstants.CENTER);
         trackerTitle.setFont(FontUtil.getOutfitFont(26f));
-        trackerTitle.setForeground(new Color(43, 2, 67));
 
-        JTextField searchField = new JTextField();
+        RoundedComponents.RoundedTextField searchField = new RoundedComponents.RoundedTextField("Enter application number", 20);
         searchField.setFont(FontUtil.getInterFont(14f));
-        searchField.setBorder(BorderFactory.createLineBorder(new Color(200, 180, 255), 1));
+        searchField.setBackground(Color.WHITE);
 
         JPanel cardPanel = new JPanel(null);
         cardPanel.setBackground(new Color(92, 12, 168));
@@ -196,21 +161,26 @@ public class TrackingPage extends JFrame {
         });
         cardPanel.add(viewSummary);
 
-        JPanel trackerPanel = new JPanel(null) {
+        RoundedPanel trackerPanel = new RoundedPanel(30) {
             @Override
             public void doLayout() {
-                int padding = 30;
+                int padding = 50;
                 int width = getWidth();
                 int innerWidth = width - 2 * padding;
-
-                trackerTitle.setBounds(0, 10, width, 30);
-                searchField.setBounds(padding, 50, innerWidth, 30);
-                cardPanel.setBounds(padding, 100, innerWidth, 100);
+        
+                int y = 30;
+                trackerTitle.setBounds(0, y, width, 30);
+        
+                y += 50;
+                searchField.setBounds(padding, y, innerWidth, 40);
+        
+                y += 60;
+                cardPanel.setBounds(padding, y, innerWidth, 100);
             }
         };
+        
         trackerPanel.setBackground(new Color(255, 255, 255, 180));
-        trackerPanel.setBounds(800, 515, 484, 300);
-        trackerPanel.setBorder(BorderFactory.createLineBorder(new Color(210, 190, 255), 1));
+        trackerPanel.setBounds(800, 515, 484, 350);
 
         trackerPanel.add(trackerTitle);
         trackerPanel.add(searchField);
@@ -231,5 +201,36 @@ public class TrackingPage extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new TrackingPage().setVisible(true));
+    }
+}
+
+class RoundedPanel extends JPanel {
+    private final int cornerRadius;
+
+    public RoundedPanel(int radius) {
+        super(null); // null layout
+        this.cornerRadius = radius;
+        setOpaque(false);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        int width = getWidth();
+        int height = getHeight();
+
+        // Draw rounded background
+        g2.setColor(getBackground());
+        g2.fillRoundRect(0, 0, width, height, cornerRadius, cornerRadius);
+
+        // Draw rounded border
+        g2.setColor(new Color(210, 190, 255)); // border color
+        g2.setStroke(new BasicStroke(1.5f));
+        g2.drawRoundRect(0, 0, width - 1, height - 1, cornerRadius, cornerRadius);
+
+        g2.dispose();
+        super.paintComponent(g); // Paint children
     }
 }

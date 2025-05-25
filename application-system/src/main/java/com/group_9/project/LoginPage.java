@@ -1,11 +1,7 @@
 package com.group_9.project;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.geom.RoundRectangle2D;
 import java.awt.event.MouseEvent;
 
 public class LoginPage extends JFrame {
@@ -79,12 +75,12 @@ public class LoginPage extends JFrame {
         letsLabel.setHorizontalAlignment(SwingConstants.CENTER);
         background.add(letsLabel);
 
-        RoundedTextField emailField = new RoundedTextField("Email or phone number", 20);
+        RoundedComponents.RoundedTextField emailField = new RoundedComponents.RoundedTextField("Email or phone number", 20);
         emailField.setFont(FontUtil.getInterFont(14f));
         emailField.setBounds(524, yPosi + 40, 375, 60);
         background.add(emailField);
 
-        RoundedPasswordField passwordField = new RoundedPasswordField("Password", 20);
+        RoundedComponents.RoundedPasswordField passwordField = new RoundedComponents.RoundedPasswordField("Password", 20);
         passwordField.setFont(FontUtil.getInterFont(14f));
         passwordField.setBounds(524, yPosi + 117, 375, 60);
         background.add(passwordField);
@@ -95,13 +91,13 @@ public class LoginPage extends JFrame {
         loginBtn.setFocusPainted(false);
         loginBtn.setFocusable(false);
         ButtonHoverEffect.apply(
-                                loginBtn, 
-                                new Color(62, 10, 118),          //hover bg
-                                Color.WHITE,                           //hover fg
-                                new Color(42, 2, 67),            //normal bg
-                                Color.WHITE,                           //normal fg
-                                new Color(62, 10, 118),          //hover border
-                                new Color(42, 2, 67)             //normal border
+                loginBtn, 
+                new Color(62, 10, 118),          //hover bg
+                Color.WHITE,                      //hover fg
+                new Color(42, 2, 67),            //normal bg
+                Color.WHITE,                      //normal fg
+                new Color(62, 10, 118),          //hover border
+                new Color(42, 2, 67)             //normal border
         );
         background.add(loginBtn);
 
@@ -125,8 +121,6 @@ public class LoginPage extends JFrame {
         
         keepSignedIn.setBounds(523, yPosi + 195 + 45, 250, 40);
         background.add(keepSignedIn);
-        
-        
 
         SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
     }
@@ -144,105 +138,5 @@ public class LoginPage extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new LoginPage().setVisible(true));
-    }
-
-    class RoundedBorder implements Border {
-        private final int radius;
-
-        public RoundedBorder(int radius) {
-            this.radius = radius;
-        }
-
-        @Override
-        public Insets getBorderInsets(Component c) {
-            return new Insets(radius + 1, radius + 1, radius + 1, radius + 1);
-        }
-
-        @Override
-        public boolean isBorderOpaque() {
-            return false;
-        }
-
-        @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.setColor(Color.GRAY);
-            g2d.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-        }
-    }
-
-    class RoundedTextField extends JTextField {
-        private final String placeholder;
-
-        public RoundedTextField(String placeholder, int columns) {
-            super(columns);
-            this.placeholder = placeholder;
-            setOpaque(false);
-            setBorder(new RoundedBorder(15));
-            setBackground(new Color(255, 242, 255));
-            setMargin(new Insets(5, 10, 5, 10));
-            addFocusListener(new FocusAdapter() {
-                public void focusGained(FocusEvent e) { repaint(); }
-                public void focusLost(FocusEvent e) { repaint(); }
-            });
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(getBackground());
-            g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
-            g2.setClip(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 15, 15));
-            super.paintComponent(g2);
-
-            if (getText().isEmpty() && !isFocusOwner()) {
-                g2.setColor(Color.GRAY);
-                FontMetrics fm = g2.getFontMetrics();
-                int x = getInsets().left;
-                int y = getHeight() / 2 + fm.getAscent() / 2 - 2;
-                g2.drawString(placeholder, x, y);
-            }
-
-            g2.dispose();
-        }
-    }
-
-    class RoundedPasswordField extends JPasswordField {
-        private final String placeholder;
-
-        public RoundedPasswordField(String placeholder, int columns) {
-            super(columns);
-            this.placeholder = placeholder;
-            setOpaque(false);
-            setBorder(new RoundedBorder(15));
-            setBackground(new Color(255, 242, 255));
-            setMargin(new Insets(5, 10, 5, 10));
-            addFocusListener(new FocusAdapter() {
-                public void focusGained(FocusEvent e) { repaint(); }
-                public void focusLost(FocusEvent e) { repaint(); }
-            });
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(getBackground());
-            g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
-            g2.setClip(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 15, 15));
-            super.paintComponent(g2);
-
-            if (getPassword().length == 0 && !isFocusOwner()) {
-                g2.setColor(Color.GRAY);
-                FontMetrics fm = g2.getFontMetrics();
-                int x = getInsets().left;
-                int y = getHeight() / 2 + fm.getAscent() / 2 - 2;
-                g2.drawString(placeholder, x, y);
-            }
-
-            g2.dispose();
-        }
     }
 }
