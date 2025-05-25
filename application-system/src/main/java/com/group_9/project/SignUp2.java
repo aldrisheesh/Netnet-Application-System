@@ -62,11 +62,11 @@ public class SignUp2 extends JFrame {
         leftLabels.setLayout(new BoxLayout(leftLabels, BoxLayout.Y_AXIS));
         leftLabels.setOpaque(false);
 
-        JLabel subtitle = new JLabel("PERSONAL INFORMATION", SwingConstants.LEFT);
+        JLabel subtitle = new JLabel("SERVICE ADDRESS", SwingConstants.LEFT);
         subtitle.setFont(new Font("SansSerif", Font.BOLD, 16));
         subtitle.setForeground(Color.DARK_GRAY);
 
-        JLabel subNote = new JLabel("Provide the necessary details to register your information with us");
+        JLabel subNote = new JLabel("Your service address cannot be changed after registration.");
         subNote.setFont(new Font("SansSerif", Font.PLAIN, 12));
         subNote.setForeground(Color.GRAY);
 
@@ -93,24 +93,14 @@ public class SignUp2 extends JFrame {
         gbc.insets = new Insets(5, 10, 5, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 0.5;
+        gbc.gridy = 0; // Initialize gbc.gridy
 
         // input fields to the form panel
-        // gbc.gridx = 0; gbc.gridy = 0;
-        // formPanel.add(createPlaceholderField("Username"), gbc);
-        // gbc.gridx = 1;
-        // formPanel.add(createPlaceholderPasswordField("Password"), gbc);
+        gbc.gridx = 0; gbc.gridy++;
+        formPanel.add(styleComboBoxField(new String[]{"Owned", "Living with Relatives", "Mortgaged", "Rented"}), gbc);
+        gbc.gridx = 1;
+        formPanel.add(createPairPanel(styleComboBoxField(new String[]{"Yes", "No"}), createPlaceholderField("Years of Residency")), gbc);
 
-        // gbc.gridx = 0; gbc.gridy++;
-        // formPanel.add(createPlaceholderField("Customer Name"), gbc);
-        // gbc.gridx = 1;
-        // formPanel.add(createPairPanel(createPlaceholderField("Birthday"), styleComboBoxField(new String[]{"Male", "Female", "Other"})), gbc);
-
-        // gbc.gridx = 0; gbc.gridy++;
-        // formPanel.add(createPairPanel(styleComboBoxField(new String[]{"Single", "Married", "Divorced", "Widowed"}), createPlaceholderField("Nationality")), gbc);
-        // gbc.gridx = 1;
-        // formPanel.add(createPairPanel(createPlaceholderField("Mobile No."), createPlaceholderField("Email")), gbc);
-
-        // START NEW
         gbc.gridx = 0; gbc.gridy++;
         formPanel.add(createPlaceholderField("Name of Owner"), gbc);
         gbc.gridx = 1;
@@ -124,16 +114,76 @@ public class SignUp2 extends JFrame {
         gbc.gridx = 0; gbc.gridy++;
         formPanel.add(createPlaceholderField("Subdivision"), gbc);
         gbc.gridx = 1;
-        formPanel.add(createPlaceholderField("Apartment/Compund/Building"), gbc);
+        formPanel.add(createPlaceholderField("Barangay"), gbc);
+
+        gbc.gridx = 0; gbc.gridy++;
+        formPanel.add(createPairPanel(createPlaceholderField("Street"), createPlaceholderField("Municipality/City")), gbc);
+        gbc.gridx = 1;
+        formPanel.add(createPairPanel(createPlaceholderField("Province"), createPlaceholderField("Zip Code")), gbc);
 
         container.add(formPanel);
         container.add(Box.createRigidArea(new Dimension(0, 20)));
 
         // button panel for action buttons
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         buttonPanel.setOpaque(false);
 
+        // Create BACK button
+        JButton backButton = new JButton("BACK") {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getBackground());
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), RADIUS, RADIUS);
+                super.paintComponent(g);
+                g2.dispose();
+            }
+
+            @Override
+            protected void paintBorder(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getForeground());
+                g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, RADIUS, RADIUS);
+                g2.dispose();
+            }
+        };
+
+        // BACK button properties
+        backButton.setContentAreaFilled(false);
+        backButton.setFocusPainted(false);
+        backButton.setOpaque(false);
+        backButton.setForeground(Color.WHITE);
+        backButton.setBackground(new Color(50, 0, 90));
+        backButton.setFont(new Font("Outfit", Font.BOLD, 14));
+        backButton.setPreferredSize(new Dimension(140, 40));
+
+        // Mouse listener for BACK button hover and click effects
+        backButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            Color defaultBg = new Color(50, 0, 90);
+            Color hoverBg = new Color(80, 0, 130);
+            Color clickBg = new Color(30, 0, 60);
+
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                backButton.setBackground(hoverBg);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                backButton.setBackground(defaultBg);
+            }
+
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                backButton.setBackground(clickBg);
+            }
+
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                backButton.setBackground(hoverBg);
+            }
+        });
+
+        // NEXT button creation and properties
         JButton nextButton = new JButton("NEXT") {
             @Override
             protected void paintComponent(Graphics g) {
@@ -155,7 +205,6 @@ public class SignUp2 extends JFrame {
             }
         };
 
-        // button properties
         nextButton.setContentAreaFilled(false);
         nextButton.setFocusPainted(false);
         nextButton.setOpaque(false);
@@ -164,7 +213,7 @@ public class SignUp2 extends JFrame {
         nextButton.setFont(new Font("Outfit", Font.BOLD, 14));
         nextButton.setPreferredSize(new Dimension(140, 40));
 
-        // mouse listener for button hover and click effects
+        // mouse listener for next button hover and click effects
         nextButton.addMouseListener(new java.awt.event.MouseAdapter() {
             Color defaultBg = new Color(50, 0, 90);
             Color hoverBg = new Color(80, 0, 130);
@@ -187,6 +236,8 @@ public class SignUp2 extends JFrame {
             }
         });
 
+        buttonPanel.add(backButton);
+        buttonPanel.add(Box.createHorizontalGlue()); 
         buttonPanel.add(nextButton);
         container.add(buttonPanel);
 
@@ -281,70 +332,45 @@ public class SignUp2 extends JFrame {
         return field;
     }
 
-    // method to create a password field with placeholder functionality
-    // private JPasswordField createPlaceholderPasswordField(String placeholder) {
-    //     JPasswordField field = new JPasswordField(placeholder);
-    //     field.setFont(new Font("Outfit", Font.PLAIN, 14));
-    //     field.setEchoChar((char) 0);
-    //     field.setForeground(Color.GRAY);
-    //     field.setBorder(new RoundedBorder(RADIUS));
-    //     field.setMargin(new Insets(5, 10, 5, 10));
-    //     field.setPreferredSize(new Dimension(200, 30));
-    //     field.addFocusListener(new FocusAdapter() {
-    //         public void focusGained(FocusEvent e) {
-    //             if (new String(field.getPassword()).equals(placeholder)) {
-    //                 field.setText("");
-    //                 field.setEchoChar('•');
-    //                 field.setForeground(Color.BLACK);
-    //             }
-    //         }
-    //         public void focusLost(FocusEvent e) {
-    //             if (field.getPassword().length == 0) {
-    //                 field.setEchoChar((char) 0);
-    //                 field.setForeground(Color.GRAY);
-    //                 field.setText(placeholder);
-    //             }
-    //         }
-    //     });
-    //     return field;
-    // }
+    // method to create a styled combo box
+    private JComboBox<String> styleComboBoxField(String[] options) {
+        JComboBox<String> box = new JComboBox<>(options);
+        box.setFont(new Font("Outfit", Font.PLAIN, 14));
+        box.setForeground(Color.BLACK);
+        box.setBackground(Color.WHITE);
+        box.setBorder(new RoundedBorder(RADIUS));
+        box.setPreferredSize(new Dimension(200, 30));
+        box.setFocusable(false);
 
-    // // method to create a styled combo box
-    // private JComboBox<String> styleComboBoxField(String[] options) {
-    //     JComboBox<String> box = new JComboBox<>(options);
-    //     box.setFont(new Font("Outfit", Font.PLAIN, 14));
-    //     box.setForeground(Color.BLACK);
-    //     box.setBackground(Color.WHITE);
-    //     box.setBorder(new RoundedBorder(RADIUS));
-    //     box.setPreferredSize(new Dimension(200, 30));
-    //     box.setFocusable(false);
+        box.setUI(new javax.swing.plaf.basic.BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = super.createArrowButton();
+                button.setFocusPainted(false);
+                button.setBorder(BorderFactory.createEmptyBorder());
+                return button;
+            }
 
-    //     box.setUI(new javax.swing.plaf.basic.BasicComboBoxUI() {
-    //         @Override
-    //         protected JButton createArrowButton() {
-    //             JButton button = super.createArrowButton();
-    //             button.setFocusPainted(false);
-    //             button.setBorder(BorderFactory.createEmptyBorder());
-    //             return button;
-    //         }
+            @Override
+            public void paintCurrentValueBackground(Graphics g, Rectangle bounds, boolean hasFocus) {
+                super.paintCurrentValueBackground(g, bounds, false);
+            }
+        });
 
-    //         @Override
-    //         public void paintCurrentValueBackground(Graphics g, Rectangle bounds, boolean hasFocus) {
-    //             super.paintCurrentValueBackground(g, bounds, false);
-    //         }
-    //     });
-
-    //     return box;
-    // }
+        return box;
+    }
 
     // method to create a panel with two components side by side
-    // private JPanel createPairPanel(JComponent left, JComponent right) {
-    //     JPanel panel = new JPanel(new GridLayout(1, 2, 10, 0));
-    //     panel.setOpaque(false);
-    //     panel.add(left);
-    //     panel.add(right);
-    //     return panel;
-    // }
+    private JPanel createPairPanel(JComponent left, JComponent right) {
+    JPanel panel = new JPanel(new GridLayout(1, 2, 10, 0));
+    panel.setOpaque(false);
+
+    panel.add(left);
+    panel.add(right);
+
+    return panel;
+    }
+
 
     // class to create a rounded border
     static class RoundedBorder implements Border {
@@ -365,3 +391,4 @@ public class SignUp2 extends JFrame {
         SwingUtilities.invokeLater(SignUp2::new);
     }
 }
+
