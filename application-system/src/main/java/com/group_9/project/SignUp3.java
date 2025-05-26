@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 
@@ -54,11 +53,11 @@ public class SignUp3 extends JFrame {
         leftLabels.setLayout(new BoxLayout(leftLabels, BoxLayout.Y_AXIS));
         leftLabels.setOpaque(false);
 
-        JLabel subtitle = new JLabel("SERVICE ADDRESS", SwingConstants.LEFT);
+        JLabel subtitle = new JLabel("CHOOSE YOUR PLAN", SwingConstants.LEFT);
         subtitle.setFont(new Font("SansSerif", Font.BOLD, 16));
         subtitle.setForeground(Color.DARK_GRAY);
 
-        JLabel subNote = new JLabel("Your service address cannot be changed after registration.");
+        JLabel subNote = new JLabel("Choose one or more plans to get started. You can also add more later.");
         subNote.setFont(new Font("SansSerif", Font.PLAIN, 12));
         subNote.setForeground(Color.GRAY);
 
@@ -111,7 +110,6 @@ public class SignUp3 extends JFrame {
             }
         }
 
-        // Add note under the plans (under FIBER Xtream 7000)
         gbc.gridx = 0;
         gbc.gridy++;
         gbc.gridwidth = 2;
@@ -294,16 +292,24 @@ public class SignUp3 extends JFrame {
             setBackground(Color.WHITE);
             setBorder(defaultBorder());
 
+            JPanel topRow = new JPanel(new BorderLayout());
+            topRow.setOpaque(false);
+
             JLabel titleLabel = new JLabel(title);
             titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+
             JLabel priceLabel = new JLabel(price);
-            priceLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
+            priceLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+            priceLabel.setForeground(new Color(100, 0, 150));
+
+            topRow.add(titleLabel, BorderLayout.WEST);
+            topRow.add(priceLabel, BorderLayout.EAST);
+
             JLabel feeLabel = new JLabel(fee);
             feeLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
 
-            add(titleLabel);
+            add(topRow);
             add(Box.createVerticalStrut(5));
-            add(priceLabel);
             add(feeLabel);
 
             setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

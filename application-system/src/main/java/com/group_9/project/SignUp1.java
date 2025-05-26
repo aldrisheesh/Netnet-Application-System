@@ -36,7 +36,7 @@ public class SignUp1 extends JFrame {
 
         // creates title label
         JLabel title = new JLabel("SERVICE APPLICATION", SwingConstants.CENTER);
-        title.setFont(new Font("SansSerif", Font.BOLD, 24));
+        title.setFont(FontUtil.getOutfitBoldFont(26f));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setForeground(Color.DARK_GRAY);
         container.add(title);
