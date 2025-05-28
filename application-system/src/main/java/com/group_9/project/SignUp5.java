@@ -1,17 +1,14 @@
 package com.group_9.project;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-public class SignUp3 extends JFrame {
+public class SignUp5 extends JFrame {
     private static final int RADIUS = 15;
 
     // Sets up the main frame
-    public SignUp3() {
+    public SignUp5() {
         setTitle("Service Application");
         setSize(1440, 1024); 
         setResizable(false); 
@@ -54,7 +51,7 @@ public class SignUp3 extends JFrame {
         stepWrapper.setOpaque(false);
         stepWrapper.add(createStepTracker());
         container.add(stepWrapper);
-        container.add(Box.createRigidArea(new Dimension(0, 2)));
+        container.add(Box.createRigidArea(new Dimension(0, 20)));
 
         // personal info panel
         JPanel infoPanel = new JPanel();
@@ -67,11 +64,11 @@ public class SignUp3 extends JFrame {
         leftLabels.setLayout(new BoxLayout(leftLabels, BoxLayout.Y_AXIS));
         leftLabels.setOpaque(false);
 
-        JLabel subtitle = new JLabel("CHOOSE YOUR PLAN", SwingConstants.LEFT);
+        JLabel subtitle = new JLabel("SECURE YOUR PAYMENT", SwingConstants.LEFT);
         subtitle.setFont(FontUtil.getOutfitFont(16f));
         subtitle.setForeground(subColor);
 
-        JLabel subNote = new JLabel("Choose one or more plans to get started. You can also add more later.");
+        JLabel subNote = new JLabel("Secure your application by completing the payment using your preferred method.");
         subNote.setFont(FontUtil.getOutfitFont(12f));
         subNote.setForeground(subColor);
 
@@ -79,7 +76,7 @@ public class SignUp3 extends JFrame {
         leftLabels.add(Box.createRigidArea(new Dimension(0, 5)));
         leftLabels.add(subNote);
 
-        infoPanel.add(leftLabels, BorderLayout.WEST);
+        infoPanel.add(leftLabels, BorderLayout.NORTH);
         container.add(infoPanel);
 
         // adds horizontal separator
@@ -90,48 +87,145 @@ public class SignUp3 extends JFrame {
         container.add(Box.createRigidArea(new Dimension(0, 10)));
         container.add(separator);
         container.add(Box.createRigidArea(new Dimension(0, 20)));
-        
-        JPanel planPanel = new JPanel(new GridBagLayout());
-        planPanel.setOpaque(false);
-        planPanel.setMaximumSize(new Dimension(700, 350));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        ArrayList<SelectablePlanPanel> planBoxes = new ArrayList<>();
+        container.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        planBoxes.add(new SelectablePlanPanel("FIBERX 1500", "₱1500", "Installation Fee: ₱125/24mo."));
-        planBoxes.add(new SelectablePlanPanel("FIBER Xtream 4500", "₱4500", "Installation Fee: WAIVED"));
-        planBoxes.add(new SelectablePlanPanel("FIBERX 2500", "₱2500", "Installation Fee: ₱125/24mo."));
-        planBoxes.add(new SelectablePlanPanel("FIBER Xtream 7000", "₱7000", "Installation Fee: WAIVED"));
-        planBoxes.add(new SelectablePlanPanel("FIBERX 3500", "₱3500", "Installation Fee: ₱125/12mo."));
+        // Create a panel to hold both columns side by side
+        // === Container for both panels ===
+        JPanel paymentWrapper = new JPanel();
+        paymentWrapper.setLayout(new BoxLayout(paymentWrapper, BoxLayout.X_AXIS));
+        paymentWrapper.setOpaque(false);
+        paymentWrapper.setAlignmentX(Component.CENTER_ALIGNMENT);
+        paymentWrapper.setMaximumSize(new Dimension(800, 250));
 
-        for (int i = 0; i < planBoxes.size(); i++) {
-            gbc.gridx = i % 2;
-            gbc.gridy = i / 2;
-            planPanel.add(planBoxes.get(i), gbc);
+        JLabel sub = new JLabel("avsvad", SwingConstants.LEFT);
+        sub.setFont(FontUtil.getOutfitFont(16f));
+        sub.setForeground(subColor);
 
-            if (i == 4) { // Add note beside FIBERX 3500
-                gbc.gridx = 1;
-                JTextArea note = new JTextArea(
-                        "*With outright Payment Option of Php 2,500 for\n" +
-                        "Plans 1500 & 2500, and Php 1,250 for Plan 3500.\n" +  
-                        "Waived Installation Fee for Plans 4500 and 7000.\n" +
-                        "*Prices are VAT Inclusive"
-                );
-                note.setFont(FontUtil.getOutfitFont(14f));
-                note.setEditable(false);
-                note.setOpaque(false);
-                planPanel.add(note, gbc);
-            }
-        }
+        container.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        gbc.gridx = 0;
-        gbc.gridy++;
-        gbc.gridwidth = 2;
-        container.add(planPanel);
+        // === LEFT: Plan Summary Panel ===
+        RoundedPanel summaryPanel = new RoundedPanel(20);
+        summaryPanel.setLayout(new BoxLayout(summaryPanel, BoxLayout.Y_AXIS));
+        summaryPanel.setBackground(Color.WHITE);
+        summaryPanel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(200, 200, 200)),
+            BorderFactory.createEmptyBorder(20, 20, 20, 20)
+        ));
+        summaryPanel.setMaximumSize(new Dimension(380, 220));
 
-        container.add(Box.createRigidArea(new Dimension(0, 40)));
+        // Section title
+        JLabel summaryTitle = new JLabel("Your Plan Summary");
+        summaryTitle.setFont(FontUtil.getOutfitFont(13f));
+        summaryTitle.setForeground(new Color(90, 90, 90));
+        summaryTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        summaryPanel.add(summaryTitle);
+        summaryPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        // Table header
+        JPanel header = new JPanel(new GridLayout(1, 2));
+        header.setOpaque(false);
+        JLabel col1 = new JLabel("Product and Service");
+        col1.setFont(FontUtil.getOutfitFont(13f));
+        JLabel col2 = new JLabel("Amount");
+        col2.setFont(FontUtil.getOutfitFont(13f));
+        col2.setHorizontalAlignment(JLabel.RIGHT);
+        header.add(col1);
+        header.add(col2);
+        summaryPanel.add(header);
+
+        // Plan content
+        summaryPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        JLabel planName = new JLabel("FIBERX 1500");
+        planName.setFont(FontUtil.getOutfitBoldFont(14f));
+        summaryPanel.add(planName);
+
+        JPanel msfRow = new JPanel(new GridLayout(1, 2));
+        msfRow.setOpaque(false);
+        msfRow.add(new JLabel("Monthly Service Fee"));
+        JLabel msfPrice = new JLabel("P 1500");
+        msfPrice.setHorizontalAlignment(JLabel.RIGHT);
+        msfRow.add(msfPrice);
+        summaryPanel.add(msfRow);
+
+        JPanel installRow = new JPanel(new GridLayout(1, 2));
+        installRow.setOpaque(false);
+        installRow.add(new JLabel("Installation Fee"));
+        JLabel installPrice = new JLabel("P 125/24mo.");
+        installPrice.setHorizontalAlignment(JLabel.RIGHT);
+        installRow.add(installPrice);
+        summaryPanel.add(installRow);
+
+        summaryPanel.add(Box.createVerticalGlue());
+
+        // Note
+        JLabel note = new JLabel("<html><i>*Full Payment means paying the installation fee upfront.<br>MSF is billed separately every month.</i></html>");
+        note.setFont(FontUtil.getOutfitFont(11f));
+        note.setForeground(new Color(100, 100, 100));
+        note.setAlignmentX(Component.LEFT_ALIGNMENT);
+        summaryPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        summaryPanel.add(note);
+
+        // === RIGHT: Payment Section ===
+        JPanel paymentPanel = new JPanel();
+        paymentPanel.setLayout(new BoxLayout(paymentPanel, BoxLayout.Y_AXIS));
+        paymentPanel.setOpaque(false);
+        paymentPanel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 0));
+        paymentPanel.setMaximumSize(new Dimension(400, 220));
+
+        // Section title
+        JLabel paymentTitle = new JLabel("Payment Section");
+        paymentTitle.setFont(FontUtil.getOutfitFont(13f));
+        paymentTitle.setForeground(new Color(90, 90, 90));
+        paymentTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        paymentPanel.add(paymentTitle);
+        paymentPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        // Payment method
+        ButtonGroup paymentGroup = new ButtonGroup();
+        JRadioButton full = new JRadioButton("Full Payment");
+        JRadioButton install = new JRadioButton("Installment");
+        full.setOpaque(false);
+        install.setOpaque(false);
+        paymentGroup.add(full);
+        paymentGroup.add(install);
+        paymentPanel.add(full);
+        paymentPanel.add(install);
+        paymentPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        // Account Number
+        JTextField accNum = new JTextField();
+        accNum.setMaximumSize(new Dimension(200, 30));
+        accNum.setFont(FontUtil.getOutfitFont(13f));
+        accNum.setBorder(BorderFactory.createTitledBorder("Account Number"));
+        paymentPanel.add(accNum);
+        paymentPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        // Reference Number
+        JTextField refNum = new JTextField();
+        refNum.setMaximumSize(new Dimension(200, 30));
+        refNum.setFont(FontUtil.getOutfitFont(13f));
+        refNum.setBorder(BorderFactory.createTitledBorder("Reference Number"));
+        paymentPanel.add(refNum);
+        paymentPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+
+        // Confirm Button
+        JButton confirmBtn = new JButton("CONFIRM PAYMENT");
+        confirmBtn.setBackground(new Color(110, 57, 190));
+        confirmBtn.setForeground(Color.WHITE);
+        confirmBtn.setFont(FontUtil.getOutfitBoldFont(14f));
+        confirmBtn.setMaximumSize(new Dimension(200, 40));
+        confirmBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
+        paymentPanel.add(confirmBtn);
+
+        // === Add to wrapper ===
+        paymentWrapper.add(summaryPanel);
+        paymentWrapper.add(paymentPanel);
+
+        // === Add to main container ===
+        container.add(paymentWrapper);
+
+        container.add(Box.createRigidArea(new Dimension(0, 20)));
 
         // button panel for action buttons
         JPanel buttonPanel = new JPanel();
@@ -252,6 +346,7 @@ public class SignUp3 extends JFrame {
         setVisible(true);
     }
 
+    // method to create the step tracker for the form
     private JPanel createStepTracker() {
         Color stepTextColor = Color.decode("#2B0243");
         Color stepColor = Color.decode("#FFF1FF");
@@ -275,7 +370,7 @@ public class SignUp3 extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
 
         for (int i = 0; i < steps.length; i++) {
-            boolean isActive = (i == 1);
+            boolean isActive = (i == 2);
             Color circleBgColor = isActive ? stepColor : stepTextColor;
             Color numberFgColor = isActive ? stepTextColor : stepColor;
 
@@ -350,117 +445,23 @@ public class SignUp3 extends JFrame {
         return stepTracker;
     }
 
-    class SelectablePlanPanel extends JPanel {
-        private boolean selected = false;
-        private final Color borderColorDefault = Color.LIGHT_GRAY;
-        private final Color borderColorHover = Color.GRAY;
-        private final Color borderColorSelected = Color.decode("#7E4CA5");
-        private final Color squareColorSelected = Color.decode("#2B0243");
-        private final Color squareColorUnselected = Color.WHITE;
-
-        private final JPanel checkboxPanel;
-
-        public SelectablePlanPanel(String title, String price, String fee) {
-            setLayout(new BorderLayout(10, 0)); // Add space between square and content
-            setBackground(Color.WHITE);
-            setBorder(defaultBorder());
-
-            // Custom square checkbox
-            checkboxPanel = new JPanel() {
-                @Override
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    Graphics2D g2 = (Graphics2D) g;
-                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    g2.setColor(selected ? squareColorSelected : squareColorUnselected);
-                    g2.fillRect(0, 0, getWidth(), getHeight());
-                    g2.setColor(borderColorSelected);
-                    g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
-                }
-            };
-            checkboxPanel.setPreferredSize(new Dimension(50, 50));
-            checkboxPanel.setMinimumSize(new Dimension(50, 50));
-            checkboxPanel.setMaximumSize(new Dimension(50, 50));
-            checkboxPanel.setOpaque(false);
-
-            // Vertically center the checkbox inside a fixed height wrapper (70)
-            JPanel checkboxWrapper = new JPanel(new GridBagLayout());
-            checkboxWrapper.setOpaque(false);
-            checkboxWrapper.setPreferredSize(new Dimension(70, 70));
-            checkboxWrapper.setMinimumSize(new Dimension(70, 70));
-            checkboxWrapper.setMaximumSize(new Dimension(70, 70));
-            checkboxWrapper.add(checkboxPanel);
-
-            add(checkboxWrapper, BorderLayout.WEST);
-
-            // Right side: Plan details
-            JPanel contentPanel = new JPanel();
-            contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-            contentPanel.setOpaque(false);
-
-            JPanel topRow = new JPanel(new BorderLayout());
-            topRow.setOpaque(false);
-
-            JLabel titleLabel = new JLabel(title);
-            titleLabel.setFont(FontUtil.getOutfitBoldFont(16f));
-
-            JLabel priceLabel = new JLabel(price);
-            priceLabel.setFont(FontUtil.getInterFont(14f));
-            priceLabel.setForeground(Color.decode("#1E1E1E"));
-
-            topRow.add(titleLabel, BorderLayout.WEST);
-            topRow.add(priceLabel, BorderLayout.EAST);
-
-            JLabel feeLabel = new JLabel(fee);
-            feeLabel.setFont(FontUtil.getInterFont(14f));
-            feeLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-
-            contentPanel.add(topRow);
-            contentPanel.add(Box.createVerticalStrut(5));
-            contentPanel.add(feeLabel);
-
-            add(contentPanel, BorderLayout.CENTER);
-
-                        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-            addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    setBorder(hoverBorder());
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    setBorder(selected ? selectedBorder() : defaultBorder());
-                }
-
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    selected = !selected;
-                    setBorder(selected ? selectedBorder() : defaultBorder());
-                    repaint();
-                }
-            });
-        }
-
-        private Border defaultBorder() {
-            return BorderFactory.createLineBorder(borderColorDefault, 1);
-        }
-
-        private Border hoverBorder() {
-            return BorderFactory.createLineBorder(borderColorHover, 2);
-        }
-
-        private Border selectedBorder() {
-            return BorderFactory.createLineBorder(borderColorSelected, 3);
-        }
-
-        public boolean isSelected() {
-            return selected;
+    // class to create a rounded border
+    static class RoundedBorder implements Border {
+        private int radius;
+        public RoundedBorder(int radius) { this.radius = radius; }
+        public Insets getBorderInsets(Component c) { return new Insets(radius, radius, radius, radius); }
+        public boolean isBorderOpaque() { return false; }
+        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setColor(Color.GRAY);
+            g2.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
         }
     }
 
+    // main method
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(SignUp3::new);
+        SwingUtilities.invokeLater(SignUp5::new);
     }
 }
+

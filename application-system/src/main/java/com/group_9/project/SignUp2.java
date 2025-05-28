@@ -17,9 +17,10 @@ public class SignUp2 extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // creates a gradient background
-        GradientBackground background = new GradientBackground();
+        // Gradient background panel
+        BackgroundPanel  background = new BackgroundPanel(1);
         background.setLayout(new GridBagLayout());
+        setContentPane(background);
 
         // creates a container panel for the form
         JPanel container = new JPanel();
@@ -34,11 +35,14 @@ public class SignUp2 extends JFrame {
         // adds spacing
         container.add(Box.createRigidArea(new Dimension(0, 20)));
 
+        Color titleColor = Color.decode("#2B0243");
+        Color subColor = Color.decode("#302E2E");
+
         // creates title label
         JLabel title = new JLabel("SERVICE APPLICATION", SwingConstants.CENTER);
-        title.setFont(new Font("SansSerif", Font.BOLD, 24));
+        title.setFont(FontUtil.getOutfitBoldFont(26f));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        title.setForeground(Color.DARK_GRAY);
+        title.setForeground(titleColor);
         container.add(title);
 
         // adds spacing
@@ -62,13 +66,13 @@ public class SignUp2 extends JFrame {
         leftLabels.setLayout(new BoxLayout(leftLabels, BoxLayout.Y_AXIS));
         leftLabels.setOpaque(false);
 
-        JLabel subtitle = new JLabel("SERVICE ADDRESS", SwingConstants.LEFT);
-        subtitle.setFont(new Font("SansSerif", Font.BOLD, 16));
-        subtitle.setForeground(Color.DARK_GRAY);
+        JLabel subtitle = new JLabel("PERSONAL INFORMATION", SwingConstants.LEFT);
+        subtitle.setFont(FontUtil.getOutfitFont(16f));
+        subtitle.setForeground(subColor);
 
-        JLabel subNote = new JLabel("Your service address cannot be changed after registration.");
-        subNote.setFont(new Font("SansSerif", Font.PLAIN, 12));
-        subNote.setForeground(Color.GRAY);
+        JLabel subNote = new JLabel("Provide the necessary details to register your information with us");
+        subNote.setFont(FontUtil.getOutfitFont(12f));
+        subNote.setForeground(subColor);
 
         leftLabels.add(subtitle);
         leftLabels.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -109,7 +113,7 @@ public class SignUp2 extends JFrame {
         gbc.gridx = 0; gbc.gridy++;
         formPanel.add(createPlaceholderField("House/Room No./Floor"), gbc);
         gbc.gridx = 1;
-        formPanel.add(createPlaceholderField("Apartment/Compund/Building"), gbc);
+        formPanel.add(createPlaceholderField("Apartment/Compound/Building"), gbc);
 
         gbc.gridx = 0; gbc.gridy++;
         formPanel.add(createPlaceholderField("Subdivision"), gbc);
@@ -150,6 +154,7 @@ public class SignUp2 extends JFrame {
                 g2.dispose();
             }
         };
+
         Color defaultBg = new Color(255, 241, 255);   // #FFF1FF
         Color hoverBg = new Color(255, 248, 255);     // lightened
         Color clickBg = new Color(240, 220, 240);     // darkened
@@ -159,7 +164,7 @@ public class SignUp2 extends JFrame {
         backButton.setOpaque(false);
         backButton.setForeground(new Color(43, 2, 67)); // text color to match border
         backButton.setBackground(defaultBg);
-        backButton.setFont(new Font("Outfit", Font.BOLD, 14));
+        backButton.setFont(FontUtil.getOutfitBoldFont(16f));
         backButton.setPreferredSize(new Dimension(140, 40));
 
         backButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -180,7 +185,6 @@ public class SignUp2 extends JFrame {
             }
         });
 
-        // NEXT button
         JButton nextButton = new JButton("NEXT") {
             @Override
             protected void paintComponent(Graphics g) {
@@ -202,12 +206,13 @@ public class SignUp2 extends JFrame {
             }
         };
 
+        // button properties
         nextButton.setContentAreaFilled(false);
         nextButton.setFocusPainted(false);
         nextButton.setOpaque(false);
         nextButton.setForeground(Color.WHITE);
         nextButton.setBackground(new Color(50, 0, 90));
-        nextButton.setFont(new Font("Outfit", Font.BOLD, 14));
+        nextButton.setFont(FontUtil.getOutfitBoldFont(16f));
         nextButton.setPreferredSize(new Dimension(140, 40));
 
         nextButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -244,70 +249,111 @@ public class SignUp2 extends JFrame {
 
     // method to create the step tracker for the form
     private JPanel createStepTracker() {
-        JPanel pagination = new JPanel();
-        pagination.setLayout(new BoxLayout(pagination, BoxLayout.X_AXIS));
-        pagination.setOpaque(false);
+        Color stepTextColor = Color.decode("#2B0243");
+        Color stepColor = Color.decode("#FFF1FF");
+        Color borderColor = Color.decode("#7E4CA5");
 
         String[] steps = {"YOUR INFO", "CHOOSE A PLAN", "PAY HERE", "CHECK STATUS"};
+        int circleDiameter = 41;
+        int spacingBetweenCenters = 163;
+        int barWidth = spacingBetweenCenters - circleDiameter;
+
+        // === Main container ===
+        JPanel stepTracker = new JPanel();
+        stepTracker.setLayout(new BoxLayout(stepTracker, BoxLayout.Y_AXIS));
+        stepTracker.setOpaque(false);
+
+        // === Top: Circles + Bars ===
+        JPanel topRow = new JPanel(new GridBagLayout());
+        topRow.setOpaque(false);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
 
         for (int i = 0; i < steps.length; i++) {
-            JPanel stepPanel = new JPanel();
-            stepPanel.setLayout(new BoxLayout(stepPanel, BoxLayout.Y_AXIS));
-            stepPanel.setOpaque(false);
+            boolean isActive = (i == 0);
+            Color circleBgColor = isActive ? stepColor : stepTextColor;
+            Color numberFgColor = isActive ? stepTextColor : stepColor;
 
+            // Create circle panel
             JPanel circlePanel = new JPanel() {
                 protected void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     Graphics2D g2 = (Graphics2D) g;
                     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    g2.setColor(new Color(126, 76, 165)); // #7E4CA5
-                    g2.fillOval(0, 0, 35, 35);
+                    int strokeWidth = 2;
+                    int inset = strokeWidth / 2;
+                    int diameter = circleDiameter - strokeWidth;
+
+                    g2.setColor(circleBgColor);
+                    g2.fillOval(inset, inset, diameter, diameter);
+                    g2.setColor(borderColor);
+                    g2.setStroke(new BasicStroke(strokeWidth));
+                    g2.drawOval(inset, inset, diameter, diameter);
                 }
             };
-            circlePanel.setPreferredSize(new Dimension(35, 35));
-            circlePanel.setMaximumSize(new Dimension(35, 35));
-            circlePanel.setLayout(new BorderLayout());
+            circlePanel.setPreferredSize(new Dimension(circleDiameter, circleDiameter));
             circlePanel.setOpaque(false);
+            circlePanel.setLayout(new BorderLayout());
 
-            // label for step number
             JLabel number = new JLabel(String.valueOf(i + 1), SwingConstants.CENTER);
-            number.setFont(new Font("Outfit", Font.BOLD, 14));
-            number.setForeground(Color.WHITE);
-            number.setOpaque(false);
-            number.setHorizontalAlignment(SwingConstants.CENTER);
-            number.setVerticalAlignment(SwingConstants.CENTER);
+            number.setFont(FontUtil.getOutfitBoldFont(16f));
+            number.setForeground(numberFgColor);
             circlePanel.add(number, BorderLayout.CENTER);
 
-            // label for step description
-            JLabel label = new JLabel(steps[i]);
-            label.setFont(new Font("Outfit", Font.PLAIN, 12));
-            label.setForeground(new Color(80, 0, 150));
-            label.setAlignmentX(Component.CENTER_ALIGNMENT);
+            // Add circle to layout
+            gbc.gridx = i * 2;
+            topRow.add(circlePanel, gbc);
 
-            stepPanel.add(circlePanel);
-            stepPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-            stepPanel.add(label);
-
-            pagination.add(stepPanel);
-
+            // Add bar between circles
             if (i < steps.length - 1) {
                 JPanel bar = new JPanel();
-                bar.setPreferredSize(new Dimension(100, 2));
-                bar.setMaximumSize(new Dimension(100, 2));
-                bar.setBackground(new Color(200, 150, 200));
-                bar.setAlignmentY(Component.CENTER_ALIGNMENT);
-                pagination.add(bar);
+                bar.setBackground(borderColor);
+                bar.setPreferredSize(new Dimension(barWidth, 2));
+                bar.setMaximumSize(new Dimension(barWidth, 2));
+                bar.setMinimumSize(new Dimension(barWidth, 2));
+                gbc.gridx = i * 2 + 1;
+                topRow.add(bar, gbc);
             }
         }
 
-        return pagination;
+        // === Bottom: Step Labels aligned under each circle ===
+        JPanel bottomRow = new JPanel(new GridBagLayout());
+        bottomRow.setOpaque(false);
+        GridBagConstraints labelGbc = new GridBagConstraints();
+        labelGbc.gridy = 0;
+        labelGbc.anchor = GridBagConstraints.CENTER;
+
+        for (int i = 0; i < steps.length; i++) {
+            JLabel label = new JLabel(steps[i], SwingConstants.CENTER);
+            label.setFont(FontUtil.getOutfitFont(13f));
+            label.setForeground(stepTextColor);
+
+            JPanel labelPanel = new JPanel(new BorderLayout());
+            labelPanel.setOpaque(false);
+            labelPanel.setPreferredSize(new Dimension(spacingBetweenCenters, 20));
+            labelPanel.add(label, BorderLayout.CENTER);
+
+            labelGbc.gridx = i * 2;
+            bottomRow.add(labelPanel, labelGbc);
+        }
+
+        // === Assemble tracker ===
+        stepTracker.add(topRow);
+        stepTracker.add(Box.createVerticalStrut(8));
+        stepTracker.add(bottomRow);
+
+        return stepTracker;
     }
 
     // method to create a text field with placeholder functionality
     private JTextField createPlaceholderField(String placeholder) {
+        
+        Color placeholderColor = Color.decode("#7C7B7B");
+
         JTextField field = new JTextField(placeholder);
-        field.setFont(new Font("Outfit", Font.PLAIN, 14));
-        field.setForeground(Color.GRAY);
+        field.setFont(FontUtil.getOutfitFont(15f));
+        field.setForeground(placeholderColor);
         field.setBorder(new RoundedBorder(RADIUS));
         field.setMargin(new Insets(5, 10, 5, 10));
         field.setPreferredSize(new Dimension(200, 30));
@@ -331,7 +377,7 @@ public class SignUp2 extends JFrame {
     // method to create a styled combo box
     private JComboBox<String> styleComboBoxField(String[] options) {
         JComboBox<String> box = new JComboBox<>(options);
-        box.setFont(new Font("Outfit", Font.PLAIN, 14));
+        box.setFont(FontUtil.getOutfitFont(15f));
         box.setForeground(Color.BLACK);
         box.setBackground(Color.WHITE);
         box.setBorder(new RoundedBorder(RADIUS));
