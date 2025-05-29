@@ -3,8 +3,10 @@ package com.group_9.project;
 import java.awt.*;
 import javax.swing.*;
 
-public class SignUp2 extends JFrame {
-    public SignUp2() {
+public class accdet extends JFrame {
+    private static final int RADIUS = 15;
+
+    public accdet() {
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
 
         // Main content container
@@ -75,12 +77,9 @@ public class SignUp2 extends JFrame {
         gbc.gridy = 0;
 
         gbc.gridx = 0; gbc.gridy++;
-        formPanel.add(FormComponent.createStyledComboBox("Home Ownership", new String[]{"Owned", "Living with Relatives", "Mortgaged", "Rented"}), gbc);
+        formPanel.add(styleComboBoxField("Home Ownership", new String[]{"Owned", "Living with Relatives", "Mortgaged", "Rented"}), gbc);
         gbc.gridx = 1;
-        formPanel.add(FormComponent.createPairPanel(
-            FormComponent.createStyledComboBox("Company Paid?", new String[]{"Yes", "No"}),
-            createRoundedTextField("Years of Residency")
-        ), gbc);
+        formPanel.add(createPairPanel(styleComboBoxField("Company Paid?", new String[]{"Yes", "No"}), createRoundedTextField("Years of Residency")), gbc);
 
         gbc.gridx = 0; gbc.gridy++;
         formPanel.add(createRoundedTextField("Name of Owner"), gbc);
@@ -98,15 +97,9 @@ public class SignUp2 extends JFrame {
         formPanel.add(createRoundedTextField("Barangay"), gbc);
 
         gbc.gridx = 0; gbc.gridy++;
-        formPanel.add(FormComponent.createPairPanel(
-            createRoundedTextField("Street"),
-            createRoundedTextField("Municipality/City")
-        ), gbc);
+        formPanel.add(createPairPanel(createRoundedTextField("Street"), createRoundedTextField("Municipality/City")), gbc);
         gbc.gridx = 1;
-        formPanel.add(FormComponent.createPairPanel(
-            createRoundedTextField("Province"),
-            createRoundedTextField("Zip Code")
-        ), gbc);
+        formPanel.add(createPairPanel(createRoundedTextField("Province"), createRoundedTextField("Zip Code")), gbc);
 
         innerContent.add(formPanel);
         innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
@@ -138,20 +131,7 @@ public class SignUp2 extends JFrame {
 
         innerContent.add(buttonPanel);
 
-        // NEXT button action
-        nextButton.addActionListener(e -> {
-            dispose(); // close current SignUp2 frame
-            new SignUp3(); // open the next frame
-        });
-
-        // BACK button action
-        backButton.addActionListener(e -> {
-            dispose(); // close current SignUp2 frame
-            new SignUp1(); // open the previous frame
-        });
-
         setVisible(true);
-        SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
     }
 
     private JPanel createContentPanel() {
@@ -185,7 +165,100 @@ public class SignUp2 extends JFrame {
         return field;
     }
 
+    private JComboBox<String> styleComboBoxField(String placeholder, String[] options) {
+        JComboBox<String> box = new JComboBox<>(options);
+        box.setFont(FontUtil.getOutfitFont(15f));
+        box.setPreferredSize(new Dimension(200, 30));
+        box.setBorder(new RoundedComponents.RoundedBorder(RADIUS));
+        box.setFocusable(false);
+        box.setSelectedIndex(-1);
+
+        box.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+
+                if (value == null && index == -1 && box.getSelectedIndex() == -1) {
+                    setText(placeholder);
+                    setForeground(Color.GRAY);
+                    setBackground(Color.WHITE);
+                } else {
+                    if (!isSelected) {
+                        setBackground(Color.WHITE);
+                        setForeground(Color.BLACK);
+                    }
+                }
+                return this;
+            }
+        });
+
+        box.addActionListener(event -> {
+            if (box.getSelectedIndex() == -1) {
+                box.setForeground(Color.GRAY);
+            } else {
+                box.setForeground(Color.BLACK);
+            }
+        });
+
+        box.setBackground(new Color(255, 242, 255));
+        box.setOpaque(true);
+
+        ImageIcon dropdownIcon = null;
+        try {
+            ImageIcon originalIcon = new ImageIcon(getClass().getResource("/icons/dropdown-icn.png"));
+            Image scaledImage = originalIcon.getImage().getScaledInstance(12, 12, Image.SCALE_SMOOTH);
+            dropdownIcon = new ImageIcon(scaledImage);
+        } catch (Exception e) {
+            dropdownIcon = createFallbackArrowIcon();
+        }
+
+        final ImageIcon finalDropdownIcon = dropdownIcon;
+
+        box.setUI(new javax.swing.plaf.basic.BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = new JButton();
+                button.setIcon(finalDropdownIcon);
+                button.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
+                button.setContentAreaFilled(false);
+                button.setFocusPainted(false);
+                button.setPreferredSize(new Dimension(25, 30));
+                return button;
+            }
+
+            @Override
+            public void paintCurrentValueBackground(Graphics g, Rectangle bounds, boolean hasFocus) {
+                g.setColor(new Color(255, 242, 255));
+                g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
+            }
+        });
+
+        return box;
+    }
+
+    private ImageIcon createFallbackArrowIcon() {
+        int size = 12;
+        java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(size, size, java.awt.image.BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(Color.GRAY);
+        int[] xPoints = {size/4, size*3/4, size/2};
+        int[] yPoints = {size/3, size/3, size*2/3};
+        g2.fillPolygon(xPoints, yPoints, 3);
+        g2.dispose();
+        return new ImageIcon(img);
+    }
+
+    private JPanel createPairPanel(JComponent left, JComponent right) {
+        JPanel panel = new JPanel(new GridLayout(1, 2, 10, 0));
+        panel.setOpaque(false);
+        panel.add(left);
+        panel.add(right);
+        return panel;
+    }
+
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(SignUp2::new);
+        SwingUtilities.invokeLater(accdet::new);
     }
 }

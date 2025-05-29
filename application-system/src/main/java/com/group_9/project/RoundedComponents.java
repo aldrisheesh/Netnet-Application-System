@@ -2,6 +2,7 @@ package com.group_9.project;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -43,7 +44,7 @@ public class RoundedComponents {
             this.placeholder = placeholder;
             setOpaque(false);
             setBorder(new RoundedBorder(15));
-            setBackground(new Color(255, 242, 255));
+            setBackground(Color.decode("#FFFFFF"));
             setMargin(new Insets(5, 10, 5, 10));
             addFocusListener(new FocusAdapter() {
                 public void focusGained(FocusEvent e) { repaint(); }
@@ -80,7 +81,7 @@ public class RoundedComponents {
             this.placeholder = placeholder;
             setOpaque(false);
             setBorder(new RoundedBorder(15));
-            setBackground(new Color(255, 242, 255));
+            setBackground(Color.decode("#FFFFFF"));
             setMargin(new Insets(5, 10, 5, 10));
             addFocusListener(new FocusAdapter() {
                 public void focusGained(FocusEvent e) { repaint(); }
@@ -106,6 +107,107 @@ public class RoundedComponents {
             }
 
             g2.dispose();
+        }
+    }
+
+    //For CIVIL STATUS and GENDER in ACCOUNT DETAILS
+    public static JComboBox<String> createRoundedComboBox(String[] items) {
+        JComboBox<String> comboBox = new JComboBox<>(items);
+        comboBox.setUI(new RoundedComboBoxUI());
+        comboBox.setBackground(new Color(255, 255, 255));
+        comboBox.setForeground(Color.BLACK);
+        comboBox.setFont(FontUtil.getOutfitFont(13f));
+        comboBox.setBorder(new RoundedBorder(15));
+        comboBox.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                                                          boolean isSelected, boolean cellHasFocus) {
+                Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+                if (isSelected) {
+                    setBackground(new Color(255, 255, 255));
+                    setForeground(Color.BLACK);
+                } else {
+                    setBackground(Color.WHITE);
+                    setForeground(Color.BLACK);
+                }
+                return c;
+            }
+        });
+        return comboBox;
+    }
+
+    private static class RoundedComboBoxUI extends BasicComboBoxUI {
+        @Override
+        protected JButton createArrowButton() {
+            JButton button = new JButton("▼");
+            button.setBorder(BorderFactory.createEmptyBorder());
+            button.setContentAreaFilled(false);
+            button.setFocusPainted(false);
+            comboBox.setFont(FontUtil.getOutfitBoldFont(30f));
+            button.setForeground(new Color(80, 0, 80));
+            return button;
+        }
+
+        @Override
+        public void paintCurrentValueBackground(Graphics g, Rectangle bounds, boolean hasFocus) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setColor(new Color(255, 255, 255));
+            g2.fillRoundRect(bounds.x, bounds.y, bounds.width, bounds.height, 15, 15);
+            g2.dispose();
+        }
+    }
+
+    //For UPDATE and SAVE CHANGES button in ACCOUNT DETAILS
+    public static class RoundedButton extends JButton {
+        private int radius;
+        private Color borderColor = new Color(0, 0, 0, 0); // Transparent border by default
+
+        public RoundedButton(String text, int radius) {
+            super(text);
+            this.radius = radius;
+            setContentAreaFilled(false);
+            setFocusPainted(false);
+            setBorderPainted(false);
+            setOpaque(false);
+            setBorder(BorderFactory.createEmptyBorder()); // Remove any default borders
+        }
+
+        // Optionally add this method if you want to set a visible border color
+        public void setBorderColor(Color color) {
+            this.borderColor = color;
+            repaint();
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            
+            // Paint background
+            if (getModel().isPressed()) {
+                g2.setColor(getBackground().darker());
+            } else if (getModel().isRollover()) {
+                g2.setColor(getBackground().brighter());
+            } else {
+                g2.setColor(getBackground());
+            }
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+            
+            // Paint border (only if borderColor has alpha > 0)
+            if (borderColor.getAlpha() > 0) {
+                g2.setColor(borderColor);
+                g2.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, radius, radius);
+            }
+            
+            // Paint text
+            super.paintComponent(g2);
+            g2.dispose();
+        }
+
+        @Override
+        protected void paintBorder(Graphics g) {
         }
     }
 }

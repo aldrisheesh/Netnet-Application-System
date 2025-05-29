@@ -38,15 +38,15 @@ public class CreateStepTracker {
                     super.paintComponent(g);
                     Graphics2D g2 = (Graphics2D) g;
                     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    int strokeWidth = 2;
-                    int inset = strokeWidth / 2;
-                    int diameter = circleDiameter - strokeWidth;
+                    int intStrokeWidth = 1;
+                    int intInset = intStrokeWidth / 2;
+                    int intDiameter = circleDiameter - intStrokeWidth;
 
                     g2.setColor(circleBgColor);
-                    g2.fillOval(inset, inset, diameter, diameter);
+                    g2.fillOval(intInset, intInset, intDiameter, intDiameter);
                     g2.setColor(borderColor);
-                    g2.setStroke(new BasicStroke(strokeWidth));
-                    g2.drawOval(inset, inset, diameter, diameter);
+                    g2.setStroke(new BasicStroke(intStrokeWidth));
+                    g2.drawOval(intInset, intInset, intDiameter, intDiameter);
                 }
             };
             circlePanel.setPreferredSize(new Dimension(circleDiameter, circleDiameter));
