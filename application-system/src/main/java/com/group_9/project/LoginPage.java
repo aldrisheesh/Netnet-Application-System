@@ -1,7 +1,16 @@
 package com.group_9.project;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 public class LoginPage extends JFrame {
 
@@ -64,7 +73,7 @@ public class LoginPage extends JFrame {
                             dispose();
                         }
                         case "About Us" -> {
-                            new ErrorPage().setVisible(true);
+                            new AboutUs().setVisible(true);
                             dispose();
                         }
                     }

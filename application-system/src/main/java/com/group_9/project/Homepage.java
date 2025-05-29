@@ -1,7 +1,24 @@
 package com.group_9.project;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 public class Homepage extends JFrame {
 
@@ -64,7 +81,7 @@ public class Homepage extends JFrame {
                             dispose();
                         }
                         case "About Us" -> {
-                            new ErrorPage().setVisible(true);
+                            new AboutUs().setVisible(true);
                             dispose();
                         }
                     }

@@ -1,9 +1,24 @@
 package com.group_9.project;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 public class TrackingPage extends JFrame {
 
@@ -28,7 +43,7 @@ public class TrackingPage extends JFrame {
         background.add(logo);
 
         //Navigation Menu
-        String[] navItems = {"Home", "Plans", "Help & Support", "About Us"};
+        String[] navItems = {"Home", "Plans", "Help & Support", "About Us", "Account"};
         int xPos = 900;
         int spacing = 30;
         Color normalColor = new Color(22, 6, 48, 128);
@@ -64,7 +79,11 @@ public class TrackingPage extends JFrame {
                             dispose();
                         }
                         case "About Us" -> {
-                            new ErrorPage().setVisible(true);
+                            new AboutUs().setVisible(true);
+                            dispose();
+                        }
+                        case "Account" -> {
+                            new AccountDetails().setVisible(true);
                             dispose();
                         }
                     }
@@ -76,29 +95,6 @@ public class TrackingPage extends JFrame {
             background.add(label);
             xPos += textWidth + spacing + 10;
         }
-
-        // Login button
-        JButton loginBtn = new JButton("Log In");
-        loginBtn.setBounds(1300, 30, 80, 35);
-        loginBtn.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
-        loginBtn.setFocusPainted(false);
-        loginBtn.setFocusable(false);
-        ButtonHoverEffect.apply(
-                loginBtn,
-                new Color(62, 10, 118),
-                Color.WHITE,
-                new Color(42, 2, 67),
-                Color.WHITE,
-                new Color(62, 10, 118),
-                new Color(42, 2, 67)
-        );
-
-        loginBtn.addActionListener(e -> {
-            new LoginPage().setVisible(true);
-            dispose();
-        });
-
-        background.add(loginBtn);
 
         JLabel headline = new JLabel("<html><div style='text-align:center;color:#2B0243;font-weight:700;'>Supercharge your home with<br>ultra-fast internet and endless entertainment.</div></html>", SwingConstants.CENTER);
         headline.setFont(FontUtil.getOutfitFont(50f));
