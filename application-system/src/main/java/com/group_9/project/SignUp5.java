@@ -46,10 +46,10 @@ public class SignUp5 extends JFrame {
         // adds spacing
         container.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // step tracker panel
+        // step tracker panel using the new separate class
         JPanel stepWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
         stepWrapper.setOpaque(false);
-        stepWrapper.add(createStepTracker());
+        stepWrapper.add(CreateStepTracker.createStepTracker(2)); 
         container.add(stepWrapper);
         container.add(Box.createRigidArea(new Dimension(0, 20)));
 
@@ -89,143 +89,18 @@ public class SignUp5 extends JFrame {
         container.add(Box.createRigidArea(new Dimension(0, 20)));
 
         container.add(Box.createRigidArea(new Dimension(0, 20)));
-
-        // Create a panel to hold both columns side by side
-        // === Container for both panels ===
-        JPanel paymentWrapper = new JPanel();
-        paymentWrapper.setLayout(new BoxLayout(paymentWrapper, BoxLayout.X_AXIS));
-        paymentWrapper.setOpaque(false);
-        paymentWrapper.setAlignmentX(Component.CENTER_ALIGNMENT);
-        paymentWrapper.setMaximumSize(new Dimension(800, 250));
-
-        JLabel sub = new JLabel("avsvad", SwingConstants.LEFT);
-        sub.setFont(FontUtil.getOutfitFont(16f));
-        sub.setForeground(subColor);
-
+ 
+        // Add plan and payment panels side by side
+        JPanel rowPanel = new JPanel();
+        rowPanel.setLayout(new BoxLayout(rowPanel, BoxLayout.X_AXIS));
+        rowPanel.setOpaque(false);
+        rowPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        rowPanel.add(createPlanSummaryPanel());
+        rowPanel.add(Box.createRigidArea(new Dimension(30, 0)));
+        rowPanel.add(createPaymentSectionPanel());
+        container.add(rowPanel);
         container.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // === LEFT: Plan Summary Panel ===
-        RoundedPanel summaryPanel = new RoundedPanel(20);
-        summaryPanel.setLayout(new BoxLayout(summaryPanel, BoxLayout.Y_AXIS));
-        summaryPanel.setBackground(Color.WHITE);
-        summaryPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 200)),
-            BorderFactory.createEmptyBorder(20, 20, 20, 20)
-        ));
-        summaryPanel.setMaximumSize(new Dimension(380, 220));
-
-        // Section title
-        JLabel summaryTitle = new JLabel("Your Plan Summary");
-        summaryTitle.setFont(FontUtil.getOutfitFont(13f));
-        summaryTitle.setForeground(new Color(90, 90, 90));
-        summaryTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
-        summaryPanel.add(summaryTitle);
-        summaryPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        // Table header
-        JPanel header = new JPanel(new GridLayout(1, 2));
-        header.setOpaque(false);
-        JLabel col1 = new JLabel("Product and Service");
-        col1.setFont(FontUtil.getOutfitFont(13f));
-        JLabel col2 = new JLabel("Amount");
-        col2.setFont(FontUtil.getOutfitFont(13f));
-        col2.setHorizontalAlignment(JLabel.RIGHT);
-        header.add(col1);
-        header.add(col2);
-        summaryPanel.add(header);
-
-        // Plan content
-        summaryPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        JLabel planName = new JLabel("FIBERX 1500");
-        planName.setFont(FontUtil.getOutfitBoldFont(14f));
-        summaryPanel.add(planName);
-
-        JPanel msfRow = new JPanel(new GridLayout(1, 2));
-        msfRow.setOpaque(false);
-        msfRow.add(new JLabel("Monthly Service Fee"));
-        JLabel msfPrice = new JLabel("P 1500");
-        msfPrice.setHorizontalAlignment(JLabel.RIGHT);
-        msfRow.add(msfPrice);
-        summaryPanel.add(msfRow);
-
-        JPanel installRow = new JPanel(new GridLayout(1, 2));
-        installRow.setOpaque(false);
-        installRow.add(new JLabel("Installation Fee"));
-        JLabel installPrice = new JLabel("P 125/24mo.");
-        installPrice.setHorizontalAlignment(JLabel.RIGHT);
-        installRow.add(installPrice);
-        summaryPanel.add(installRow);
-
-        summaryPanel.add(Box.createVerticalGlue());
-
-        // Note
-        JLabel note = new JLabel("<html><i>*Full Payment means paying the installation fee upfront.<br>MSF is billed separately every month.</i></html>");
-        note.setFont(FontUtil.getOutfitFont(11f));
-        note.setForeground(new Color(100, 100, 100));
-        note.setAlignmentX(Component.LEFT_ALIGNMENT);
-        summaryPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        summaryPanel.add(note);
-
-        // === RIGHT: Payment Section ===
-        JPanel paymentPanel = new JPanel();
-        paymentPanel.setLayout(new BoxLayout(paymentPanel, BoxLayout.Y_AXIS));
-        paymentPanel.setOpaque(false);
-        paymentPanel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 0));
-        paymentPanel.setMaximumSize(new Dimension(400, 220));
-
-        // Section title
-        JLabel paymentTitle = new JLabel("Payment Section");
-        paymentTitle.setFont(FontUtil.getOutfitFont(13f));
-        paymentTitle.setForeground(new Color(90, 90, 90));
-        paymentTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
-        paymentPanel.add(paymentTitle);
-        paymentPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        // Payment method
-        ButtonGroup paymentGroup = new ButtonGroup();
-        JRadioButton full = new JRadioButton("Full Payment");
-        JRadioButton install = new JRadioButton("Installment");
-        full.setOpaque(false);
-        install.setOpaque(false);
-        paymentGroup.add(full);
-        paymentGroup.add(install);
-        paymentPanel.add(full);
-        paymentPanel.add(install);
-        paymentPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        // Account Number
-        JTextField accNum = new JTextField();
-        accNum.setMaximumSize(new Dimension(200, 30));
-        accNum.setFont(FontUtil.getOutfitFont(13f));
-        accNum.setBorder(BorderFactory.createTitledBorder("Account Number"));
-        paymentPanel.add(accNum);
-        paymentPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        // Reference Number
-        JTextField refNum = new JTextField();
-        refNum.setMaximumSize(new Dimension(200, 30));
-        refNum.setFont(FontUtil.getOutfitFont(13f));
-        refNum.setBorder(BorderFactory.createTitledBorder("Reference Number"));
-        paymentPanel.add(refNum);
-        paymentPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-
-        // Confirm Button
-        JButton confirmBtn = new JButton("CONFIRM PAYMENT");
-        confirmBtn.setBackground(new Color(110, 57, 190));
-        confirmBtn.setForeground(Color.WHITE);
-        confirmBtn.setFont(FontUtil.getOutfitBoldFont(14f));
-        confirmBtn.setMaximumSize(new Dimension(200, 40));
-        confirmBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
-        paymentPanel.add(confirmBtn);
-
-        // === Add to wrapper ===
-        paymentWrapper.add(summaryPanel);
-        paymentWrapper.add(paymentPanel);
-
-        // === Add to main container ===
-        container.add(paymentWrapper);
-
-        container.add(Box.createRigidArea(new Dimension(0, 20)));
 
         // button panel for action buttons
         JPanel buttonPanel = new JPanel();
@@ -346,103 +221,199 @@ public class SignUp5 extends JFrame {
         setVisible(true);
     }
 
-    // method to create the step tracker for the form
-    private JPanel createStepTracker() {
-        Color stepTextColor = Color.decode("#2B0243");
-        Color stepColor = Color.decode("#FFF1FF");
-        Color borderColor = Color.decode("#7E4CA5");
+    private JPanel createPlanSummaryPanel() {
 
-        String[] steps = {"YOUR INFO", "CHOOSE A PLAN", "PAY HERE", "CHECK STATUS"};
-        int circleDiameter = 41;
-        int spacingBetweenCenters = 163;
-        int barWidth = spacingBetweenCenters - circleDiameter;
+        Color txtColor = Color.decode("#1E1E1E");
 
-        // === Main container ===
-        JPanel stepTracker = new JPanel();
-        stepTracker.setLayout(new BoxLayout(stepTracker, BoxLayout.Y_AXIS));
-        stepTracker.setOpaque(false);
+        JPanel parent = new JPanel();
+        parent.setLayout(new BoxLayout(parent, BoxLayout.Y_AXIS));
+        parent.setOpaque(false);
+        parent.setAlignmentX(Component.LEFT_ALIGNMENT);
+        parent.setBorder(BorderFactory.createEmptyBorder(0, 27, 0, 0)); // 20px left padding
 
-        // === Top: Circles + Bars ===
-        JPanel topRow = new JPanel(new GridBagLayout());
-        topRow.setOpaque(false);
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.CENTER;
+        JLabel summaryTitle = new JLabel("Your Plan Summary");
+        summaryTitle.setFont(FontUtil.getOutfitFont(15f));
+        summaryTitle.setForeground(txtColor);
+        summaryTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        parent.add(summaryTitle);
 
-        for (int i = 0; i < steps.length; i++) {
-            boolean isActive = (i == 2);
-            Color circleBgColor = isActive ? stepColor : stepTextColor;
-            Color numberFgColor = isActive ? stepTextColor : stepColor;
+        parent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-            // Create circle panel
-            JPanel circlePanel = new JPanel() {
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    Graphics2D g2 = (Graphics2D) g;
-                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    int strokeWidth = 2;
-                    int inset = strokeWidth / 2;
-                    int diameter = circleDiameter - strokeWidth;
+        RoundedPanel summaryPanel = new RoundedPanel(20);
+        summaryPanel.setLayout(new BoxLayout(summaryPanel, BoxLayout.Y_AXIS));
+        summaryPanel.setBackground(Color.WHITE);
+        summaryPanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(0, 0,0, 0)),
+                BorderFactory.createEmptyBorder(20, 20, 20, 20)
+        ));
+        summaryPanel.setPreferredSize(new Dimension(375, 210));
+        summaryPanel.setMaximumSize(new Dimension(375, 210));
+        summaryPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-                    g2.setColor(circleBgColor);
-                    g2.fillOval(inset, inset, diameter, diameter);
-                    g2.setColor(borderColor);
-                    g2.setStroke(new BasicStroke(strokeWidth));
-                    g2.drawOval(inset, inset, diameter, diameter);
-                }
-            };
-            circlePanel.setPreferredSize(new Dimension(circleDiameter, circleDiameter));
-            circlePanel.setOpaque(false);
-            circlePanel.setLayout(new BorderLayout());
+        JPanel header = new JPanel(new GridLayout(1, 2));
+        header.setOpaque(false);
 
-            JLabel number = new JLabel(String.valueOf(i + 1), SwingConstants.CENTER);
-            number.setFont(FontUtil.getOutfitBoldFont(16f));
-            number.setForeground(numberFgColor);
-            circlePanel.add(number, BorderLayout.CENTER);
+        JLabel col1 = new JLabel("Product and Service");
+        col1.setFont(FontUtil.getInterFont(16f));
+        col1.setForeground(txtColor);
+        JLabel col2 = new JLabel("Amount");
+        col2.setFont(FontUtil.getInterFont(16f));
+        col2.setForeground(txtColor);
+        col2.setHorizontalAlignment(JLabel.RIGHT);
 
-            // Add circle to layout
-            gbc.gridx = i * 2;
-            topRow.add(circlePanel, gbc);
+        header.add(col1);
+        header.add(col2);
+        summaryPanel.add(header);
 
-            // Add bar between circles
-            if (i < steps.length - 1) {
-                JPanel bar = new JPanel();
-                bar.setBackground(borderColor);
-                bar.setPreferredSize(new Dimension(barWidth, 2));
-                bar.setMaximumSize(new Dimension(barWidth, 2));
-                bar.setMinimumSize(new Dimension(barWidth, 2));
-                gbc.gridx = i * 2 + 1;
-                topRow.add(bar, gbc);
-            }
-        }
+        summaryPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        // === Bottom: Step Labels aligned under each circle ===
-        JPanel bottomRow = new JPanel(new GridBagLayout());
-        bottomRow.setOpaque(false);
-        GridBagConstraints labelGbc = new GridBagConstraints();
-        labelGbc.gridy = 0;
-        labelGbc.anchor = GridBagConstraints.CENTER;
+        // adds horizontal separator
+        JSeparator separate = new JSeparator(SwingConstants.HORIZONTAL);
+        separate.setMaximumSize(new Dimension(331, 2));
+        separate.setForeground(Color.decode("#B2B2B2"));
+        separate.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        for (int i = 0; i < steps.length; i++) {
-            JLabel label = new JLabel(steps[i], SwingConstants.CENTER);
-            label.setFont(FontUtil.getOutfitFont(13f));
-            label.setForeground(stepTextColor);
+        summaryPanel.add(separate);
+        summaryPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        
+        JPanel plan = new JPanel(new GridLayout(1, 1));
+        plan.setOpaque(false);
 
-            JPanel labelPanel = new JPanel(new BorderLayout());
-            labelPanel.setOpaque(false);
-            labelPanel.setPreferredSize(new Dimension(spacingBetweenCenters, 20));
-            labelPanel.add(label, BorderLayout.CENTER);
+        JLabel planLabel = new JLabel("FIBERX 1500");
+        planLabel.setFont(FontUtil.getOutfitBoldFont(18f));
+        planLabel.setForeground(Color.decode("#2B0243"));
+        planLabel.setHorizontalAlignment(SwingConstants.LEFT); // Optional: aligns text to the left
 
-            labelGbc.gridx = i * 2;
-            bottomRow.add(labelPanel, labelGbc);
-        }
+        plan.add(planLabel);
+        summaryPanel.add(plan);
 
-        // === Assemble tracker ===
-        stepTracker.add(topRow);
-        stepTracker.add(Box.createVerticalStrut(8));
-        stepTracker.add(bottomRow);
 
-        return stepTracker;
+        JPanel msfRow = new JPanel(new GridLayout(1, 2));
+        msfRow.setOpaque(false);
+
+        JLabel msfTxt = (new JLabel("Monthly Service Fee"));
+        msfTxt.setFont(FontUtil.getInterFont(16f));
+        msfTxt.setForeground(txtColor);
+        JLabel msfPrice = new JLabel("P 1500");
+        msfPrice.setFont(FontUtil.getInterFont(16f));
+        msfPrice.setForeground(txtColor);
+        msfPrice.setHorizontalAlignment(JLabel.RIGHT);
+
+        msfRow.add(msfTxt);
+        msfRow.add(msfPrice);
+        summaryPanel.add(msfRow);
+
+        JPanel installRow = new JPanel(new GridLayout(1, 2));
+        installRow.setOpaque(false);
+
+        JLabel installTxt = (new JLabel("Installation Fee"));
+        installTxt.setFont(FontUtil.getInterFont(16f));
+        installTxt.setForeground(txtColor);
+        JLabel installPrice = new JLabel("P 125/24mo.");
+        installPrice.setFont(FontUtil.getInterFont(16f));
+        installPrice.setForeground(txtColor);
+        installPrice.setHorizontalAlignment(JLabel.RIGHT);
+
+        installRow.add(installTxt);
+        installRow.add(installPrice);
+        summaryPanel.add(installRow);
+
+        parent.add(summaryPanel);
+        parent.add(Box.createRigidArea(new Dimension(0, 20)));
+        
+        JLabel noteLine1 = new JLabel("*Full Payment means paying the installation fee upfront.");
+        noteLine1.setFont(FontUtil.getOutfitFont(13f).deriveFont(Font.ITALIC));
+        noteLine1.setForeground(txtColor);
+        noteLine1.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel noteLine2 = new JLabel("MSF is billed separately every month.");
+        noteLine2.setFont(FontUtil.getOutfitFont(13f).deriveFont(Font.ITALIC));
+        noteLine2.setForeground(txtColor);
+        noteLine2.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        parent.add(noteLine1);
+        parent.add(noteLine2);
+;
+
+        return parent;
+    }
+
+    private JPanel createPaymentSectionPanel() {
+
+        Color txtColor = Color.decode("#1E1E1E");
+
+        JPanel paymentPanel = new JPanel();
+        paymentPanel.setLayout(new BoxLayout(paymentPanel, BoxLayout.Y_AXIS));
+        paymentPanel.setOpaque(false);
+        paymentPanel.setBorder(BorderFactory.createEmptyBorder(0, 30, 10, 0));
+        paymentPanel.setMaximumSize(new Dimension(400, 400));
+
+        JLabel paymentTitle = new JLabel("Payment Section");
+        paymentTitle.setFont(FontUtil.getOutfitFont(15f));
+        paymentTitle.setForeground(txtColor);
+        paymentTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        paymentPanel.add(paymentTitle);
+
+        paymentPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+
+        ButtonGroup paymentGroup = new ButtonGroup();
+        JRadioButton full = new JRadioButton("Full Payment");
+        full.setFont(FontUtil.getInterFont(15f));
+        full.setForeground(txtColor);
+        JRadioButton install = new JRadioButton("Installment");
+        install.setFont(FontUtil.getInterFont(15f));
+        install.setForeground(txtColor);
+
+        full.setOpaque(false);
+        full.setFocusPainted(false);
+        full.setBorder(BorderFactory.createEmptyBorder());
+
+        install.setOpaque(false);
+        install.setFocusPainted(false);
+        install.setBorder(BorderFactory.createEmptyBorder());
+
+        paymentGroup.add(full);
+        paymentGroup.add(install);
+
+        // Panel to hold radio buttons side by side
+        JPanel radioPanel = new JPanel();
+        radioPanel.setLayout(new BoxLayout(radioPanel, BoxLayout.X_AXIS));
+        radioPanel.setOpaque(false);
+        radioPanel.setAlignmentX(Component.LEFT_ALIGNMENT); 
+        radioPanel.add(full);
+        radioPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        radioPanel.add(install);
+
+        paymentPanel.add(radioPanel);
+        paymentPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+
+        RoundedComponents.RoundedTextField accNum = new RoundedComponents.RoundedTextField("Account Number", 30);
+        accNum.setFont(FontUtil.getInterFont(14f));
+        accNum.setPreferredSize(new Dimension(250, 35)); 
+        accNum.setMaximumSize(new Dimension(250, 35));   
+
+        paymentPanel.add(accNum);
+        paymentPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        RoundedComponents.RoundedTextField refNum = new RoundedComponents.RoundedTextField("Reference Number", 30);
+        refNum.setFont(FontUtil.getInterFont(14f));
+        refNum.setPreferredSize(new Dimension(250, 35)); 
+        refNum.setMaximumSize(new Dimension(250, 35));   
+
+        paymentPanel.add(refNum);
+        paymentPanel.add(Box.createRigidArea(new Dimension(0, 40)));
+
+        JButton confirmBtn = new JButton("CONFIRM PAYMENT");
+        confirmBtn.setBackground(Color.decode("#623CBB"));
+        confirmBtn.setForeground(Color.WHITE);
+        confirmBtn.setFont(FontUtil.getOutfitBoldFont(16f));
+        confirmBtn.setMaximumSize(new Dimension(194, 40));
+        confirmBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
+        confirmBtn.setFocusPainted(false);
+        confirmBtn.setBorderPainted(false);
+        paymentPanel.add(confirmBtn);
+
+        return paymentPanel;
     }
 
     // class to create a rounded border

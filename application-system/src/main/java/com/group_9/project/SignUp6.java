@@ -1,16 +1,13 @@
 package com.group_9.project;
 
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import javax.swing.*;
-import javax.swing.border.Border;
 
-public class SignUp2 extends JFrame {
+public class SignUp6 extends JFrame {
     private static final int RADIUS = 15;
 
     // Sets up the main frame
-    public SignUp2() {
+    public SignUp6() {
         setTitle("Service Application");
         setSize(1440, 1024); 
         setResizable(false); 
@@ -36,7 +33,7 @@ public class SignUp2 extends JFrame {
         container.add(Box.createRigidArea(new Dimension(0, 20)));
 
         Color titleColor = Color.decode("#2B0243");
-        Color subColor = Color.decode("#302E2E");
+        Color txtColor = Color.decode("#302E2E");
 
         // creates title label
         JLabel title = new JLabel("SERVICE APPLICATION", SwingConstants.CENTER);
@@ -51,82 +48,116 @@ public class SignUp2 extends JFrame {
         // step tracker panel using the new separate class
         JPanel stepWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
         stepWrapper.setOpaque(false);
-        stepWrapper.add(CreateStepTracker.createStepTracker(0)); // Active index is 0 for first step
+        stepWrapper.add(CreateStepTracker.createStepTracker(3)); // Active index is 3 for last step
         container.add(stepWrapper);
         container.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // personal info panel
-        JPanel infoPanel = new JPanel();
-        infoPanel.setOpaque(false);
-        infoPanel.setLayout(new BorderLayout());
-        infoPanel.setMaximumSize(new Dimension(700, 60));
+        // Add confirmation icon right after step tracker
+        ImageIcon confirmIconRaw = new ImageIcon(getClass().getClassLoader().getResource("images/confirmation-icn.png"));
+        Image confirmImg = confirmIconRaw.getImage().getScaledInstance(61, 61, Image.SCALE_SMOOTH);
+        JLabel confirmLabel = new JLabel(new ImageIcon(confirmImg));
+        confirmLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the icon
+        container.add(confirmLabel);
 
-        // left labels for the info panel 
-        JPanel leftLabels = new JPanel();
-        leftLabels.setLayout(new BoxLayout(leftLabels, BoxLayout.Y_AXIS));
-        leftLabels.setOpaque(false);
+        // Add some spacing after the icon
+        container.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        JLabel subtitle = new JLabel("PERSONAL INFORMATION", SwingConstants.LEFT);
-        subtitle.setFont(FontUtil.getOutfitFont(16f));
-        subtitle.setForeground(subColor);
+        JLabel msgSuccess = new JLabel("APPLICATION SUBMITTED SUCCESSFULY!", SwingConstants.CENTER);
+        msgSuccess.setFont(FontUtil.getOutfitFont(16f));
+        msgSuccess.setAlignmentX(Component.CENTER_ALIGNMENT);
+        msgSuccess.setForeground(txtColor);
+        container.add(msgSuccess);
 
-        JLabel subNote = new JLabel("Provide the necessary details to register your information with us");
-        subNote.setFont(FontUtil.getOutfitFont(12f));
-        subNote.setForeground(subColor);
-
-        leftLabels.add(subtitle);
-        leftLabels.add(Box.createRigidArea(new Dimension(0, 5)));
-        leftLabels.add(subNote);
-
-        infoPanel.add(leftLabels, BorderLayout.WEST);
-        container.add(infoPanel);
-
-        // adds horizontal separator
-        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
-        separator.setMaximumSize(new Dimension(700, 2));
-        separator.setForeground(Color.decode("#B2B2B2"));
-        separator.setAlignmentX(Component.CENTER_ALIGNMENT);
         container.add(Box.createRigidArea(new Dimension(0, 10)));
-        container.add(separator);
+
+        JLabel tyMsg = new JLabel("Thank you for choosing NETNET!", SwingConstants.CENTER);
+        tyMsg.setFont(FontUtil.getInterFont(15f));
+        tyMsg.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tyMsg.setForeground(txtColor);
+        container.add(tyMsg);
+
+        JLabel msg = new JLabel("Your application has been submitted and is now being processed.", SwingConstants.CENTER);
+        msg.setFont(FontUtil.getInterFont(15f));
+        msg.setAlignmentX(Component.CENTER_ALIGNMENT);
+        msg.setForeground(txtColor);
+        container.add(msg);
+
         container.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // form panel for input fields
-        JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setOpaque(false);
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 10, 5, 10);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 0.5;
-        gbc.gridy = 0; // Initialize gbc.gridy
+        JLabel trackTxt = new JLabel("Track Your Application Status", SwingConstants.CENTER);
+        trackTxt.setFont(FontUtil.getOutfitFont(15f));
+        trackTxt.setAlignmentX(Component.CENTER_ALIGNMENT);
+        trackTxt.setForeground(txtColor);
+        container.add(trackTxt);
 
-        // input fields to the form panel
-        gbc.gridx = 0; gbc.gridy++;
-        formPanel.add(styleComboBoxField(new String[]{"Owned", "Living with Relatives", "Mortgaged", "Rented"}), gbc);
-        gbc.gridx = 1;
-        formPanel.add(createPairPanel(styleComboBoxField(new String[]{"Yes", "No"}), createPlaceholderField("Years of Residency")), gbc);
+        // Add spacing after trackTxt
+        container.add(Box.createRigidArea(new Dimension(0, 5)));
 
-        gbc.gridx = 0; gbc.gridy++;
-        formPanel.add(createPlaceholderField("Name of Owner"), gbc);
-        gbc.gridx = 1;
-        formPanel.add(createPlaceholderField("Contact No."), gbc);
+        // Create rounded panel container
+        JPanel roundedPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getBackground());
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), RADIUS, RADIUS);
+                g2.dispose();
+                super.paintComponent(g);
+            }
 
-        gbc.gridx = 0; gbc.gridy++;
-        formPanel.add(createPlaceholderField("House/Room No./Floor"), gbc);
-        gbc.gridx = 1;
-        formPanel.add(createPlaceholderField("Apartment/Compound/Building"), gbc);
+            @Override
+            protected void paintBorder(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(new Color(0, 0, 0, 38)); // Light border color
+                g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, RADIUS, RADIUS);
+                g2.dispose();
+            }
+        };
 
-        gbc.gridx = 0; gbc.gridy++;
-        formPanel.add(createPlaceholderField("Subdivision"), gbc);
-        gbc.gridx = 1;
-        formPanel.add(createPlaceholderField("Barangay"), gbc);
+        roundedPanel.setOpaque(false);
+        roundedPanel.setBackground(Color.WHITE);
+        roundedPanel.setPreferredSize(new Dimension(375, 118));
+        roundedPanel.setMaximumSize(new Dimension(375, 118));
+        // Changed from GridBagLayout to BoxLayout with Y_AXIS for vertical stacking
+        roundedPanel.setLayout(new BoxLayout(roundedPanel, BoxLayout.Y_AXIS));
 
-        gbc.gridx = 0; gbc.gridy++;
-        formPanel.add(createPairPanel(createPlaceholderField("Street"), createPlaceholderField("Municipality/City")), gbc);
-        gbc.gridx = 1;
-        formPanel.add(createPairPanel(createPlaceholderField("Province"), createPlaceholderField("Zip Code")), gbc);
+        // Add some padding at the top
+        roundedPanel.add(Box.createVerticalGlue());
 
-        container.add(formPanel);
-        container.add(Box.createRigidArea(new Dimension(0, 20)));
+        JLabel appNum = new JLabel("Application No.  A00001", SwingConstants.CENTER);
+        appNum.setFont(FontUtil.getOutfitFont(15f));
+        appNum.setForeground(txtColor);
+        appNum.setAlignmentX(Component.CENTER_ALIGNMENT);
+        roundedPanel.add(appNum);
+
+        roundedPanel.add(Box.createRigidArea(new Dimension(0, 9)));
+
+        JLabel date = new JLabel("Date Submitted:  3/15/2010", SwingConstants.CENTER);
+        date.setFont(FontUtil.getOutfitFont(15f));
+        date.setForeground(txtColor);
+        date.setAlignmentX(Component.CENTER_ALIGNMENT);
+        roundedPanel.add(date);
+
+        roundedPanel.add(Box.createRigidArea(new Dimension(0, 9)));
+
+        JLabel status = new JLabel("Status: Pending Review", SwingConstants.CENTER);
+        status.setFont(FontUtil.getOutfitFont(15f));
+        status.setForeground(txtColor);
+        status.setAlignmentX(Component.CENTER_ALIGNMENT);
+        roundedPanel.add(status);
+
+        // Add padding at the bottom
+        roundedPanel.add(Box.createVerticalGlue());
+
+        // Center the rounded panel
+        JPanel roundedPanelWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        roundedPanelWrapper.setOpaque(false);
+        roundedPanelWrapper.add(roundedPanel);
+        container.add(roundedPanelWrapper);
+
+        // Add flexible space to push buttons to bottom
+        container.add(Box.createVerticalGlue());
 
         // button panel for action buttons
         JPanel buttonPanel = new JPanel();
@@ -246,91 +277,9 @@ public class SignUp2 extends JFrame {
         setContentPane(background);
         setVisible(true);
     }
-    // method to create a text field with placeholder functionality
-    private JTextField createPlaceholderField(String placeholder) {
-        
-        Color placeholderColor = Color.decode("#7C7B7B");
-
-        JTextField field = new JTextField(placeholder);
-        field.setFont(FontUtil.getOutfitFont(15f));
-        field.setForeground(placeholderColor);
-        field.setBorder(new RoundedBorder(RADIUS));
-        field.setMargin(new Insets(5, 10, 5, 10));
-        field.setPreferredSize(new Dimension(200, 30));
-        field.addFocusListener(new FocusAdapter() {
-            public void focusGained(FocusEvent e) {
-                if (field.getText().equals(placeholder)) {
-                    field.setText("");
-                    field.setForeground(Color.BLACK);
-                }
-            }
-            public void focusLost(FocusEvent e) {
-                if (field.getText().isEmpty()) {
-                    field.setForeground(Color.GRAY);
-                    field.setText(placeholder);
-                }
-            }
-        });
-        return field;
-    }
-
-    // method to create a styled combo box
-    private JComboBox<String> styleComboBoxField(String[] options) {
-        JComboBox<String> box = new JComboBox<>(options);
-        box.setFont(FontUtil.getOutfitFont(15f));
-        box.setForeground(Color.BLACK);
-        box.setBackground(Color.WHITE);
-        box.setBorder(new RoundedBorder(RADIUS));
-        box.setPreferredSize(new Dimension(200, 30));
-        box.setFocusable(false);
-
-        box.setUI(new javax.swing.plaf.basic.BasicComboBoxUI() {
-            @Override
-            protected JButton createArrowButton() {
-                JButton button = super.createArrowButton();
-                button.setFocusPainted(false);
-                button.setBorder(BorderFactory.createEmptyBorder());
-                return button;
-            }
-
-            @Override
-            public void paintCurrentValueBackground(Graphics g, Rectangle bounds, boolean hasFocus) {
-                super.paintCurrentValueBackground(g, bounds, false);
-            }
-        });
-
-        return box;
-    }
-
-    // method to create a panel with two components side by side
-    private JPanel createPairPanel(JComponent left, JComponent right) {
-    JPanel panel = new JPanel(new GridLayout(1, 2, 10, 0));
-    panel.setOpaque(false);
-
-    panel.add(left);
-    panel.add(right);
-
-    return panel;
-    }
-
-
-    // class to create a rounded border
-    static class RoundedBorder implements Border {
-        private int radius;
-        public RoundedBorder(int radius) { this.radius = radius; }
-        public Insets getBorderInsets(Component c) { return new Insets(radius, radius, radius, radius); }
-        public boolean isBorderOpaque() { return false; }
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(Color.GRAY);
-            g2.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-        }
-    }
 
     // main method
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(SignUp2::new);
+        SwingUtilities.invokeLater(SignUp6::new);
     }
 }
-
