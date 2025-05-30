@@ -3,6 +3,9 @@ import com.group_9.project.*;
 
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 
 public class BaseFrameSetup {
     
@@ -92,9 +95,12 @@ public class BaseFrameSetup {
                 LOGIN_BTN_PRIMARY,
                 LOGIN_BTN_PRESSED);
 
-        loginBtn.addActionListener(e -> {
-            new LoginPage().setVisible(true);
-            currentFrame.dispose(); 
+        loginBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new LoginPage().setVisible(true);
+                currentFrame.dispose();
+            }
         });
         
         background.add(loginBtn);
