@@ -15,12 +15,12 @@ public class CreateStepTracker {
         int spacingBetweenCenters = 163;
         int barWidth = spacingBetweenCenters - circleDiameter;
 
-        // === Main container ===
+        // main container
         JPanel stepTracker = new JPanel();
         stepTracker.setLayout(new BoxLayout(stepTracker, BoxLayout.Y_AXIS));
         stepTracker.setOpaque(false);
 
-        // === Top: Circles + Bars ===
+        // circle + bar
         JPanel topRow = new JPanel(new GridBagLayout());
         topRow.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -74,7 +74,7 @@ public class CreateStepTracker {
             }
         }
 
-        // === Bottom: Step Labels aligned under each circle ===
+        // Bottom: Step Labels aligned under each circle
         JPanel bottomRow = new JPanel(new GridBagLayout());
         bottomRow.setOpaque(false);
         GridBagConstraints labelGbc = new GridBagConstraints();

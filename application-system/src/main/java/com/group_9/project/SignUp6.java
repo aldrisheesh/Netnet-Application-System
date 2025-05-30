@@ -36,7 +36,7 @@ public class SignUp6 extends JFrame {
         // step tracker panel using the new separate class
         JPanel stepWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
         stepWrapper.setOpaque(false);
-        stepWrapper.add(CreateStepTracker.createStepTracker(3)); // Active index is 0 for first step
+        stepWrapper.add(CreateStepTracker.createStepTracker(3)); // Active index is 3 for fourtg step
         innerContent.add(stepWrapper);
         innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
@@ -44,7 +44,7 @@ public class SignUp6 extends JFrame {
         ImageIcon confirmIconRaw = new ImageIcon(getClass().getClassLoader().getResource("images/confirmation-icn.png"));
         Image confirmImg = confirmIconRaw.getImage().getScaledInstance(61, 61, Image.SCALE_SMOOTH);
         JLabel confirmLabel = new JLabel(new ImageIcon(confirmImg));
-        confirmLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the icon
+        confirmLabel.setAlignmentX(Component.CENTER_ALIGNMENT); 
         innerContent.add(confirmLabel);
 
         // Add some spacing after the icon
@@ -85,7 +85,7 @@ public class SignUp6 extends JFrame {
         JPanel roundedPanel = new JPanel();
         roundedPanel.setOpaque(true);
         roundedPanel.setBackground(Color.WHITE);
-        roundedPanel.setBorder(new RoundedComponents.RoundedBorder(RADIUS)); // Apply RoundedBorder instead of custom paint
+        roundedPanel.setBorder(new RoundedComponents.RoundedBorder(RADIUS)); 
         roundedPanel.setPreferredSize(new Dimension(375, 118));
         roundedPanel.setMaximumSize(new Dimension(375, 118));
         roundedPanel.setLayout(new BoxLayout(roundedPanel, BoxLayout.Y_AXIS));
@@ -147,7 +147,7 @@ public class SignUp6 extends JFrame {
     }
 
     // Custom content panel with rounded corners and shadow - now also using RoundedBorder
-    private JPanel createContentPanel() { //main container
+    private JPanel createContentPanel() { 
         JPanel content = new JPanel(null) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -156,7 +156,7 @@ public class SignUp6 extends JFrame {
                 
                 // Draw shadow first (offset to bottom-right)
                 int shadowOffset = 4;
-                g2.setColor(new Color(0, 0, 0, 20)); // Semi-transparent black for shadow
+                g2.setColor(new Color(0, 0, 0, 20)); 
                 g2.fillRoundRect(shadowOffset, shadowOffset, getWidth() - shadowOffset, getHeight() - shadowOffset, 25, 25);
                 
                 // Draw main panel

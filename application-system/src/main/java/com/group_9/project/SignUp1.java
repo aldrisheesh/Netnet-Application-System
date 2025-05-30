@@ -134,8 +134,8 @@ public class SignUp1 extends JFrame {
 
         // NEXT button action
         nextButton.addActionListener(e -> {
-            dispose(); // close current SignUp2 frame
-            new SignUp2(); // open the next frame
+            dispose(); 
+            new SignUp2(); 
         });
 
         setVisible(true);
@@ -143,16 +143,15 @@ public class SignUp1 extends JFrame {
     }
 
     // Custom content panel with rounded corners and shadow
-    private JPanel createContentPanel() { //main container
+    private JPanel createContentPanel() { 
         JPanel content = new JPanel(null) {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 
-                // Draw shadow first (offset to bottom-right)
                 int shadowOffset = 4;
-                g2.setColor(new Color(0, 0, 0, 20)); // Semi-transparent black for shadow
+                g2.setColor(new Color(0, 0, 0, 20)); 
                 g2.fillRoundRect(shadowOffset, shadowOffset, getWidth() - shadowOffset, getHeight() - shadowOffset, 25, 25);
                 
                 // Draw main panel

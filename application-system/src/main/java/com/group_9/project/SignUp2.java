@@ -113,7 +113,7 @@ public class SignUp2 extends JFrame {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
-        buttonPanel.setLayout(new BorderLayout()); // Use BorderLayout to position buttons to the edges
+        buttonPanel.setLayout(new BorderLayout()); 
         buttonPanel.setMaximumSize(new Dimension(826, 50));
 
         // NEXT button (right)
@@ -140,14 +140,14 @@ public class SignUp2 extends JFrame {
 
         // NEXT button action
         nextButton.addActionListener(e -> {
-            dispose(); // close current SignUp2 frame
-            new SignUp3(); // open the next frame
+            dispose(); 
+            new SignUp3(); 
         });
 
         // BACK button action
         backButton.addActionListener(e -> {
-            dispose(); // close current SignUp2 frame
-            new SignUp1(); // open the previous frame
+            dispose(); 
+            new SignUp1(); 
         });
 
         setVisible(true);

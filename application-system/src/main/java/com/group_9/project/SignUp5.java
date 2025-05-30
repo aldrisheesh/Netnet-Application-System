@@ -89,7 +89,7 @@ public class SignUp5 extends JFrame {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
-        buttonPanel.setLayout(new BorderLayout()); // Use BorderLayout to position buttons to the edges
+        buttonPanel.setLayout(new BorderLayout()); 
         buttonPanel.setMaximumSize(new Dimension(826, 50));
 
         // NEXT button (right)
@@ -116,14 +116,14 @@ public class SignUp5 extends JFrame {
 
         // NEXT button action
         nextButton.addActionListener(e -> {
-            dispose(); // close current SignUp5 frame
-            new SignUp6(); // open the next frame
+            dispose(); 
+            new SignUp6(); 
         });
 
         // BACK button action
         backButton.addActionListener(e -> {
-            dispose(); // close current SignUp5 frame
-            new SignUp3(); // open the previous frame
+            dispose(); 
+            new SignUp3(); 
         });
 
         container.add(innerContent);
@@ -133,7 +133,7 @@ public class SignUp5 extends JFrame {
     }
 
     // Custom content panel with rounded corners and shadow
-    private JPanel createContentPanel() { //main container
+    private JPanel createContentPanel() {
         JPanel content = new JPanel(null) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -142,7 +142,7 @@ public class SignUp5 extends JFrame {
                 
                 // Draw shadow first (offset to bottom-right)
                 int shadowOffset = 4;
-                g2.setColor(new Color(0, 0, 0, 20)); // Semi-transparent black for shadow
+                g2.setColor(new Color(0, 0, 0, 20)); 
                 g2.fillRoundRect(shadowOffset, shadowOffset, getWidth() - shadowOffset, getHeight() - shadowOffset, 25, 25);
                 
                 // Draw main panel

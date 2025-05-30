@@ -63,6 +63,8 @@ public class FormComponent {
                 button.setPreferredSize(new Dimension(25, 35));
                 button.setHorizontalAlignment(SwingConstants.CENTER);
                 button.setVerticalAlignment(SwingConstants.CENTER);
+
+                button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 return button;
             }
 

@@ -97,7 +97,7 @@ public class SignUp3 extends JFrame {
             gbc.gridy = i / 2;
             planPanel.add(planBoxes.get(i), gbc);
 
-            if (i == 4) { // Add note beside FIBERX 3500
+            if (i == 4) {
                 gbc.gridx = 1;
                 JTextArea note = new JTextArea(
                         "*With outright Payment Option of Php 2,500 for\n" +
@@ -148,14 +148,14 @@ public class SignUp3 extends JFrame {
 
         // NEXT button action
         nextButton.addActionListener(e -> {
-            dispose(); // close current SignUp2 frame
-            new SignUp5(); // open the next frame
+            dispose(); 
+            new SignUp5();
         });
 
         // BACK button action
         backButton.addActionListener(e -> {
-            dispose(); // close current SignUp2 frame
-            new SignUp2(); // open the previous frame
+            dispose();
+            new SignUp2(); 
         });
 
         container.add(innerContent);
@@ -165,7 +165,7 @@ public class SignUp3 extends JFrame {
     }
 
     // Custom content panel with rounded corners and shadow
-    private JPanel createContentPanel() { //main container
+    private JPanel createContentPanel() {
         JPanel content = new JPanel(null) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -174,7 +174,7 @@ public class SignUp3 extends JFrame {
                 
                 // Draw shadow first (offset to bottom-right)
                 int shadowOffset = 4;
-                g2.setColor(new Color(0, 0, 0, 20)); // Semi-transparent black for shadow
+                g2.setColor(new Color(0, 0, 0, 20)); 
                 g2.fillRoundRect(shadowOffset, shadowOffset, getWidth() - shadowOffset, getHeight() - shadowOffset, 25, 25);
                 
                 // Draw main panel
@@ -203,7 +203,7 @@ public class SignUp3 extends JFrame {
         private final JPanel checkboxPanel;
 
         public SelectablePlanPanel(String title, String price, String fee) {
-            setLayout(new BorderLayout(10, 0)); // Add space between square and content
+            setLayout(new BorderLayout(10, 0)); 
             setBackground(Color.WHITE);
             setBorder(createRoundedBorder(borderColorDefault, 1));
 

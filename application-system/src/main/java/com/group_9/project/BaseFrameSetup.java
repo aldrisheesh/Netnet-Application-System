@@ -93,7 +93,7 @@ public class BaseFrameSetup {
 
         loginBtn.addActionListener(e -> {
             new LoginPage().setVisible(true);
-            currentFrame.dispose(); // Fixed: Now properly disposes the current frame
+            currentFrame.dispose(); 
         });
         
         background.add(loginBtn);
@@ -108,7 +108,7 @@ public class BaseFrameSetup {
         
         createLogo(background);
         createNavigation(background, frame);
-        createLoginButton(background, frame); // Fixed: Added frame parameter
+        createLoginButton(background, frame); 
         
         return background;
     }
@@ -120,7 +120,7 @@ public class BaseFrameSetup {
                 currentFrame.dispose();
             }
             case "Plans" -> {
-                new ErrorPage().setVisible(true);
+                new PlansPage().setVisible(true);
                 currentFrame.dispose();
             }
             case "Help & Support" -> {
