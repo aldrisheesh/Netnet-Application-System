@@ -80,7 +80,7 @@ public class BaseFrameSetup {
     
     // Fixed: Added currentFrame parameter to properly dispose of the current frame
     public static JButton createLoginButton(BackgroundPanel background, JFrame currentFrame) {
-        JButton loginBtn = new JButton("Log In");
+        JButton loginBtn = new RoundedComponents.RoundedButton("Log In", 20);
         loginBtn.setBounds(1300, 30, 80, 35);
         loginBtn.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         loginBtn.setFocusPainted(false);

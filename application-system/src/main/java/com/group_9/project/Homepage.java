@@ -122,7 +122,7 @@ public class Homepage extends JFrame {
         subHeadline.setBounds(420, 350, 600, 30);
         background.add(subHeadline);
 
-        JButton viewPlans = new RoundedComponents.RoundedButton("VIEW PLANS", 20);
+        JButton viewPlans = new JButton("VIEW PLANS");
         viewPlans.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         viewPlans.setBounds(530, 400, 160, 45);
         viewPlans.setFocusPainted(false);
@@ -181,7 +181,7 @@ public class Homepage extends JFrame {
         applyDesc.setBounds(applyX, applyY + 50, applyWidth, 50);
         background.add(applyDesc);
 
-        JButton getStarted = new RoundedComponents.RoundedButton("GET STARTED", 25);
+        JButton getStarted = new RoundedComponents.RoundedButton("GET STARTED", 20);
         getStarted.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         getStarted.setBounds(applyX, applyY + 105, 160, 45);
         getStarted.setFocusPainted(false);

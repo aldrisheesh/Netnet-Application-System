@@ -3,7 +3,6 @@ import com.group_9.project.utils.*;
 
 import java.awt.*;
 import javax.swing.*;
-import com.group_9.project.utils.BackgroundPanel;
 
 public class LoginPage extends JFrame {
 
@@ -110,7 +109,7 @@ public class LoginPage extends JFrame {
         passwordField.setBounds(524, yPosi + 117, 375, 60);
         background.add(passwordField);
 
-        JButton loginBtn = new JButton("LOG IN");
+        JButton loginBtn = new RoundedComponents.RoundedButton("LOG IN", 20);
         loginBtn.setFont(FontUtil.getOutfitFont(16f));
         loginBtn.setBounds(525, yPosi + 195, 130, 40);
         loginBtn.setFocusPainted(false);
