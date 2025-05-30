@@ -1,16 +1,11 @@
 package com.group_9.project;
+import com.group_9.project.utils.*;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Image;
+import java.awt.*;
+import javax.swing.*;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+
+import com.group_9.project.utils.BackgroundPanel;
 
 public class LoginPage extends JFrame {
 

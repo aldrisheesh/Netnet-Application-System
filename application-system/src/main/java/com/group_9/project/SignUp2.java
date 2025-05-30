@@ -1,7 +1,10 @@
 package com.group_9.project;
+import com.group_9.project.utils.*;
 
 import java.awt.*;
 import javax.swing.*;
+
+import com.group_9.project.utils.BackgroundPanel;
 
 public class SignUp2 extends JFrame {
     public SignUp2() {
@@ -140,14 +143,14 @@ public class SignUp2 extends JFrame {
 
         // NEXT button action
         nextButton.addActionListener(e -> {
+            new SignUp3();
             dispose(); 
-            new SignUp3(); 
         });
 
         // BACK button action
         backButton.addActionListener(e -> {
-            dispose(); 
             new SignUp1(); 
+            dispose(); 
         });
 
         setVisible(true);

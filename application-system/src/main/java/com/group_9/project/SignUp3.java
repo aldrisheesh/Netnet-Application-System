@@ -1,11 +1,13 @@
 package com.group_9.project;
+import com.group_9.project.utils.*;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.border.*;
+import java.util.ArrayList;
+
+import com.group_9.project.utils.BackgroundPanel;
 
 public class SignUp3 extends JFrame {
     // Sets up the main frame

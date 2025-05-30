@@ -1,24 +1,8 @@
 package com.group_9.project;
+import com.group_9.project.utils.*;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import java.awt.*;
+import javax.swing.*;
 
 public class Homepage extends JFrame {
 
@@ -96,7 +80,7 @@ public class Homepage extends JFrame {
         
 
         // Login button
-        JButton loginBtn = new JButton("Log In");
+        JButton loginBtn = new RoundedComponents.RoundedButton("Log In", 20);
         loginBtn.setBounds(1300, 30, 80, 35);
         loginBtn.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         loginBtn.setFocusPainted(false);
@@ -131,7 +115,7 @@ public class Homepage extends JFrame {
         subHeadline.setBounds(420, 350, 600, 30);
         background.add(subHeadline);
 
-        JButton viewPlans = new JButton("VIEW PLANS");
+        JButton viewPlans = new RoundedComponents.RoundedButton("VIEW PLANS", 20);
         viewPlans.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         viewPlans.setBounds(530, 400, 160, 45);
         viewPlans.setFocusPainted(false);
@@ -150,8 +134,15 @@ public class Homepage extends JFrame {
         checkAvailability.setBounds(700, 400, 220, 45);
         checkAvailability.setFocusPainted(false);
         checkAvailability.setContentAreaFilled(false);
-        ButtonHoverEffect.apply(checkAvailability, new Color(62, 10, 118), new Color(62, 10, 118),
-                new Color(0, 0, 0, 0), new Color(38, 6, 67), new Color(62, 10, 118), new Color(42, 2, 67));
+        ButtonHoverEffect.apply(
+                                checkAvailability, 
+                                new Color(62, 10, 118), 
+                                new Color(62, 10, 118),
+                                new Color(0, 0, 0, 0), 
+                                new Color(38, 6, 67), 
+                                new Color(62, 10, 118), 
+                                new Color(42, 2, 67)
+        );
         
         checkAvailability.addActionListener(e -> {
             new ErrorPage().setVisible(true);
@@ -175,7 +166,7 @@ public class Homepage extends JFrame {
         applyDesc.setBounds(applyX, applyY + 50, applyWidth, 50);
         background.add(applyDesc);
 
-        JButton getStarted = new JButton("GET STARTED");
+        JButton getStarted = new RoundedComponents.RoundedButton("GET STARTED", 25);
         getStarted.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         getStarted.setBounds(applyX, applyY + 105, 160, 45);
         getStarted.setFocusPainted(false);
@@ -189,6 +180,11 @@ public class Homepage extends JFrame {
                                 new Color(42, 2, 67)             //normal border
         );
         background.add(getStarted);
+
+        getStarted.addActionListener(e -> {
+            new SignUp1().setVisible(true);
+            dispose();
+        });
 
         // Left text (not clickable)
         JLabel promptText = new JLabel("Already have an account?");

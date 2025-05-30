@@ -1,10 +1,9 @@
 package com.group_9.project;
+import com.group_9.project.utils.*;
 
 import javax.swing.*;
-
-import com.group_9.project.RoundedComponents.RoundedTextField;
-
 import java.awt.*;
+import com.group_9.project.utils.RoundedComponents.RoundedTextField;
 
 public class HelpSupportPage extends JFrame {
 

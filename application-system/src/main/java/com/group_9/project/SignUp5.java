@@ -1,8 +1,9 @@
 package com.group_9.project;
+import com.group_9.project.utils.*;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.border.*;
 
 public class SignUp5 extends JFrame {
     // Sets up the main frame

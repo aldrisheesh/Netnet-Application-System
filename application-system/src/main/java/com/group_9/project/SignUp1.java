@@ -1,7 +1,10 @@
 package com.group_9.project;
+import com.group_9.project.utils.*;
 
 import java.awt.*;
 import javax.swing.*;
+
+import com.group_9.project.utils.BackgroundPanel;
 
 public class SignUp1 extends JFrame {
     // Sets up the main frame

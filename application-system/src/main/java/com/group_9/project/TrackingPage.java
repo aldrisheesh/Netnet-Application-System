@@ -1,24 +1,9 @@
 package com.group_9.project;
+import com.group_9.project.utils.*;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class TrackingPage extends JFrame {
 
@@ -83,7 +68,7 @@ public class TrackingPage extends JFrame {
                             dispose();
                         }
                         case "Account" -> {
-                            new AccountDetails().setVisible(true);
+                            new AccountDetailsPage().setVisible(true);
                             dispose();
                         }
                     }

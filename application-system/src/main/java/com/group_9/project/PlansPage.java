@@ -1,7 +1,10 @@
 package com.group_9.project;
+import com.group_9.project.utils.*;
 
 import java.awt.*;
 import javax.swing.*;
+
+import com.group_9.project.utils.BackgroundPanel;
 
 public class PlansPage extends JFrame {
     public PlansPage() {
