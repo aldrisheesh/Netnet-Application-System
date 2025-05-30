@@ -1,13 +1,9 @@
 package com.group_9.project;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicComboBoxUI;
+import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.geom.RoundRectangle2D;
@@ -58,7 +54,7 @@ public class RoundedComponents {
             this.placeholder = placeholder;
             setOpaque(false);
             setBorder(new RoundedBorder(15));
-            setBackground(new Color(255, 242, 255));
+            setBackground(Color.decode("#FFFFFF"));
             setMargin(new Insets(5, 10, 5, 10));
             addFocusListener(new FocusAdapter() {
                 public void focusGained(FocusEvent e) { repaint(); }
@@ -95,7 +91,7 @@ public class RoundedComponents {
             this.placeholder = placeholder;
             setOpaque(false);
             setBorder(new RoundedBorder(15));
-            setBackground(new Color(255, 242, 255));
+            setBackground(Color.decode("#FFFFFF"));
             setMargin(new Insets(5, 10, 5, 10));
             addFocusListener(new FocusAdapter() {
                 public void focusGained(FocusEvent e) { repaint(); }
@@ -176,7 +172,7 @@ public class RoundedComponents {
     //For UPDATE and SAVE CHANGES button in ACCOUNT DETAILS
     public static class RoundedButton extends JButton {
         private int radius;
-        private Color borderColor = new Color(0, 0, 0, 0);
+        private Color borderColor = new Color(0, 0, 0, 0); // Transparent border by default
 
         public RoundedButton(String text, int radius) {
             super(text);
@@ -186,6 +182,9 @@ public class RoundedComponents {
             setBorderPainted(false);
             setOpaque(false);
             setBorder(BorderFactory.createEmptyBorder());
+
+            // Change cursor to pointer when hovering
+            setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         }
 
         public void setBorderColor(Color color) {
@@ -197,8 +196,7 @@ public class RoundedComponents {
         protected void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            
-            // Paint background
+
             if (getModel().isPressed()) {
                 g2.setColor(getBackground().darker());
             } else if (getModel().isRollover()) {
@@ -206,19 +204,21 @@ public class RoundedComponents {
             } else {
                 g2.setColor(getBackground());
             }
+
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
-            
+
             if (borderColor.getAlpha() > 0) {
                 g2.setColor(borderColor);
-                g2.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, radius, radius);
+                g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, radius, radius);
             }
-            
+
             super.paintComponent(g2);
             g2.dispose();
         }
 
         @Override
         protected void paintBorder(Graphics g) {
+            // Do nothing
         }
     }
 }

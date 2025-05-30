@@ -65,7 +65,7 @@ public class LoginPage extends JFrame {
                             dispose();
                         }
                         case "Plans" -> {
-                            new ErrorPage().setVisible(true);
+                            new PlansPage().setVisible(true);
                             dispose();
                         }
                         case "Help & Support" -> {
