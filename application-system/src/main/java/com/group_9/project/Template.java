@@ -59,7 +59,7 @@ public class Template extends JFrame {
                             dispose();
                         }
                         case "Plans" -> {
-                            new ErrorPage().setVisible(true);
+                            new PlansPage().setVisible(true);
                             dispose();
                         }
                         case "Help & Support" -> {
@@ -67,7 +67,7 @@ public class Template extends JFrame {
                             dispose();
                         }
                         case "About Us" -> {
-                            new AboutUs().setVisible(true);
+                            new AboutUsPage().setVisible(true);
                             dispose();
                         }
                     }

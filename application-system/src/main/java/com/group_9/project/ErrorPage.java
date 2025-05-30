@@ -58,7 +58,7 @@ public class ErrorPage extends JFrame {
                             dispose();
                         }
                         case "Plans" -> {
-                            new ErrorPage().setVisible(true);
+                            new PlansPage().setVisible(true);
                             dispose();
                         }
                         case "Help & Support" -> {
@@ -66,7 +66,7 @@ public class ErrorPage extends JFrame {
                             dispose();
                         }
                         case "About Us" -> {
-                            new ErrorPage().setVisible(true);
+                            new AboutUsPage().setVisible(true);
                             dispose();
                         }
                     }

@@ -44,7 +44,7 @@ public class AccountSubsPage extends Template {
                             dispose();
                         }
                         case "Plans", "About Us" -> {
-                            new AboutUs().setVisible(true);
+                            new AboutUsPage().setVisible(true);
                             dispose();
                         }
                         case "Help & Support" -> {

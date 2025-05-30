@@ -56,7 +56,7 @@ public class TrackingPage extends JFrame {
                             dispose();
                         }
                         case "Plans" -> {
-                            new ErrorPage().setVisible(true);
+                            new PlansPage().setVisible(true);
                             dispose();
                         }
                         case "Help & Support" -> {
@@ -64,7 +64,7 @@ public class TrackingPage extends JFrame {
                             dispose();
                         }
                         case "About Us" -> {
-                            new AboutUs().setVisible(true);
+                            new AboutUsPage().setVisible(true);
                             dispose();
                         }
                         case "Account" -> {
@@ -102,7 +102,7 @@ public class TrackingPage extends JFrame {
         viewPlans.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ErrorPage().setVisible(true);
+                new PlansPage().setVisible(true);
                 dispose();
             }
         });
@@ -151,7 +151,7 @@ public class TrackingPage extends JFrame {
         upgradeDesc.setHorizontalAlignment(SwingConstants.LEFT);
         background.add(upgradeDesc);
 
-        JButton morePlansBtn = new JButton("GET MORE PLANS");
+        JButton morePlansBtn = new RoundedComponents.RoundedButton("GET MORE PLANS", 20);
         morePlansBtn.setFont(FontUtil.getOutfitFont(14f).deriveFont(Font.BOLD));
         morePlansBtn.setBounds(xPosLeft, yPosLeft + 60, 160, 40);
         morePlansBtn.setFocusPainted(false);
@@ -161,7 +161,7 @@ public class TrackingPage extends JFrame {
         morePlansBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ErrorPage().setVisible(true);
+                new PlansPage().setVisible(true);
                 dispose();
             }
         }); 

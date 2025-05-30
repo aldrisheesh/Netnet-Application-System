@@ -135,7 +135,7 @@ public class BaseFrameSetup {
                 currentFrame.dispose();
             }
             case "About Us" -> {
-                new ErrorPage().setVisible(true);
+                new AboutUsPage().setVisible(true);
                 currentFrame.dispose();
             }
         }

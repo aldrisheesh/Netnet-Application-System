@@ -57,7 +57,7 @@ public class AccountDetailsPage extends Template {
                             dispose();
                         }
                         case "Plans" -> {
-                            new ErrorPage().setVisible(true);
+                            new PlansPage().setVisible(true);
                             dispose();
                         }
                         case "Help & Support" -> {
@@ -65,7 +65,7 @@ public class AccountDetailsPage extends Template {
                             dispose();
                         }
                         case "About Us" -> {
-                            new AboutUs().setVisible(true);
+                            new AboutUsPage().setVisible(true);
                             dispose();
                         }
                     }

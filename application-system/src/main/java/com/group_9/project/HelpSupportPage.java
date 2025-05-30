@@ -69,7 +69,7 @@ public class HelpSupportPage extends JFrame {
                             dispose();
                         }
                         case "About Us" -> {
-                            new AboutUs().setVisible(true);
+                            new AboutUsPage().setVisible(true);
                             dispose();
                         }
                     }

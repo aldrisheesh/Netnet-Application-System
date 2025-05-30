@@ -32,7 +32,7 @@ public class PlansPage extends JFrame {
 
         BackgroundPanel contentBackground = BaseFrameSetup.createBackgroundPanel(2);
         contentBackground.setLayout(new BoxLayout(contentBackground, BoxLayout.Y_AXIS));
-        contentBackground.setPreferredSize(new Dimension(1440, 1402));
+        contentBackground.setPreferredSize(new Dimension(1440, 1100));
         contentBackground.setBorder(BorderFactory.createEmptyBorder(50, 0, 50, 0));
 
         JLabel title = new JLabel("Power Your Experience Your Way");

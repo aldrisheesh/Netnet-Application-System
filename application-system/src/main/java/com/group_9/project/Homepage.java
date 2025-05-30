@@ -68,7 +68,7 @@ public class Homepage extends JFrame {
                             dispose();
                         }
                         case "About Us" -> {
-                            new AboutUs().setVisible(true);
+                            new AboutUsPage().setVisible(true);
                             dispose();
                         }
                     }
@@ -132,7 +132,7 @@ public class Homepage extends JFrame {
         viewPlans.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ErrorPage().setVisible(true);
+                new PlansPage().setVisible(true);
                 dispose();
             }
         });

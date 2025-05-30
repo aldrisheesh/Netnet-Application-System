@@ -8,9 +8,9 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AboutUs extends Template {
+public class AboutUsPage extends Template {
 
-    public AboutUs() {
+    public AboutUsPage() {
         setSize(1440, 1024);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -28,7 +28,7 @@ public class AboutUs extends Template {
         JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
         verticalScrollBar.setUI(new CustomScrollBarUI());
         verticalScrollBar.setOpaque(false);
-        verticalScrollBar.setPreferredSize(new Dimension(15, 0));
+        verticalScrollBar.setPreferredSize(new Dimension(10, 0));
 
         setContentPane(scrollPane);
 
@@ -66,7 +66,7 @@ public class AboutUs extends Template {
                             dispose();
                         }
                         case "Plans" -> {
-                            new ErrorPage().setVisible(true);
+                            new PlansPage().setVisible(true);
                             dispose();
                         }
                         case "Help & Support" -> {
@@ -74,7 +74,7 @@ public class AboutUs extends Template {
                             dispose();
                         }
                         case "About Us" -> {
-                            new AboutUs().setVisible(true);
+                            new AboutUsPage().setVisible(true);
                             dispose();
                         }
                     }
@@ -87,7 +87,7 @@ public class AboutUs extends Template {
             xPos += textWidth + spacing + 10;
         }
 
-        JButton loginBtn = new JButton("Log In"); //login navbar button
+        JButton loginBtn = new RoundedComponents.RoundedButton("Log In", 20); //login navbar button
         loginBtn.setBounds(1300, 30, 80, 35);
         loginBtn.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         loginBtn.setFocusPainted(false);
@@ -117,26 +117,26 @@ public class AboutUs extends Template {
         header.setFont(FontUtil.getOutfitBoldFont(50f));
         header.setForeground(new Color(43, 2, 67));
         Dimension textSize = header.getPreferredSize();
-        header.setBounds((1440 - textSize.width) / 2, 100, textSize.width, textSize.height);
+        header.setBounds((1440 - textSize.width) / 2, 130, textSize.width, textSize.height);
         background.add(header);
 
         JLabel title = new JLabel("<html><b>Made for People,<br>Built for Ease</html>"); //title
         title.setFont(FontUtil.getOutfitBoldFont(35f));
         title.setForeground(new Color(42, 2, 67));
-        title.setBounds(150, 220, 400, 80);
+        title.setBounds(150, 250, 400, 80);
         background.add(title);
 
         JLabel body = new JLabel("<html>Welcome to NETNET: Wi-Finally Yours!, where convenience meets care. We're<br>all about creating a smoother, smarter service journey for everyone. We are a<br>team of BSIT Sophomores from the Polytechnic University of the Philippines.</html>");
         body.setFont(FontUtil.getOutfitFont(17f));
         body.setForeground(new Color(30, 30, 30));
-        body.setBounds(150, 310, 800, 100);
+        body.setBounds(150, 340, 800, 100);
         background.add(body);
 
         JLabel teamIntro = new JLabel("MEET OUR TEAM"); //Group 9 members introduction
         teamIntro.setFont(FontUtil.getOutfitBoldFont(25f));
         teamIntro.setForeground(new Color(42, 2, 67));
         Dimension teamTextSize = teamIntro.getPreferredSize();
-        teamIntro.setBounds((1440 - teamTextSize.width) / 2, 450, teamTextSize.width, teamTextSize.height);
+        teamIntro.setBounds((1440 - teamTextSize.width) / 2, 480, teamTextSize.width, teamTextSize.height);
         background.add(teamIntro);
 
         String[][] teamMembers = {
@@ -304,6 +304,6 @@ public class AboutUs extends Template {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new AboutUs().setVisible(true));
+        SwingUtilities.invokeLater(() -> new AboutUsPage().setVisible(true));
     }
 }
