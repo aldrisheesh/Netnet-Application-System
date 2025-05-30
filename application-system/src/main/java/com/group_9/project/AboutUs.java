@@ -127,7 +127,7 @@ public class AboutUs extends Template {
 
         JLabel header = new JLabel("About Us."); //header
         header.setFont(FontUtil.getOutfitBoldFont(50f));
-        header.setForeground(new Color(42, 2, 67));
+        header.setForeground(new Color(43, 2, 67));
         Dimension textSize = header.getPreferredSize();
         header.setBounds((1440 - textSize.width) / 2, 100, textSize.width, textSize.height);
         background.add(header);
@@ -156,7 +156,7 @@ public class AboutUs extends Template {
             {"images/Estalilla.jpg", "Estalilla, Johanna Angela P."},
             {"images/Magpantay.jpg", "Magpantay, Reina Chloe D."},
             {"images/Santos.png", "Santos, Roi Aldrich S."},
-            {"images/Cabalin.jpg", "Ramiro, Mika Ella T."}
+            {"images/Ramiro.png", "Ramiro, Mika Ella T."}
         };
 
         int cardWidth = 350;
