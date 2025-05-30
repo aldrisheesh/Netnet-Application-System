@@ -137,8 +137,8 @@ public class SignUp1 extends JFrame {
 
         // NEXT button action
         nextButton.addActionListener(e -> {
-            dispose(); 
             new SignUp2(); 
+            dispose(); 
         });
 
         setVisible(true);

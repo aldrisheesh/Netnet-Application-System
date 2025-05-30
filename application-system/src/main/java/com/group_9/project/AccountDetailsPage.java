@@ -396,7 +396,7 @@ public class AccountDetailsPage extends Template {
         }
 
         actionButton = new RoundedComponents.RoundedButton("UPDATE", 20); //action button for update and save changes toggle
-        actionButton.setFont(FontUtil.getOutfitFont(18f));
+        actionButton.setFont(FontUtil.getOutfitBoldFont(18f));
         actionButton.setBounds(740, 590, 150, 45);
         styleButton(actionButton);
         

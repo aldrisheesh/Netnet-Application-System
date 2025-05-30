@@ -117,14 +117,14 @@ public class SignUp5 extends JFrame {
 
         // NEXT button action
         nextButton.addActionListener(e -> {
-            dispose(); 
             new SignUp6(); 
+            dispose(); 
         });
 
         // BACK button action
         backButton.addActionListener(e -> {
-            dispose(); 
             new SignUp3(); 
+            dispose(); 
         });
 
         container.add(innerContent);

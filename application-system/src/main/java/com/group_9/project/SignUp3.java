@@ -150,14 +150,14 @@ public class SignUp3 extends JFrame {
 
         // NEXT button action
         nextButton.addActionListener(e -> {
-            dispose(); 
             new SignUp5();
+            dispose(); 
         });
 
         // BACK button action
         backButton.addActionListener(e -> {
-            dispose();
             new SignUp2(); 
+            dispose();
         });
 
         container.add(innerContent);

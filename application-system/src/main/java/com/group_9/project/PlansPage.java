@@ -1,52 +1,45 @@
 package com.group_9.project;
+
 import com.group_9.project.utils.*;
 
-import java.awt.*;
 import javax.swing.*;
-
-import com.group_9.project.utils.BackgroundPanel;
+import javax.swing.plaf.basic.BasicScrollBarUI;
+import java.awt.*;
 
 public class PlansPage extends JFrame {
     public PlansPage() {
-        // Set up the frame manually
         BaseFrameSetup.setupFrame(this);
-        
-        // Create main container with BoxLayout (vertical)
+
         JPanel mainContainer = new JPanel();
         mainContainer.setLayout(new BoxLayout(mainContainer, BoxLayout.Y_AXIS));
-        
-        // Create sticky navbar using BackgroundPanel
+
         BackgroundPanel navbarPanel = new BackgroundPanel(4) {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2d = (Graphics2D) g;
-                g2d.setColor(Color.decode("#FFF1FF")); 
+                g2d.setColor(Color.decode("#FFF1FF"));
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
         };
-        navbarPanel.setLayout(null); 
+        navbarPanel.setLayout(null);
         navbarPanel.setPreferredSize(new Dimension(1440, 80));
         navbarPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
         navbarPanel.setMinimumSize(new Dimension(1440, 80));
 
-        // Use BaseFrameSetup methods directly
         BaseFrameSetup.createLogo(navbarPanel);
         BaseFrameSetup.createNavigation(navbarPanel, this);
         BaseFrameSetup.createLoginButton(navbarPanel, this);
-        
-        // Create scrollable content panel with extended height
+
         BackgroundPanel contentBackground = BaseFrameSetup.createBackgroundPanel(2);
         contentBackground.setLayout(new BoxLayout(contentBackground, BoxLayout.Y_AXIS));
         contentBackground.setPreferredSize(new Dimension(1440, 1402));
-        contentBackground.setBorder(BorderFactory.createEmptyBorder(50, 0, 50, 0)); 
-        
-        // Add main content
+        contentBackground.setBorder(BorderFactory.createEmptyBorder(50, 0, 50, 0));
+
         JLabel title = new JLabel("Power Your Experience Your Way");
         title.setFont(FontUtil.getOutfitBoldFont(50f));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setForeground(Color.decode("#2B0243"));
         contentBackground.add(title);
-
         contentBackground.add(Box.createRigidArea(new Dimension(0, 16)));
 
         JLabel note = new JLabel("Start with what you need, add more when you're ready.");
@@ -54,26 +47,24 @@ public class PlansPage extends JFrame {
         note.setAlignmentX(Component.CENTER_ALIGNMENT);
         note.setForeground(Color.decode("#2B0243"));
         contentBackground.add(note);
-        
-        // Add more spacing for content
         contentBackground.add(Box.createRigidArea(new Dimension(0, 58)));
 
-        // Create plans section
         createPlansSection(contentBackground);
-        
-        // Create scroll pane for content only
+
         JScrollPane scrollPane = new JScrollPane(contentBackground);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
-        scrollPane.setBorder(null); 
-        
-        // Add components to main container using BoxLayout
-        mainContainer.add(navbarPanel); 
-        mainContainer.add(scrollPane);  
-        
-        // Set the main container as content pane
+        scrollPane.setBorder(null);
+
+        JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+        verticalScrollBar.setUI(new CustomScrollBarUI());
+        verticalScrollBar.setOpaque(false);
+        verticalScrollBar.setPreferredSize(new Dimension(10, 0));
+
+        mainContainer.add(navbarPanel);
+        mainContainer.add(scrollPane);
+
         setContentPane(mainContainer);
         setVisible(true);
     }
@@ -108,9 +99,8 @@ public class PlansPage extends JFrame {
                 "Unparalleled 2Gbps speed designed for high-tech homes and digital studios. Enjoy ultra-low latency, zero downtime, and massive bandwidth.",
                 "Two Months Advance Payment"));
         secondRowPanel.add(Box.createRigidArea(new Dimension(20, 0)));
-
-        // Add invisible placeholder card to maintain same width as first row
         secondRowPanel.add(Box.createRigidArea(new Dimension(375, 413)));
+
         contentBackground.add(secondRowPanel);
     }
 
@@ -129,11 +119,7 @@ public class PlansPage extends JFrame {
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setPreferredSize(new Dimension(375, 413));
-        
-        // Make the card background transparent
         card.setOpaque(false);
-        
-        // Apply only the rounded border with padding
         card.setBorder(BorderFactory.createCompoundBorder(
                 new RoundedComponents.RoundedBorder(15),
                 BorderFactory.createEmptyBorder(10, 10, 10, 10)));
@@ -167,7 +153,6 @@ public class PlansPage extends JFrame {
             setForeground(Color.decode("#1E1E1E"));
             setAlignmentX(Component.LEFT_ALIGNMENT);
         }});
-
         card.add(Box.createRigidArea(new Dimension(0, 10)));
 
         JTextArea descArea = new JTextArea(description);
@@ -193,7 +178,6 @@ public class PlansPage extends JFrame {
             setForeground(Color.decode("#1E1E1E"));
             setAlignmentX(Component.LEFT_ALIGNMENT);
         }});
-
         card.add(Box.createRigidArea(new Dimension(0, 15)));
 
         JPanel buttonPanel = new JPanel();
@@ -209,9 +193,49 @@ public class PlansPage extends JFrame {
         nextButton.setBorderColor(Color.decode("#2A0243"));
 
         buttonPanel.add(nextButton);
-        
         card.add(buttonPanel);
+
         return card;
+    }
+
+    private static class CustomScrollBarUI extends BasicScrollBarUI {
+        private static final Color THUMB_COLOR = new Color(42, 2, 67);
+
+        @Override
+        protected void configureScrollBarColors() {
+            this.thumbColor = THUMB_COLOR;
+            this.trackColor = new Color(0, 0, 0, 0);
+        }
+
+        @Override
+        protected JButton createDecreaseButton(int orientation) {
+            return createZeroButton();
+        }
+
+        @Override
+        protected JButton createIncreaseButton(int orientation) {
+            return createZeroButton();
+        }
+
+        private JButton createZeroButton() {
+            JButton button = new JButton();
+            button.setPreferredSize(new Dimension(0, 0));
+            return button;
+        }
+
+        @Override
+        protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
+            if (!scrollbar.isEnabled() || thumbBounds.isEmpty()) return;
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setColor(THUMB_COLOR);
+            g2.fillRoundRect(thumbBounds.x, thumbBounds.y, thumbBounds.width, thumbBounds.height, 10, 10);
+            g2.dispose();
+        }
+
+        @Override
+        protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
+            // No track painting
+        }
     }
 
     public static void main(String[] args) {
