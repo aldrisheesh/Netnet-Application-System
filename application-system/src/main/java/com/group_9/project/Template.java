@@ -3,6 +3,8 @@ import com.group_9.project.utils.*;
 
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Template extends JFrame {
 
@@ -95,9 +97,12 @@ public class Template extends JFrame {
                 new Color(42, 2, 67)
         );
 
-        loginBtn.addActionListener(e -> {
-            new LoginPage().setVisible(true);
-            dispose();
+        loginBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new LoginPage().setVisible(true);
+                dispose();
+            }
         });
 
         background.add(loginBtn);

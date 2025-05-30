@@ -4,6 +4,8 @@ import com.group_9.project.utils.*;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SignUp5 extends JFrame {
     // Sets up the main frame
@@ -116,16 +118,23 @@ public class SignUp5 extends JFrame {
         innerContent.add(buttonPanel);
 
         // NEXT button action
-        nextButton.addActionListener(e -> {
-            new SignUp6(); 
-            dispose(); 
+        nextButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SignUp6();
+                dispose();
+            }
         });
 
         // BACK button action
-        backButton.addActionListener(e -> {
-            new SignUp3(); 
-            dispose(); 
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SignUp3();
+                dispose();
+            }
         });
+
 
         container.add(innerContent);
 

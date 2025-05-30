@@ -3,8 +3,8 @@ import com.group_9.project.utils.*;
 
 import java.awt.*;
 import javax.swing.*;
-
-import com.group_9.project.utils.BackgroundPanel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SignUp1 extends JFrame {
     // Sets up the main frame
@@ -136,10 +136,14 @@ public class SignUp1 extends JFrame {
         container.add(innerContent);
 
         // NEXT button action
-        nextButton.addActionListener(e -> {
-            new SignUp2(); 
-            dispose(); 
+        nextButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SignUp2();
+                dispose();
+            }
         });
+
 
         setVisible(true);
         SwingUtilities.invokeLater(() -> background.requestFocusInWindow());

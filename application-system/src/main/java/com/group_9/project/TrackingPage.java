@@ -99,9 +99,12 @@ public class TrackingPage extends JFrame {
         ButtonHoverEffect.apply(viewPlans, new Color(62, 10, 118), Color.WHITE,
                 new Color(42, 2, 67), Color.WHITE, new Color(62, 10, 118), new Color(42, 2, 67));
         
-        viewPlans.addActionListener(e -> {
-            new ErrorPage().setVisible(true);
-            dispose();
+        viewPlans.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ErrorPage().setVisible(true);
+                dispose();
+            }
         });
         
         background.add(viewPlans);
@@ -114,11 +117,14 @@ public class TrackingPage extends JFrame {
         ButtonHoverEffect.apply(checkAvailability, new Color(62, 10, 118), new Color(62, 10, 118),
                 new Color(0, 0, 0, 0), new Color(38, 6, 67), new Color(62, 10, 118), new Color(42, 2, 67));
         
-        checkAvailability.addActionListener(e -> {
-            new ErrorPage().setVisible(true);
-            dispose();
+        checkAvailability.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ErrorPage().setVisible(true);
+                dispose();
+            }
         });
-        
+                
         background.add(checkAvailability);
         
 
@@ -152,10 +158,13 @@ public class TrackingPage extends JFrame {
         ButtonHoverEffect.apply(morePlansBtn, new Color(62, 10, 118), Color.WHITE,
                 new Color(42, 2, 67), Color.WHITE, new Color(62, 10, 118), new Color(42, 2, 67));
         
-        morePlansBtn.addActionListener(e -> {
-            new ErrorPage().setVisible(true);
-            dispose();
-        });
+        morePlansBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ErrorPage().setVisible(true);
+                dispose();
+            }
+        }); 
         
         background.add(morePlansBtn);
         

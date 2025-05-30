@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class AboutUs extends Template {
 
@@ -100,10 +102,14 @@ public class AboutUs extends Template {
             new Color(42, 2, 67)
         );
 
-        loginBtn.addActionListener(e -> {
-            new LoginPage().setVisible(true);
-            dispose();
+        loginBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new LoginPage().setVisible(true);
+                dispose();
+            }
         });
+        
 
         background.add(loginBtn);
 

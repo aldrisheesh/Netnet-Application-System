@@ -3,6 +3,9 @@ import com.group_9.project.utils.*;
 
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 
 public class Homepage extends JFrame {
 
@@ -95,10 +98,14 @@ public class Homepage extends JFrame {
                 new Color(42, 2, 67)
         );
 
-        loginBtn.addActionListener(e -> {
-            new LoginPage().setVisible(true);
-            dispose();
+        loginBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new LoginPage().setVisible(true);
+                dispose();
+            }
         });
+        
 
         background.add(loginBtn);
         
@@ -122,10 +129,14 @@ public class Homepage extends JFrame {
         ButtonHoverEffect.apply(viewPlans, new Color(62, 10, 118), Color.WHITE,
                 new Color(42, 2, 67), Color.WHITE, new Color(62, 10, 118), new Color(42, 2, 67));
         
-        viewPlans.addActionListener(e -> {
-            new ErrorPage().setVisible(true);
-            dispose();
+        viewPlans.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ErrorPage().setVisible(true);
+                dispose();
+            }
         });
+                
         
         background.add(viewPlans);
         
@@ -144,10 +155,14 @@ public class Homepage extends JFrame {
                                 new Color(42, 2, 67)
         );
         
-        checkAvailability.addActionListener(e -> {
-            new ErrorPage().setVisible(true);
-            dispose();
+        checkAvailability.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ErrorPage().setVisible(true);
+                dispose();
+            }
         });
+        
         
         background.add(checkAvailability);
 
@@ -181,10 +196,14 @@ public class Homepage extends JFrame {
         );
         background.add(getStarted);
 
-        getStarted.addActionListener(e -> {
-            new SignUp1().setVisible(true);
-            dispose();
+        getStarted.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SignUp1().setVisible(true);
+                dispose();
+            }
         });
+        
 
         // Left text (not clickable)
         JLabel promptText = new JLabel("Already have an account?");

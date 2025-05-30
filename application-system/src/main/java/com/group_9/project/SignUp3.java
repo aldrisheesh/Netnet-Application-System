@@ -7,8 +7,6 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.util.ArrayList;
 
-import com.group_9.project.utils.BackgroundPanel;
-
 public class SignUp3 extends JFrame {
     // Sets up the main frame
     public SignUp3() {
@@ -149,16 +147,23 @@ public class SignUp3 extends JFrame {
         innerContent.add(buttonPanel);
 
         // NEXT button action
-        nextButton.addActionListener(e -> {
-            new SignUp5();
-            dispose(); 
+        nextButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SignUp5();
+                dispose();
+            }
         });
 
         // BACK button action
-        backButton.addActionListener(e -> {
-            new SignUp2(); 
-            dispose();
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SignUp2();
+                dispose();
+            }
         });
+
 
         container.add(innerContent);
 
