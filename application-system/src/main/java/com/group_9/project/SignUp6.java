@@ -3,6 +3,8 @@ import com.group_9.project.utils.*;
 
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SignUp6 extends JFrame {
     private static final int RADIUS = 15;
@@ -145,6 +147,15 @@ public class SignUp6 extends JFrame {
 
         container.add(innerContent);
         setVisible(true);
+
+        // DONE button action
+        doneButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new TrackingPage().setVisible(true);
+                dispose();
+            }
+        });
     }
 
     // Custom content panel with rounded corners and shadow - now also using RoundedBorder
