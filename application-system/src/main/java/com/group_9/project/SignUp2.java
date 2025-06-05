@@ -140,14 +140,20 @@ public class SignUp2 extends JFrame {
 
         innerContent.add(buttonPanel);
 
-        nextButton.addActionListener(e -> {
-            new SignUp3();
-            dispose();
+        nextButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SignUp3().setVisible(true);
+                dispose();
+            }
         });
 
-        backButton.addActionListener(e -> {
-            new SignUp1();
-            dispose();
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SignUp1().setVisible(true);
+                dispose();
+            }
         });
 
         setVisible(true);
