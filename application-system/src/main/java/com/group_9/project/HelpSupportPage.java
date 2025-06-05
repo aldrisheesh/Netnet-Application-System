@@ -125,11 +125,14 @@ public class HelpSupportPage extends JFrame {
         // Rounded Search Field (shortened to leave space for icon)
         RoundedTextField searchField = new RoundedTextField("Search your keyword here...", 20);
         searchField.setFont(FontUtil.getInterFont(20f));
-        searchField.setForeground(new Color(100, 100, 100));
+        searchField.setForeground(Color.BLACK);
         searchField.setBounds(0, 0, 775, 60);
         searchField.setBackground(new Color(255, 255, 255, 180));
         searchPanel.add(searchField);
 
+        searchField.setFocusable(false);
+        SwingUtilities.invokeLater(() -> searchField.setFocusable(true));
+        
         ImageIcon rawIcon = new ImageIcon(getClass().getClassLoader().getResource("icons/search.png"));
         Image scaled = rawIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon = new ImageIcon(scaled);

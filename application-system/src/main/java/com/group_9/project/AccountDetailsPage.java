@@ -222,6 +222,7 @@ public class AccountDetailsPage extends Template {
                     ? new RoundedPasswordField("Enter your password", 20)
                     : new RoundedTextField("Enter your " + leftLabels[i].toLowerCase(), 20);
 
+            field.setFont(FontUtil.getOutfitFont(15f));
             field.setBackground(Color.WHITE);
             field.setForeground(Color.BLACK);
             field.setCaretColor(Color.BLACK);
@@ -275,6 +276,7 @@ public class AccountDetailsPage extends Template {
                 detailsContainer.add(label);
 
                 JTextField bdayField = new RoundedTextField("MM/DD/YYYY", 15);
+                bdayField.setFont(FontUtil.getOutfitFont(15f));
                 bdayField.setBackground(Color.WHITE);
                 bdayField.setForeground(Color.BLACK);
                 bdayField.setCaretColor(Color.BLACK);
@@ -293,30 +295,9 @@ public class AccountDetailsPage extends Template {
                 genderLabel.setBounds(730, yRight + 5, 150, 28);
                 detailsContainer.add(genderLabel);
 
-                JComboBox<String> genderCombo = RoundedComponents.createRoundedComboBox(new String[]{"Male", "Female"});
-                genderCombo.setSelectedIndex(-1); //options not selected
-                genderCombo.setEnabled(false); 
-                comboBoxes.add(genderCombo); 
-                genderCombo.setRenderer(new javax.swing.DefaultListCellRenderer() {
-                    @Override
-                    public java.awt.Component getListCellRendererComponent(javax.swing.JList<?> list, Object value, 
-                            int index, boolean isSelected, boolean cellHasFocus) {
-                        super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                        setBorder(BorderFactory.createEmptyBorder(8, 10, 8, 10));
-                        
-                        if (!isSelected) {
-                            setBackground(java.awt.Color.WHITE);
-                            setForeground(java.awt.Color.BLACK);
-                        }
-                        
-                        if (value == null) {
-                            setText("Choose Gender");
-                            setForeground(java.awt.Color.GRAY);
-                            setBackground(java.awt.Color.WHITE);
-                        }
-                        return this;
-                    }
-                });
+                JComboBox<String> genderCombo = FormComponent.createStyledComboBox("Choose Gender", new String[]{"Male", "Female"});
+                genderCombo.setEnabled(false);
+                comboBoxes.add(genderCombo);
                 genderCombo.setBounds(730, yRight + 30, 190, 45);
                 detailsContainer.add(genderCombo);
 
@@ -326,30 +307,9 @@ public class AccountDetailsPage extends Template {
                 label.setBounds(490, yRight + 5, 150, 20);
                 detailsContainer.add(label);
 
-                JComboBox<String> civilCombo = RoundedComponents.createRoundedComboBox(new String[]{"Single", "Married", "Separated", "Widow"});
-                civilCombo.setSelectedIndex(-1); //same as genderCombo
-                civilCombo.setEnabled(false); 
-                comboBoxes.add(civilCombo); 
-                civilCombo.setRenderer(new javax.swing.DefaultListCellRenderer() {
-                    @Override
-                    public java.awt.Component getListCellRendererComponent(javax.swing.JList<?> list, Object value, 
-                            int index, boolean isSelected, boolean cellHasFocus) {
-                        super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                        setBorder(BorderFactory.createEmptyBorder(8, 10, 8, 10));
-                        
-                        if (!isSelected) {
-                            setBackground(java.awt.Color.WHITE);
-                            setForeground(java.awt.Color.BLACK);
-                        }
-                        
-                        if (value == null) {
-                            setText("Choose Civil Status");
-                            setForeground(java.awt.Color.GRAY);
-                            setBackground(java.awt.Color.WHITE);
-                        }
-                        return this;
-                    }
-                });
+                JComboBox<String> civilCombo = FormComponent.createStyledComboBox("Choose Civil Status", new String[]{"Single", "Married", "Separated", "Widow"});
+                civilCombo.setEnabled(false);
+                comboBoxes.add(civilCombo);                
                 civilCombo.setBounds(490, yRight + 25, 210, 45);
                 detailsContainer.add(civilCombo);
 
@@ -360,6 +320,7 @@ public class AccountDetailsPage extends Template {
                 detailsContainer.add(natLabel);
 
                 JTextField natField = new RoundedTextField("e.g., Filipino", 25);
+                natField.setFont(FontUtil.getOutfitFont(15f));
                 natField.setBackground(Color.WHITE);
                 natField.setForeground(Color.BLACK);
                 natField.setCaretColor(Color.BLACK);
@@ -379,6 +340,7 @@ public class AccountDetailsPage extends Template {
                 detailsContainer.add(label);
 
                 JTextField field = new RoundedTextField("Enter " + labelText.toLowerCase(), 20);
+                field.setFont(FontUtil.getOutfitFont(15f));
                 field.setBackground(Color.WHITE);
                 field.setForeground(Color.BLACK);
                 field.setCaretColor(Color.BLACK);

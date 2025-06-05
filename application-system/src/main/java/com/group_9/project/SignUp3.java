@@ -242,32 +242,48 @@ public class SignUp3 extends JFrame {
 
             add(checkboxWrapper, BorderLayout.WEST);
 
-            // Right side: Plan details
+            // Container for all plan details
             JPanel contentPanel = new JPanel();
             contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
             contentPanel.setOpaque(false);
+            contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 15));
 
-            JPanel topRow = new JPanel(new BorderLayout());
-            topRow.setOpaque(false);
+            // --- Title and Price Row ---
+            JPanel titlePriceRow = new JPanel();
+            titlePriceRow.setLayout(new BoxLayout(titlePriceRow, BoxLayout.X_AXIS));
+            titlePriceRow.setOpaque(false);
 
+            // Title
             JLabel titleLabel = new JLabel(title);
             titleLabel.setFont(FontUtil.getOutfitBoldFont(16f));
+            titlePriceRow.add(titleLabel);
 
+            // Gap between title and right stretch
+            titlePriceRow.add(Box.createRigidArea(new Dimension(70, 0))); // adjust width as needed
+
+            // Pushes the price to the far right
+            titlePriceRow.add(Box.createHorizontalGlue());
+
+            // Price aligned with title
             JLabel priceLabel = new JLabel(price);
             priceLabel.setFont(FontUtil.getInterFont(14f));
             priceLabel.setForeground(Color.decode("#1E1E1E"));
+            titlePriceRow.add(priceLabel);
 
-            topRow.add(titleLabel, BorderLayout.WEST);
-            topRow.add(priceLabel, BorderLayout.EAST);
-
+            // --- Fee Label on its own row ---
+            JPanel feeRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+            feeRow.setOpaque(false);
             JLabel feeLabel = new JLabel(fee);
             feeLabel.setFont(FontUtil.getInterFont(14f));
-            feeLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+            feeLabel.setForeground(Color.decode("#1E1E1E"));
+            feeRow.add(feeLabel);
 
-            contentPanel.add(topRow);
-            contentPanel.add(Box.createVerticalStrut(5));
-            contentPanel.add(feeLabel);
+            // Add to contentPanel
+            contentPanel.add(titlePriceRow);
+            contentPanel.add(Box.createVerticalStrut(5)); // spacing
+            contentPanel.add(feeRow);
 
+            // Add to main layout
             add(contentPanel, BorderLayout.CENTER);
 
             setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -280,44 +296,48 @@ public class SignUp3 extends JFrame {
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    setBorder(selected ? createRoundedBorder(borderColorSelected, 3) : createRoundedBorder(borderColorDefault, 1));
+                    setBorder(selected ? createRoundedBorder(borderColorSelected, 2) : createRoundedBorder(borderColorDefault, 1));
                 }
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     selected = !selected;
-                    setBorder(selected ? createRoundedBorder(borderColorSelected, 3) : createRoundedBorder(borderColorDefault, 1));
+                    setBorder(selected ? createRoundedBorder(borderColorSelected, 2) : createRoundedBorder(borderColorDefault, 1));
                     repaint();
                 }
             });
         }
 
         // Custom rounded border method
-        private Border createRoundedBorder(Color color, int thickness) {
+        private Border createRoundedBorder(Color color, int visualThickness) {
             return new Border() {
                 @Override
                 public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
                     Graphics2D g2d = (Graphics2D) g.create();
                     g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                     g2d.setColor(color);
-                    g2d.setStroke(new BasicStroke(thickness));
-                    g2d.drawRoundRect(x + thickness/2, y + thickness/2, 
-                                    width - thickness, height - thickness, 
-                                    borderRadius, borderRadius);
+        
+                    // Always use 1px stroke for consistent sizing
+                    g2d.setStroke(new BasicStroke(1.5f));
+                    for (int i = 0; i < visualThickness; i++) {
+                        g2d.drawRoundRect(x + i, y + i, width - 1 - 2 * i, height - 1 - 2 * i, borderRadius, borderRadius);
+                    }
+        
                     g2d.dispose();
                 }
-
+        
                 @Override
                 public Insets getBorderInsets(Component c) {
-                    return new Insets(thickness + 2, thickness + 2, thickness + 2, thickness + 2);
+                    return new Insets(5, 5, 5, 5); // consistent padding
                 }
-
+        
                 @Override
                 public boolean isBorderOpaque() {
                     return false;
                 }
             };
         }
+        
 
         public boolean isSelected() {
             return selected;

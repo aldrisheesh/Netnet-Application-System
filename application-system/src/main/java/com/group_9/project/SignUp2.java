@@ -1,16 +1,15 @@
 package com.group_9.project;
+
 import com.group_9.project.utils.*;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SignUp2 extends JFrame {
     public SignUp2() {
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
-
-        // Main content container
         JPanel container = createContentPanel();
         background.add(container);
 
@@ -77,49 +76,51 @@ public class SignUp2 extends JFrame {
         gbc.weightx = 0.5;
         gbc.gridy = 0;
 
-        gbc.gridx = 0; gbc.gridy++;
-        formPanel.add(FormComponent.createStyledComboBox("Home Ownership", new String[]{"Owned", "Living with Relatives", "Mortgaged", "Rented"}), gbc);
+        gbc.gridx = 0;
+        gbc.gridy++;
+        formPanel.add(createStyledComboBox("Home Ownership",
+                new String[] { "Owned", "Living with Relatives", "Mortgaged", "Rented" }), gbc);
         gbc.gridx = 1;
-        formPanel.add(FormComponent.createPairPanel(
-            FormComponent.createStyledComboBox("Company Paid?", new String[]{"Yes", "No"}),
-            createRoundedTextField("Years of Residency")
-        ), gbc);
+        formPanel.add(createPairPanel(
+                createStyledComboBox("Company Paid?", new String[] { "Yes", "No" }),
+                createRoundedTextField("Years of Residency")), gbc);
 
-        gbc.gridx = 0; gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.gridy++;
         formPanel.add(createRoundedTextField("Name of Owner"), gbc);
         gbc.gridx = 1;
         formPanel.add(createRoundedTextField("Contact No."), gbc);
 
-        gbc.gridx = 0; gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.gridy++;
         formPanel.add(createRoundedTextField("House/Room No./Floor"), gbc);
         gbc.gridx = 1;
         formPanel.add(createRoundedTextField("Apartment/Compound/Building"), gbc);
 
-        gbc.gridx = 0; gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.gridy++;
         formPanel.add(createRoundedTextField("Subdivision"), gbc);
         gbc.gridx = 1;
         formPanel.add(createRoundedTextField("Barangay"), gbc);
 
-        gbc.gridx = 0; gbc.gridy++;
-        formPanel.add(FormComponent.createPairPanel(
-            createRoundedTextField("Street"),
-            createRoundedTextField("Municipality/City")
-        ), gbc);
+        gbc.gridx = 0;
+        gbc.gridy++;
+        formPanel.add(createPairPanel(
+                createRoundedTextField("Street"),
+                createRoundedTextField("Municipality/City")), gbc);
         gbc.gridx = 1;
-        formPanel.add(FormComponent.createPairPanel(
-            createRoundedTextField("Province"),
-            createRoundedTextField("Zip Code")
-        ), gbc);
+        formPanel.add(createPairPanel(
+                createRoundedTextField("Province"),
+                createRoundedTextField("Zip Code")), gbc);
 
         innerContent.add(formPanel);
         innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
-        buttonPanel.setLayout(new BorderLayout()); 
+        buttonPanel.setLayout(new BorderLayout());
         buttonPanel.setMaximumSize(new Dimension(826, 50));
 
-        // NEXT button (right)
         RoundedComponents.RoundedButton nextButton = new RoundedComponents.RoundedButton("NEXT", 25);
         nextButton.setPreferredSize(new Dimension(148, 41));
         nextButton.setBackground(Color.decode("#2A0243"));
@@ -127,7 +128,6 @@ public class SignUp2 extends JFrame {
         nextButton.setFont(FontUtil.getOutfitBoldFont(16f));
         nextButton.setBorderColor(Color.decode("#2A0243"));
 
-        // BACK button (left)
         RoundedComponents.RoundedButton backButton = new RoundedComponents.RoundedButton("BACK", 25);
         backButton.setPreferredSize(new Dimension(148, 41));
         backButton.setBackground(Color.decode("#FFF1FF"));
@@ -135,30 +135,20 @@ public class SignUp2 extends JFrame {
         backButton.setFont(FontUtil.getOutfitBoldFont(16f));
         backButton.setBorderColor(Color.decode("#2B0243"));
 
-        // Add buttons to the left and right edges
         buttonPanel.add(backButton, BorderLayout.WEST);
         buttonPanel.add(nextButton, BorderLayout.EAST);
 
         innerContent.add(buttonPanel);
 
-        // NEXT button action
-        nextButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new SignUp3();
-                dispose();
-            }
+        nextButton.addActionListener(e -> {
+            new SignUp3();
+            dispose();
         });
 
-        // BACK button action
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new SignUp1();
-                dispose();
-            }
+        backButton.addActionListener(e -> {
+            new SignUp1();
+            dispose();
         });
-
 
         setVisible(true);
         SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
@@ -173,7 +163,8 @@ public class SignUp2 extends JFrame {
 
                 int shadowOffset = 4;
                 g2.setColor(new Color(0, 0, 0, 20));
-                g2.fillRoundRect(shadowOffset, shadowOffset, getWidth() - shadowOffset, getHeight() - shadowOffset, 25, 25);
+                g2.fillRoundRect(shadowOffset, shadowOffset, getWidth() - shadowOffset, getHeight() - shadowOffset, 25,
+                        25);
 
                 g2.setColor(new Color(255, 241, 255));
                 g2.fillRoundRect(0, 0, getWidth() - shadowOffset, getHeight() - shadowOffset, 25, 25);
@@ -191,8 +182,35 @@ public class SignUp2 extends JFrame {
     private RoundedComponents.RoundedTextField createRoundedTextField(String placeholder) {
         RoundedComponents.RoundedTextField field = new RoundedComponents.RoundedTextField(placeholder, 15);
         field.setFont(FontUtil.getOutfitFont(15f));
-        field.setPreferredSize(new Dimension(375, 35));
+        field.setPreferredSize(new Dimension(375, 50));
         return field;
+    }
+
+    private JComboBox<String> createStyledComboBox(String placeholder, String[] options) {
+        JComboBox<String> box = FormComponent.createStyledComboBox(placeholder, options);
+        box.setPreferredSize(new Dimension(375, 50));
+        return box;
+    }
+
+    private JPanel createPairPanel(JComponent left, JComponent right) {
+        JPanel panel = new JPanel(new GridLayout(1, 2, 10, 0));
+        panel.setOpaque(false);
+
+        left.setPreferredSize(new Dimension(180, 50));
+        right.setPreferredSize(new Dimension(180, 50));
+
+        JPanel leftWrapper = new JPanel(new BorderLayout());
+        leftWrapper.setOpaque(false);
+        leftWrapper.add(left, BorderLayout.CENTER);
+
+        JPanel rightWrapper = new JPanel(new BorderLayout());
+        rightWrapper.setOpaque(false);
+        rightWrapper.add(right, BorderLayout.CENTER);
+
+        panel.add(leftWrapper);
+        panel.add(rightWrapper);
+        panel.setPreferredSize(new Dimension(375, 50));
+        return panel;
     }
 
     public static void main(String[] args) {

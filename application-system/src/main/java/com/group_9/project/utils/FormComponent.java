@@ -9,48 +9,71 @@ public class FormComponent {
     private static final int RADIUS = 15; // Adjust based on your desired corner radius
 
     public static JComboBox<String> createStyledComboBox(String placeholder, String[] options) {
-        JComboBox<String> box = new JComboBox<>(options);
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        for (String option : options) {
+            model.addElement(option);
+        }
+
+        JComboBox<String> box = new JComboBox<>(model);
         box.setFont(FontUtil.getOutfitFont(15f));
         box.setPreferredSize(new Dimension(375, 35));
         box.setBorder(new RoundedComponents.RoundedBorder(RADIUS));
         box.setFocusable(false);
-        box.setSelectedIndex(-1); // No initial selection
+        box.setSelectedIndex(-1); // no selection initially
+        box.setForeground(Color.GRAY); // placeholder color
 
-        // Custom renderer
+        // Renderer for placeholder and proper hover highlights
         box.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index,
                                                           boolean isSelected, boolean cellHasFocus) {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                setBorder(BorderFactory.createEmptyBorder());
 
-                if (value == null && index == -1 && box.getSelectedIndex() == -1) {
+                boolean isPlaceholder = (box.getSelectedIndex() == -1 && index == -1);
+
+                if (!isPlaceholder) {
+                    setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); // add left padding
+                } else {
+                    setBorder(BorderFactory.createEmptyBorder()); // no padding for placeholder
+                }
+
+                if (isPlaceholder) {
                     setText(placeholder);
                     setForeground(Color.GRAY);
-                    setBackground(Color.WHITE);
-                } else if (!isSelected) {
-                    setForeground(Color.BLACK);
-                    setBackground(Color.WHITE);
+                } else {
+                    setForeground(isSelected ? new Color(43, 43, 43) : Color.BLACK);
+                    setBackground(isSelected ? new Color(240, 240, 240) : Color.WHITE);
                 }
+
+                // Force normal appearance even when disabled
+                setEnabled(true);
 
                 return this;
             }
         });
 
-        box.setBackground(Color.decode("#FFFFFF"));
+        // Change text color when selection is made
+        box.addActionListener(e -> {
+            if (box.getSelectedIndex() != -1) {
+                box.setForeground(Color.BLACK);
+            } else {
+                box.setForeground(Color.GRAY);
+            }
+        });
+
+        box.setBackground(Color.WHITE);
         box.setOpaque(true);
 
-        // Load and scale the dropdown icon
+        // Custom dropdown icon
         ImageIcon dropdownIcon = null;
         try {
             ImageIcon originalIcon = new ImageIcon(FormComponent.class.getResource("/icons/dropdown-icn.png"));
-            Image scaledImage = originalIcon.getImage().getScaledInstance(12, 12, Image.SCALE_SMOOTH);
+            Image scaledImage = originalIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
             dropdownIcon = new ImageIcon(scaledImage);
         } catch (Exception e) {
             System.err.println("Failed to load dropdown icon: " + e.getMessage());
         }
 
-        // Custom UI
         ImageIcon finalDropdownIcon = dropdownIcon;
         box.setUI(new BasicComboBoxUI() {
             @Override
@@ -63,14 +86,14 @@ public class FormComponent {
                 button.setPreferredSize(new Dimension(25, 35));
                 button.setHorizontalAlignment(SwingConstants.CENTER);
                 button.setVerticalAlignment(SwingConstants.CENTER);
-
                 button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                button.setEnabled(true); // Always appear enabled
                 return button;
             }
 
             @Override
             public void paintCurrentValueBackground(Graphics g, Rectangle bounds, boolean hasFocus) {
-                g.setColor(Color.decode("#FFFFFF")); 
+                g.setColor(Color.WHITE);
                 g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
             }
         });

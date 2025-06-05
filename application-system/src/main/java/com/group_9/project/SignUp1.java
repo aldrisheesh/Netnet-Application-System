@@ -1,17 +1,16 @@
 package com.group_9.project;
+
 import com.group_9.project.utils.*;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SignUp1 extends JFrame {
-    // Sets up the main frame
+
     public SignUp1() {
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
-
-        // Main content container
         JPanel container = createContentPanel();
         background.add(container);
 
@@ -30,24 +29,19 @@ public class SignUp1 extends JFrame {
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setForeground(titleColor);
         innerContent.add(title);
-
-        // adds spacing
         innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // step tracker panel using the new separate class
         JPanel stepWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
         stepWrapper.setOpaque(false);
-        stepWrapper.add(CreateStepTracker.createStepTracker(0)); // Active index is 0 for first step
+        stepWrapper.add(CreateStepTracker.createStepTracker(0));
         innerContent.add(stepWrapper);
         innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // personal info panel
         JPanel infoPanel = new JPanel();
         infoPanel.setOpaque(false);
         infoPanel.setLayout(new BorderLayout());
         infoPanel.setMaximumSize(new Dimension(826, 60));
 
-        // left labels for the info panel 
         JPanel leftLabels = new JPanel();
         leftLabels.setLayout(new BoxLayout(leftLabels, BoxLayout.Y_AXIS));
         leftLabels.setOpaque(false);
@@ -67,7 +61,6 @@ public class SignUp1 extends JFrame {
         infoPanel.add(leftLabels, BorderLayout.WEST);
         innerContent.add(infoPanel);
 
-        // adds horizontal separator
         JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
         separator.setMaximumSize(new Dimension(826, 2));
         separator.setForeground(Color.decode("#B2B2B2"));
@@ -76,7 +69,6 @@ public class SignUp1 extends JFrame {
         innerContent.add(separator);
         innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // form panel for input fields
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -84,7 +76,6 @@ public class SignUp1 extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 0.5;
 
-        // input fields to the form panel using RoundedComponents
         gbc.gridx = 0; gbc.gridy = 0;
         formPanel.add(createRoundedTextField("Username"), gbc);
         gbc.gridx = 1;
@@ -93,21 +84,20 @@ public class SignUp1 extends JFrame {
         gbc.gridx = 0; gbc.gridy++;
         formPanel.add(createRoundedTextField("Customer Name"), gbc);
         gbc.gridx = 1;
-        formPanel.add(FormComponent.createPairPanel(
-            createRoundedTextField("Birthday"),
-            FormComponent.createStyledComboBox("Select Gender", new String[]{"Male", "Female"})
+        formPanel.add(createPairPanel(
+                createRoundedTextField("Birthday"),
+                FormComponent.createStyledComboBox("Select Gender", new String[]{"Male", "Female"})
         ), gbc);
 
         gbc.gridx = 0; gbc.gridy++;
-        formPanel.add(FormComponent.createPairPanel(
-            FormComponent.createStyledComboBox("Select Civil Status", new String[]{"Single", "Married", "Divorced", "Widowed"}),
-            createRoundedTextField("Nationality")
+        formPanel.add(createPairPanel(
+                FormComponent.createStyledComboBox("Select Civil Status", new String[]{"Single", "Married", "Divorced", "Widowed"}),
+                createRoundedTextField("Nationality")
         ), gbc);
-
         gbc.gridx = 1;
-        formPanel.add(FormComponent.createPairPanel(
-            createRoundedTextField("Mobile No."),
-            createRoundedTextField("Email")
+        formPanel.add(createPairPanel(
+                createRoundedTextField("Mobile No."),
+                createRoundedTextField("Email")
         ), gbc);
 
         gbc.gridx = 0; gbc.gridy++;
@@ -135,7 +125,6 @@ public class SignUp1 extends JFrame {
 
         container.add(innerContent);
 
-        // NEXT button action
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -144,24 +133,21 @@ public class SignUp1 extends JFrame {
             }
         });
 
-
         setVisible(true);
         SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
     }
 
-    // Custom content panel with rounded corners and shadow
-    private JPanel createContentPanel() { 
+    private JPanel createContentPanel() {
         JPanel content = new JPanel(null) {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                
+
                 int shadowOffset = 4;
-                g2.setColor(new Color(0, 0, 0, 20)); 
+                g2.setColor(new Color(0, 0, 0, 20));
                 g2.fillRoundRect(shadowOffset, shadowOffset, getWidth() - shadowOffset, getHeight() - shadowOffset, 25, 25);
-                
-                // Draw main panel
+
                 g2.setColor(new Color(255, 241, 255));
                 g2.fillRoundRect(0, 0, getWidth() - shadowOffset, getHeight() - shadowOffset, 25, 25);
                 g2.setColor(new Color(220, 200, 230));
@@ -175,23 +161,41 @@ public class SignUp1 extends JFrame {
         return content;
     }
 
-    // method to create a rounded text field using RoundedComponents
     private RoundedComponents.RoundedTextField createRoundedTextField(String placeholder) {
         RoundedComponents.RoundedTextField field = new RoundedComponents.RoundedTextField(placeholder, 15);
         field.setFont(FontUtil.getOutfitFont(15f));
-        field.setPreferredSize(new Dimension(375, 35));
+        field.setPreferredSize(new Dimension(375, 50));
         return field;
     }
 
-    // method to create a rounded password field using RoundedComponents
     private RoundedComponents.RoundedPasswordField createRoundedPasswordField(String placeholder) {
         RoundedComponents.RoundedPasswordField field = new RoundedComponents.RoundedPasswordField(placeholder, 15);
         field.setFont(FontUtil.getOutfitFont(15f));
-        field.setPreferredSize(new Dimension(375, 35));
+        field.setPreferredSize(new Dimension(375, 50));
         return field;
     }
 
-    // main method
+    private JPanel createPairPanel(JComponent left, JComponent right) {
+        JPanel panel = new JPanel(new GridLayout(1, 2, 10, 0));
+        panel.setOpaque(false);
+
+        left.setPreferredSize(new Dimension(180, 50));
+        right.setPreferredSize(new Dimension(180, 50));
+
+        JPanel leftWrapper = new JPanel(new BorderLayout());
+        leftWrapper.setOpaque(false);
+        leftWrapper.add(left, BorderLayout.CENTER);
+
+        JPanel rightWrapper = new JPanel(new BorderLayout());
+        rightWrapper.setOpaque(false);
+        rightWrapper.add(right, BorderLayout.CENTER);
+
+        panel.add(leftWrapper);
+        panel.add(rightWrapper);
+        panel.setPreferredSize(new Dimension(375, 50));
+        return panel;
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(SignUp1::new);
     }

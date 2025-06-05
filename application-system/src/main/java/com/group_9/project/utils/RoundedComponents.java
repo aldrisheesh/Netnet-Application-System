@@ -37,29 +37,35 @@ public class RoundedComponents {
 
     public static class RoundedTextField extends JTextField {
         private final String placeholder;
-
+    
         public RoundedTextField(String placeholder, int columns) {
             super(columns);
             this.placeholder = placeholder;
             setOpaque(false);
             setBorder(new RoundedBorder(15));
             setBackground(Color.decode("#FFFFFF"));
-            setMargin(new Insets(5, 10, 5, 10));
+    
             addFocusListener(new FocusAdapter() {
                 public void focusGained(FocusEvent e) { repaint(); }
                 public void focusLost(FocusEvent e) { repaint(); }
             });
         }
-
+    
         @Override
         protected void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            
+            // Background
             g2.setColor(getBackground());
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+    
+            // Clip to rounded area
             g2.setClip(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 15, 15));
+    
             super.paintComponent(g2);
-
+    
+            // Draw placeholder if needed
             if (getText().isEmpty() && !isFocusOwner()) {
                 g2.setColor(Color.GRAY);
                 FontMetrics fm = g2.getFontMetrics();
@@ -67,10 +73,15 @@ public class RoundedComponents {
                 int y = getHeight() / 2 + fm.getAscent() / 2 - 2;
                 g2.drawString(placeholder, x, y);
             }
-
+    
             g2.dispose();
         }
-    }
+    
+        @Override
+        public Insets getInsets() {
+            return new Insets(10, 14, 10, 14); // Proper padding inside the field
+        }
+    }    
 
     public static class RoundedPasswordField extends JPasswordField {
         private final String placeholder;

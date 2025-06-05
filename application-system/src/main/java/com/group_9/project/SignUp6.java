@@ -159,7 +159,7 @@ public class SignUp6 extends JFrame {
     }
 
     // Custom content panel with rounded corners and shadow - now also using RoundedBorder
-    private JPanel createContentPanel() { 
+    private JPanel createContentPanel() {
         JPanel content = new JPanel(null) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -174,13 +174,14 @@ public class SignUp6 extends JFrame {
                 // Draw main panel
                 g2.setColor(new Color(255, 241, 255));
                 g2.fillRoundRect(0, 0, getWidth() - shadowOffset, getHeight() - shadowOffset, 25, 25);
+                g2.setColor(new Color(220, 200, 230));
+                g2.setStroke(new BasicStroke(1.5f));
+                g2.drawRoundRect(0, 0, getWidth() - shadowOffset - 1, getHeight() - shadowOffset - 1, 25, 25);
                 g2.dispose();
             }
         };
         content.setBounds(235, 165, 970, 695);
         content.setOpaque(false);
-        // Add a subtle rounded border to the main content panel
-        content.setBorder(new RoundedComponents.RoundedBorder(25));
         return content;
     }
 
