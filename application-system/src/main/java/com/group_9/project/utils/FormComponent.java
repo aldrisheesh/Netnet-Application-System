@@ -5,24 +5,19 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
 
 public class FormComponent {
-
-    private static final int RADIUS = 15; // Adjust based on your desired corner radius
+    private static final int RADIUS = 15;
 
     public static JComboBox<String> createStyledComboBox(String placeholder, String[] options) {
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
-        for (String option : options) {
-            model.addElement(option);
-        }
+        for (String option : options) model.addElement(option);
 
-        JComboBox<String> box = new JComboBox<>(model);
+        RoundedComponents.RoundedComboBox<String> box = new RoundedComponents.RoundedComboBox<>(model, RADIUS);
         box.setFont(FontUtil.getOutfitFont(15f));
         box.setPreferredSize(new Dimension(375, 35));
-        box.setBorder(new RoundedComponents.RoundedBorder(RADIUS));
         box.setFocusable(false);
-        box.setSelectedIndex(-1); // no selection initially
-        box.setForeground(Color.GRAY); // placeholder color
+        box.setSelectedIndex(-1);
+        box.setForeground(Color.GRAY);
 
-        // Renderer for placeholder and proper hover highlights
         box.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index,
@@ -30,56 +25,33 @@ public class FormComponent {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
                 boolean isPlaceholder = (box.getSelectedIndex() == -1 && index == -1);
-
-                if (!isPlaceholder) {
-                    setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); // add left padding
-                } else {
-                    setBorder(BorderFactory.createEmptyBorder()); // no padding for placeholder
-                }
-
-                if (isPlaceholder) {
-                    setText(placeholder);
-                    setForeground(Color.GRAY);
-                } else {
-                    setForeground(isSelected ? new Color(43, 43, 43) : Color.BLACK);
-                    setBackground(isSelected ? new Color(240, 240, 240) : Color.WHITE);
-                }
-
-                // Force normal appearance even when disabled
+                setBorder(BorderFactory.createEmptyBorder(0, isPlaceholder ? 0 : 10, 0, 0));
+                setText(isPlaceholder ? placeholder : value.toString());
+                setForeground(isPlaceholder ? Color.GRAY : (isSelected ? new Color(43, 43, 43) : Color.BLACK));
+                setBackground(isSelected ? new Color(240, 240, 240) : Color.WHITE);
                 setEnabled(true);
-
                 return this;
             }
         });
 
-        // Change text color when selection is made
-        box.addActionListener(e -> {
-            if (box.getSelectedIndex() != -1) {
-                box.setForeground(Color.BLACK);
-            } else {
-                box.setForeground(Color.GRAY);
-            }
-        });
-
+        box.addActionListener(e -> box.setForeground(box.getSelectedIndex() != -1 ? Color.BLACK : Color.GRAY));
         box.setBackground(Color.WHITE);
         box.setOpaque(true);
 
-        // Custom dropdown icon
-        ImageIcon dropdownIcon = null;
-        try {
-            ImageIcon originalIcon = new ImageIcon(FormComponent.class.getResource("/icons/dropdown-icn.png"));
-            Image scaledImage = originalIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
-            dropdownIcon = new ImageIcon(scaledImage);
-        } catch (Exception e) {
-            System.err.println("Failed to load dropdown icon: " + e.getMessage());
-        }
-
-        ImageIcon finalDropdownIcon = dropdownIcon;
         box.setUI(new BasicComboBoxUI() {
             @Override
             protected JButton createArrowButton() {
                 JButton button = new JButton();
-                if (finalDropdownIcon != null) button.setIcon(finalDropdownIcon);
+            
+                try {
+                    ImageIcon originalIcon = new ImageIcon(FormComponent.class.getResource("/icons/dropdown-icn.png"));
+                    Image scaledImage = originalIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+                    ImageIcon finalDropdownIcon = new ImageIcon(scaledImage);
+                    button.setIcon(finalDropdownIcon);
+                } catch (Exception e) {
+                    System.err.println("Failed to load dropdown icon: " + e.getMessage());
+                }
+            
                 button.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
                 button.setContentAreaFilled(false);
                 button.setFocusPainted(false);
@@ -87,9 +59,10 @@ public class FormComponent {
                 button.setHorizontalAlignment(SwingConstants.CENTER);
                 button.setVerticalAlignment(SwingConstants.CENTER);
                 button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                button.setEnabled(true); // Always appear enabled
+            
                 return button;
             }
+            
 
             @Override
             public void paintCurrentValueBackground(Graphics g, Rectangle bounds, boolean hasFocus) {
