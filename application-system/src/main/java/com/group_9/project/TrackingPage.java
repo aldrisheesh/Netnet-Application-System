@@ -1,4 +1,5 @@
 package com.group_9.project;
+
 import com.group_9.project.utils.*;
 
 import java.awt.*;
@@ -27,7 +28,7 @@ public class TrackingPage extends JFrame {
         logo.setBounds(40, 30, 123, 44);
         background.add(logo);
 
-        //Navigation Menu
+        // Navigation Menu
         String[] navItems = {"Home", "Plans", "Help & Support", "About Us", "Account"};
         int xPos = 900;
         int spacing = 30;
@@ -40,16 +41,16 @@ public class TrackingPage extends JFrame {
             label.setForeground(normalColor);
             label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-            label.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mouseEntered(java.awt.event.MouseEvent e) {
+            label.addMouseListener(new MouseAdapter() {
+                public void mouseEntered(MouseEvent e) {
                     label.setForeground(hoverColor);
                 }
 
-                public void mouseExited(java.awt.event.MouseEvent e) {
+                public void mouseExited(MouseEvent e) {
                     label.setForeground(normalColor);
                 }
 
-                public void mouseClicked(java.awt.event.MouseEvent e) {
+                public void mouseClicked(MouseEvent e) {
                     switch (item) {
                         case "Home" -> {
                             new Homepage().setVisible(true);
@@ -98,17 +99,14 @@ public class TrackingPage extends JFrame {
         viewPlans.setFocusPainted(false);
         ButtonHoverEffect.apply(viewPlans, new Color(62, 10, 118), Color.WHITE,
                 new Color(42, 2, 67), Color.WHITE, new Color(62, 10, 118), new Color(42, 2, 67));
-        
-        viewPlans.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new PlansPage().setVisible(true);
-                dispose();
-            }
+
+        viewPlans.addActionListener(e -> {
+            new PlansPage().setVisible(true);
+            dispose();
         });
-        
+
         background.add(viewPlans);
-        
+
         JButton checkAvailability = new JButton("CHECK AVAILABILITY");
         checkAvailability.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         checkAvailability.setBounds(700, 400, 220, 45);
@@ -116,17 +114,13 @@ public class TrackingPage extends JFrame {
         checkAvailability.setContentAreaFilled(false);
         ButtonHoverEffect.apply(checkAvailability, new Color(62, 10, 118), new Color(62, 10, 118),
                 new Color(0, 0, 0, 0), new Color(38, 6, 67), new Color(62, 10, 118), new Color(42, 2, 67));
-        
-        checkAvailability.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ErrorPage().setVisible(true);
-                dispose();
-            }
+
+        checkAvailability.addActionListener(e -> {
+            new ErrorPage().setVisible(true);
+            dispose();
         });
-                
+
         background.add(checkAvailability);
-        
 
         ImageIcon wifiIconRaw = new ImageIcon(getClass().getClassLoader().getResource("images/wifi.png"));
         Image wifiImg = wifiIconRaw.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
@@ -157,17 +151,13 @@ public class TrackingPage extends JFrame {
         morePlansBtn.setFocusPainted(false);
         ButtonHoverEffect.apply(morePlansBtn, new Color(62, 10, 118), Color.WHITE,
                 new Color(42, 2, 67), Color.WHITE, new Color(62, 10, 118), new Color(42, 2, 67));
-        
-        morePlansBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new PlansPage().setVisible(true);
-                dispose();
-            }
-        }); 
-        
+
+        morePlansBtn.addActionListener(e -> {
+            new PlansPage().setVisible(true);
+            dispose();
+        });
+
         background.add(morePlansBtn);
-        
 
         JLabel trackerTitle = new JLabel("<html><div style='color:#2A0243;font-weight:700;'>APPLICATION TRACKER</div></html>", SwingConstants.CENTER);
         trackerTitle.setFont(FontUtil.getOutfitFont(26f));
@@ -176,58 +166,54 @@ public class TrackingPage extends JFrame {
         searchField.setFont(FontUtil.getInterFont(14f));
         searchField.setBackground(Color.WHITE);
 
-        JPanel cardPanel = new JPanel(null);
-        cardPanel.setBackground(new Color(92, 12, 168));
+        // 🎨 Gradient Rounded Card
+        RoundedGradientPanel cardPanel = new RoundedGradientPanel(20);
+        cardPanel.setBounds(50, 140, 384, 100);
 
         JLabel appNumber = new JLabel("Application No. A00001");
-        appNumber.setFont(FontUtil.getOutfitFont(14f));
+        appNumber.setFont(FontUtil.getOutfitFont(14f).deriveFont(Font.BOLD));
         appNumber.setForeground(Color.WHITE);
-        appNumber.setBounds(10, 10, 350, 20);
+        appNumber.setBounds(20, 15, 300, 20);
         cardPanel.add(appNumber);
 
-        JLabel appStatus = new JLabel("Status: Pending Review");
+        JLabel appStatus = new JLabel("Status: Completed");
         appStatus.setFont(FontUtil.getInterFont(12f));
         appStatus.setForeground(Color.WHITE);
-        appStatus.setBounds(10, 35, 350, 20);
+        appStatus.setBounds(20, 38, 300, 18);
         cardPanel.add(appStatus);
 
         JLabel appDate = new JLabel("Date Submitted: 3/15/2010");
         appDate.setFont(FontUtil.getInterFont(12f));
         appDate.setForeground(Color.WHITE);
-        appDate.setBounds(10, 55, 350, 20);
+        appDate.setBounds(20, 58, 200, 18);
         cardPanel.add(appDate);
 
         JLabel viewSummary = new JLabel("<html><u>View Plan Summary</u></html>");
         viewSummary.setFont(FontUtil.getInterFont(12f));
         viewSummary.setForeground(Color.WHITE);
         viewSummary.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        viewSummary.setBounds(200, 75, 210, 20);
-        viewSummary.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(null, "Plan Summary clicked.");
-            }
-        });
+        viewSummary.setBounds(250, 58, 130, 18); // aligned with date
         cardPanel.add(viewSummary);
 
+        // 📦 Tracker Panel
         RoundedPanel trackerPanel = new RoundedPanel(30) {
             @Override
             public void doLayout() {
                 int padding = 50;
                 int width = getWidth();
                 int innerWidth = width - 2 * padding;
-        
+
                 int y = 30;
                 trackerTitle.setBounds(0, y, width, 30);
-        
+
                 y += 50;
                 searchField.setBounds(padding, y, innerWidth, 40);
-        
+
                 y += 60;
                 cardPanel.setBounds(padding, y, innerWidth, 100);
             }
         };
-        
+
         trackerPanel.setBackground(new Color(255, 255, 255, 180));
         trackerPanel.setBounds(800, 515, 484, 350);
 
@@ -242,11 +228,12 @@ public class TrackingPage extends JFrame {
     }
 }
 
+// 🟪 Rounded Panel with border
 class RoundedPanel extends JPanel {
     private final int cornerRadius;
 
     public RoundedPanel(int radius) {
-        super(null); // null layout
+        super(null);
         this.cornerRadius = radius;
         setOpaque(false);
     }
@@ -259,16 +246,42 @@ class RoundedPanel extends JPanel {
         int width = getWidth();
         int height = getHeight();
 
-        // Draw rounded background
         g2.setColor(getBackground());
         g2.fillRoundRect(0, 0, width, height, cornerRadius, cornerRadius);
 
-        // Draw rounded border
-        g2.setColor(new Color(210, 190, 255)); // border color
+        g2.setColor(new Color(210, 190, 255));
         g2.setStroke(new BasicStroke(1.5f));
         g2.drawRoundRect(0, 0, width - 1, height - 1, cornerRadius, cornerRadius);
 
         g2.dispose();
-        super.paintComponent(g); // Paint children
+        super.paintComponent(g);
+    }
+}
+
+// 🎨 Rounded Gradient Panel
+class RoundedGradientPanel extends JPanel {
+    private final int cornerRadius;
+
+    public RoundedGradientPanel(int radius) {
+        super(null);
+        this.cornerRadius = radius;
+        setOpaque(false);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g.create();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        int width = getWidth();
+        int height = getHeight();
+
+        GradientPaint gp = new GradientPaint(0, 0, new Color(40, 0, 80),
+                                             width, height, new Color(125, 0, 255));
+        g2d.setPaint(gp);
+        g2d.fillRoundRect(0, 0, width, height, cornerRadius, cornerRadius);
+
+        g2d.dispose();
+        super.paintComponent(g);
     }
 }
