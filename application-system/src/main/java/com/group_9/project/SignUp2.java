@@ -1,20 +1,24 @@
 package com.group_9.project;
 
+import com.group_9.project.session.UserApplicationData;
 import com.group_9.project.utils.*;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.JTextComponent;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class SignUp2 extends JFrame {
     private final List<JTextComponent> trackedFields = new ArrayList<>();
     private final List<RoundedComponents.RoundedComboBox<String>> comboBoxes = new ArrayList<>();
+
     private RoundedComponents.RoundedTextField residencyField, contactField, ownerField;
+    private RoundedComponents.RoundedTextField houseField, buildingField, subdivisionField, barangayField;
+    private RoundedComponents.RoundedTextField streetField, cityField, provinceField, zipField;
+    private RoundedComponents.RoundedComboBox<String> homeOwnershipCombo, companyPaidCombo;
 
     public SignUp2() {
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
@@ -58,7 +62,7 @@ public class SignUp2 extends JFrame {
         subtitle.setForeground(subColor);
 
         JLabel subNote = new JLabel("Provide your current place of residence details");
-        subNote.setFont(FontUtil.getOutfitFont(12f));
+        subNote.setFont(FontUtil.getInterFont(14f));
         subNote.setForeground(subColor);
 
         leftLabels.add(subtitle);
@@ -86,74 +90,77 @@ public class SignUp2 extends JFrame {
 
         gbc.gridx = 0;
         gbc.gridy++;
-        var homeOwnershipCombo = createStyledComboBox("Home Ownership", new String[]{"Owned", "Living with Relatives", "Mortgaged", "Rented"});
+        homeOwnershipCombo = createStyledComboBox("Home Ownership", new String[]{"Owned", "Living with Relatives", "Mortgaged", "Rented"});
         formPanel.add(homeOwnershipCombo, gbc);
         comboBoxes.add(homeOwnershipCombo);
+        ValidationUtil.addComboBoxValidation(homeOwnershipCombo);
+        ToolTipUtil.attachCustomTooltip(homeOwnershipCombo, "Select home ownership status");
 
         gbc.gridx = 1;
-        var companyPaidCombo = createStyledComboBox("Company Paid?", new String[]{"Yes", "No"});
+        companyPaidCombo = createStyledComboBox("Company Paid?", new String[]{"Yes", "No"});
         comboBoxes.add(companyPaidCombo);
+        ValidationUtil.addComboBoxValidation(companyPaidCombo);
+        ToolTipUtil.attachCustomTooltip(companyPaidCombo, "Select if your residence is company-paid");
 
-        residencyField = createTrackedField("Years of Residency");
-        addValidationListener(residencyField, s -> s.matches("^\\d+$") && Integer.parseInt(s) >= 0);
+        residencyField = createTrackedField("Years of Residency", s -> s.matches("^\\d{1,3}$"));
+        ((AbstractDocument) residencyField.getDocument()).setDocumentFilter(new LengthLimitFilter(3));
         formPanel.add(createPairPanel(companyPaidCombo, residencyField), gbc);
-        ToolTipUtil.attachCustomTooltip(residencyField, "Years of Residency");
+        ToolTipUtil.attachCustomTooltip(residencyField, "Enter years of stay at current address");
 
-        // Owner and Contact
         gbc.gridx = 0;
         gbc.gridy++;
-        ownerField = createTrackedField("Name of Owner");
+        ownerField = createTrackedField("Name of Owner", s -> !s.trim().isEmpty());
         formPanel.add(ownerField, gbc);
-        ToolTipUtil.attachCustomTooltip(ownerField, "Name of Owner");
+        ToolTipUtil.attachCustomTooltip(ownerField, "Enter the property owner's full name");
 
         gbc.gridx = 1;
-        contactField = createTrackedField("Contact No.");
-        addValidationListener(contactField, s -> s.matches("^\\d{10,15}$"));
+        contactField = createTrackedField("Contact No.", s -> s.matches("^\\+63\\s9\\d{2}-\\d{3}-\\d{4}$"));
+        ((AbstractDocument) contactField.getDocument()).setDocumentFilter(new LengthLimitFilter(17));
+        SmartFieldFormatter.attachMobileFormatter(contactField);
         formPanel.add(contactField, gbc);
-        ToolTipUtil.attachCustomTooltip(contactField, "Contact No.");
+        ToolTipUtil.attachCustomTooltip(contactField, "Enter owner's contact number (+63 9XX-XXX-XXXX)");
 
-        // Address fields
         gbc.gridx = 0;
         gbc.gridy++;
-        var houseField = createTrackedField("House/Room No./Floor");
+        houseField = createTrackedField("House/Room No./Floor", s -> !s.trim().isEmpty());
         formPanel.add(houseField, gbc);
-        ToolTipUtil.attachCustomTooltip(houseField, "House/Room No./Floor");
+        ToolTipUtil.attachCustomTooltip(houseField, "Enter house/room/floor number");
 
         gbc.gridx = 1;
-        var buildingField = createTrackedField("Apartment/Compound/Building");
+        buildingField = createTrackedField("Apartment/Compound/Building", s -> !s.trim().isEmpty());
         formPanel.add(buildingField, gbc);
-        ToolTipUtil.attachCustomTooltip(buildingField, "Apartment/Compound/Building");
+        ToolTipUtil.attachCustomTooltip(buildingField, "Enter apartment/compound/building name");
 
         gbc.gridx = 0;
         gbc.gridy++;
-        var subdivisionField = createTrackedField("Subdivision");
+        subdivisionField = createTrackedField("Subdivision", s -> !s.trim().isEmpty());
         formPanel.add(subdivisionField, gbc);
-        ToolTipUtil.attachCustomTooltip(subdivisionField, "Subdivision");
+        ToolTipUtil.attachCustomTooltip(subdivisionField, "Enter subdivision name");
 
         gbc.gridx = 1;
-        var barangayField = createTrackedField("Barangay");
+        barangayField = createTrackedField("Barangay", s -> !s.trim().isEmpty());
         formPanel.add(barangayField, gbc);
-        ToolTipUtil.attachCustomTooltip(barangayField, "Barangay");
+        ToolTipUtil.attachCustomTooltip(barangayField, "Enter barangay");
 
         gbc.gridx = 0;
         gbc.gridy++;
-        var streetField = createTrackedField("Street");
-        var cityField = createTrackedField("Municipality/City");
+        streetField = createTrackedField("Street", s -> !s.trim().isEmpty());
+        cityField = createTrackedField("Municipality/City", s -> !s.trim().isEmpty());
         formPanel.add(createPairPanel(streetField, cityField), gbc);
-        ToolTipUtil.attachCustomTooltip(streetField, "Street");
-        ToolTipUtil.attachCustomTooltip(cityField, "Municipality/City");
+        ToolTipUtil.attachCustomTooltip(streetField, "Enter street name");
+        ToolTipUtil.attachCustomTooltip(cityField, "Enter municipality or city");
 
         gbc.gridx = 1;
-        var provinceField = createTrackedField("Province");
-        var zipField = createTrackedField("Zip Code");
+        provinceField = createTrackedField("Province", s -> !s.trim().isEmpty());
+        zipField = createTrackedField("Zip Code", s -> s.matches("^\\d{4}$"));
+        ((AbstractDocument) zipField.getDocument()).setDocumentFilter(new LengthLimitFilter(4));
         formPanel.add(createPairPanel(provinceField, zipField), gbc);
-        ToolTipUtil.attachCustomTooltip(provinceField, "Province");
-        ToolTipUtil.attachCustomTooltip(zipField, "Zip Code");
+        ToolTipUtil.attachCustomTooltip(provinceField, "Enter province");
+        ToolTipUtil.attachCustomTooltip(zipField, "Enter 4-digit ZIP code (e.g., 1012)");
 
         innerContent.add(formPanel);
         innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // Buttons
         JPanel buttonPanel = new JPanel(new BorderLayout());
         buttonPanel.setOpaque(false);
         buttonPanel.setMaximumSize(new Dimension(826, 50));
@@ -176,75 +183,110 @@ public class SignUp2 extends JFrame {
         buttonPanel.add(nextButton, BorderLayout.EAST);
         innerContent.add(buttonPanel);
 
-        // Button Actions
         nextButton.addActionListener((ActionEvent e) -> {
-            boolean allValid = true;
+            boolean allFilled = true;
 
             for (JTextComponent field : trackedFields) {
-                boolean valid = !field.getText().trim().isEmpty();
+                boolean isFilled = !field.getText().trim().isEmpty();
                 if (field instanceof RoundedComponents.RoundedTextField textField) {
-                    textField.setValidationBorderColor(valid ? Color.GRAY : Color.RED);
+                    textField.setValidationBorderColor(isFilled ? Color.GRAY : Color.RED);
                 }
-                if (!valid) allValid = false;
+                if (!isFilled) allFilled = false;
             }
 
             for (RoundedComponents.RoundedComboBox<String> combo : comboBoxes) {
                 boolean valid = combo.getSelectedIndex() != -1;
                 combo.setValidationBorderColor(valid ? Color.GRAY : Color.RED);
-                if (!valid) allValid = false;
+                if (!valid) allFilled = false;
             }
 
-            if (!residencyField.getText().matches("^\\d+$") || Integer.parseInt(residencyField.getText()) < 0) {
-                residencyField.setValidationBorderColor(Color.RED);
-                CustomDialogUtil.showStyledErrorDialog(SignUp2.this, "Invalid", "Years of residency must be non-negative.");
+            if (!allFilled) {
+                CustomDialogUtil.showStyledErrorDialog(SignUp2.this, "Missing Information", "Please fill in all required fields before proceeding.");
                 return;
             }
 
-            if (!contactField.getText().matches("^\\d{10,15}$")) {
+            if (!contactField.getText().matches("^\\+63\\s9\\d{2}-\\d{3}-\\d{4}$")) {
                 contactField.setValidationBorderColor(Color.RED);
-                CustomDialogUtil.showStyledErrorDialog(SignUp2.this, "Invalid", "Contact number must be 10–15 digits.");
+                CustomDialogUtil.showStyledErrorDialog(SignUp2.this,
+                    "Invalid", "Contact number must be in the format +63 9XX-XXX-XXXX.");
+                return;
+            }            
+
+            if (!residencyField.getText().matches("^\\d{1,3}$")) {
+                residencyField.setValidationBorderColor(Color.RED);
+                CustomDialogUtil.showStyledErrorDialog(SignUp2.this, "Invalid", "Years of residency must be 1 to 3 digits.");
                 return;
             }
 
-            if (allValid) {
-                new SignUp3().setVisible(true);
-                dispose();
-            } else {
-                CustomDialogUtil.showStyledErrorDialog(SignUp2.this, "Incomplete", "Please complete all required fields.");
+            if (!zipField.getText().matches("^\\d{4}$")) {
+                zipField.setValidationBorderColor(Color.RED);
+                CustomDialogUtil.showStyledErrorDialog(SignUp2.this, "Invalid", "Zip Code must be exactly 4 digits.");
+                return;
             }
+
+            UserApplicationData.set("HomeOwnership", (String) homeOwnershipCombo.getSelectedItem());
+            UserApplicationData.set("CompanyPaid", (String) companyPaidCombo.getSelectedItem());
+            UserApplicationData.set("YearsOfResidency", residencyField.getText());
+            UserApplicationData.set("NameOfOwner", ownerField.getText());
+            UserApplicationData.set("ContactNumber", contactField.getText());
+            UserApplicationData.set("HouseRoom", houseField.getText());
+            UserApplicationData.set("Building", buildingField.getText());
+            UserApplicationData.set("Subdivision", subdivisionField.getText());
+            UserApplicationData.set("Barangay", barangayField.getText());
+            UserApplicationData.set("Street", streetField.getText());
+            UserApplicationData.set("City", cityField.getText());
+            UserApplicationData.set("Province", provinceField.getText());
+            UserApplicationData.set("ZipCode", zipField.getText());
+
+            new SignUp3();
+            dispose();
         });
 
         backButton.addActionListener(e -> {
-            new SignUp1().setVisible(true);
+            UserApplicationData.set("HomeOwnership", (String) homeOwnershipCombo.getSelectedItem());
+            UserApplicationData.set("CompanyPaid", (String) companyPaidCombo.getSelectedItem());
+            UserApplicationData.set("YearsOfResidency", residencyField.getText());
+            UserApplicationData.set("NameOfOwner", ownerField.getText());
+            UserApplicationData.set("ContactNumber", contactField.getText());
+            UserApplicationData.set("HouseRoom", houseField.getText());
+            UserApplicationData.set("Building", buildingField.getText());
+            UserApplicationData.set("Subdivision", subdivisionField.getText());
+            UserApplicationData.set("Barangay", barangayField.getText());
+            UserApplicationData.set("Street", streetField.getText());
+            UserApplicationData.set("City", cityField.getText());
+            UserApplicationData.set("Province", provinceField.getText());
+            UserApplicationData.set("ZipCode", zipField.getText());
+
+            new SignUp1();
             dispose();
         });
+
+        // Restore
+        homeOwnershipCombo.setSelectedItem(UserApplicationData.get("HomeOwnership"));
+        companyPaidCombo.setSelectedItem(UserApplicationData.get("CompanyPaid"));
+        residencyField.setText(UserApplicationData.get("YearsOfResidency"));
+        ownerField.setText(UserApplicationData.get("NameOfOwner"));
+        contactField.setText(UserApplicationData.get("ContactNumber"));
+        houseField.setText(UserApplicationData.get("HouseRoom"));
+        buildingField.setText(UserApplicationData.get("Building"));
+        subdivisionField.setText(UserApplicationData.get("Subdivision"));
+        barangayField.setText(UserApplicationData.get("Barangay"));
+        streetField.setText(UserApplicationData.get("Street"));
+        cityField.setText(UserApplicationData.get("City"));
+        provinceField.setText(UserApplicationData.get("Province"));
+        zipField.setText(UserApplicationData.get("ZipCode"));
 
         setVisible(true);
         SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
     }
 
-    private RoundedComponents.RoundedTextField createTrackedField(String label) {
+    private RoundedComponents.RoundedTextField createTrackedField(String label, Predicate<String> validator) {
         var field = new RoundedComponents.RoundedTextField(label, 15);
         field.setFont(FontUtil.getOutfitFont(15f));
         field.setPreferredSize(new Dimension(375, 50));
         trackedFields.add(field);
-        addValidationListener(field, s -> !s.trim().isEmpty());
+        ValidationUtil.addTextValidation(field, validator);
         return field;
-    }
-
-    private void addValidationListener(JTextComponent field, java.util.function.Predicate<String> validator) {
-        if (field instanceof RoundedComponents.RoundedTextField textField) {
-            field.getDocument().addDocumentListener(new DocumentListener() {
-                public void insertUpdate(DocumentEvent e) { validate(); }
-                public void removeUpdate(DocumentEvent e) { validate(); }
-                public void changedUpdate(DocumentEvent e) { validate(); }
-
-                private void validate() {
-                    boolean isValid = validator.test(field.getText().trim());
-                    textField.setValidationBorderColor(isValid ? Color.GRAY : Color.RED);
-                }
-            });
-        }
     }
 
     private RoundedComponents.RoundedComboBox<String> createStyledComboBox(String placeholder, String[] options) {
@@ -259,12 +301,12 @@ public class SignUp2 extends JFrame {
 
         if (left instanceof RoundedComponents.RoundedTextField lText) {
             trackedFields.add(lText);
-            addValidationListener(lText, s -> !s.trim().isEmpty());
+            ValidationUtil.addTextValidation(lText, s -> !s.trim().isEmpty());
         }
 
         if (right instanceof RoundedComponents.RoundedTextField rText) {
             trackedFields.add(rText);
-            addValidationListener(rText, s -> !s.trim().isEmpty());
+            ValidationUtil.addTextValidation(rText, s -> !s.trim().isEmpty());
         }
 
         left.setPreferredSize(new Dimension(180, 50));

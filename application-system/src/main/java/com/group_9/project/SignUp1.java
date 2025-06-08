@@ -1,10 +1,10 @@
 package com.group_9.project;
 
+import com.group_9.project.session.UserApplicationData;
 import com.group_9.project.utils.*;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import javax.swing.text.AbstractDocument;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -56,7 +56,7 @@ public class SignUp1 extends JFrame {
         subtitle.setForeground(subColor);
 
         JLabel subNote = new JLabel("Provide the necessary details to register your information with us");
-        subNote.setFont(FontUtil.getOutfitFont(12f));
+        subNote.setFont(FontUtil.getInterFont(14f));
         subNote.setForeground(subColor);
 
         leftLabels.add(subtitle);
@@ -85,73 +85,101 @@ public class SignUp1 extends JFrame {
         gbc.gridy = 0;
         RoundedComponents.RoundedTextField usernameField = createRoundedTextField("Username");
         usernameField.setName("Username");
-        addValidationListener(usernameField, s -> !s.trim().isEmpty());
+        ValidationUtil.addTextValidation(usernameField, s -> !s.trim().isEmpty());
         formPanel.add(usernameField, gbc);
-        ToolTipUtil.attachCustomTooltip(usernameField, "Username");
+        ToolTipUtil.attachCustomTooltip(usernameField, "Create a username");
 
         gbc.gridx = 1;
         RoundedComponents.RoundedPasswordField passwordField = createRoundedPasswordField("Password");
         passwordField.setName("Password");
-        addValidationListener(passwordField, s -> s.length() >= 8);
+        ValidationUtil.addTextValidation(passwordField, s -> s.length() >= 8);
         formPanel.add(passwordField, gbc);
-        ToolTipUtil.attachCustomTooltip(passwordField, "Password");
+        ToolTipUtil.attachCustomTooltip(passwordField, "Create a password");
 
         gbc.gridx = 0;
         gbc.gridy++;
         RoundedComponents.RoundedTextField nameField = createRoundedTextField("Customer Name");
-        nameField.setName("Customer Name");
-        addValidationListener(nameField, s -> !s.trim().isEmpty());
+        nameField.setName("CustomerName");
+        ValidationUtil.addTextValidation(nameField, s -> !s.trim().isEmpty());
         formPanel.add(nameField, gbc);
-        ToolTipUtil.attachCustomTooltip(nameField, "Customer Name");
+        ToolTipUtil.attachCustomTooltip(nameField, "Enter your full name");
 
         gbc.gridx = 1;
         RoundedComponents.RoundedTextField birthdayField = createRoundedTextField("Birthday (MM/dd/yy)");
         birthdayField.setName("Birthday");
-        addValidationListener(birthdayField, s -> s.matches("^\\d{2}/\\d{2}/\\d{2}$"));
+        ValidationUtil.addTextValidation(birthdayField, s -> {
+            if (!s.matches("^\\d{2}/\\d{2}/\\d{2}$")) return false;
+        
+            try {
+                int month = Integer.parseInt(s.substring(0, 2));
+                int day = Integer.parseInt(s.substring(3, 5));
+                if (month < 1 || month > 12) return false;
+                if (day < 1 || day > 31) return false;
+        
+                // Age check
+                Date dob = new SimpleDateFormat("MM/dd/yy").parse(s);
+                Calendar minAdult = Calendar.getInstance();
+                minAdult.add(Calendar.YEAR, -18);
+                return !dob.after(minAdult.getTime());
+        
+            } catch (NumberFormatException | ParseException e) {
+                return false;
+            }
+        });               
+        ((AbstractDocument) birthdayField.getDocument()).setDocumentFilter(new LengthLimitFilter(8));
+        SmartFieldFormatter.attachDateFormatter(birthdayField);
 
         RoundedComponents.RoundedComboBox<String> genderCombo = (RoundedComponents.RoundedComboBox<String>)
                 FormComponent.createStyledComboBox("Select Gender", new String[]{"Male", "Female"});
+        ValidationUtil.addComboBoxValidation(genderCombo);
 
         formPanel.add(createPairPanel(birthdayField, genderCombo), gbc);
-        ToolTipUtil.attachCustomTooltip(birthdayField, "Birthday (MM/dd/yy)");
+
+        ToolTipUtil.attachCustomTooltip(genderCombo, "Select your gender");
+        ToolTipUtil.attachCustomTooltip(birthdayField, "Enter your birthday (MM/dd/yy)");
 
         gbc.gridx = 0;
         gbc.gridy++;
         RoundedComponents.RoundedComboBox<String> civilCombo = (RoundedComponents.RoundedComboBox<String>)
                 FormComponent.createStyledComboBox("Select Civil Status", new String[]{"Single", "Married", "Divorced", "Widowed"});
+        ValidationUtil.addComboBoxValidation(civilCombo);
 
         RoundedComponents.RoundedTextField nationalityField = createRoundedTextField("Nationality");
         nationalityField.setName("Nationality");
-        addValidationListener(nationalityField, s -> !s.trim().isEmpty());
+        ValidationUtil.addTextValidation(nationalityField, s -> !s.trim().isEmpty());
         formPanel.add(createPairPanel(civilCombo, nationalityField), gbc);
-        ToolTipUtil.attachCustomTooltip(nationalityField, "Nationality");
+
+        ToolTipUtil.attachCustomTooltip(civilCombo, "Select your civil status");
+        ToolTipUtil.attachCustomTooltip(nationalityField, "Enter your nationality");
 
         gbc.gridx = 1;
         RoundedComponents.RoundedTextField mobileField = createRoundedTextField("Mobile No.");
         mobileField.setName("Mobile");
-        addValidationListener(mobileField, s -> s.matches("^\\d{10,15}$"));
+        ValidationUtil.addTextValidation(mobileField, s -> s.matches("^\\+63\\s9\\d{2}-\\d{3}-\\d{4}$"));
+        ((AbstractDocument) mobileField.getDocument()).setDocumentFilter(new LengthLimitFilter(17));
+        SmartFieldFormatter.attachMobileFormatter(mobileField);
 
         RoundedComponents.RoundedTextField emailField = createRoundedTextField("Email");
         emailField.setName("Email");
-        addValidationListener(emailField, s -> s.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,}$"));
+        ValidationUtil.addTextValidation(emailField, s -> s.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,}$"));
 
         formPanel.add(createPairPanel(mobileField, emailField), gbc);
-        ToolTipUtil.attachCustomTooltip(mobileField, "Mobile No.");
-        ToolTipUtil.attachCustomTooltip(emailField, "Email");
+        ToolTipUtil.attachCustomTooltip(mobileField, "Enter your mobile No. (9XX-XXX-XXXX)");
+        ToolTipUtil.attachCustomTooltip(emailField, "Enter a valid email address");
 
         gbc.gridx = 0;
         gbc.gridy++;
         RoundedComponents.RoundedTextField maidenField = createRoundedTextField("Full Mother's Maiden Name");
         maidenField.setName("MaidenName");
-        addValidationListener(maidenField, s -> !s.trim().isEmpty());
+        ValidationUtil.addTextValidation(maidenField, s -> !s.trim().isEmpty());
         formPanel.add(maidenField, gbc);
-        ToolTipUtil.attachCustomTooltip(maidenField, "Full Mother's Maiden Name");
+        ToolTipUtil.attachCustomTooltip(maidenField, "Enter your mother's maiden name");
 
         gbc.gridx = 1;
         RoundedComponents.RoundedTextField spouseField = createRoundedTextField("Spouse Name (if married)");
-        spouseField.setName("Spouse"); // Optional
+        spouseField.setName("Spouse");
         formPanel.add(spouseField, gbc);
-        ToolTipUtil.attachCustomTooltip(spouseField, "Spouse Name (if married)");
+        ToolTipUtil.attachCustomTooltip(spouseField, "Enter your spouse's name (if married)");
 
         innerContent.add(formPanel);
         innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
@@ -209,7 +237,6 @@ public class SignUp1 extends JFrame {
                 if (!valid) allValid = false;
             }
 
-            // ComboBox validation like SignUp2
             List<RoundedComponents.RoundedComboBox<String>> comboBoxes = List.of(genderCombo, civilCombo);
             boolean comboValid = true;
 
@@ -219,15 +246,9 @@ public class SignUp1 extends JFrame {
                 if (!valid) comboValid = false;
             }
 
-            if (!allValid) {
+            if (!allValid || !comboValid) {
                 CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
-                        "Missing Information", "Please fill in all required fields before proceeding.");
-                return;
-            }
-
-            if (!comboValid) {
-                CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
-                        "Missing Selection", "Please select valid options from all dropdowns.");
+                        "Missing Information", "Please complete all required fields and selections.");
                 return;
             }
 
@@ -247,11 +268,11 @@ public class SignUp1 extends JFrame {
                 return;
             }
 
-            if (!mobile.matches("^\\d{10,15}$")) {
+            if (!mobile.matches("^\\+63\\s9\\d{2}-\\d{3}-\\d{4}$")) {
                 CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
-                        "Invalid Mobile Number", "Mobile number must be numeric and 10 to 15 digits long.");
+                        "Invalid Mobile Number", "Mobile number must be in the format +63 9XX-XXX-XXXX.");
                 return;
-            }
+            }            
 
             if (!email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,}$")) {
                 CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
@@ -259,10 +280,35 @@ public class SignUp1 extends JFrame {
                 return;
             }
 
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
-            sdf.setLenient(false);
             try {
-                Date dob = sdf.parse(birthdate);
+                if (!birthdate.matches("^\\d{2}/\\d{2}/\\d{2}$")) {
+                    throw new ParseException("Invalid format", 0);
+                }
+            
+                int month = Integer.parseInt(birthdate.substring(0, 2));
+                int day = Integer.parseInt(birthdate.substring(3, 5));
+                if (month < 1 || month > 12) {
+                    CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
+                            "Invalid Birthdate", "Month must be between 01 and 12.");
+                    return;
+                }
+                if (day < 1 || day > 31) {
+                    CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
+                            "Invalid Birthdate", "Day must be between 01 and 31.");
+                    return;
+                }
+            
+                Date dob = new SimpleDateFormat("MM/dd/yy").parse(birthdate);
+            
+                // Extra check: does the parsed date match exactly the input? (handles Feb 30, etc.)
+                Calendar parsed = Calendar.getInstance();
+                parsed.setTime(dob);
+                if (parsed.get(Calendar.MONTH) + 1 != month || parsed.get(Calendar.DAY_OF_MONTH) != day) {
+                    CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
+                            "Invalid Birthdate", "The date you entered does not exist.");
+                    return;
+                }
+            
                 Calendar minAdult = Calendar.getInstance();
                 minAdult.add(Calendar.YEAR, -18);
                 if (dob.after(minAdult.getTime())) {
@@ -272,43 +318,41 @@ public class SignUp1 extends JFrame {
                 }
             } catch (ParseException ex) {
                 CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
-                        "Invalid Birthdate Format", "Please enter birthdate in MM/dd/yy format (e.g., 12/31/04).");
+                        "Invalid Birthdate", "Please enter a valid date in MM/dd/yy format.");
                 return;
-            }
+            }            
+
+            UserApplicationData.set("Username", usernameField.getText().trim());
+            UserApplicationData.set("Password", passwordField.getText());
+            UserApplicationData.set("CustomerName", nameField.getText().trim());
+            UserApplicationData.set("Birthday", birthdayField.getText().trim());
+            UserApplicationData.set("Gender", (String) genderCombo.getSelectedItem());
+            UserApplicationData.set("CivilStatus", (String) civilCombo.getSelectedItem());
+            UserApplicationData.set("Nationality", nationalityField.getText().trim());
+            UserApplicationData.set("Mobile", mobileField.getText().trim());
+            UserApplicationData.set("Email", emailField.getText().trim());
+            UserApplicationData.set("MaidenName", maidenField.getText().trim());
+            UserApplicationData.set("Spouse", spouseField.getText().trim());
 
             new SignUp2();
             dispose();
         });
 
+        // Restore Data
+        usernameField.setText(UserApplicationData.get("Username"));
+        passwordField.setText(UserApplicationData.get("Password"));
+        nameField.setText(UserApplicationData.get("CustomerName"));
+        birthdayField.setText(UserApplicationData.get("Birthday"));
+        genderCombo.setSelectedItem(UserApplicationData.get("Gender"));
+        civilCombo.setSelectedItem(UserApplicationData.get("CivilStatus"));
+        nationalityField.setText(UserApplicationData.get("Nationality"));
+        mobileField.setText(UserApplicationData.get("Mobile"));
+        emailField.setText(UserApplicationData.get("Email"));
+        maidenField.setText(UserApplicationData.get("MaidenName"));
+        spouseField.setText(UserApplicationData.get("Spouse"));
+
         setVisible(true);
         SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
-    }
-
-    private void addValidationListener(JTextComponent field, java.util.function.Predicate<String> validator) {
-        if (field instanceof RoundedComponents.RoundedTextField textField) {
-            field.getDocument().addDocumentListener(new DocumentListener() {
-                public void insertUpdate(DocumentEvent e) { validate(); }
-                public void removeUpdate(DocumentEvent e) { validate(); }
-                public void changedUpdate(DocumentEvent e) { validate(); }
-
-                private void validate() {
-                    boolean isValid = validator.test(field.getText().trim());
-                    textField.setValidationBorderColor(isValid ? Color.GRAY : Color.RED);
-                }
-            });
-        } else if (field instanceof RoundedComponents.RoundedPasswordField pwdField) {
-            field.getDocument().addDocumentListener(new DocumentListener() {
-                public void insertUpdate(DocumentEvent e) { validate(); }
-                public void removeUpdate(DocumentEvent e) { validate(); }
-                public void changedUpdate(DocumentEvent e) { validate(); }
-
-                private void validate() {
-                    String text = new String(pwdField.getPassword());
-                    boolean isValid = validator.test(text);
-                    pwdField.setValidationBorderColor(isValid ? Color.GRAY : Color.RED);
-                }
-            });
-        }
     }
 
     private JPanel createContentPanel() {
@@ -350,18 +394,14 @@ public class SignUp1 extends JFrame {
     private JPanel createPairPanel(JComponent left, JComponent right) {
         JPanel panel = new JPanel(new GridLayout(1, 2, 10, 0));
         panel.setOpaque(false);
-
         left.setPreferredSize(new Dimension(180, 50));
         right.setPreferredSize(new Dimension(180, 50));
-
         JPanel leftWrapper = new JPanel(new BorderLayout());
         leftWrapper.setOpaque(false);
         leftWrapper.add(left, BorderLayout.CENTER);
-
         JPanel rightWrapper = new JPanel(new BorderLayout());
         rightWrapper.setOpaque(false);
         rightWrapper.add(right, BorderLayout.CENTER);
-
         panel.add(leftWrapper);
         panel.add(rightWrapper);
         panel.setPreferredSize(new Dimension(375, 50));
@@ -369,13 +409,6 @@ public class SignUp1 extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            ToolTipManager.sharedInstance().setInitialDelay(150);    
-            ToolTipManager.sharedInstance().setDismissDelay(8000);  
-            ToolTipManager.sharedInstance().setReshowDelay(100);     
-    
-            new SignUp1();
-        });
+        SwingUtilities.invokeLater(SignUp1::new);
     }
-    
 }

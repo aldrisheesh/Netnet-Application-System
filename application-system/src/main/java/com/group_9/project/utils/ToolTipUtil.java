@@ -9,6 +9,8 @@ import java.util.TimerTask;
 
 public class ToolTipUtil {
 
+    public static JWindow activePopup = null;
+
     public static class CustomToolTip extends JToolTip {
         public CustomToolTip() {
             setFont(FontUtil.getInterFont(13f));
@@ -55,57 +57,100 @@ public class ToolTipUtil {
         }
     }
 
-    /**
-     * Attaches a custom tooltip to a field that shows only when typing and hides on focus lost.
-     */
     public static void attachCustomTooltip(JComponent target, String message) {
         CustomToolTip tooltip = new CustomToolTip();
         tooltip.setTipText(message);
         tooltip.setComponent(target);
         tooltip.setSize(tooltip.getPreferredSize());
-    
+
         JWindow popupWindow = new JWindow();
-        popupWindow.setBackground(new Color(0, 0, 0, 0)); // Transparent background
+        popupWindow.setBackground(new Color(0, 0, 0, 0));
         popupWindow.add(tooltip);
         popupWindow.pack();
-    
+
         final boolean[] shown = {false};
-    
-        // Show tooltip when user types
+        final boolean[] persistent = {false}; // 👈 true = user typed, don't auto-hide
+        final Timer[] autoHideTimer = {null};
+
+        Runnable hideTip = () -> {
+            popupWindow.setVisible(false);
+            if (activePopup == popupWindow) {
+                activePopup = null;
+            }
+            shown[0] = false;
+            persistent[0] = false;
+        };
+
+        Runnable showTip = () -> {
+            try {
+                Point location = target.getLocationOnScreen();
+
+                // Close any other tooltip
+                if (activePopup != null && activePopup.isVisible()) {
+                    activePopup.setVisible(false);
+                }
+
+                SwingUtilities.invokeLater(() -> {
+                    popupWindow.setLocation(
+                        location.x,
+                        location.y - popupWindow.getHeight() - 4
+                    );
+                    popupWindow.setVisible(true);
+                    activePopup = popupWindow;
+                    shown[0] = true;
+                });
+
+            } catch (IllegalComponentStateException ignored) {}
+        };
+
+        // 🔤 Typed → show persistently
         target.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
+                persistent[0] = true;
+
                 if (!shown[0]) {
-                    try {
-                        Point location = target.getLocationOnScreen();
-                        SwingUtilities.invokeLater(() -> {
-                            popupWindow.setLocation(
-                                location.x,
-                                location.y - popupWindow.getHeight() - 4 // Position above
-                            );
-                            popupWindow.setVisible(true);
-                            shown[0] = true;
-                        });
-                    } catch (IllegalComponentStateException ignored) {
-                        // Component not yet shown on screen
-                    }
+                    showTip.run();
+                }
+
+                // Cancel auto-hide timer if any
+                if (autoHideTimer[0] != null) {
+                    autoHideTimer[0].cancel();
+                    autoHideTimer[0] = null;
                 }
             }
         });
-    
-        // Hide tooltip on focus lost
-        target.addFocusListener((FocusListener) new FocusAdapter() {
+
+        // 🖱️ Click → show, then auto-hide after 1.5s unless user types
+        target.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                showTip.run();
+                persistent[0] = false;
+
+                // Reset and schedule timer
+                if (autoHideTimer[0] != null) {
+                    autoHideTimer[0].cancel();
+                }
+
+                Timer timer = new Timer();
+                autoHideTimer[0] = timer;
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (!persistent[0]) {
+                            SwingUtilities.invokeLater(hideTip);
+                        }
+                    }
+                }, 5000);
+            }
+        });
+
+        target.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
-                popupWindow.setVisible(false);
-                shown[0] = false;
-            }
-    
-            @Override
-            public void focusGained(FocusEvent e) {
-                shown[0] = false; // Reset flag
+                hideTip.run();
             }
         });
     }
-    
 }

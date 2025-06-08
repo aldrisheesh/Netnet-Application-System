@@ -53,12 +53,14 @@ public class CustomDialogUtil {
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setBackground(new Color(0, 0, 0, 0));
         contentPanel.setBounds(0, 0, WIDTH, HEIGHT);
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(25, 40, 30, 40));
         contentPanel.setOpaque(false);
 
-        JLabel icon = new JLabel("⚠");
-        icon.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 34));
-        icon.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ImageIcon errorIcon = new ImageIcon(CustomDialogUtil.class.getResource("/icons/error.png"));
+        Image scaledImage = errorIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        JLabel icon = new JLabel(new ImageIcon(scaledImage));
+        icon.setAlignmentX(Component.CENTER_ALIGNMENT);        
+
 
         JLabel titleLabel = new JLabel(title);
         titleLabel.setFont(FontUtil.getOutfitBoldFont(20f));

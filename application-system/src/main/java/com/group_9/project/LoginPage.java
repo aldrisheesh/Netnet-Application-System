@@ -1,8 +1,10 @@
 package com.group_9.project;
+
 import com.group_9.project.utils.*;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
 
 public class LoginPage extends JFrame {
 
@@ -14,12 +16,10 @@ public class LoginPage extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(null);
 
-        // Gradient background panel
         BackgroundPanel background = new BackgroundPanel(1);
         background.setLayout(null);
         setContentPane(background);
 
-        // Logo image
         ImageIcon originalIcon = new ImageIcon(getClass().getClassLoader().getResource("images/converge_logo.png"));
         Image scaledImage = originalIcon.getImage().getScaledInstance(123, 44, Image.SCALE_SMOOTH);
         ImageIcon logoIcon = new ImageIcon(scaledImage);
@@ -28,7 +28,6 @@ public class LoginPage extends JFrame {
         logo.setBounds(40, 30, 123, 44);
         background.add(logo);
 
-        //Navigation Menu
         String[] navItems = {"Home", "Plans", "Help & Support", "About Us"};
         int xPos = 900;
         int spacing = 30;
@@ -78,7 +77,6 @@ public class LoginPage extends JFrame {
             xPos += textWidth + spacing + 10;
         }
 
-        // Main headlines
         JLabel headline = new JLabel("<html><div style='text-align:center;color:#2B0243;font-weight:700;'>Supercharge your home with<br>ultra-fast internet and endless entertainment.</div></html>", SwingConstants.CENTER);
         headline.setFont(FontUtil.getOutfitFont(50f));
         headline.setForeground(new Color(0x2B0243));
@@ -92,7 +90,6 @@ public class LoginPage extends JFrame {
 
         int yPosi = 435;
 
-        // Call to action form
         JLabel letsLabel = new JLabel("<html><div style='text-align:center;color:#2B0243;font-weight:600;'>Let’s make things happen.</div></html>");
         letsLabel.setFont(FontUtil.getOutfitFont(16f));
         letsLabel.setBounds(562, yPosi, 300, 30);
@@ -109,21 +106,55 @@ public class LoginPage extends JFrame {
         passwordField.setBounds(524, yPosi + 117, 375, 60);
         background.add(passwordField);
 
+        // ➕ Add validation
+        ValidationUtil.addTextValidation(emailField, s -> !s.trim().isEmpty());
+        ValidationUtil.addTextValidation(passwordField, s -> !s.trim().isEmpty());
+
         JButton loginBtn = new RoundedComponents.RoundedButton("LOG IN", 20);
         loginBtn.setFont(FontUtil.getOutfitFont(16f));
         loginBtn.setBounds(525, yPosi + 195, 130, 40);
         loginBtn.setFocusPainted(false);
         loginBtn.setFocusable(false);
         ButtonHoverEffect.apply(
-                loginBtn, 
-                new Color(62, 10, 118),          //hover bg
-                Color.WHITE,                      //hover fg
-                new Color(42, 2, 67),            //normal bg
-                Color.WHITE,                      //normal fg
-                new Color(62, 10, 118),          //hover border
-                new Color(42, 2, 67)             //normal border
+                loginBtn,
+                new Color(62, 10, 118),
+                Color.WHITE,
+                new Color(42, 2, 67),
+                Color.WHITE,
+                new Color(62, 10, 118),
+                new Color(42, 2, 67)
         );
         background.add(loginBtn);
+
+        ToolTipUtil.attachCustomTooltip(emailField, "Enter your email or phone number");
+        ToolTipUtil.attachCustomTooltip(passwordField, "Enter your password");
+
+        // ⚠️ LOGIN VALIDATION LOGIC
+        loginBtn.addActionListener(e -> {
+            boolean valid = true;
+
+            if (emailField.getText().trim().isEmpty()) {
+                emailField.setValidationBorderColor(Color.RED);
+                valid = false;
+            } else {
+                emailField.setValidationBorderColor(Color.GRAY);
+            }
+
+            if (passwordField.getText().trim().isEmpty()) {
+                passwordField.setValidationBorderColor(Color.RED);
+                valid = false;
+            } else {
+                passwordField.setValidationBorderColor(Color.GRAY);
+            }
+
+            if (!valid) {
+                CustomDialogUtil.showStyledErrorDialog(this, "Missing Fields", "Please fill in all required fields before logging in.");
+                return;
+            }
+
+            // If valid, proceed with login logic (not included here)
+            System.out.println("Proceeding with login...");
+        });
 
         JLabel forgotLabel = new JLabel("<html><div style='color:#7E4CA5;font-weight:600;'>Forgotten your password?</div></html>");
         forgotLabel.setFont(FontUtil.getOutfitFont(16f));
@@ -138,11 +169,10 @@ public class LoginPage extends JFrame {
         keepSignedIn.setFocusPainted(false);
         keepSignedIn.setBorderPainted(false);
         keepSignedIn.setContentAreaFilled(false);
-        
-        // flat custom icons
+
         keepSignedIn.setIcon(new ImageIcon(getClass().getClassLoader().getResource("icons/checkbox_unchecked.png")));
         keepSignedIn.setSelectedIcon(new ImageIcon(getClass().getClassLoader().getResource("icons/checkbox_checked.png")));
-        
+
         keepSignedIn.setBounds(523, yPosi + 195 + 45, 250, 40);
         background.add(keepSignedIn);
 

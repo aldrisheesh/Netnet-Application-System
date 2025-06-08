@@ -196,7 +196,7 @@ public class AccountAddressPage extends Template {
         detailsContainer.add(sep);
 
         JLabel reminder = new JLabel("<html>This is your registered service address. For minor corrections (e.g., spelling or formatting), please contact our support team."); //disclaimer/support notice
-        reminder.setFont(FontUtil.getOutfitFont(13f));
+        reminder.setFont(FontUtil.getInterFont(13f));
         reminder.setBounds(150, 610, 800, 40);
         detailsContainer.add(reminder);
 
