@@ -157,7 +157,7 @@ public class SignUp5 extends JFrame {
 
             if (!expiryDate.getText().matches("^(0[1-9]|1[0-2])/\\d{2}$")) {
                 expiryDate.setValidationBorderColor(Color.RED);
-                CustomDialogUtil.showStyledErrorDialog(SignUp5.this, "Invalid Expiry", "Expiry date must be in MM/YY format.");
+                CustomDialogUtil.showStyledErrorDialog(SignUp5.this, "Invalid Expiry", "Expiry date must be valid in MM/YY format.");
                 return;
             }
 

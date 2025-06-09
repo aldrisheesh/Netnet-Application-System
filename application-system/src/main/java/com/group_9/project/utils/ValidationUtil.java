@@ -47,17 +47,17 @@ public class ValidationUtil {
     }
 
     public static void addTextValidation(JTextField field, JComponent wrapper, Predicate<String> validator) {
-    field.getDocument().addDocumentListener(new DocumentListener() {
-        public void insertUpdate(DocumentEvent e) { validate(); }
-        public void removeUpdate(DocumentEvent e) { validate(); }
-        public void changedUpdate(DocumentEvent e) { validate(); }
-
-        private void validate() {
-            boolean isValid = validator.test(field.getText().trim());
-            wrapper.putClientProperty("validationColor", isValid ? Color.GRAY : Color.RED);
-            wrapper.repaint();
-        }
-    });
-}
-
+        wrapper.putClientProperty("validator", validator);
+        field.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) { validate(); }
+            public void removeUpdate(DocumentEvent e) { validate(); }
+            public void changedUpdate(DocumentEvent e) { validate(); }
+    
+            private void validate() {
+                boolean isValid = validator.test(field.getText().trim());
+                wrapper.putClientProperty("validationColor", isValid ? Color.GRAY : Color.RED);
+                wrapper.repaint();
+            }
+        });
+    }    
 }

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
+
 import javax.swing.*;
 
 import com.group_9.project.utils.RoundedComponents.*;
@@ -279,7 +281,7 @@ public class AccountDetailsPage extends Template {
                 label.setBounds(490, yRight + 5, 150, 28);
                 detailsContainer.add(label);
     
-                JTextField bdayField = new RoundedTextField("MM/DD/YY", 15);
+                JTextField bdayField = new RoundedTextField("MM/DD/YYYY", 15);
                 bdayField.setFont(FontUtil.getOutfitFont(15f));
                 bdayField.setBackground(Color.WHITE);
                 bdayField.setForeground(Color.BLACK);
@@ -295,7 +297,7 @@ public class AccountDetailsPage extends Template {
     
                 SmartFieldFormatter.attachDateFormatter(bdayField);
                 ValidationUtil.addTextValidation(bdayField, bdayWrapper, s -> {
-                    if (!s.matches("^\\d{2}/\\d{2}/\\d{2}$")) return false;
+                    if (!s.matches("^\\d{2}/\\d{2}/\\d{4}$")) return false;
                     try {
                         Date dob = new SimpleDateFormat("MM/dd/yy").parse(s);
                         Calendar minAdult = Calendar.getInstance();
@@ -391,11 +393,15 @@ public class AccountDetailsPage extends Template {
                 actionButton.setText("SAVE CHANGES");
                 enableEditing(true);
             } else {
-                // You can keep or replace your validation checks here
+                if (!validateFields()) {
+                    CustomDialogUtil.showStyledErrorDialog(this, "Validation Error", "Please correct the highlighted fields before saving.");
+                    return;
+                }
+            
                 isEditMode = false;
                 actionButton.setText("UPDATE");
                 enableEditing(false);
-            }
+            }            
         });
     
         detailsContainer.add(actionButton);
@@ -413,6 +419,37 @@ public class AccountDetailsPage extends Template {
             combo.setEnabled(enabled);
         }
     }
+
+    private boolean validateFields() {
+        boolean allValid = true;
+    
+        for (JTextField field : textFields) {
+            if (!field.isEditable()) continue;
+    
+            String newValue = field.getText().trim();
+            JComponent wrapper = (JComponent) field.getParent();
+    
+            Predicate<String> validator = (Predicate<String>) wrapper.getClientProperty("validator");
+            if (validator != null) {
+                boolean valid = validator.test(newValue);
+                wrapper.putClientProperty("validationColor", valid ? Color.GRAY : Color.RED);
+                wrapper.repaint();
+                if (!valid) allValid = false;
+            }
+        }
+    
+        for (JComboBox<String> combo : comboBoxes) {
+            if (!combo.isEnabled()) continue; 
+    
+            if (combo instanceof RoundedComponents.RoundedComboBox<String> styledCombo) {
+                boolean valid = styledCombo.getSelectedIndex() != -1;
+                styledCombo.setValidationBorderColor(valid ? Color.GRAY : Color.RED);
+                if (!valid) allValid = false;
+            }
+        }
+    
+        return allValid;
+    }    
 
     private JPanel createTextFieldWrapper(JTextField field, int arc) {
         JPanel wrapper = new JPanel() {

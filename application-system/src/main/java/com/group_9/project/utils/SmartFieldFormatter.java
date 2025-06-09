@@ -6,50 +6,51 @@ import javax.swing.event.DocumentListener;
 
 public class SmartFieldFormatter {
 
-    // 📆 DATE FORMATTER (MM/dd/yy)
+    // 📆 DATE FORMATTER (MM/dd/yyyy)
     public static void attachDateFormatter(JTextField field) {
         field.getDocument().addDocumentListener(new DocumentListener() {
             boolean isUpdating = false;
-    
+
             @Override public void insertUpdate(DocumentEvent e) { format(field); }
             @Override public void removeUpdate(DocumentEvent e) { format(field); }
             @Override public void changedUpdate(DocumentEvent e) {}
-    
+
             private void format(JTextField field) {
                 if (isUpdating) return;
                 isUpdating = true;
-    
+
                 SwingUtilities.invokeLater(() -> {
                     try {
                         String raw = field.getText();
                         int caretPos = field.getCaretPosition();
-    
+
                         // Get only digits
                         String digits = raw.replaceAll("\\D", "");
-                        if (digits.length() > 6) digits = digits.substring(0, 6);
-    
-                        // Format: MM/dd/yy
+                        if (digits.length() > 8) digits = digits.substring(0, 8);
+
+                        // Format: MM/dd/yyyy
                         StringBuilder formatted = new StringBuilder();
                         int newCaret = caretPos;
-    
+
                         for (int i = 0; i < digits.length(); i++) {
                             if (i == 2 || i == 4) {
                                 formatted.append('/');
                                 if (i < caretPos) newCaret++;
                             }
                             formatted.append(digits.charAt(i));
+                            if (i < caretPos) newCaret++;
                         }
-    
+
                         field.setText(formatted.toString());
                         field.setCaretPosition(Math.min(newCaret, formatted.length()));
-    
+
                     } finally {
                         isUpdating = false;
                     }
                 });
             }
         });
-    }    
+    }
 
     // 📱 MOBILE FORMATTER (+63 9XX-XXX-XXXX)
     public static void attachMobileFormatter(JTextField field) {

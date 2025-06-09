@@ -105,10 +105,10 @@ public class SignUp1 extends JFrame {
         ToolTipUtil.attachCustomTooltip(nameField, "Enter your full name");
 
         gbc.gridx = 1;
-        RoundedComponents.RoundedTextField birthdayField = createRoundedTextField("Birthday (MM/dd/yy)");
+        RoundedComponents.RoundedTextField birthdayField = createRoundedTextField("Birthday (MM/dd/yyyy)");
         birthdayField.setName("Birthday");
         ValidationUtil.addTextValidation(birthdayField, s -> {
-            if (!s.matches("^\\d{2}/\\d{2}/\\d{2}$")) return false;
+            if (!s.matches("^\\d{2}/\\d{2}/\\d{4}$")) return false;
         
             try {
                 int month = Integer.parseInt(s.substring(0, 2));
@@ -117,7 +117,9 @@ public class SignUp1 extends JFrame {
                 if (day < 1 || day > 31) return false;
         
                 // Age check
-                Date dob = new SimpleDateFormat("MM/dd/yy").parse(s);
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                sdf.setLenient(false);
+                Date dob = sdf.parse(s);
                 Calendar minAdult = Calendar.getInstance();
                 minAdult.add(Calendar.YEAR, -18);
                 return !dob.after(minAdult.getTime());
@@ -125,8 +127,7 @@ public class SignUp1 extends JFrame {
             } catch (NumberFormatException | ParseException e) {
                 return false;
             }
-        });               
-        ((AbstractDocument) birthdayField.getDocument()).setDocumentFilter(new LengthLimitFilter(8));
+        });                       
         SmartFieldFormatter.attachDateFormatter(birthdayField);
 
         RoundedComponents.RoundedComboBox<String> genderCombo = (RoundedComponents.RoundedComboBox<String>)
@@ -136,7 +137,7 @@ public class SignUp1 extends JFrame {
         formPanel.add(createPairPanel(birthdayField, genderCombo), gbc);
 
         ToolTipUtil.attachCustomTooltip(genderCombo, "Select your gender");
-        ToolTipUtil.attachCustomTooltip(birthdayField, "Enter your birthday (MM/dd/yy)");
+        ToolTipUtil.attachCustomTooltip(birthdayField, "Enter your birthday (MM/dd/yyyy)");
 
         gbc.gridx = 0;
         gbc.gridy++;
@@ -202,7 +203,7 @@ public class SignUp1 extends JFrame {
         nextButton.addActionListener((ActionEvent e) -> {
             List<JTextComponent> inputFields = new ArrayList<>();
             String password = "", email = "", mobile = "", birthdate = "";
-
+        
             for (Component comp : formPanel.getComponents()) {
                 if (comp instanceof JTextComponent) {
                     inputFields.add((JTextComponent) comp);
@@ -220,38 +221,38 @@ public class SignUp1 extends JFrame {
                     }
                 }
             }
-
+        
             boolean allValid = true;
-
+        
             for (JTextComponent field : inputFields) {
                 String name = field.getName();
                 boolean optional = name != null && name.equalsIgnoreCase("Spouse");
                 boolean valid = optional || !field.getText().trim().isEmpty();
-
+        
                 if (field instanceof RoundedComponents.RoundedTextField textField) {
                     textField.setValidationBorderColor(valid ? Color.GRAY : Color.RED);
                 } else if (field instanceof RoundedComponents.RoundedPasswordField pwdField) {
                     pwdField.setValidationBorderColor(valid ? Color.GRAY : Color.RED);
                 }
-
+        
                 if (!valid) allValid = false;
             }
-
+        
             List<RoundedComponents.RoundedComboBox<String>> comboBoxes = List.of(genderCombo, civilCombo);
             boolean comboValid = true;
-
+        
             for (var combo : comboBoxes) {
                 boolean valid = combo.getSelectedIndex() != -1;
                 combo.setValidationBorderColor(valid ? Color.GRAY : Color.RED);
                 if (!valid) comboValid = false;
             }
-
+        
             if (!allValid || !comboValid) {
                 CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
                         "Missing Information", "Please complete all required fields and selections.");
                 return;
             }
-
+        
             for (JTextComponent field : inputFields) {
                 if (field.getName() == null) continue;
                 switch (field.getName()) {
@@ -261,49 +262,46 @@ public class SignUp1 extends JFrame {
                     case "Birthday": birthdate = field.getText().trim(); break;
                 }
             }
-
+            
+            // ✅ Recolor border if invalid before dialog
             if (password.length() < 8) {
+                passwordField.setValidationBorderColor(Color.RED);
                 CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
                         "Weak Password", "Password must be at least 8 characters long.");
                 return;
             }
-
-            if (!mobile.matches("^\\+63\\s9\\d{2}-\\d{3}-\\d{4}$")) {
-                CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
-                        "Invalid Mobile Number", "Mobile number must be in the format +63 9XX-XXX-XXXX.");
-                return;
-            }            
-
-            if (!email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,}$")) {
-                CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
-                        "Invalid Email", "Please enter a valid email address.");
-                return;
-            }
-
+            
             try {
-                if (!birthdate.matches("^\\d{2}/\\d{2}/\\d{2}$")) {
-                    throw new ParseException("Invalid format", 0);
+                if (!birthdate.matches("^\\d{2}/\\d{2}/\\d{4}$")) {
+                    birthdayField.setValidationBorderColor(Color.RED);
+                    CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
+                            "Invalid Format", "Please use the format MM/dd/yyyy.");
+                    return;
                 }
             
                 int month = Integer.parseInt(birthdate.substring(0, 2));
                 int day = Integer.parseInt(birthdate.substring(3, 5));
                 if (month < 1 || month > 12) {
+                    birthdayField.setValidationBorderColor(Color.RED);
                     CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
                             "Invalid Birthdate", "Month must be between 01 and 12.");
                     return;
                 }
                 if (day < 1 || day > 31) {
+                    birthdayField.setValidationBorderColor(Color.RED);
                     CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
                             "Invalid Birthdate", "Day must be between 01 and 31.");
                     return;
                 }
             
-                Date dob = new SimpleDateFormat("MM/dd/yy").parse(birthdate);
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                sdf.setLenient(false); // Enforce exact match
+                Date dob = sdf.parse(birthdate);
             
-                // Extra check: does the parsed date match exactly the input? (handles Feb 30, etc.)
                 Calendar parsed = Calendar.getInstance();
                 parsed.setTime(dob);
-                if (parsed.get(Calendar.MONTH) + 1 != month || parsed.get(Calendar.DAY_OF_MONTH) != day) {
+                if ((parsed.get(Calendar.MONTH) + 1) != month || parsed.get(Calendar.DAY_OF_MONTH) != day) {
+                    birthdayField.setValidationBorderColor(Color.RED);
                     CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
                             "Invalid Birthdate", "The date you entered does not exist.");
                     return;
@@ -312,16 +310,35 @@ public class SignUp1 extends JFrame {
                 Calendar minAdult = Calendar.getInstance();
                 minAdult.add(Calendar.YEAR, -18);
                 if (dob.after(minAdult.getTime())) {
+                    birthdayField.setValidationBorderColor(Color.RED);
                     CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
                             "Underage", "You must be at least 18 years old to register.");
                     return;
                 }
+            
             } catch (ParseException ex) {
+                birthdayField.setValidationBorderColor(Color.RED);
                 CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
-                        "Invalid Birthdate", "Please enter a valid date in MM/dd/yy format.");
+                        "Invalid Birthdate", "Please enter a valid date in MM/dd/yyyy format.");
                 return;
-            }            
+            }
+            
 
+            if (!mobile.matches("^\\+63\\s9\\d{2}-\\d{3}-\\d{4}$")) {
+                mobileField.setValidationBorderColor(Color.RED);
+                CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
+                        "Invalid Mobile Number", "Mobile number must be in the format +63 9XX-XXX-XXXX.");
+                return;
+            }
+        
+            if (!email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,}$")) {
+                emailField.setValidationBorderColor(Color.RED);
+                CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
+                        "Invalid Email", "Please enter a valid email address.");
+                return;
+            }
+        
+            // ✅ Everything passed, proceed and store data
             UserApplicationData.set("Username", usernameField.getText().trim());
             UserApplicationData.set("Password", passwordField.getText());
             UserApplicationData.set("CustomerName", nameField.getText().trim());
@@ -333,10 +350,11 @@ public class SignUp1 extends JFrame {
             UserApplicationData.set("Email", emailField.getText().trim());
             UserApplicationData.set("MaidenName", maidenField.getText().trim());
             UserApplicationData.set("Spouse", spouseField.getText().trim());
-
+        
             new SignUp2();
             dispose();
         });
+        
 
         // Restore Data
         usernameField.setText(UserApplicationData.get("Username"));

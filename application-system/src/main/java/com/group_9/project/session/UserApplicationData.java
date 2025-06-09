@@ -19,6 +19,6 @@ public class UserApplicationData {
     }
 
     public static Map<String, String> getAll() {
-        return new HashMap<>(data); // optional: for debugging or exporting
+        return new HashMap<>(data); 
     }
 }

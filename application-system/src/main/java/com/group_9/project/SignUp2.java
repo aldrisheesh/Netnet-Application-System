@@ -205,18 +205,18 @@ public class SignUp2 extends JFrame {
                 return;
             }
 
+            if (!residencyField.getText().matches("^\\d{1,3}$")) {
+                residencyField.setValidationBorderColor(Color.RED);
+                CustomDialogUtil.showStyledErrorDialog(SignUp2.this, "Invalid", "Years of residency must be 1 to 3 digits.");
+                return;
+            }
+
             if (!contactField.getText().matches("^\\+63\\s9\\d{2}-\\d{3}-\\d{4}$")) {
                 contactField.setValidationBorderColor(Color.RED);
                 CustomDialogUtil.showStyledErrorDialog(SignUp2.this,
                     "Invalid", "Contact number must be in the format +63 9XX-XXX-XXXX.");
                 return;
             }            
-
-            if (!residencyField.getText().matches("^\\d{1,3}$")) {
-                residencyField.setValidationBorderColor(Color.RED);
-                CustomDialogUtil.showStyledErrorDialog(SignUp2.this, "Invalid", "Years of residency must be 1 to 3 digits.");
-                return;
-            }
 
             if (!zipField.getText().matches("^\\d{4}$")) {
                 zipField.setValidationBorderColor(Color.RED);
