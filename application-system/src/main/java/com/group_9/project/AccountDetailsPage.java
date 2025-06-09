@@ -114,13 +114,13 @@ public class AccountDetailsPage extends Template {
         sidebar.add(title);
         sidebar.add(Box.createVerticalStrut(15));
 
-        String[] items = {"My details", "My address", "My subscriptions"};
+        String[] items = {"My Details", "My Address", "My Subscriptions"};
         Color selectedColor = new Color(132, 0, 159, 255);
         Color defaultColor = new Color(22, 6, 48, 128);
         Color hoverColor = new Color(62, 10, 118);
 
         for (String item : items) {
-            Color color = item.equals("My details") ? selectedColor : defaultColor;
+            Color color = item.equals("My Details") ? selectedColor : defaultColor;
             JLabel label = makeSidebarLabel("   " + item, color);
             label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             
@@ -129,15 +129,15 @@ public class AccountDetailsPage extends Template {
             label.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseClicked(java.awt.event.MouseEvent e) {
                     switch (item) {
-                        case "My details" -> {
+                        case "My Details" -> {
                             new AccountDetailsPage().setVisible(true);
                             dispose();
                         }
-                        case "My address" -> {
+                        case "My Address" -> {
                             new AccountAddressPage().setVisible(true);
                             dispose();
                         }
-                        case "My subscriptions" -> {
+                        case "My Subscriptions" -> {
                             new AccountSubsPage().setVisible(true);
                             dispose();
                         }
@@ -145,7 +145,7 @@ public class AccountDetailsPage extends Template {
                 }
 
                 public void mouseEntered(java.awt.event.MouseEvent e) {
-                    if (!item.equals("My details")) {
+                    if (!item.equals("My Details")) {
                         label.setForeground(hoverColor);
                         label.setOpaque(false);
                         label.repaint();
@@ -153,7 +153,7 @@ public class AccountDetailsPage extends Template {
                 }
 
                 public void mouseExited(java.awt.event.MouseEvent e) {
-                    if (!item.equals("My details")) {
+                    if (!item.equals("My Details")) {
                         label.setForeground(defaultColor);
                         label.setOpaque(false);
                         label.repaint();
@@ -198,7 +198,7 @@ public class AccountDetailsPage extends Template {
         detailsContainer.setBounds(0, 0, 1250, 700);
         detailsContainer.setOpaque(false);
     
-        JLabel titleLabel = new JLabel("My details");
+        JLabel titleLabel = new JLabel("MY DETAILS");
         titleLabel.setFont(FontUtil.getOutfitBoldFont(26f));
         titleLabel.setForeground(new Color(42, 2, 67, 255));
         titleLabel.setBounds(70, 50, 300, 30);

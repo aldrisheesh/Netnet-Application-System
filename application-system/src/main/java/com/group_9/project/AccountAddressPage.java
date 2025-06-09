@@ -95,13 +95,13 @@ public class AccountAddressPage extends Template {
         sidebar.add(title);
         sidebar.add(Box.createVerticalStrut(15));
 
-        String[] items = {"My details", "My address", "My subscriptions"}; //sidebar selection
+        String[] items = {"My Details", "My Address", "My Subscriptions"}; //sidebar selection
         Color selectedColor = new Color(132, 0, 159, 255);
         Color defaultColor = new Color(22, 6, 48, 128);
         Color hoverColor = new Color(62, 10, 118);
 
         for (String item : items) {
-            Color color = item.equals("My address") ? selectedColor : defaultColor;
+            Color color = item.equals("My Address") ? selectedColor : defaultColor;
             JLabel label = makeSidebarLabel("   " + item, color);
             label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             
@@ -110,15 +110,15 @@ public class AccountAddressPage extends Template {
             label.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseClicked(java.awt.event.MouseEvent e) {
                     switch (item) {
-                        case "My details" -> {
+                        case "My Details" -> {
                             new AccountDetailsPage().setVisible(true);
                             dispose();
                         }
-                        case "My address" -> {
+                        case "My Address" -> {
                             new AccountAddressPage().setVisible(true);
                             dispose();
                         }
-                        case "My subscriptions" -> {
+                        case "My Subscriptions" -> {
                             new AccountSubsPage().setVisible(true);
                             dispose();
                         }
@@ -126,7 +126,7 @@ public class AccountAddressPage extends Template {
                 }
 
                 public void mouseEntered(java.awt.event.MouseEvent e) {
-                    if (!item.equals("My address")) {
+                    if (!item.equals("My Address")) {
                         label.setForeground(hoverColor);
                         label.setOpaque(false);
                         label.repaint();
@@ -134,7 +134,7 @@ public class AccountAddressPage extends Template {
                 }
 
                 public void mouseExited(java.awt.event.MouseEvent e) {
-                    if (!item.equals("My address")) {
+                    if (!item.equals("My Address")) {
                         label.setForeground(defaultColor);
                         label.setOpaque(false);
                         label.repaint();
@@ -179,7 +179,7 @@ public class AccountAddressPage extends Template {
         detailsContainer.setBounds(0, 0, 1250, 700);
         detailsContainer.setOpaque(false);
 
-        JLabel titleLabel = new JLabel("My address"); //header1
+        JLabel titleLabel = new JLabel("MY ADDRESS"); //header1
         titleLabel.setFont(FontUtil.getOutfitBoldFont(26f));
         titleLabel.setForeground(new Color(42, 2, 67, 255));
         titleLabel.setBounds(70, 50, 300, 30);

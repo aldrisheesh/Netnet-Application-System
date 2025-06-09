@@ -87,28 +87,28 @@ public class AccountSubsPage extends Template {
         sidebar.add(title);
         sidebar.add(Box.createVerticalStrut(15));
 
-        String[] items = {"My details", "My address", "My subscriptions"};
+        String[] items = {"My Details", "My Address", "My Subscriptions"};
         Color selectedColor = new Color(132, 0, 159, 255);
         Color defaultColor = new Color(22, 6, 48, 128);
         Color hoverColor = new Color(62, 10, 118);
 
         for (String item : items) {
-            Color color = item.equals("My subscriptions") ? selectedColor : defaultColor;
+            Color color = item.equals("My Subscriptions") ? selectedColor : defaultColor;
             JLabel label = makeSidebarLabel("   " + item, color);
             label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
             label.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseClicked(java.awt.event.MouseEvent e) {
                     switch (item) {
-                        case "My details" -> {
+                        case "My Details" -> {
                             new AccountDetailsPage().setVisible(true);
                             dispose();
                         }
-                        case "My address" -> {
+                        case "My Address" -> {
                             new AccountAddressPage().setVisible(true);
                             dispose();
                         }
-                        case "My subscriptions" -> {
+                        case "My Subscriptions" -> {
                             new AccountSubsPage().setVisible(true);
                             dispose();
                         }
@@ -116,11 +116,11 @@ public class AccountSubsPage extends Template {
                 }
 
                 public void mouseEntered(java.awt.event.MouseEvent e) {
-                    if (!item.equals("My subscriptions")) label.setForeground(hoverColor);
+                    if (!item.equals("My Subscriptions")) label.setForeground(hoverColor);
                 }
 
                 public void mouseExited(java.awt.event.MouseEvent e) {
-                    if (!item.equals("My subscriptions")) label.setForeground(defaultColor);
+                    if (!item.equals("My Subscriptions")) label.setForeground(defaultColor);
                 }
             });
 
@@ -158,7 +158,7 @@ public class AccountSubsPage extends Template {
         container.setBackground(new Color(0, 0, 0, 0));
         container.setBounds(0, 0, 1250, 700);
 
-        JLabel titleLabel = new JLabel("My subscriptions"); //header1
+        JLabel titleLabel = new JLabel("MY SUBSCRIPTIONS"); //header1
         titleLabel.setFont(FontUtil.getOutfitBoldFont(26f));
         titleLabel.setForeground(new Color(42, 2, 67, 255));
         titleLabel.setBounds(70, 50, 300, 30);

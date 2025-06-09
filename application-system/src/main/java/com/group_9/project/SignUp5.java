@@ -180,6 +180,12 @@ public class SignUp5 extends JFrame {
                 return;
             }
 
+            UserApplicationData.set("cardholderName", cardholderName.getText());
+            UserApplicationData.set("cardNumber", cardNumber.getText());
+            UserApplicationData.set("expiryDate", expiryDate.getText());
+            UserApplicationData.set("cvv", cvv.getText());
+            UserApplicationData.set("paymentOption", full.isSelected() ? "full" : (install.isSelected() ? "installment" : ""));
+
             new SignUp6();
             dispose();
         });
