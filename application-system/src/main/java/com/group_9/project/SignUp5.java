@@ -75,8 +75,14 @@ public class SignUp5 extends JFrame {
         infoPanel.add(leftLabels, BorderLayout.NORTH);
         innerContent.add(infoPanel);
 
+        // adds horizontal separator
+        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
+        separator.setMaximumSize(new Dimension(826, 2));
+        separator.setForeground(Color.decode("#B2B2B2"));
+        separator.setAlignmentX(Component.CENTER_ALIGNMENT);
         innerContent.add(Box.createRigidArea(new Dimension(0, 10)));
-        innerContent.add(new JSeparator(SwingConstants.HORIZONTAL));
+        innerContent.add(separator);
+
         innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
         JPanel rowPanel = new JPanel();
