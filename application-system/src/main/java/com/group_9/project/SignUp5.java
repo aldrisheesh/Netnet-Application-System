@@ -25,6 +25,8 @@ public class SignUp5 extends JFrame {
 
     public SignUp5() {
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
+
+        // Main content container
         JPanel container = createContentPanel();
         background.add(container);
 
@@ -43,22 +45,28 @@ public class SignUp5 extends JFrame {
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setForeground(titleColor);
         innerContent.add(title);
+
+        // adds spacing
         innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
+        // step tracker panel using the new separate class
         JPanel stepWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
         stepWrapper.setOpaque(false);
         stepWrapper.add(CreateStepTracker.createStepTracker(2));
         innerContent.add(stepWrapper);
         innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
+        // personal info panel
         JPanel infoPanel = new JPanel();
         infoPanel.setOpaque(false);
         infoPanel.setLayout(new BorderLayout());
         infoPanel.setMaximumSize(new Dimension(826, 60));
 
+        // left labels for the info panel 
         JPanel leftLabels = new JPanel();
         leftLabels.setLayout(new BoxLayout(leftLabels, BoxLayout.Y_AXIS));
         leftLabels.setOpaque(false);
+        leftLabels.setBorder(BorderFactory.createEmptyBorder(9, 0, 0, 0)); 
 
         JLabel subtitle = new JLabel("SECURE YOUR PAYMENT", SwingConstants.LEFT);
         subtitle.setFont(FontUtil.getOutfitFont(16f));
@@ -72,7 +80,7 @@ public class SignUp5 extends JFrame {
         leftLabels.add(Box.createRigidArea(new Dimension(0, 5)));
         leftLabels.add(subNote);
 
-        infoPanel.add(leftLabels, BorderLayout.NORTH);
+        infoPanel.add(leftLabels, BorderLayout.WEST);
         innerContent.add(infoPanel);
 
         // adds horizontal separator
@@ -185,12 +193,6 @@ public class SignUp5 extends JFrame {
                 CustomDialogUtil.showStyledErrorDialog(SignUp5.this, "Invalid CVV", "CVV must be 3 or 4 digits.");
                 return;
             }
-
-            UserApplicationData.set("cardholderName", cardholderName.getText());
-            UserApplicationData.set("cardNumber", cardNumber.getText());
-            UserApplicationData.set("expiryDate", expiryDate.getText());
-            UserApplicationData.set("cvv", cvv.getText());
-            UserApplicationData.set("paymentOption", full.isSelected() ? "full" : (install.isSelected() ? "installment" : ""));
 
             new SignUp6();
             dispose();
@@ -565,10 +567,20 @@ public class SignUp5 extends JFrame {
 
         expiryDate = createValidatedField("MM/YY", s -> {
             if (!s.matches("^(0[1-9]|1[0-2])/\\d{2}$")) return false;
-            String[] parts = s.split("/");
-            int month = Integer.parseInt(parts[0]);
-            return month >= 1 && month <= 12;
-        });
+            try {
+                String[] parts = s.split("/");
+                int month = Integer.parseInt(parts[0]);
+                int year = 2000 + Integer.parseInt(parts[1]);
+        
+                Calendar now = Calendar.getInstance();
+                int currYear = now.get(Calendar.YEAR);
+                int currMonth = now.get(Calendar.MONTH) + 1;
+        
+                return !(year < currYear || (year == currYear && month < currMonth));
+            } catch (Exception e) {
+                return false;
+            }
+        });        
         SmartFieldFormatter.attachExpiryDateFormatter(expiryDate);
         ((AbstractDocument) expiryDate.getDocument()).setDocumentFilter(new LengthLimitFilter(5));
         ToolTipUtil.attachCustomTooltip(expiryDate, "Enter expiry date (MM/YY)");        
