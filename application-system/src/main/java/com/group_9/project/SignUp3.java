@@ -82,7 +82,6 @@ public class SignUp3 extends JFrame {
 
         ArrayList<SelectablePlanPanel> planBoxes = new ArrayList<>();
 
-        // Updated to include plan IDs (P001 to P005)
         planBoxes.add(new SelectablePlanPanel("P001", "FIBERX 1500", "₱1500", "Installation Fee: ₱125/24mo."));
         planBoxes.add(new SelectablePlanPanel("P002", "FIBER Xtream 4500", "₱4500", "Installation Fee: WAIVED"));
         planBoxes.add(new SelectablePlanPanel("P003", "FIBERX 2500", "₱2500", "Installation Fee: ₱125/24mo."));
@@ -109,7 +108,6 @@ public class SignUp3 extends JFrame {
             }
         }
 
-        // Restore selection from UserApplicationData
         String savedPlans = UserApplicationData.get("selectedPlans");
         String savedPlanIDs = UserApplicationData.get("selectedPlanIDs");
         
