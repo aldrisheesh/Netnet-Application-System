@@ -229,15 +229,16 @@ public class SignUp2 extends JFrame {
             UserApplicationData.set("YearsOfResidency", residencyField.getText());
             UserApplicationData.set("NameOfOwner", ownerField.getText());
             UserApplicationData.set("ContactNumber", contactField.getText());
-            UserApplicationData.set("HouseRoom", houseField.getText());
-            UserApplicationData.set("Building", buildingField.getText());
-            UserApplicationData.set("Subdivision", subdivisionField.getText());
-            UserApplicationData.set("Barangay", barangayField.getText());
-            UserApplicationData.set("Street", streetField.getText());
-            UserApplicationData.set("City", cityField.getText());
-            UserApplicationData.set("Province", provinceField.getText());
-            UserApplicationData.set("ZipCode", zipField.getText());
+            String residenceAddress = houseField.getText() + ", " +
+                          buildingField.getText() + ", " +
+                          subdivisionField.getText() + ", " +
+                          barangayField.getText() + ", " +
+                          streetField.getText() + ", " +
+                          cityField.getText() + ", " +
+                          provinceField.getText() + ", " +
+                          zipField.getText();
 
+            UserApplicationData.set("ResidenceAddress", residenceAddress);
             new SignUp3();
             dispose();
         });
@@ -248,14 +249,16 @@ public class SignUp2 extends JFrame {
             UserApplicationData.set("YearsOfResidency", residencyField.getText());
             UserApplicationData.set("NameOfOwner", ownerField.getText());
             UserApplicationData.set("ContactNumber", contactField.getText());
-            UserApplicationData.set("HouseRoom", houseField.getText());
-            UserApplicationData.set("Building", buildingField.getText());
-            UserApplicationData.set("Subdivision", subdivisionField.getText());
-            UserApplicationData.set("Barangay", barangayField.getText());
-            UserApplicationData.set("Street", streetField.getText());
-            UserApplicationData.set("City", cityField.getText());
-            UserApplicationData.set("Province", provinceField.getText());
-            UserApplicationData.set("ZipCode", zipField.getText());
+            String residenceAddress = houseField.getText() + ", " +
+                          buildingField.getText() + ", " +
+                          subdivisionField.getText() + ", " +
+                          barangayField.getText() + ", " +
+                          streetField.getText() + ", " +
+                          cityField.getText() + ", " +
+                          provinceField.getText() + ", " +
+                          zipField.getText();
+
+            UserApplicationData.set("ResidenceAddress", residenceAddress);
 
             new SignUp1();
             dispose();
@@ -267,14 +270,20 @@ public class SignUp2 extends JFrame {
         residencyField.setText(UserApplicationData.get("YearsOfResidency"));
         ownerField.setText(UserApplicationData.get("NameOfOwner"));
         contactField.setText(UserApplicationData.get("ContactNumber"));
-        houseField.setText(UserApplicationData.get("HouseRoom"));
-        buildingField.setText(UserApplicationData.get("Building"));
-        subdivisionField.setText(UserApplicationData.get("Subdivision"));
-        barangayField.setText(UserApplicationData.get("Barangay"));
-        streetField.setText(UserApplicationData.get("Street"));
-        cityField.setText(UserApplicationData.get("City"));
-        provinceField.setText(UserApplicationData.get("Province"));
-        zipField.setText(UserApplicationData.get("ZipCode"));
+        String residenceAddress = UserApplicationData.get("ResidenceAddress");
+        if (residenceAddress != null) {
+            String[] parts = residenceAddress.split(",\\s*");
+            if (parts.length >= 8) {
+                houseField.setText(parts[0]);
+                buildingField.setText(parts[1]);
+                subdivisionField.setText(parts[2]);
+                barangayField.setText(parts[3]);
+                streetField.setText(parts[4]);
+                cityField.setText(parts[5]);
+                provinceField.setText(parts[6]);
+                zipField.setText(parts[7]);
+            }
+        }
 
         setVisible(true);
         SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
