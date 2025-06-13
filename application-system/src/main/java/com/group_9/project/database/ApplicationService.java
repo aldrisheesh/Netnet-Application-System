@@ -335,7 +335,7 @@ public class ApplicationService {
         
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, applicationNo);
-            stmt.setString(2, UserApplicationData.get("selectedPlans"));
+            stmt.setString(2, UserApplicationData.get("selectedPlanIDs"));
             stmt.setString(3, UserApplicationData.get("paymentOption"));
             
             int rowsAffected = stmt.executeUpdate();

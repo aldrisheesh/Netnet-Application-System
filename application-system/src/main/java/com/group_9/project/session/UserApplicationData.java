@@ -126,6 +126,7 @@ public class UserApplicationData {
 
     public static void setPlanInfo(String planId, String paymentOption) {
         System.out.println("Setting plan info...");
+        set("selectedPlanIDs", planId);
         set("selectedPlans", planId);
         set("paymentOption", paymentOption);
     }

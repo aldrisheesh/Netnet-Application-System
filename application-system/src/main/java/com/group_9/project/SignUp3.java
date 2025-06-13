@@ -82,11 +82,12 @@ public class SignUp3 extends JFrame {
 
         ArrayList<SelectablePlanPanel> planBoxes = new ArrayList<>();
 
+        // Updated to include plan IDs (P001 to P005)
         planBoxes.add(new SelectablePlanPanel("P001", "FIBERX 1500", "₱1500", "Installation Fee: ₱125/24mo."));
-        planBoxes.add(new SelectablePlanPanel("P004", "FIBER Xtream 4500", "₱4500", "Installation Fee: WAIVED"));
-        planBoxes.add(new SelectablePlanPanel("P002", "FIBERX 2500", "₱2500", "Installation Fee: ₱125/24mo."));
-        planBoxes.add(new SelectablePlanPanel("P005", "FIBER Xtream 7000", "₱7000", "Installation Fee: WAIVED"));
-        planBoxes.add(new SelectablePlanPanel("P003", "FIBERX 3500", "₱3500", "Installation Fee: ₱125/12mo."));
+        planBoxes.add(new SelectablePlanPanel("P002", "FIBER Xtream 4500", "₱4500", "Installation Fee: WAIVED"));
+        planBoxes.add(new SelectablePlanPanel("P003", "FIBERX 2500", "₱2500", "Installation Fee: ₱125/24mo."));
+        planBoxes.add(new SelectablePlanPanel("P004", "FIBER Xtream 7000", "₱7000", "Installation Fee: WAIVED"));
+        planBoxes.add(new SelectablePlanPanel("P005", "FIBERX 3500", "₱3500", "Installation Fee: ₱125/12mo."));
 
         for (int i = 0; i < planBoxes.size(); i++) {
             gbc.gridx = i % 2;
@@ -110,12 +111,13 @@ public class SignUp3 extends JFrame {
 
         // Restore selection from UserApplicationData
         String savedPlans = UserApplicationData.get("selectedPlans");
-        if (!savedPlans.isEmpty()) {
-            String[] selectedPlanIds = savedPlans.split(",");
+        String savedPlanIDs = UserApplicationData.get("selectedPlanIDs");
+        
+        if (!savedPlanIDs.isEmpty()) {
+            String[] selectedPlanIDs = savedPlanIDs.split(",");
             for (SelectablePlanPanel panel : planBoxes) {
-                String planId = panel.getPlanId();
-                for (String selected : selectedPlanIds) {
-                    if (planId.equalsIgnoreCase(selected.trim())) {
+                for (String selectedID : selectedPlanIDs) {
+                    if (panel.getPlanID().equalsIgnoreCase(selectedID.trim())) {
                         panel.setSelected(true);
                         break;
                     }
@@ -154,13 +156,14 @@ public class SignUp3 extends JFrame {
 
         innerContent.add(buttonPanel);
 
-        // MODIFIED: Next button now saves plan IDs instead of titles
         nextButton.addActionListener(e -> {
             ArrayList<String> selectedPlans = new ArrayList<>();
+            ArrayList<String> selectedPlanIDs = new ArrayList<>();
 
             for (SelectablePlanPanel panel : planBoxes) {
                 if (panel.isSelected()) {
-                    selectedPlans.add(panel.getPlanId()); // Using plan ID instead of title
+                    selectedPlans.add(panel.getPlanTitle());
+                    selectedPlanIDs.add(panel.getPlanID());
                 }
             }
 
@@ -168,24 +171,32 @@ public class SignUp3 extends JFrame {
                 CustomDialogUtil.showStyledErrorDialog(SignUp3.this, "No Plan Selected", "Please select at least one plan to proceed.");
             } else {
                 String joinedPlans = String.join(",", selectedPlans);
+                String joinedPlanIDs = String.join(",", selectedPlanIDs);
+                
                 UserApplicationData.set("selectedPlans", joinedPlans);
+                UserApplicationData.set("selectedPlanIDs", joinedPlanIDs);
+                
                 new SignUp5();
                 dispose();
             }
         });
 
-        // MODIFIED: Back button now saves plan IDs instead of titles
         backButton.addActionListener(e -> {
             ArrayList<String> selectedPlans = new ArrayList<>();
+            ArrayList<String> selectedPlanIDs = new ArrayList<>();
         
             for (SelectablePlanPanel panel : planBoxes) {
                 if (panel.isSelected()) {
-                    selectedPlans.add(panel.getPlanId()); // Using plan ID instead of title
+                    selectedPlans.add(panel.getPlanTitle());
+                    selectedPlanIDs.add(panel.getPlanID());
                 }
             }
         
             String joinedPlans = String.join(",", selectedPlans);
+            String joinedPlanIDs = String.join(",", selectedPlanIDs);
+            
             UserApplicationData.set("selectedPlans", joinedPlans);
+            UserApplicationData.set("selectedPlanIDs", joinedPlanIDs);
         
             new SignUp2();
             dispose();
@@ -223,7 +234,6 @@ public class SignUp3 extends JFrame {
 
     class SelectablePlanPanel extends JPanel {
         private boolean selected = false;
-        private String planId;
         private final Color borderColorDefault = Color.LIGHT_GRAY;
         private final Color borderColorHover = Color.GRAY;
         private final Color borderColorSelected = Color.decode("#7E4CA5");
@@ -232,9 +242,17 @@ public class SignUp3 extends JFrame {
         private final int borderRadius = 12;
 
         private final JPanel checkboxPanel;
+        private final String planID;
+        private final String planTitle;
+        private final String planPrice;
+        private final String planFee;
 
-        public SelectablePlanPanel(String planid, String title, String price, String fee) {
-            this.planId = planid;
+        public SelectablePlanPanel(String planID, String title, String price, String fee) {
+            this.planID = planID;
+            this.planTitle = title;
+            this.planPrice = price;
+            this.planFee = fee;
+            
             setLayout(new BorderLayout(10, 0));
             setBackground(Color.WHITE);
             setPreferredSize(new Dimension(370, 75));
@@ -351,9 +369,21 @@ public class SignUp3 extends JFrame {
             setBorder(selected ? createRoundedBorder(borderColorSelected, 2) : createRoundedBorder(borderColorDefault, 1));
             repaint();
         }
-        
-        public String getPlanId() {
-            return planId;
+
+        public String getPlanID() {
+            return planID;
+        }
+
+        public String getPlanTitle() {
+            return planTitle;
+        }
+
+        public String getPlanPrice() {
+            return planPrice;
+        }
+
+        public String getPlanFee() {
+            return planFee;
         }
     }
 
