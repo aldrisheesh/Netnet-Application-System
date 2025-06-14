@@ -8,9 +8,7 @@ public class DatabaseConnection {
 
     private static Connection objConn;
 
-    /**
-     * Get database connection with proper error handling
-     */
+    // get database connection with proper error handling
     public static Connection getConnection() {
         String strDriver = "com.mysql.cj.jdbc.Driver";  // MySQL
         String strJDBC = "jdbc:mysql://";               // driver for MySQL
@@ -22,12 +20,12 @@ public class DatabaseConnection {
         String strPass = "";
 
         try {
-            // Load the driver
+            // load the driver
             Class.forName(strDriver);
             
             System.out.println("Attempting to connect to database: " + strDb);
             
-            // Initialize and return the connection
+            // initialize and return the connection
             Connection conn = DriverManager.getConnection(strConn, strUser, strPass);
             
             if (conn != null && !conn.isClosed()) {
@@ -56,9 +54,7 @@ public class DatabaseConnection {
         }
     }
 
-    /**
-     * Test database connection
-     */
+    // test db connection
     public static boolean testConnection() {
         Connection conn = null;
         try {
