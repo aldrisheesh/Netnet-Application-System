@@ -42,6 +42,7 @@ public class UserApplicationData {
     public static boolean hasRequiredCustomerData() {
         boolean usernameValid = !get("Username").isEmpty();
         boolean customerNameValid = !get("CustomerName").isEmpty();
+        boolean passwordValid = !get("Password").isEmpty();
         boolean emailValid = !get("Email").isEmpty();
         boolean contactValid = !get("Mobile").isEmpty();
         boolean birthdateValid = !get("Birthday").isEmpty();
@@ -55,6 +56,7 @@ public class UserApplicationData {
 
         System.out.println("Customer Data Validation:");
         System.out.println("  Username: " + usernameValid + " ('" + get("Username") + "')");
+        System.out.println("  Password: " + passwordValid + " ('" + get("Password") + "')");
         System.out.println("  Customer Name: " + customerNameValid + " ('" + get("CustomerName") + "')");
         System.out.println("  Email: " + emailValid + " ('" + get("Email") + "')");
         System.out.println("  Contact: " + contactValid + " ('" + get("Mobile") + "')");
@@ -67,7 +69,7 @@ public class UserApplicationData {
         System.out.println("  Residence Years: " + residenceYrsValid + " ('" + get("YearsOfResidency") + "')");
         System.out.println("  Company Paid: " + compPaidValid + " ('" + get("CompanyPaid") + "')");
 
-        return usernameValid && customerNameValid && emailValid && contactValid && 
+        return usernameValid && customerNameValid && passwordValid && emailValid && contactValid && 
                birthdateValid && genderValid && civilStatusValid && motherMnValid && 
                nationalityValid && residenceTypeValid && residenceYrsValid && compPaidValid;
     }
@@ -97,12 +99,13 @@ public class UserApplicationData {
     }
 
     // Convenience setters with validation
-    public static void setCustomerInfo(String username, String customerName, String birthdate, String gender, 
+    public static void setCustomerInfo(String username, String password, String customerName, String birthdate, String gender, 
                                      String civilStatus, String motherMn, String spouseName, 
                                      String nationality, String contactNo, String emailAdd,
                                      String residenceType, int residenceYrs, String compPaid) {
         System.out.println("Setting customer info...");
         set("Username", username);
+        set("Password", password);
         set("CustomerName", customerName);
         set("Birthday", birthdate);
         set("Gender", gender);

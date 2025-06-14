@@ -223,13 +223,14 @@ public class ApplicationService {
     }
 
     private void insertCustomer(Connection conn, String customerId, String residenceId) throws SQLException {
-        String sql = "INSERT INTO tbl_customer (customer_ID, username, customer_name, birthdate, gender, " +
+        String sql = "INSERT INTO tbl_customer (customer_ID, username, password, customer_name, birthdate, gender, " +
                      "civil_status, mother_mn, spouse_name, nationality, contact_no, email_add, " +
-                     "residence_ID, residence_type, residence_yrs, comp_paid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                     "residence_ID, residence_type, residence_yrs, comp_paid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         System.out.println("Executing customer insert with values:");
         System.out.println("  customer_ID: " + customerId);
         System.out.println("  username: '" + UserApplicationData.get("Username") + "'");
+        System.out.println("  password: '" + UserApplicationData.get("Password") + "'");
         System.out.println("  customer_name: '" + UserApplicationData.get("CustomerName") + "'");
         System.out.println("  birthdate: '" + UserApplicationData.get("Birthday") + "'");
         System.out.println("  gender: '" + UserApplicationData.get("Gender") + "'");
@@ -247,7 +248,8 @@ public class ApplicationService {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, customerId);
             stmt.setString(2, UserApplicationData.get("Username"));
-            stmt.setString(3, UserApplicationData.get("CustomerName"));
+            stmt.setString(3, UserApplicationData.get("Password"));
+            stmt.setString(4, UserApplicationData.get("CustomerName"));
             
             // Handle birthdate - convert from MM/dd/yyyy to yyyy-MM-dd format
             String birthdate = UserApplicationData.get("Birthday");
@@ -256,42 +258,42 @@ public class ApplicationService {
                 String[] parts = birthdate.split("/");
                 if (parts.length == 3) {
                     String formattedDate = parts[2] + "-" + String.format("%02d", Integer.parseInt(parts[0])) + "-" + String.format("%02d", Integer.parseInt(parts[1]));
-                    stmt.setDate(4, Date.valueOf(formattedDate));
+                    stmt.setDate(5, Date.valueOf(formattedDate));
                 } else {
                     // If already in yyyy-MM-dd format
-                    stmt.setDate(4, Date.valueOf(birthdate));
+                    stmt.setDate(5, Date.valueOf(birthdate));
                 }
             } catch (Exception e) {
                 throw new SQLException("Invalid birthdate format: " + birthdate + ". Expected format: MM/dd/yyyy or yyyy-MM-dd");
             }
             
-            stmt.setString(5, UserApplicationData.get("Gender"));
-            stmt.setString(6, UserApplicationData.get("CivilStatus"));
-            stmt.setString(7, UserApplicationData.get("MaidenName"));
+            stmt.setString(6, UserApplicationData.get("Gender"));
+            stmt.setString(7, UserApplicationData.get("CivilStatus"));
+            stmt.setString(8, UserApplicationData.get("MaidenName"));
 
             // Handle optional spouse name
             String spouseName = UserApplicationData.get("Spouse");
             if (spouseName == null || spouseName.trim().isEmpty()) {
-                stmt.setNull(8, Types.VARCHAR);
+                stmt.setNull(9, Types.VARCHAR);
             } else {
-                stmt.setString(8, spouseName);
+                stmt.setString(9, spouseName);
             }
 
-            stmt.setString(9, UserApplicationData.get("Nationality"));
-            stmt.setString(10, UserApplicationData.get("Mobile"));
-            stmt.setString(11, UserApplicationData.get("Email"));
-            stmt.setString(12, residenceId);
-            stmt.setString(13, UserApplicationData.get("HomeOwnership"));
+            stmt.setString(10, UserApplicationData.get("Nationality"));
+            stmt.setString(11, UserApplicationData.get("Mobile"));
+            stmt.setString(12, UserApplicationData.get("Email"));
+            stmt.setString(13, residenceId);
+            stmt.setString(14, UserApplicationData.get("HomeOwnership"));
             
             // Handle residence years
             try {
                 int residenceYrs = Integer.parseInt(UserApplicationData.get("YearsOfResidency"));
-                stmt.setInt(14, residenceYrs);
+                stmt.setInt(15, residenceYrs);
             } catch (NumberFormatException e) {
                 throw new SQLException("Invalid residence years: " + UserApplicationData.get("YearsOfResidency"));
             }
             
-            stmt.setString(15, UserApplicationData.get("CompanyPaid"));
+            stmt.setString(16, UserApplicationData.get("CompanyPaid"));
             
             int rowsAffected = stmt.executeUpdate();
             System.out.println("✓ Customer inserted: " + rowsAffected + " row(s)");
