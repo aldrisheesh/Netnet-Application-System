@@ -2,6 +2,8 @@ package com.group_9.project.session;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.Arrays;
 
 public class UserApplicationData {
     private static final Map<String, String> data = new HashMap<>();
@@ -38,7 +40,7 @@ public class UserApplicationData {
         System.out.println("===================================");
     }
 
-    // Validation methods with detailed logging
+    // validation methods with detailed logging
     public static boolean hasRequiredCustomerData() {
         boolean usernameValid = !get("Username").isEmpty();
         boolean customerNameValid = !get("CustomerName").isEmpty();
@@ -98,7 +100,7 @@ public class UserApplicationData {
         return planValid && paymentValid;
     }
 
-    // Convenience setters with validation
+    // convenience setters with validation
     public static void setCustomerInfo(String username, String password, String customerName, String birthdate, String gender, 
                                      String civilStatus, String motherMn, String spouseName, 
                                      String nationality, String contactNo, String emailAdd,
@@ -132,6 +134,20 @@ public class UserApplicationData {
         set("selectedPlanIDs", planId);
         set("selectedPlans", planId);
         set("paymentOption", paymentOption);
+    }
+
+    // set multiple plan IDs at once
+    public static void setPlanInfo(List<String> planIds, String paymentOption) {
+        System.out.println("Setting multiple plan info...");
+        String planIdsStr = String.join(",", planIds);
+        set("selectedPlanIDs", planIdsStr);
+        set("selectedPlans", planIdsStr);
+        set("paymentOption", paymentOption);
+        System.out.println("Set " + planIds.size() + " plan(s): " + planIdsStr);
+    }
+
+    public static void setPlanInfo(String[] planIds, String paymentOption) {
+        setPlanInfo(Arrays.asList(planIds), paymentOption);
     }
 
     public static void setPaymentInfo(String cardNumber, String expiryDate, String cvv, String cardholderName) {

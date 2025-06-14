@@ -6,16 +6,12 @@ import java.time.LocalDateTime;
 
 public class ApplicationService {
 
-    /**
-     * Process the complete application - only called when confirm button is clicked
-     * This method handles all database insertions as a single transaction
-     */
     public boolean processApplication() {
         System.out.println("\n=== STARTING APPLICATION PROCESSING ===");
         
         Connection conn = null;
         try {
-            // Test database connection first
+            // test database connection first
             System.out.println("Testing database connection...");
             if (!DatabaseConnection.testConnection()) {
                 System.err.println("Database connection test failed!");
@@ -32,10 +28,10 @@ public class ApplicationService {
             conn.setAutoCommit(false); // Start transaction
             System.out.println("Transaction started (autoCommit = false)");
 
-            // Print all data before validation
+            // print all data before validation
             UserApplicationData.printAllData();
 
-            // Validate all required data before any database operations
+            // validate all required data before any database operations
             System.out.println("Validating application data...");
             if (!validateApplicationData()) {
                 System.err.println("Application validation failed - rolling back");
@@ -43,7 +39,7 @@ public class ApplicationService {
             }
             System.out.println("✓ Application data validation passed");
 
-            // Generate IDs
+            // generate IDs
             System.out.println("Generating IDs...");
             String residenceId = generateResidenceId(conn);
             String customerId = generateCustomerId(conn);
@@ -54,7 +50,6 @@ public class ApplicationService {
             System.out.println("  Customer ID: " + customerId);
             System.out.println("  Application No: " + applicationNo);
 
-            // Insert data in correct order to maintain referential integrity
             System.out.println("Inserting data into database...");
             
             System.out.println("1. Inserting residence data...");
@@ -70,7 +65,7 @@ public class ApplicationService {
             insertPayment(conn, applicationNo);
 
             System.out.println("All data inserted successfully, committing transaction...");
-            conn.commit(); // Commit transaction - data is now permanently saved
+            conn.commit();
             
             System.out.println("✓ Transaction committed successfully!");
             System.out.println("✓ Application processed successfully. Application No: " + applicationNo);
@@ -82,7 +77,6 @@ public class ApplicationService {
             System.err.println("SQL State: " + e.getSQLState());
             System.err.println("Message: " + e.getMessage());
             
-            // Rollback transaction if any error occurs
             try {
                 if (conn != null) {
                     System.out.println("Rolling back transaction...");
@@ -101,7 +95,6 @@ public class ApplicationService {
             System.err.println("Unexpected exception occurred:");
             System.err.println("Message: " + e.getMessage());
             
-            // Rollback transaction for any other exception
             try {
                 if (conn != null) {
                     System.out.println("Rolling back transaction due to unexpected error...");
@@ -117,10 +110,9 @@ public class ApplicationService {
             return false;
             
         } finally {
-            // Clean up database connection
             try {
                 if (conn != null) {
-                    conn.setAutoCommit(true); // Reset auto-commit
+                    conn.setAutoCommit(true); 
                     conn.close();
                     System.out.println("Database connection closed");
                 }
@@ -131,9 +123,7 @@ public class ApplicationService {
         }
     }
 
-    /**
-     * Validate that all required data is present before database operations
-     */
+    // validate that all required data is present before database operations
     private boolean validateApplicationData() {
         System.out.println("=== VALIDATION DETAILS ===");
         
@@ -271,7 +261,6 @@ public class ApplicationService {
             stmt.setString(7, UserApplicationData.get("CivilStatus"));
             stmt.setString(8, UserApplicationData.get("MaidenName"));
 
-            // Handle optional spouse name
             String spouseName = UserApplicationData.get("Spouse");
             if (spouseName == null || spouseName.trim().isEmpty()) {
                 stmt.setNull(9, Types.VARCHAR);
@@ -285,7 +274,6 @@ public class ApplicationService {
             stmt.setString(13, residenceId);
             stmt.setString(14, UserApplicationData.get("HomeOwnership"));
             
-            // Handle residence years
             try {
                 int residenceYrs = Integer.parseInt(UserApplicationData.get("YearsOfResidency"));
                 stmt.setInt(15, residenceYrs);
@@ -330,22 +318,49 @@ public class ApplicationService {
     private void insertPayment(Connection conn, String applicationNo) throws SQLException {
         String sql = "INSERT INTO tbl_payment (application_no, plan_ID, payment_option) VALUES (?, ?, ?)";
         
+        // Get the selected plan IDs (comma-separated string)
+        String selectedPlanIDs = UserApplicationData.get("selectedPlanIDs");
+        String paymentOption = UserApplicationData.get("paymentOption");
+        
         System.out.println("Executing payment insert with values:");
         System.out.println("  application_no: " + applicationNo);
-        System.out.println("  plan_ID: '" + UserApplicationData.get("selectedPlans") + "'");
-        System.out.println("  payment_option: '" + UserApplicationData.get("paymentOption") + "'");
+        System.out.println("  plan_IDs: '" + selectedPlanIDs + "'");
+        System.out.println("  payment_option: '" + paymentOption + "'");
+        
+        if (selectedPlanIDs == null || selectedPlanIDs.trim().isEmpty()) {
+            throw new SQLException("No plan IDs selected for payment");
+        }
+        
+        // split the plan IDs by comma and insert each one separately
+        String[] planIds = selectedPlanIDs.split(",");
+        int totalRowsAffected = 0;
         
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, applicationNo);
-            stmt.setString(2, UserApplicationData.get("selectedPlanIDs"));
-            stmt.setString(3, UserApplicationData.get("paymentOption"));
-            
-            int rowsAffected = stmt.executeUpdate();
-            System.out.println("✓ Payment inserted: " + rowsAffected + " row(s)");
-            
-            if (rowsAffected == 0) {
-                throw new SQLException("Failed to insert payment - no rows affected");
+            for (String planId : planIds) {
+                planId = planId.trim(); // Remove any whitespace
+                if (!planId.isEmpty()) {
+                    System.out.println("  Inserting payment record for plan_ID: '" + planId + "'");
+                    
+                    stmt.setString(1, applicationNo);
+                    stmt.setString(2, planId);
+                    stmt.setString(3, paymentOption);
+                    
+                    int rowsAffected = stmt.executeUpdate();
+                    totalRowsAffected += rowsAffected;
+                    
+                    if (rowsAffected == 0) {
+                        throw new SQLException("Failed to insert payment for plan ID: " + planId + " - no rows affected");
+                    }
+                    
+                    System.out.println("    ✓ Payment record inserted for plan " + planId + ": " + rowsAffected + " row(s)");
+                }
             }
+        }
+        
+        System.out.println("✓ All payment records inserted: " + totalRowsAffected + " total row(s) for " + planIds.length + " plan(s)");
+        
+        if (totalRowsAffected == 0) {
+            throw new SQLException("Failed to insert any payment records - no rows affected");
         }
     }
 
@@ -363,9 +378,7 @@ public class ApplicationService {
         return stmt.executeQuery();
     }
 
-    /**
-     * Test method to verify database structure
-     */
+    // db struct verification
     public void testDatabaseStructure() {
         Connection conn = null;
         try {
