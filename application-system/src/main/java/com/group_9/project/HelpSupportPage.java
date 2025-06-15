@@ -1,10 +1,17 @@
 package com.group_9.project;
+import com.group_9.project.session.UserApplicationData;
 import com.group_9.project.utils.*;
+import com.group_9.project.utils.AccountNavigationUtil;
 
 import javax.swing.*;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 
 import com.group_9.project.utils.RoundedComponents.RoundedTextField;
 
@@ -35,7 +42,7 @@ public class HelpSupportPage extends JFrame {
         background.add(logo);
 
         //Navigation Menu
-        String[] navItems = {"Home", "Plans", "Help & Support", "About Us", "Account"};
+        String[] navItems = {"Home", "Plans", "Help & Support", "About Us"};
         int xPos = 900;
         int spacing = 30;
         Color normalColor = new Color(22, 6, 48, 128);
@@ -59,7 +66,12 @@ public class HelpSupportPage extends JFrame {
                 public void mouseClicked(java.awt.event.MouseEvent e) {
                     switch (item) {
                         case "Home" -> {
-                            new Homepage().setVisible(true);
+                            String appNo = UserApplicationData.get("ApplicationNo");
+                            if (appNo != null && !appNo.isEmpty()) {
+                                new TrackingPage().setVisible(true);
+                            } else {
+                                new Homepage().setVisible(true);
+                            }
                             dispose();
                         }
                         case "Plans" -> {
@@ -74,10 +86,6 @@ public class HelpSupportPage extends JFrame {
                             new AboutUsPage().setVisible(true);
                             dispose();
                         }
-                        case "Account" -> {
-                            new AccountDetailsPage().setVisible(true);
-                            dispose();
-                        }
                     }
                 }
             });
@@ -89,31 +97,49 @@ public class HelpSupportPage extends JFrame {
         }
         
 
-        // Login button
-        JButton loginBtn = new RoundedComponents.RoundedButton("Log In", 20);
-        loginBtn.setBounds(1300, 30, 80, 35);
-        loginBtn.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
-        loginBtn.setFocusPainted(false);
-        loginBtn.setFocusable(false);
-        ButtonHoverEffect.apply(
-                loginBtn,
-                new Color(62, 10, 118),
-                Color.WHITE,
-                new Color(42, 2, 67),
-                Color.WHITE,
-                new Color(62, 10, 118),
-                new Color(42, 2, 67)
-        );
+        String appNo = UserApplicationData.get("ApplicationNo");
+        if (appNo != null && !appNo.isEmpty()) {
+            // Show "Account"
+            JLabel accountLbl = new JLabel("Account");
+            accountLbl.setFont(FontUtil.getOutfitFont(16f));
+            accountLbl.setForeground(normalColor);
+            accountLbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            int w = accountLbl.getPreferredSize().width;
+            accountLbl.setBounds(1300, 30, w + 10, 40);
+            background.add(accountLbl);
 
-        loginBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+            accountLbl.addMouseListener(new MouseAdapter() {
+                @Override public void mouseEntered(MouseEvent e) {
+                    accountLbl.setForeground(hoverColor);
+                }
+                @Override public void mouseExited(MouseEvent e) {
+                    accountLbl.setForeground(normalColor);
+                }
+                @Override public void mouseClicked(MouseEvent e) {
+                    AccountNavigationUtil.openAccountPageByApplication(HelpSupportPage.this);
+                    new AccountDetailsPage().setVisible(true);
+                    dispose();
+                }
+            });
+        } else {
+            // Show "Log In"
+            RoundedComponents.RoundedButton loginBtn = 
+                new RoundedComponents.RoundedButton("Log In", 20);
+            loginBtn.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
+            loginBtn.setBounds(1300, 30, 80, 35);
+            loginBtn.setFocusPainted(false);
+            ButtonHoverEffect.apply(
+                loginBtn,
+                new Color(62, 10, 118), Color.WHITE,
+                new Color(42, 2, 67),  Color.WHITE,
+                new Color(62, 10, 118), new Color(42, 2, 67)
+            );
+            loginBtn.addActionListener(ev -> {
                 new LoginPage().setVisible(true);
                 dispose();
-            }
-        });
-
-        background.add(loginBtn);
+            });
+            background.add(loginBtn);
+        }
 
         // Page headline
         JLabel headline = new JLabel("Hello, How Can We Help You?", SwingConstants.CENTER);

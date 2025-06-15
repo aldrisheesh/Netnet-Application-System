@@ -4,6 +4,9 @@ import com.group_9.project.session.UserApplicationData;
 
 import java.awt.*;
 import javax.swing.*;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -81,31 +84,51 @@ public class BaseFrameSetup {
     
     // Fixed: Added currentFrame parameter to properly dispose of the current frame
     public static JButton createLoginButton(BackgroundPanel background, JFrame currentFrame) {
-        JButton loginBtn = new RoundedComponents.RoundedButton("Log In", 20);
-        loginBtn.setBounds(1300, 30, 80, 35);
-        loginBtn.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
-        loginBtn.setFocusPainted(false);
-        loginBtn.setFocusable(false);
-        loginBtn.setBorder(new RoundedComponents.RoundedBorder(10));
-        
-        ButtonHoverEffect.apply(loginBtn,
-                LOGIN_BTN_PRIMARY,
-                Color.WHITE,
-                LOGIN_BTN_PRESSED,
-                Color.WHITE,
-                LOGIN_BTN_PRIMARY,
-                LOGIN_BTN_PRESSED);
+        String appNo = UserApplicationData.get("ApplicationNo");
+        if (appNo != null && !appNo.isEmpty()) {
+            JLabel accountLbl = new JLabel("Account");
+            accountLbl.setFont(FontUtil.getOutfitFont(16f));
+            accountLbl.setForeground(NAV_NORMAL_COLOR);
+            accountLbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            int w = accountLbl.getPreferredSize().width;
+            accountLbl.setBounds(1300, 30, w + 10, 40);
+            background.add(accountLbl);
 
-        loginBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+            accountLbl.addMouseListener(new MouseAdapter() {
+                @Override public void mouseEntered(MouseEvent e) {
+                    accountLbl.setForeground(NAV_HOVER_COLOR);
+                }
+                @Override public void mouseExited(MouseEvent e) {
+                    accountLbl.setForeground(NAV_NORMAL_COLOR);
+                }
+
+                @Override public void mouseClicked(MouseEvent e) {
+                    AccountNavigationUtil.openAccountPageByApplication(currentFrame);
+                    new AccountDetailsPage().setVisible(true);
+                    currentFrame.dispose();
+                }
+            });
+            return null;
+        } else {
+            // Show "Log In"
+            RoundedComponents.RoundedButton loginBtn = 
+                new RoundedComponents.RoundedButton("Log In", 20);
+            loginBtn.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
+            loginBtn.setBounds(1300, 30, 80, 35);
+            loginBtn.setFocusPainted(false);
+            ButtonHoverEffect.apply(
+                loginBtn,
+                new Color(62, 10, 118), Color.WHITE,
+                new Color(42, 2, 67),  Color.WHITE,
+                new Color(62, 10, 118), new Color(42, 2, 67)
+            );
+            loginBtn.addActionListener(ev -> {
                 new LoginPage().setVisible(true);
                 currentFrame.dispose();
-            }
-        });
-        
-        background.add(loginBtn);
-        return loginBtn;
+            });
+            background.add(loginBtn);
+            return loginBtn;
+        }
     }
     
     // Fixed: Updated to pass currentFrame parameter to createLoginButton
