@@ -9,7 +9,9 @@ import java.awt.event.ActionListener;
 public class Template extends JFrame {
 
     public Template() {
-        setTitle("Converge FiberX");
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
+        setIconImage(icon.getImage());
+        setTitle("FiberXpress");
         setSize(1440, 1024);
         setResizable(false);
         setLocationRelativeTo(null);

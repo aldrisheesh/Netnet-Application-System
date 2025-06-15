@@ -11,7 +11,9 @@ import com.group_9.project.utils.RoundedComponents.RoundedTextField;
 public class HelpSupportPage extends JFrame {
 
     public HelpSupportPage() {
-        setTitle("Converge FiberX");
+        ImageIcon app_icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
+        setIconImage(app_icon.getImage());
+        setTitle("FiberXpress");
         setSize(1440, 1024);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -25,11 +27,11 @@ public class HelpSupportPage extends JFrame {
 
         // Logo image
         ImageIcon originalIcon = new ImageIcon(getClass().getClassLoader().getResource("images/converge_logo.png"));
-        Image scaledImage = originalIcon.getImage().getScaledInstance(123, 44, Image.SCALE_SMOOTH);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(200, 70, Image.SCALE_SMOOTH);
         ImageIcon logoIcon = new ImageIcon(scaledImage);
 
         JLabel logo = new JLabel(logoIcon);
-        logo.setBounds(40, 30, 123, 44);
+        logo.setBounds(40, 30, 200, 44);
         background.add(logo);
 
         //Navigation Menu

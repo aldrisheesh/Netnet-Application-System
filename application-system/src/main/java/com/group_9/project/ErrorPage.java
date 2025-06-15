@@ -9,7 +9,9 @@ import java.awt.event.ActionListener;
 public class ErrorPage extends JFrame {
 
     public ErrorPage() {
-        setTitle("Converge FiberX");
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
+        setIconImage(icon.getImage());
+        setTitle("FiberXpress");
         setSize(1440, 1024);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -23,10 +25,10 @@ public class ErrorPage extends JFrame {
 
         // Logo image
         ImageIcon originalIcon = new ImageIcon(getClass().getClassLoader().getResource("images/converge_logo.png"));
-        Image scaledImage = originalIcon.getImage().getScaledInstance(123, 44, Image.SCALE_SMOOTH);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(200, 70, Image.SCALE_SMOOTH);
         ImageIcon logoIcon = new ImageIcon(scaledImage);
         JLabel logo = new JLabel(logoIcon);
-        logo.setBounds(40, 30, 123, 44);
+        logo.setBounds(40, 30, 200, 44);
         background.add(logo);
 
         //Navigation Menu

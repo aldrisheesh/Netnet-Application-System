@@ -1,8 +1,13 @@
 package com.group_9.project;
-import com.group_9.project.utils.*;
 
-import java.awt.*;
+import com.group_9.project.database.AccountService;
+import com.group_9.project.database.AccountService.Subscription;
+import com.group_9.project.session.UserApplicationData;
+import com.group_9.project.utils.*;
 import javax.swing.*;
+import java.awt.*;
+import java.sql.SQLException;
+import java.util.List;
 
 public class AccountSubsPage extends Template {
     public AccountSubsPage() {
@@ -11,9 +16,9 @@ public class AccountSubsPage extends Template {
         setContentPane(background);
 
         ImageIcon originalIcon = new ImageIcon(getClass().getClassLoader().getResource("images/converge_logo.png"));
-        Image scaledImage = originalIcon.getImage().getScaledInstance(123, 44, Image.SCALE_SMOOTH);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(200, 70, Image.SCALE_SMOOTH);
         JLabel logo = new JLabel(new ImageIcon(scaledImage));
-        logo.setBounds(40, 30, 123, 44);
+        logo.setBounds(40, 30, 200, 44);
         background.add(logo);
 
         String[] navItems = {"Home", "Plans", "Help & Support", "About Us"}; //navbar
@@ -153,50 +158,108 @@ public class AccountSubsPage extends Template {
         return content;
     }
 
-    JPanel createDetailsContainer() {
+    private JPanel createDetailsContainer() {
         JPanel container = new JPanel(null);
-        container.setBackground(new Color(0, 0, 0, 0));
+        container.setOpaque(false);
         container.setBounds(0, 0, 1250, 700);
-
-        JLabel titleLabel = new JLabel("MY SUBSCRIPTIONS"); //header1
+    
+        // ─── Headers ─────────────────────────────────────────
+        JLabel titleLabel = new JLabel("MY SUBSCRIPTIONS");
         titleLabel.setFont(FontUtil.getOutfitBoldFont(26f));
-        titleLabel.setForeground(new Color(42, 2, 67, 255));
+        titleLabel.setForeground(new Color(42,2,67));
         titleLabel.setBounds(70, 50, 300, 30);
         container.add(titleLabel);
-
-        JLabel sectionLabel = new JLabel("SERVICE AND PLAN SUBSCRIPTIONS"); //header2
+    
+        JLabel sectionLabel = new JLabel("SERVICE AND PLAN SUBSCRIPTIONS");
         sectionLabel.setFont(FontUtil.getOutfitFont(16f));
         sectionLabel.setBounds(70, 100, 400, 20);
         container.add(sectionLabel);
-
-        JSeparator sep = new JSeparator(); //line separator
+    
+        JSeparator sep = new JSeparator();
         sep.setBounds(70, 130, 880, 1);
-        sep.setForeground(new Color(180, 180, 180));
+        sep.setForeground(new Color(180,180,180));
         container.add(sep);
-
-        container.add(createWhiteBox(110, 180, "FIBERX 1500", "P 1500", "P 125/24mo.", "A00001", "03/15/2010", "PRODUCT PAID IN FULL")); //applicant 1 details
-        container.add(createWhiteBox(530, 180, "FIBER Xtreme 4500", "P 4500", "WAIVED", "A00002", "01/10/2012", "PRODUCT PAID IN INSTALLMENT")); //applicant 2 details
-
-        JLabel showMore = new JLabel("<html><u>Show More</u></html>"); //redirect to plans page
-        showMore.setFont(FontUtil.getOutfitFont(14f));
-        showMore.setForeground(new Color(132, 0, 159));
-        showMore.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        showMore.setBounds(400, 420, 100, 20);
-        container.add(showMore);
-
-        showMore.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                new ErrorPage().setVisible(true);
-                SwingUtilities.getWindowAncestor(showMore).dispose(); 
+    
+        // ─── Fetch subscriptions ────────────────────────────
+        String username = UserApplicationData.get("Username");
+        List<Subscription> subs;
+        try {
+            subs = AccountService.getSubscriptionsByUsername(username);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            subs = List.of();
+        }
+    
+        if (subs.isEmpty()) {
+            JLabel none = new JLabel("You have no active subscriptions.");
+            none.setFont(FontUtil.getOutfitFont(18f));
+            none.setForeground(new Color(80,80,80));
+            none.setBounds(100, 200, 400, 30);
+            container.add(none);
+            return container;
+        }
+    
+        final int boxW = 380, boxH = 220;
+        final int hGap = 30, vGap = 30;
+        final int startX = 70, startY = 180;
+    
+        if (subs.size() < 5) {
+            // ─── Fewer than 5: absolute layout in two columns ──
+            for (int i = 0; i < subs.size(); i++) {
+                Subscription s = subs.get(i);
+                int col = i % 2, row = i / 2;
+                int x = startX + col * (boxW + hGap);
+                int y = startY + row * (boxH + vGap);
+    
+                JPanel card = createWhiteBox(
+                    x, y,
+                    s.planDetails.servicePlan,
+                    String.format("₱%,.2f", s.planDetails.serviceFee),
+                    s.planDetails.installFee,
+                    s.applicationNo,
+                    s.dateSubmitted
+                );
+                container.add(card);
             }
-        });
-
+        } else {
+            // ─── 5 or more: scrollable 2-column grid ───────────
+            // 1) Build a JPanel with GridLayout(0,2)
+            JPanel grid = new JPanel(new GridLayout(0, 2, hGap, vGap));
+            grid.setOpaque(false);
+    
+            for (Subscription s : subs) {
+                // each card will auto–size via GridLayout
+                JPanel card = createWhiteBox(
+                    0, 0, 
+                    s.planDetails.servicePlan,
+                    String.format("₱%,.2f", s.planDetails.serviceFee),
+                    s.planDetails.installFee,
+                    s.applicationNo,
+                    s.dateSubmitted
+                );
+                grid.add(card);
+            }
+    
+            // 2) Wrap it in a JScrollPane sized to show exactly 4 cards (2×2)
+            int viewportWidth  = 2 * boxW + hGap;
+            int viewportHeight = 2 * boxH + vGap;
+            JScrollPane scroll = new JScrollPane(grid,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            scroll.setBounds(startX, startY, viewportWidth, viewportHeight);
+            scroll.setBorder(null);
+            scroll.setOpaque(false);
+            scroll.getViewport().setOpaque(false);
+    
+            container.add(scroll);
+        }
+    
         return container;
     }
+    
 
     JPanel createWhiteBox(int x, int y, String product, String monthlyFee, String installFee,
-                                  String appNo, String submittedDate, String status) {
+                                  String appNo, String submittedDate) {
         JPanel applicantBox = new JPanel(null) {
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
@@ -241,7 +304,7 @@ public class AccountSubsPage extends Template {
         applicantBox.add(price);
 
         JLabel details = new JLabel("<html><br><br>APPLICATION NO. " + appNo +
-                "<br>DATE SUBMITTED: " + submittedDate + "<br>" + status + "</html>");
+                "<br>DATE SUBMITTED: " + submittedDate + "</html>");
         details.setFont(FontUtil.getOutfitBoldFont(12f));
         details.setBounds(20, 130, 300, 75);
         applicantBox.add(details);

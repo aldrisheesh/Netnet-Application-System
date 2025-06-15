@@ -1,15 +1,23 @@
 package com.group_9.project;
 
 import com.group_9.project.utils.*;
+import com.group_9.project.database.LoginAuth;
 
 import java.awt.*;
+
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
+
+import com.group_9.project.session.UserApplicationData;
+import com.group_9.project.database.DatabaseConnection;
+import java.sql.*;
+import java.text.SimpleDateFormat;
 
 public class LoginPage extends JFrame {
 
     public LoginPage() {
-        setTitle("Converge FiberX");
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
+        setIconImage(icon.getImage());
+        setTitle("FiberXpress");
         setSize(1440, 1024);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -21,11 +29,11 @@ public class LoginPage extends JFrame {
         setContentPane(background);
 
         ImageIcon originalIcon = new ImageIcon(getClass().getClassLoader().getResource("images/converge_logo.png"));
-        Image scaledImage = originalIcon.getImage().getScaledInstance(123, 44, Image.SCALE_SMOOTH);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(200, 70, Image.SCALE_SMOOTH);
         ImageIcon logoIcon = new ImageIcon(scaledImage);
 
         JLabel logo = new JLabel(logoIcon);
-        logo.setBounds(40, 30, 123, 44);
+        logo.setBounds(40, 30, 200, 44);
         background.add(logo);
 
         String[] navItems = {"Home", "Plans", "Help & Support", "About Us"};
@@ -96,7 +104,7 @@ public class LoginPage extends JFrame {
         letsLabel.setHorizontalAlignment(SwingConstants.CENTER);
         background.add(letsLabel);
 
-        RoundedComponents.RoundedTextField emailField = new RoundedComponents.RoundedTextField("Email or phone number", 20);
+        RoundedComponents.RoundedTextField emailField = new RoundedComponents.RoundedTextField("Username or email", 20);
         emailField.setFont(FontUtil.getInterFont(14f));
         emailField.setBounds(524, yPosi + 40, 375, 60);
         background.add(emailField);
@@ -126,35 +134,130 @@ public class LoginPage extends JFrame {
         );
         background.add(loginBtn);
 
-        ToolTipUtil.attachCustomTooltip(emailField, "Enter your email or phone number");
+        ToolTipUtil.attachCustomTooltip(emailField, "Enter your username or email");
         ToolTipUtil.attachCustomTooltip(passwordField, "Enter your password");
 
         // ⚠️ LOGIN VALIDATION LOGIC
         loginBtn.addActionListener(e -> {
-            boolean valid = true;
+            String userId = emailField.getText().trim();
+            String pwd    = new String(passwordField.getPassword()).trim();
 
-            if (emailField.getText().trim().isEmpty()) {
+            // 1) Validate empty fields
+            boolean valid = true;
+            if (userId.isEmpty()) {
                 emailField.setValidationBorderColor(Color.RED);
                 valid = false;
             } else {
                 emailField.setValidationBorderColor(Color.GRAY);
             }
-
-            if (passwordField.getText().trim().isEmpty()) {
+            if (pwd.isEmpty()) {
                 passwordField.setValidationBorderColor(Color.RED);
                 valid = false;
             } else {
                 passwordField.setValidationBorderColor(Color.GRAY);
             }
-
             if (!valid) {
-                CustomDialogUtil.showStyledErrorDialog(this, "Missing Fields", "Please fill in all required fields before logging in.");
+                CustomDialogUtil.showStyledErrorDialog(
+                    this,
+                    "Missing Fields",
+                    "Please fill in all required fields before logging in."
+                );
                 return;
             }
 
-            // If valid, proceed with login logic (not included here)
-            System.out.println("Proceeding with login...");
+            try {
+                // 2) Check account existence
+                if (!LoginAuth.userExists(userId)) {
+                    CustomDialogUtil.showStyledErrorDialog(
+                        this,
+                        "Account Not Found",
+                        "No account registered with that username or email."
+                    );
+                    return;
+                }
+
+                // 3) Validate password
+                if (!LoginAuth.authenticate(userId, pwd)) {
+                    CustomDialogUtil.showStyledErrorDialog(
+                        this,
+                        "Invalid Password",
+                        "The password you entered is incorrect. Please try again."
+                    );
+                    return;
+                }
+
+                String actualUsername = userId;
+                if (userId.contains("@")) {
+                    // they logged in with email, fetch the username
+                    String sqlUser = """
+                        SELECT username
+                          FROM tbl_customer
+                         WHERE email_add = ?
+                        """;
+                    try (Connection c = DatabaseConnection.getConnection();
+                         PreparedStatement psUser = c.prepareStatement(sqlUser)) {
+                        psUser.setString(1, userId);
+                        try (ResultSet rsUser = psUser.executeQuery()) {
+                            if (rsUser.next()) {
+                                actualUsername = rsUser.getString("username");
+                            }
+                        }
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                UserApplicationData.set("Username", actualUsername);
+
+                // 4) Retrieve internal customer_ID
+                String custId = LoginAuth.getCustomerId(userId);
+
+                // 5) Fetch the latest application and store in session
+                String sql = """
+                    SELECT application_no, application_date
+                    FROM tbl_application
+                    WHERE customer_ID = ?
+                    ORDER BY application_date DESC
+                    LIMIT 1
+                    """;
+                try (Connection conn = DatabaseConnection.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(sql)) {
+
+                    ps.setString(1, custId);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (rs.next()) {
+                            String appNo = rs.getString("application_no");
+                            Timestamp ts = rs.getTimestamp("application_date");
+                            String dateStr = new SimpleDateFormat("MM/dd/yyyy").format(ts);
+
+                            UserApplicationData.set("ApplicationNo", appNo);
+                            UserApplicationData.set("ApplicationDate", dateStr);
+                        } else {
+                            UserApplicationData.set("ApplicationNo", "");
+                            UserApplicationData.set("ApplicationDate", "");
+                        }
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    UserApplicationData.set("ApplicationNo", "");
+                    UserApplicationData.set("ApplicationDate", "");
+                }
+
+                // 6) Success → open TrackingPage
+                SwingUtilities.invokeLater(() -> {
+                    new TrackingPage().setVisible(true);
+                    dispose();
+                });
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                CustomDialogUtil.showStyledErrorDialog(
+                    this,
+                    "Database Error",
+                    "An error occurred while connecting to the database."
+                );
+            }
         });
+                
 
         JLabel forgotLabel = new JLabel("<html><div style='color:#7E4CA5;font-weight:600;'>Forgotten your password?</div></html>");
         forgotLabel.setFont(FontUtil.getOutfitFont(16f));

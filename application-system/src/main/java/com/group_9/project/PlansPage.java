@@ -1,5 +1,6 @@
 package com.group_9.project;
 
+import com.group_9.project.session.UserApplicationData;
 import com.group_9.project.utils.*;
 
 import javax.swing.*;
@@ -8,6 +9,8 @@ import java.awt.*;
 
 public class PlansPage extends JFrame {
     public PlansPage() {
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
+        setIconImage(icon.getImage());
         BaseFrameSetup.setupFrame(this);
 
         JPanel mainContainer = new JPanel();
@@ -114,8 +117,14 @@ public class PlansPage extends JFrame {
         return row;
     }
 
-    private JPanel createPlanCard(String planName, String price, String period, String installationFee,
-                                  String description, String upfrontFee) {
+    private JPanel createPlanCard(
+            String planName,
+            String price,
+            String period,
+            String installationFee,
+            String description,
+            String upfrontFee
+    ) {
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setPreferredSize(new Dimension(375, 413));
@@ -147,7 +156,6 @@ public class PlansPage extends JFrame {
         card.add(pricePanel);
 
         card.add(Box.createRigidArea(new Dimension(0, 10)));
-
         card.add(new JLabel(installationFee) {{
             setFont(FontUtil.getInterFont(16f));
             setForeground(Color.decode("#1E1E1E"));
@@ -180,18 +188,26 @@ public class PlansPage extends JFrame {
         }});
         card.add(Box.createRigidArea(new Dimension(0, 15)));
 
-        JPanel buttonPanel = new JPanel();
+        // ——— HERE: wire GET PLAN to SignUp1 ———
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.setOpaque(false);
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        buttonPanel.setMaximumSize(new Dimension(826, 50));
-
-        RoundedComponents.RoundedButton nextButton = new RoundedComponents.RoundedButton("GET PLAN", 25);
+        RoundedComponents.RoundedButton nextButton =
+            new RoundedComponents.RoundedButton("GET PLAN", 25);
         nextButton.setPreferredSize(new Dimension(186, 39));
         nextButton.setBackground(Color.decode("#2A0243"));
         nextButton.setForeground(Color.WHITE);
         nextButton.setFont(FontUtil.getOutfitBoldFont(16f));
         nextButton.setBorderColor(Color.decode("#2A0243"));
-
+        // on click → go to SignUp1
+        nextButton.addActionListener(e -> {
+            String appNo = UserApplicationData.get("ApplicationNo");
+            if (appNo != null && !appNo.isEmpty()) {
+                new AddPlansPage().setVisible(true);
+            } else {
+                new SignUp1().setVisible(true);
+            }
+            dispose();
+        });
         buttonPanel.add(nextButton);
         card.add(buttonPanel);
 

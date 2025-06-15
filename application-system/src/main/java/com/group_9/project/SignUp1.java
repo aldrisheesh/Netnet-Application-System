@@ -16,6 +16,8 @@ import java.util.List;
 public class SignUp1 extends JFrame {
 
     public SignUp1() {
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
+        setIconImage(icon.getImage());
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
         JPanel container = createContentPanel();
         background.add(container);
