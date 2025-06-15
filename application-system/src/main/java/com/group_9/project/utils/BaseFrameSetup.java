@@ -1,5 +1,6 @@
 package com.group_9.project.utils;
 import com.group_9.project.*;
+import com.group_9.project.session.UserApplicationData;
 
 import java.awt.*;
 import javax.swing.*;
@@ -123,7 +124,12 @@ public class BaseFrameSetup {
     private static void navigateToPage(String destination, JFrame currentFrame) {
         switch (destination) {
             case "Home" -> {
-                new Homepage().setVisible(true);
+                String appNo = UserApplicationData.get("ApplicationNo");
+                if (appNo != null && !appNo.isEmpty()) {
+                    new TrackingPage().setVisible(true);
+                } else {
+                    new Homepage().setVisible(true);
+                }
                 currentFrame.dispose();
             }
             case "Plans" -> {
