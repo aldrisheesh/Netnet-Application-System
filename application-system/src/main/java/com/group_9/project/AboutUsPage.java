@@ -33,9 +33,9 @@ public class AboutUsPage extends Template {
         setContentPane(scrollPane);
 
         ImageIcon originalIcon = new ImageIcon(getClass().getClassLoader().getResource("images/converge_logo.png"));
-        Image scaledImage = originalIcon.getImage().getScaledInstance(123, 44, Image.SCALE_SMOOTH);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(200, 70, Image.SCALE_SMOOTH);
         JLabel logo = new JLabel(new ImageIcon(scaledImage));
-        logo.setBounds(40, 30, 123, 44);
+        logo.setBounds(40, 30, 200, 70);
         background.add(logo);
 
         String[] navItems = {"Home", "Plans", "Help & Support", "About Us"}; //navbar

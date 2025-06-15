@@ -1,5 +1,6 @@
 package com.group_9.project;
 
+import com.group_9.project.database.ApplicationService;
 import com.group_9.project.session.UserApplicationData;
 import com.group_9.project.utils.*;
 
@@ -24,6 +25,8 @@ public class SignUp5 extends JFrame {
     private JRadioButton full, install;
 
     public SignUp5() {
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
+        setIconImage(icon.getImage());
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
 
         // Main content container
@@ -150,7 +153,7 @@ public class SignUp5 extends JFrame {
                     }
                 }
             }
-        
+
             if (!allFilled) {
                 CustomDialogUtil.showStyledErrorDialog(SignUp5.this, "Missing Information", "Please fill in all required fields before proceeding.");
                 return;
@@ -194,8 +197,31 @@ public class SignUp5 extends JFrame {
                 return;
             }
 
-            new SignUp6();
-            dispose();
+    // Set the payment option in UserApplicationData
+            String paymentOption = full.isSelected() ? "full" : "installment";
+            UserApplicationData.set("paymentOption", paymentOption);
+    
+    // Store payment details if needed (optional)
+            UserApplicationData.set("card_number", rawCard);
+            UserApplicationData.set("expiry_date", expiryDate.getText());
+            UserApplicationData.set("cvv", cvv.getText());
+            UserApplicationData.set("cardholder_name", cardholderName.getText());
+
+    // Process the application in the database
+            ApplicationService applicationService = new ApplicationService();
+            boolean success = applicationService.processApplication();
+    
+            if (success) {
+        // Show success message
+                CustomDialogUtil.showStyledInfoDialog(SignUp5.this, "Success", "Application submitted successfully!");
+                
+        // Navigate to next page
+                new SignUp6();
+                dispose();
+            } else {
+        // Show error message
+                CustomDialogUtil.showStyledErrorDialog(SignUp5.this, "Error", "Failed to process application. Please try again.");
+            }
         });
 
         confirmBtn.addMouseListener(new java.awt.event.MouseAdapter() {

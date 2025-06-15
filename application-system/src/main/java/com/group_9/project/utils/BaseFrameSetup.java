@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 public class BaseFrameSetup {
     
     // Constants for consistent styling
-    public static final String WINDOW_TITLE = "Converge FiberX";
+    public static final String WINDOW_TITLE = "FiberXpress";
     public static final int WINDOW_WIDTH = 1440;
     public static final int WINDOW_HEIGHT = 1024;
     public static final Color NAV_NORMAL_COLOR = new Color(22, 6, 48, 128);
@@ -37,11 +37,11 @@ public class BaseFrameSetup {
     
     public static JLabel createLogo(BackgroundPanel background) {
         ImageIcon originalIcon = new ImageIcon(BaseFrameSetup.class.getClassLoader().getResource("images/converge_logo.png"));
-        Image scaledImage = originalIcon.getImage().getScaledInstance(123, 44, Image.SCALE_SMOOTH);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(200, 70, Image.SCALE_SMOOTH);
         ImageIcon logoIcon = new ImageIcon(scaledImage);
         
         JLabel logo = new JLabel(logoIcon);
-        logo.setBounds(40, 30, 123, 44);
+        logo.setBounds(40, 30, 200, 44);
         background.add(logo);
         return logo;
     }
