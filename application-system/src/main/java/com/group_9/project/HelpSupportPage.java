@@ -35,7 +35,7 @@ public class HelpSupportPage extends JFrame {
         background.add(logo);
 
         //Navigation Menu
-        String[] navItems = {"Home", "Plans", "Help & Support", "About Us"};
+        String[] navItems = {"Home", "Plans", "Help & Support", "About Us", "Account"};
         int xPos = 900;
         int spacing = 30;
         Color normalColor = new Color(22, 6, 48, 128);
@@ -72,6 +72,10 @@ public class HelpSupportPage extends JFrame {
                         }
                         case "About Us" -> {
                             new AboutUsPage().setVisible(true);
+                            dispose();
+                        }
+                        case "Account" -> {
+                            new AccountDetailsPage().setVisible(true);
                             dispose();
                         }
                     }

@@ -62,11 +62,11 @@ public class TrackingPage extends JFrame {
                 }
                 @Override public void mouseClicked(java.awt.event.MouseEvent e) {
                     switch (item) {
-                        case "Home" -> { new Homepage().setVisible(true); dispose(); }
+                        case "Home" -> { new TrackingPage().setVisible(true); dispose(); }
                         case "Plans" -> { new PlansPage().setVisible(true); dispose(); }
                         case "Help & Support" -> { new HelpSupportPage().setVisible(true); dispose(); }
                         case "About Us" -> { new AboutUsPage().setVisible(true); dispose(); }
-                        case "Account" -> { openAccountPageByApplication(); }
+                        case "Account" -> { new AccountDetailsPage().setVisible(true); dispose(); }
                     }
                 }
             });
