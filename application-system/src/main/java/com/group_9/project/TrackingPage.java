@@ -66,7 +66,7 @@ public class TrackingPage extends JFrame {
                         case "Plans" -> { new PlansPage().setVisible(true); dispose(); }
                         case "Help & Support" -> { new HelpSupportPage().setVisible(true); dispose(); }
                         case "About Us" -> { new AboutUsPage().setVisible(true); dispose(); }
-                        case "Account" -> { openAccountPageByApplication(); }
+                        case "Account" -> { AccountNavigationUtil.openAccountPageByApplication(TrackingPage.this); }
                     }
                 }
             });
@@ -274,57 +274,6 @@ public class TrackingPage extends JFrame {
         background.add(trackerPanel);
 
         SwingUtilities.invokeLater(background::requestFocusInWindow);
-    }
-
-    private void openAccountPageByApplication() {
-        String appNo = UserApplicationData.get("ApplicationNo");
-        if (appNo == null || appNo.isEmpty()) {
-            CustomDialogUtil.showStyledErrorDialog(
-                this,
-                "No Application",
-                "No application number found in session."
-            );
-            return;
-        }
-        try {
-            var profile = AccountService.getCustomerInfoByApplication(appNo);
-            if (profile == null) {
-                CustomDialogUtil.showStyledErrorDialog(
-                    this,
-                    "Load Error",
-                    "No account found for application #" + appNo
-                );
-                return;
-            }
-
-            UserApplicationData.set("Username",      profile.username);
-            UserApplicationData.set("Password",      profile.password);
-            UserApplicationData.set("CustomerName",  profile.fullName);
-            UserApplicationData.set("Birthday",      profile.birthdate);
-            UserApplicationData.set("Gender",        profile.gender);
-            UserApplicationData.set("CivilStatus",   profile.civilStatus);
-            UserApplicationData.set("MaidenName",    profile.motherMn);
-            UserApplicationData.set("Spouse",        profile.spouseName != null ? profile.spouseName : "");
-            UserApplicationData.set("Nationality",   profile.nationality);
-            UserApplicationData.set("Email",         profile.emailAdd);
-            UserApplicationData.set("Mobile",        profile.contactNo);
-            UserApplicationData.set("HomeOwnership", profile.residenceType);
-            UserApplicationData.set("YearsOfResidency", String.valueOf(profile.residenceYrs));
-            UserApplicationData.set("CompanyPaid",      profile.compPaid);
-            UserApplicationData.set("NameOfOwner",      profile.ownerName);
-            UserApplicationData.set("ContactNumber",    profile.ownerContact);
-            UserApplicationData.set("ResidenceAddress", profile.residenceAdd);
-
-            new AccountDetailsPage().setVisible(true);
-            dispose();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            CustomDialogUtil.showStyledErrorDialog(
-                this,
-                "Database Error",
-                "Failed to load account details for application #" + appNo
-            );
-        }
     }
 
     public static void main(String[] args) {
