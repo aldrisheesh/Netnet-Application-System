@@ -66,7 +66,7 @@ public class TrackingPage extends JFrame {
                         case "Plans" -> { new PlansPage().setVisible(true); dispose(); }
                         case "Help & Support" -> { new HelpSupportPage().setVisible(true); dispose(); }
                         case "About Us" -> { new AboutUsPage().setVisible(true); dispose(); }
-                        case "Account" -> { openAccountPageByApplication(); }
+                        case "Account" -> { new AccountDetailsPage().setVisible(true); dispose(); }
                     }
                 }
             });
