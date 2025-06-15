@@ -12,6 +12,8 @@ import java.util.ArrayList;
 public class SignUp3 extends JFrame {
 
     public SignUp3() {
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
+        setIconImage(icon.getImage());
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
 
         JPanel container = createContentPanel();

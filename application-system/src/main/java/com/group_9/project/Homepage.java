@@ -1,4 +1,5 @@
 package com.group_9.project;
+import com.group_9.project.session.UserApplicationData;
 import com.group_9.project.utils.*;
 
 import java.awt.*;
@@ -10,7 +11,9 @@ import java.awt.event.ActionListener;
 public class Homepage extends JFrame {
 
     public Homepage() {
-        setTitle("Converge FiberX");
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
+        setIconImage(icon.getImage());
+        setTitle("FiberXpress");
         setSize(1440, 1024);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -24,11 +27,11 @@ public class Homepage extends JFrame {
         
         // Logo image
         ImageIcon originalIcon = new ImageIcon(getClass().getClassLoader().getResource("images/converge_logo.png"));
-        Image scaledImage = originalIcon.getImage().getScaledInstance(123, 44, Image.SCALE_SMOOTH);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(200, 70, Image.SCALE_SMOOTH);
         ImageIcon logoIcon = new ImageIcon(scaledImage);
 
         JLabel logo = new JLabel(logoIcon);
-        logo.setBounds(40, 30, 123, 44);
+        logo.setBounds(40, 30, 200, 44);
         background.add(logo);
 
         //Navigation Menu
@@ -199,7 +202,12 @@ public class Homepage extends JFrame {
         getStarted.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new SignUp1().setVisible(true);
+                String appNo = UserApplicationData.get("ApplicationNo");
+                if (appNo != null && !appNo.isEmpty()) {
+                    new TrackingPage().setVisible(true);
+                } else {
+                    new SignUp1().setVisible(true);
+                }
                 dispose();
             }
         });

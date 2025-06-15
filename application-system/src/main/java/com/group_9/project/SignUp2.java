@@ -21,6 +21,8 @@ public class SignUp2 extends JFrame {
     private RoundedComponents.RoundedComboBox<String> homeOwnershipCombo, companyPaidCombo;
 
     public SignUp2() {
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
+        setIconImage(icon.getImage());
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
         JPanel container = createContentPanel();
         background.add(container);

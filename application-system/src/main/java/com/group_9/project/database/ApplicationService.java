@@ -3,6 +3,8 @@ package com.group_9.project.database;
 import com.group_9.project.session.UserApplicationData;
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class ApplicationService {
 
@@ -418,5 +420,57 @@ public class ApplicationService {
                 }
             }
         }
+    }
+
+    public static class ApplicationInfo {
+        public final String applicationNo;
+        public final String applicationDate; // formatted M/d/yyyy
+
+        public ApplicationInfo(String no, String date) {
+            this.applicationNo   = no;
+            this.applicationDate = date;
+        }
+    }
+
+    /**
+     * Fetches the most recent application for the given username.
+     * Returns null if the user or any application row is not found.
+     */
+    public static ApplicationInfo getLatestApplicationFor(String username) {
+        String findCustomer = "SELECT customer_ID FROM tbl_customer WHERE username = ?";
+        String findApp      = "SELECT application_no, application_date"
+                            + "  FROM tbl_application"
+                            + " WHERE customer_ID = ?"
+                            + " ORDER BY application_date DESC"
+                            + " LIMIT 1";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement psCust = conn.prepareStatement(findCustomer)) {
+
+            psCust.setString(1, username);
+            try (ResultSet rsCust = psCust.executeQuery()) {
+                if (!rsCust.next()) {
+                    return null;
+                }
+                String custId = rsCust.getString("customer_ID");
+
+                try (PreparedStatement psApp = conn.prepareStatement(findApp)) {
+                    psApp.setString(1, custId);
+                    try (ResultSet rsApp = psApp.executeQuery()) {
+                        if (rsApp.next()) {
+                            String no = rsApp.getString("application_no");
+                            Timestamp ts = rsApp.getTimestamp("application_date");
+                            String date = LocalDateTime
+                                .ofInstant(ts.toInstant(), ZoneId.systemDefault())
+                                .format(DateTimeFormatter.ofPattern("M/d/yyyy"));
+                            return new ApplicationInfo(no, date);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

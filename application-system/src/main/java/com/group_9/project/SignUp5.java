@@ -25,6 +25,8 @@ public class SignUp5 extends JFrame {
     private JRadioButton full, install;
 
     public SignUp5() {
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
+        setIconImage(icon.getImage());
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
 
         // Main content container
@@ -210,11 +212,8 @@ public class SignUp5 extends JFrame {
             boolean success = applicationService.processApplication();
     
             if (success) {
-        // Clear the session data after successful processing
-                UserApplicationData.clear();
-        
         // Show success message
-                CustomDialogUtil.showStyledErrorDialog(SignUp5.this, "Success", "Application submitted successfully!");
+                CustomDialogUtil.showStyledInfoDialog(SignUp5.this, "Success", "Application submitted successfully!");
                 
         // Navigate to next page
                 new SignUp6();

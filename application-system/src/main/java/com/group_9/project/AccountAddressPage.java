@@ -1,4 +1,5 @@
 package com.group_9.project;
+import com.group_9.project.session.UserApplicationData;
 import com.group_9.project.utils.*;
 
 import java.awt.*;
@@ -6,17 +7,31 @@ import javax.swing.*;
 import com.group_9.project.utils.RoundedComponents.*;
 
 public class AccountAddressPage extends Template {
+    private JTextField homeOwnershipField;
+    private JTextField companyPaidField;
+    private JTextField yearsField;
+    private JTextField nameOwnerField;
+    private JTextField contactField;
+    private JTextField houseField;
+    private JTextField apartmentField;
+    private JTextField subdivisionField;
+    private JTextField barangayField;
+    private JTextField streetField;
+    private JTextField cityField;
+    private JTextField provinceField;
+    private JTextField zipField;
+
     public AccountAddressPage() {
         BackgroundPanel background = new BackgroundPanel(3); //background
         background.setLayout(null);
         setContentPane(background);
 
         ImageIcon originalIcon = new ImageIcon(getClass().getClassLoader().getResource("images/converge_logo.png"));
-        Image scaledImage = originalIcon.getImage().getScaledInstance(123, 44, Image.SCALE_SMOOTH);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(200, 70, Image.SCALE_SMOOTH);
         ImageIcon logoIcon = new ImageIcon(scaledImage);
 
         JLabel logo = new JLabel(logoIcon);
-        logo.setBounds(40, 30, 123, 44);
+        logo.setBounds(40, 30, 200, 44);
         background.add(logo);
 
         String[] navItems = {"Home", "Plans", "Help & Support", "About Us"}; //navbar
@@ -77,6 +92,7 @@ public class AccountAddressPage extends Template {
         JPanel detailsContainer = createDetailsContainer();
         content.add(detailsContainer);
 
+        populateFromSession();  
         SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
     }
 
@@ -222,7 +238,8 @@ public class AccountAddressPage extends Template {
         homeOwnershipLabel.setBounds(95, startY, 150, 20);
         container.add(homeOwnershipLabel);
 
-        JTextField homeOwnershipField = new RoundedTextField("  ", 20);
+        homeOwnershipField = new RoundedTextField("  ", 20);
+        homeOwnershipField.setFont(FontUtil.getOutfitFont(15f));
         homeOwnershipField.setBackground(Color.WHITE);
         homeOwnershipField.setForeground(Color.BLACK);
         homeOwnershipField.setCaretColor(Color.BLACK);
@@ -240,7 +257,8 @@ public class AccountAddressPage extends Template {
         companyPaidLabel.setBounds(395, startY, 120, 20);
         container.add(companyPaidLabel);
 
-        JTextField companyPaidField = new RoundedTextField("  ", 20);
+        companyPaidField = new RoundedTextField("  ", 20);
+        companyPaidField.setFont(FontUtil.getOutfitFont(15f));
         companyPaidField.setBackground(Color.WHITE);
         companyPaidField.setForeground(Color.BLACK);
         companyPaidField.setCaretColor(Color.BLACK);
@@ -258,7 +276,8 @@ public class AccountAddressPage extends Template {
         yearsLabel.setBounds(655, startY, 180, 20);
         container.add(yearsLabel);
 
-        JTextField yearsField = new RoundedTextField("  ", 20);
+        yearsField = new RoundedTextField("  ", 20);
+        yearsField.setFont(FontUtil.getOutfitFont(15f));
         yearsField.setBackground(Color.WHITE);
         yearsField.setForeground(Color.BLACK);
         yearsField.setCaretColor(Color.BLACK);
@@ -280,7 +299,8 @@ public class AccountAddressPage extends Template {
         nameOwnerLabel.setBounds(95, startY, 200, 20);
         container.add(nameOwnerLabel);
 
-        JTextField nameOwnerField = new RoundedTextField("  ", 20);
+        nameOwnerField = new RoundedTextField("  ", 20);
+        nameOwnerField.setFont(FontUtil.getOutfitFont(15f));
         nameOwnerField.setBackground(Color.WHITE);
         nameOwnerField.setForeground(Color.BLACK);
         nameOwnerField.setCaretColor(Color.BLACK);
@@ -298,7 +318,8 @@ public class AccountAddressPage extends Template {
         contactLabel.setBounds(525, startY, 200, 20);
         container.add(contactLabel);
 
-        JTextField contactField = new RoundedTextField("  ", 20);
+        contactField = new RoundedTextField("  ", 20);
+        contactField.setFont(FontUtil.getOutfitFont(15f));
         contactField.setBackground(Color.WHITE);
         contactField.setForeground(Color.BLACK);
         contactField.setCaretColor(Color.BLACK);
@@ -320,7 +341,8 @@ public class AccountAddressPage extends Template {
         houseLabel.setBounds(95, startY, 220, 20);
         container.add(houseLabel);
 
-        JTextField houseField = new RoundedTextField("  ", 20);
+        houseField = new RoundedTextField("  ", 20);
+        houseField.setFont(FontUtil.getOutfitFont(15f));
         houseField.setBackground(Color.WHITE);
         houseField.setForeground(Color.BLACK);
         houseField.setCaretColor(Color.BLACK);
@@ -338,7 +360,8 @@ public class AccountAddressPage extends Template {
         apartmentLabel.setBounds(525, startY, 280, 20);
         container.add(apartmentLabel);
 
-        JTextField apartmentField = new RoundedTextField("  ", 20);
+        apartmentField = new RoundedTextField("  ", 20);
+        apartmentField.setFont(FontUtil.getOutfitFont(15f));
         apartmentField.setBackground(Color.WHITE);
         apartmentField.setForeground(Color.BLACK);
         apartmentField.setCaretColor(Color.BLACK);
@@ -360,7 +383,8 @@ public class AccountAddressPage extends Template {
         subdivisionLabel.setBounds(95, startY, 150, 20);
         container.add(subdivisionLabel);
 
-        JTextField subdivisionField = new RoundedTextField("  ", 20);
+        subdivisionField = new RoundedTextField("  ", 20);
+        subdivisionField.setFont(FontUtil.getOutfitFont(15f));
         subdivisionField.setBackground(Color.WHITE);
         subdivisionField.setForeground(Color.BLACK);
         subdivisionField.setCaretColor(Color.BLACK);
@@ -378,7 +402,8 @@ public class AccountAddressPage extends Template {
         barangayLabel.setBounds(525, startY, 150, 20);
         container.add(barangayLabel);
 
-        JTextField barangayField = new RoundedTextField("  ", 20);
+        barangayField = new RoundedTextField("  ", 20);
+        barangayField.setFont(FontUtil.getOutfitFont(15f));
         barangayField.setBackground(Color.WHITE);
         barangayField.setForeground(Color.BLACK);
         barangayField.setCaretColor(Color.BLACK);
@@ -400,7 +425,8 @@ public class AccountAddressPage extends Template {
         streetLabel.setBounds(95, startY, 100, 20);
         container.add(streetLabel);
 
-        JTextField streetField = new RoundedTextField("  ", 20);
+        streetField = new RoundedTextField("  ", 20);
+        streetField.setFont(FontUtil.getOutfitFont(15f));
         streetField.setBackground(Color.WHITE);
         streetField.setForeground(Color.BLACK);
         streetField.setCaretColor(Color.BLACK);
@@ -418,7 +444,8 @@ public class AccountAddressPage extends Template {
         cityLabel.setBounds(310, startY, 180, 20);
         container.add(cityLabel);
 
-        JTextField cityField = new RoundedTextField("  ", 20);
+        cityField = new RoundedTextField("  ", 20);
+        cityField.setFont(FontUtil.getOutfitFont(15f));
         cityField.setBackground(Color.WHITE);
         cityField.setForeground(Color.BLACK);
         cityField.setCaretColor(Color.BLACK);
@@ -436,7 +463,8 @@ public class AccountAddressPage extends Template {
         provinceLabel.setBounds(525, startY, 100, 20);
         container.add(provinceLabel);
 
-        JTextField provinceField = new RoundedTextField("  ", 20);
+        provinceField = new RoundedTextField("  ", 20);
+        provinceField.setFont(FontUtil.getOutfitFont(15f));
         provinceField.setBackground(Color.WHITE);
         provinceField.setForeground(Color.BLACK);
         provinceField.setCaretColor(Color.BLACK);
@@ -454,7 +482,8 @@ public class AccountAddressPage extends Template {
         zipLabel.setBounds(740, startY, 100, 20);
         container.add(zipLabel);
 
-        JTextField zipField = new RoundedTextField("  ", 20);
+        zipField = new RoundedTextField("  ", 20);
+        zipField.setFont(FontUtil.getOutfitFont(15f));
         zipField.setBackground(Color.WHITE);
         zipField.setForeground(Color.BLACK);
         zipField.setCaretColor(Color.BLACK);
@@ -487,6 +516,37 @@ public class AccountAddressPage extends Template {
         wrapper.add(field, BorderLayout.CENTER);
         return wrapper;
     }
+
+    private void populateFromSession() {
+        // the first three address parts
+        homeOwnershipField.setText(UserApplicationData.get("HomeOwnership"));
+        companyPaidField .setText(UserApplicationData.get("CompanyPaid"));
+        yearsField       .setText(UserApplicationData.get("YearsOfResidency"));
+
+        // owner info
+        nameOwnerField.setText(UserApplicationData.get("NameOfOwner"));
+        contactField  .setText(UserApplicationData.get("ContactNumber"));
+
+        // split the single comma-separated address...
+        String full = UserApplicationData.get("ResidenceAddress");
+        if (full != null && !full.isBlank()) {
+            String[] parts = full.split("\\s*,\\s*");
+            if (parts.length >= 8) {
+                houseField      .setText(parts[0]);
+                apartmentField  .setText(parts[1]);
+                subdivisionField.setText(parts[2]);
+                barangayField   .setText(parts[3]);
+                streetField     .setText(parts[4]);
+                cityField       .setText(parts[5]);
+                provinceField   .setText(parts[6]);
+                zipField        .setText(parts[7]);
+            } else {
+                // fallback: dump entire address
+                streetField.setText(full);
+            }
+        }
+    }
+
 
     private JLabel makeSidebarLabel(String text, Color color) {
         JLabel label = new JLabel(text);

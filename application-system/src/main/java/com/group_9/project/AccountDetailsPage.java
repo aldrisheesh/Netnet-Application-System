@@ -1,4 +1,6 @@
 package com.group_9.project;
+import com.group_9.project.database.AccountService;
+import com.group_9.project.session.UserApplicationData;
 import com.group_9.project.utils.*;
 
 import java.awt.*;
@@ -29,11 +31,11 @@ public class AccountDetailsPage extends Template {
         setContentPane(background);
 
         ImageIcon originalIcon = new ImageIcon(getClass().getClassLoader().getResource("images/converge_logo.png")); //background image
-        Image scaledImage = originalIcon.getImage().getScaledInstance(123, 44, Image.SCALE_SMOOTH);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(200, 70, Image.SCALE_SMOOTH);
         ImageIcon logoIcon = new ImageIcon(scaledImage);
 
         JLabel logo = new JLabel(logoIcon);
-        logo.setBounds(40, 30, 123, 44);
+        logo.setBounds(40, 30, 200, 44);
         background.add(logo);
 
         String[] navItems = {"Home", "Plans", "Help & Support", "About Us"}; //navbar
@@ -93,6 +95,8 @@ public class AccountDetailsPage extends Template {
 
         JPanel detailsContainer = createDetailsContainer();
         content.add(detailsContainer);
+
+        populateFromSession();
         
         SwingUtilities.invokeLater(() -> {
             background.requestFocusInWindow();
@@ -143,7 +147,7 @@ public class AccountDetailsPage extends Template {
                         }
                     }
                 }
-
+                
                 public void mouseEntered(java.awt.event.MouseEvent e) {
                     if (!item.equals("My Details")) {
                         label.setForeground(hoverColor);
@@ -397,7 +401,9 @@ public class AccountDetailsPage extends Template {
                     CustomDialogUtil.showStyledErrorDialog(this, "Validation Error", "Please correct the highlighted fields before saving.");
                     return;
                 }
-            
+                
+                saveChanges();
+
                 isEditMode = false;
                 actionButton.setText("UPDATE");
                 enableEditing(false);
@@ -406,8 +412,8 @@ public class AccountDetailsPage extends Template {
     
         detailsContainer.add(actionButton);
         return detailsContainer;
+
     }
-    
 
     private void enableEditing(boolean enabled) {
         for (JTextField field : textFields) {
@@ -451,6 +457,74 @@ public class AccountDetailsPage extends Template {
         return allValid;
     }    
 
+    private void saveChanges() {
+        try {
+            // 1️⃣ Gather all the new values from your UI:
+            String origUsername   = UserApplicationData.get("Username");
+            String newPassword    = passwordField.getText().trim();
+            String newEmail       = textFields.get(2).getText().trim();
+            String newMobile      = textFields.get(3).getText().trim();
+    
+            String newFullName    = textFields.get(4).getText().trim();
+            // parse into a java.util.Date
+            java.util.Date utilBirth = new SimpleDateFormat("MM/dd/yyyy")
+                                           .parse(textFields.get(5).getText().trim());
+            // convert into java.sql.Date for JDBC
+            java.sql.Date sqlBirth = new java.sql.Date(utilBirth.getTime());
+    
+            String newGender      = (String) comboBoxes.get(0).getSelectedItem();
+            String newCivilStatus = (String) comboBoxes.get(1).getSelectedItem();
+            String newNationality = textFields.get(6).getText().trim();
+            String newSpouse      = textFields.get(7).getText().trim();
+            String newMotherMn    = textFields.get(8).getText().trim();
+    
+            // 2️⃣ Update the DB (note sqlBirth)
+            AccountService.updateCustomerInfoByUsername(
+                origUsername,
+                newPassword,
+                newFullName,
+                sqlBirth,   
+                newGender,
+                newCivilStatus,
+                newMotherMn,
+                newSpouse,
+                newNationality,
+                newMobile,
+                newEmail
+            );
+    
+            // 3️⃣ Update session
+            UserApplicationData.set("Password",     newPassword);
+            UserApplicationData.set("Email",        newEmail);
+            UserApplicationData.set("Mobile",       newMobile);
+            UserApplicationData.set("CustomerName", newFullName);
+            // store back in MM/dd/yyyy format
+            UserApplicationData.set("Birthday",
+                new SimpleDateFormat("MM/dd/yyyy").format(utilBirth));
+            UserApplicationData.set("Gender",       newGender);
+            UserApplicationData.set("CivilStatus",  newCivilStatus);
+            UserApplicationData.set("Nationality",  newNationality);
+            UserApplicationData.set("Spouse",       newSpouse);
+            UserApplicationData.set("MaidenName",   newMotherMn);
+    
+            // 4️⃣ Notify user
+            CustomDialogUtil.showStyledInfoDialog(
+                this,
+                "Success",
+                "Your profile has been updated."
+            );
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            CustomDialogUtil.showStyledErrorDialog(
+                this,
+                "Update Failed",
+                ex.getMessage()
+            );
+        }
+    }
+    
+
     private JPanel createTextFieldWrapper(JTextField field, int arc) {
         JPanel wrapper = new JPanel() {
             @Override
@@ -473,6 +547,23 @@ public class AccountDetailsPage extends Template {
         return wrapper;
     }
       
+    private void populateFromSession() {
+        // LEFT SIDE:
+        textFields.get(0).setText(UserApplicationData.get("Username"));
+        passwordField        .setText(UserApplicationData.get("Password"));
+        textFields.get(2).setText(UserApplicationData.get("Email"));
+        textFields.get(3).setText(UserApplicationData.get("Mobile"));
+
+        // RIGHT SIDE:
+        textFields.get(4).setText(UserApplicationData.get("CustomerName"));
+        textFields.get(5).setText(UserApplicationData.get("Birthday"));
+        comboBoxes.get(0).setSelectedItem(UserApplicationData.get("Gender"));
+        comboBoxes.get(1).setSelectedItem(UserApplicationData.get("CivilStatus"));
+        textFields.get(6).setText(UserApplicationData.get("Nationality"));
+        String spouse = UserApplicationData.get("Spouse").trim();
+        textFields.get(7).setText(spouse.isEmpty() ? "N/A" : spouse);
+        textFields.get(8).setText(UserApplicationData.get("MaidenName"));
+    }
 
     private JLabel makeSidebarLabel(String text, Color color) {
         JLabel label = new JLabel(text);
@@ -488,12 +579,7 @@ public class AccountDetailsPage extends Template {
         btn.setFocusPainted(false);
         btn.setFont(FontUtil.getOutfitBoldFont(14f));
         btn.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-    }
-    
-    private void setValidationBorder(JComponent wrapper, boolean isValid) {
-        wrapper.repaint();
-        wrapper.putClientProperty("validationColor", isValid ? Color.GRAY : Color.RED);
-    }    
+    }  
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new AccountDetailsPage().setVisible(true));
