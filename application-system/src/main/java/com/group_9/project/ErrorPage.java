@@ -1,10 +1,15 @@
 package com.group_9.project;
+import com.group_9.project.session.UserApplicationData;
 import com.group_9.project.utils.*;
 
 import javax.swing.*;
+
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ErrorPage extends JFrame {
 
@@ -56,8 +61,12 @@ public class ErrorPage extends JFrame {
                 public void mouseClicked(java.awt.event.MouseEvent e) {
                     switch (item) {
                         case "Home" -> {
-                            new Homepage().setVisible(true);
-                            dispose();
+                            String appNo = UserApplicationData.get("ApplicationNo");
+                            if (appNo != null && !appNo.isEmpty()) {
+                                new TrackingPage().setVisible(true);
+                            } else {
+                                new Homepage().setVisible(true);
+                            }
                         }
                         case "Plans" -> {
                             new PlansPage().setVisible(true);
@@ -82,32 +91,49 @@ public class ErrorPage extends JFrame {
         }
         
 
-        // Login button
-        JButton loginBtn = new JButton("Log In");
-        loginBtn.setBounds(1300, 30, 80, 35);
-        loginBtn.setFont(FontUtil.getOutfitFont(16f));
-        loginBtn.setFocusPainted(false);
-        loginBtn.setFocusable(false);
-        ButtonHoverEffect.apply(
-                loginBtn,
-                new Color(62, 10, 118),
-                Color.WHITE,
-                new Color(42, 2, 67),
-                Color.WHITE,
-                new Color(62, 10, 118),
-                new Color(42, 2, 67)
-        );
+        String appNo = UserApplicationData.get("ApplicationNo");
+        if (appNo != null && !appNo.isEmpty()) {
+            // Show "Account"
+            JLabel accountLbl = new JLabel("Account");
+            accountLbl.setFont(FontUtil.getOutfitFont(16f));
+            accountLbl.setForeground(normalColor);
+            accountLbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            int w = accountLbl.getPreferredSize().width;
+            accountLbl.setBounds(1300, 30, w + 10, 40);
+            background.add(accountLbl);
 
-        loginBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+            accountLbl.addMouseListener(new MouseAdapter() {
+                @Override public void mouseEntered(MouseEvent e) {
+                    accountLbl.setForeground(hoverColor);
+                }
+                @Override public void mouseExited(MouseEvent e) {
+                    accountLbl.setForeground(normalColor);
+                }
+                @Override public void mouseClicked(MouseEvent e) {
+                    AccountNavigationUtil.openAccountPageByApplication(ErrorPage.this);
+                    new AccountDetailsPage().setVisible(true);
+                    dispose();
+                }
+            });
+        } else {
+            // Show "Log In"
+            RoundedComponents.RoundedButton loginBtn = 
+                new RoundedComponents.RoundedButton("Log In", 20);
+            loginBtn.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
+            loginBtn.setBounds(1300, 30, 80, 35);
+            loginBtn.setFocusPainted(false);
+            ButtonHoverEffect.apply(
+                loginBtn,
+                new Color(62, 10, 118), Color.WHITE,
+                new Color(42, 2, 67),  Color.WHITE,
+                new Color(62, 10, 118), new Color(42, 2, 67)
+            );
+            loginBtn.addActionListener(ev -> {
                 new LoginPage().setVisible(true);
                 dispose();
-            }
-        });
-        
-
-        background.add(loginBtn);
+            });
+            background.add(loginBtn);
+        }
 
         // 404 Message
 
@@ -146,8 +172,12 @@ public class ErrorPage extends JFrame {
         homeLink.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
-                new Homepage().setVisible(true); // Open Homepage
-                dispose(); // Close current ErrorPage
+                String appNo = UserApplicationData.get("ApplicationNo");
+                if (appNo != null && !appNo.isEmpty()) {
+                    new TrackingPage().setVisible(true);
+                } else {
+                    new Homepage().setVisible(true);
+                }
             }
         });
 
