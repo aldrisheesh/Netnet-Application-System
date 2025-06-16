@@ -38,7 +38,7 @@ public class AccountDetailsPage extends Template {
         logo.setBounds(40, 30, 200, 44);
         background.add(logo);
 
-        String[] navItems = {"Home", "Plans", "Help & Support", "About Us"}; //navbar
+        String[] navItems = {"Home", "Plans", "Help & Support", "About Us", "Account"}; //navbar
         int xPos = 900; 
         int spacing = 30;
         Color normalColor = new Color(22, 6, 48, 128);
@@ -75,6 +75,10 @@ public class AccountDetailsPage extends Template {
                         }
                         case "About Us" -> {
                             new AboutUsPage().setVisible(true);
+                            dispose();
+                        }
+                        case "Account" -> {
+                            new AccountDetailsPage().setVisible(true);
                             dispose();
                         }
                     }
