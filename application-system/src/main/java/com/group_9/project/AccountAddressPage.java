@@ -58,7 +58,7 @@ public class AccountAddressPage extends Template {
                 public void mouseClicked(java.awt.event.MouseEvent e) {
                     switch (item) {
                         case "Home" -> {
-                            new Homepage().setVisible(true);
+                            new TrackingPage().setVisible(true);
                             dispose();
                         }
                         case "Plans" -> {
