@@ -14,7 +14,7 @@ public class AccountSubsPage extends Template {
         BaseFrameSetup.applyAppIcon(this);
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 3);
 
-        JPanel sidebar = createSidebar();
+        JPanel sidebar = AccountSidebarUtil.createSidebar(this, "My Subscriptions");
         background.add(sidebar);
 
         JPanel content = new RoundedComponents.RoundedShadowPanel(25, 4);
@@ -27,63 +27,7 @@ public class AccountSubsPage extends Template {
         SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
     }
 
-    JPanel createSidebar() { //sidebar
-        JPanel sidebar = new JPanel();
-        sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
-        sidebar.setBounds(50, 125, 200, 300);
-        sidebar.setBackground(new Color(0, 0, 0, 0));
-        sidebar.setOpaque(false);
-
-        JLabel title = new JLabel("MY ACCOUNT");
-        title.setFont(FontUtil.getOutfitBoldFont(25f));
-        title.setForeground(new Color(42, 2, 67, 255));
-        title.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        sidebar.add(title);
-        sidebar.add(Box.createVerticalStrut(15));
-
-        String[] items = {"My Details", "My Address", "My Subscriptions"};
-        Color selectedColor = new Color(132, 0, 159, 255);
-        Color defaultColor = new Color(22, 6, 48, 128);
-        Color hoverColor = new Color(62, 10, 118);
-
-        for (String item : items) {
-            Color color = item.equals("My Subscriptions") ? selectedColor : defaultColor;
-            JLabel label = makeSidebarLabel("   " + item, color);
-            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-            label.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mouseClicked(java.awt.event.MouseEvent e) {
-                    switch (item) {
-                        case "My Details" -> {
-                            new AccountDetailsPage().setVisible(true);
-                            dispose();
-                        }
-                        case "My Address" -> {
-                            new AccountAddressPage().setVisible(true);
-                            dispose();
-                        }
-                        case "My Subscriptions" -> {
-                            new AccountSubsPage().setVisible(true);
-                            dispose();
-                        }
-                    }
-                }
-
-                public void mouseEntered(java.awt.event.MouseEvent e) {
-                    if (!item.equals("My Subscriptions")) label.setForeground(hoverColor);
-                }
-
-                public void mouseExited(java.awt.event.MouseEvent e) {
-                    if (!item.equals("My Subscriptions")) label.setForeground(defaultColor);
-                }
-            });
-
-            sidebar.add(label);
-            sidebar.add(Box.createVerticalStrut(30));
-        }
-
-        return sidebar;
-    }
+    
 
 
     private JPanel createDetailsContainer() {
@@ -240,13 +184,7 @@ public class AccountSubsPage extends Template {
         return applicantBox;
     }
 
-    JLabel makeSidebarLabel(String text, Color color) {
-        JLabel label = new JLabel(text);
-        label.setFont(FontUtil.getOutfitFont(18f));
-        label.setForeground(color);
-        label.setOpaque(false);
-        return label;
-    }
+    
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new AccountSubsPage().setVisible(true));
