@@ -22,75 +22,12 @@ public class AccountAddressPage extends Template {
     private JTextField zipField;
 
     public AccountAddressPage() {
-        BackgroundPanel background = new BackgroundPanel(3); //background
-        background.setLayout(null);
-        setContentPane(background);
-
-        ImageIcon originalIcon = new ImageIcon(getClass().getClassLoader().getResource("images/converge_logo.png"));
-        Image scaledImage = originalIcon.getImage().getScaledInstance(200, 70, Image.SCALE_SMOOTH);
-        ImageIcon logoIcon = new ImageIcon(scaledImage);
-
-        JLabel logo = new JLabel(logoIcon);
-        logo.setBounds(40, 30, 200, 44);
-        background.add(logo);
-
-        String[] navItems = {"Home", "Plans", "Help & Support", "About Us", "Account"}; //navbar
-        int xPos = 900;
-        int spacing = 30;
-        Color normalColor = new Color(22, 6, 48, 128);
-        Color hoverColor = new Color(62, 10, 118);
-
-        for (String item : navItems) {
-            JLabel label = new JLabel(item);
-            label.setFont(FontUtil.getOutfitFont(16f));
-            label.setForeground(normalColor);
-            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-            label.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mouseEntered(java.awt.event.MouseEvent e) {
-                    label.setForeground(hoverColor);
-                }
-
-                public void mouseExited(java.awt.event.MouseEvent e) {
-                    label.setForeground(normalColor);
-                }
-
-                public void mouseClicked(java.awt.event.MouseEvent e) {
-                    switch (item) {
-                        case "Home" -> {
-                            new TrackingPage().setVisible(true);
-                            dispose();
-                        }
-                        case "Plans" -> {
-                            new PlansPage().setVisible(true);
-                            dispose();
-                        }
-                        case "Help & Support" -> {
-                            new HelpSupportPage().setVisible(true);
-                            dispose();
-                        }
-                        case "About Us" -> {
-                            new AboutUsPage().setVisible(true);
-                            dispose();
-                        }
-                        case "Account" -> {
-                            new AccountDetailsPage().setVisible(true);
-                            dispose();
-                        }
-                    }
-                }
-            });
-
-            int textWidth = label.getPreferredSize().width;
-            label.setBounds(xPos, 30, textWidth + 10, 40);
-            background.add(label);
-            xPos += textWidth + spacing + 10;
-        }
+        BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 3);
         
         JPanel sidebar = createSidebar();
         background.add(sidebar);
 
-        JPanel content = createContentPanel();
+        JPanel content = FormUIUtil.createRoundedShadowPanel(290, 150, 1020, 720);
         background.add(content);
 
         JPanel detailsContainer = createDetailsContainer();
@@ -169,29 +106,6 @@ public class AccountAddressPage extends Template {
         return sidebar;
     }
 
-    private JPanel createContentPanel() { //main container
-        JPanel content = new JPanel(null) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                
-                int shadowOffset = 4;
-                g2.setColor(new Color(0, 0, 0, 20)); // Semi-transparent black for shadow
-                g2.fillRoundRect(shadowOffset, shadowOffset, getWidth() - shadowOffset, getHeight() - shadowOffset, 25, 25);
-                
-                g2.setColor(new Color(255, 241, 255));
-                g2.fillRoundRect(0, 0, getWidth() - shadowOffset, getHeight() - shadowOffset, 25, 25);
-                g2.setColor(new Color(220, 200, 230));
-                g2.setStroke(new BasicStroke(1.5f));
-                g2.drawRoundRect(0, 0, getWidth() - shadowOffset - 1, getHeight() - shadowOffset - 1, 25, 25);
-                g2.dispose();
-            }
-        };
-        content.setBounds(290, 150, 1020, 720);
-        content.setOpaque(false);
-        return content;
-    }
 
     private JPanel createDetailsContainer() {
         JPanel detailsContainer = new JPanel(null);

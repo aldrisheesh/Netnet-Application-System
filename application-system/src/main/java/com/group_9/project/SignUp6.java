@@ -19,13 +19,11 @@ public class SignUp6 extends JFrame {
     private static final int RADIUS = 15;
 
     public SignUp6() {
-        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
-        setIconImage(icon.getImage());
         // 1) Base frame + background
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
 
         // 2) Main white rounded container
-        JPanel container = createContentPanel();
+        JPanel container = FormUIUtil.createRoundedShadowPanel(235, 165, 970, 695);
         background.add(container);
 
         // 3) Inner vertical box for content
@@ -190,44 +188,6 @@ public class SignUp6 extends JFrame {
     }
 
     /** Builds the white rounded content panel with shadow. */
-    private JPanel createContentPanel() {
-        JPanel panel = new JPanel(null) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(
-                    RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON
-                );
-                int shadow = 4;
-                // shadow
-                g2.setColor(new Color(0, 0, 0, 20));
-                g2.fillRoundRect(
-                    shadow, shadow,
-                    getWidth() - shadow, getHeight() - shadow,
-                    25, 25
-                );
-                // panel
-                g2.setColor(new Color(255, 241, 255));
-                g2.fillRoundRect(
-                    0, 0,
-                    getWidth() - shadow, getHeight() - shadow,
-                    25, 25
-                );
-                g2.setColor(new Color(220, 200, 230));
-                g2.setStroke(new BasicStroke(1.5f));
-                g2.drawRoundRect(
-                    0, 0,
-                    getWidth() - shadow - 1, getHeight() - shadow - 1,
-                    25, 25
-                );
-                g2.dispose();
-            }
-        };
-        panel.setBounds(235, 165, 970, 695);
-        panel.setOpaque(false);
-        return panel;
-    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(SignUp6::new);

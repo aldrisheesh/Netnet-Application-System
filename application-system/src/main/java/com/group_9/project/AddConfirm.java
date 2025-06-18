@@ -5,13 +5,12 @@ import com.group_9.project.session.UserApplicationData;
 import com.group_9.project.utils.*;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicScrollBarUI;
+
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.RoundRectangle2D;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -26,65 +25,10 @@ public class AddConfirm extends JFrame {
     private JRadioButton full, install;
 
     public AddConfirm() {
-        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
-        setIconImage(icon.getImage());
-        setTitle("FiberXpress");
-        setSize(1440, 1024);
-        setResizable(false);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(null);
-
-        BackgroundPanel background = new BackgroundPanel(1);
-        background.setLayout(null);
-        setContentPane(background);
-
-        // ─── Logo ─────────────────────────────────────────────────────────────────
-        ImageIcon rawLogo = new ImageIcon(
-            getClass().getClassLoader().getResource("images/converge_logo.png")
-        );
-        Image logoImg = rawLogo.getImage().getScaledInstance(200, 70, Image.SCALE_SMOOTH);
-        JLabel logo = new JLabel(new ImageIcon(logoImg));
-        logo.setBounds(40, 30, 200, 44);
-        background.add(logo);
-
-        // ─── Navigation Menu ─────────────────────────────────────────────────────
-        String[] navItems = {"Home", "Plans", "Help & Support", "About Us", "Account"};
-        int xPos = 900, spacing = 30;
-        Color normalColor = new Color(22, 6, 48, 128);
-        Color hoverColor  = new Color(62, 10, 118);
-
-        for (String item : navItems) {
-            JLabel label = new JLabel(item);
-            label.setFont(FontUtil.getOutfitFont(16f));
-            label.setForeground(normalColor);
-            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            int w = label.getPreferredSize().width;
-            label.setBounds(xPos, 30, w + 10, 40);
-            background.add(label);
-            xPos += w + spacing + 10;
-
-            label.addMouseListener(new java.awt.event.MouseAdapter() {
-                @Override public void mouseEntered(java.awt.event.MouseEvent e) {
-                    label.setForeground(hoverColor);
-                }
-                @Override public void mouseExited(java.awt.event.MouseEvent e) {
-                    label.setForeground(normalColor);
-                }
-                @Override public void mouseClicked(java.awt.event.MouseEvent e) {
-                    switch (item) {
-                        case "Home" -> { new TrackingPage().setVisible(true); dispose(); }
-                        case "Plans" -> { new PlansPage().setVisible(true); dispose(); }
-                        case "Help & Support" -> { new HelpSupportPage().setVisible(true); dispose(); }
-                        case "About Us" -> { new AboutUsPage().setVisible(true); dispose(); }
-                        case "Account" -> { new AccountDetailsPage().setVisible(true); dispose(); }
-                    }
-                }
-            });
-        }
+        BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
 
         // — White rounded container
-        JPanel container = createContentPanel();
+        JPanel container = FormUIUtil.createRoundedShadowPanel(235, 165, 970, 695);
         background.add(container);
 
         // — Inner content
@@ -334,30 +278,6 @@ public class AddConfirm extends JFrame {
 
     // --- All helper/UI methods below ---
 
-    private JPanel createContentPanel() {
-        JPanel c = new JPanel(null) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(
-                    RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON
-                );
-                int s = 4;
-                g2.setColor(new Color(0,0,0,20));
-                g2.fillRoundRect(s, s, getWidth()-s, getHeight()-s, 25,25);
-                g2.setColor(new Color(255,241,255));
-                g2.fillRoundRect(0,0,getWidth()-s,getHeight()-s,25,25);
-                g2.setColor(new Color(220,200,230));
-                g2.setStroke(new BasicStroke(1.5f));
-                g2.drawRoundRect(0,0,getWidth()-s-1,getHeight()-s-1,25,25);
-                g2.dispose();
-            }
-        };
-        c.setBounds(235, 165, 970, 695);
-        c.setOpaque(false);
-        return c;
-    }
 
     private JPanel createPlanSummaryPanel() {
         Color txtColor = Color.decode("#1E1E1E");
@@ -419,7 +339,7 @@ public class AddConfirm extends JFrame {
         scrollPane.getViewport().setOpaque(false);
 
         JScrollBar vsb = scrollPane.getVerticalScrollBar();
-        vsb.setUI(new CustomScrollBarUI());
+        vsb.setUI(new ScrollUtil.PurpleScrollBarUI());
         vsb.setPreferredSize(new Dimension(8, Integer.MAX_VALUE));
         vsb.setUnitIncrement(16);
         vsb.setVisible(false);
@@ -441,7 +361,7 @@ public class AddConfirm extends JFrame {
             }
         });
 
-        RoundedScrollContainer wrapper = new RoundedScrollContainer(scrollPane, 20);
+        ScrollUtil.RoundedScrollContainer wrapper = new ScrollUtil.RoundedScrollContainer(scrollPane, 20);
         wrapper.setPreferredSize(new Dimension(375, 210));
         wrapper.setBackground(Color.WHITE);
 
@@ -602,55 +522,6 @@ public class AddConfirm extends JFrame {
         }
     }
 
-    private static class CustomScrollBarUI extends BasicScrollBarUI {
-        private static final Color THUMB_COLOR = new Color(42, 2, 67);
-
-        @Override protected void configureScrollBarColors() {
-            thumbColor = THUMB_COLOR;
-            trackColor = new Color(0, 0, 0, 0);
-        }
-
-        @Override protected JButton createDecreaseButton(int orientation) { return createZeroButton(); }
-        @Override protected JButton createIncreaseButton(int orientation) { return createZeroButton(); }
-
-        private JButton createZeroButton() {
-            JButton btn = new JButton();
-            btn.setPreferredSize(new Dimension(0, 0));
-            return btn;
-        }
-
-        @Override protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
-            if (!scrollbar.isEnabled() || thumbBounds.isEmpty()) return;
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setColor(THUMB_COLOR);
-            g2.fillRoundRect(thumbBounds.x, thumbBounds.y, thumbBounds.width, thumbBounds.height, 10, 10);
-            g2.dispose();
-        }
-        @Override protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {}
-    }
-
-    private static class RoundedScrollContainer extends JPanel {
-        private final int radius;
-        public RoundedScrollContainer(Component content, int radius) {
-            super(new BorderLayout());
-            this.radius = radius;
-            setOpaque(false);
-            add(content, BorderLayout.CENTER);
-        }
-        @Override protected void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(
-                RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON
-            );
-            Shape clip = new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), radius, radius);
-            g2.setClip(clip);
-            g2.setColor(getBackground());
-            g2.fill(clip);
-            super.paintComponent(g2);
-            g2.dispose();
-        }
-    }
 
     private String getPriceForPlan(String planName) {
         return switch (planName.toUpperCase()) {

@@ -5,14 +5,12 @@ import com.group_9.project.session.UserApplicationData;
 import com.group_9.project.utils.*;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.JTextComponent;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.RoundRectangle2D;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,12 +23,10 @@ public class SignUp5 extends JFrame {
     private JRadioButton full, install;
 
     public SignUp5() {
-        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
-        setIconImage(icon.getImage());
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
 
         // Main content container
-        JPanel container = createContentPanel();
+        JPanel container = FormUIUtil.createRoundedShadowPanel(235, 165, 970, 695);
         background.add(container);
 
         JPanel innerContent = new JPanel();
@@ -261,26 +257,6 @@ public class SignUp5 extends JFrame {
         else if ("installment".equals(paymentOption)) install.setSelected(true);
     }
 
-    private JPanel createContentPanel() {
-        JPanel content = new JPanel(null) {
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                int shadowOffset = 4;
-                g2.setColor(new Color(0, 0, 0, 20));
-                g2.fillRoundRect(shadowOffset, shadowOffset, getWidth() - shadowOffset, getHeight() - shadowOffset, 25, 25);
-                g2.setColor(new Color(255, 241, 255));
-                g2.fillRoundRect(0, 0, getWidth() - shadowOffset, getHeight() - shadowOffset, 25, 25);
-                g2.setColor(new Color(220, 200, 230));
-                g2.setStroke(new BasicStroke(1.5f));
-                g2.drawRoundRect(0, 0, getWidth() - shadowOffset - 1, getHeight() - shadowOffset - 1, 25, 25);
-                g2.dispose();
-            }
-        };
-        content.setBounds(235, 165, 970, 695);
-        content.setOpaque(false);
-        return content;
-    }
 
     private JPanel createPlanSummaryPanel() {
         Color txtColor = Color.decode("#1E1E1E");
@@ -356,7 +332,7 @@ public class SignUp5 extends JFrame {
         scrollPane.setBackground(Color.WHITE);
     
         JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
-        verticalScrollBar.setUI(new CustomScrollBarUI());
+        verticalScrollBar.setUI(new ScrollUtil.PurpleScrollBarUI());
         verticalScrollBar.setPreferredSize(new Dimension(8, Integer.MAX_VALUE));
         verticalScrollBar.setUnitIncrement(16);
         verticalScrollBar.setVisible(false); // HIDE by default
@@ -381,7 +357,7 @@ public class SignUp5 extends JFrame {
         });
     
         // Rounded outer wrapper
-        RoundedScrollContainer roundedWrapper = new RoundedScrollContainer(scrollPane, 20);
+        ScrollUtil.RoundedScrollContainer roundedWrapper = new ScrollUtil.RoundedScrollContainer(scrollPane, 20);
         roundedWrapper.setPreferredSize(new Dimension(375, 210));
         roundedWrapper.setBackground(Color.WHITE);
         
@@ -417,69 +393,6 @@ public class SignUp5 extends JFrame {
         }
     }
 
-    private static class CustomScrollBarUI extends BasicScrollBarUI {
-        private static final Color THUMB_COLOR = new Color(42, 2, 67);
-
-        @Override
-        protected void configureScrollBarColors() {
-            thumbColor = THUMB_COLOR;
-            trackColor = new Color(0, 0, 0, 0);
-        }
-
-        @Override
-        protected JButton createDecreaseButton(int orientation) {
-            return createZeroButton();
-        }
-
-        @Override
-        protected JButton createIncreaseButton(int orientation) {
-            return createZeroButton();
-        }
-
-        private JButton createZeroButton() {
-            JButton button = new JButton();
-            button.setPreferredSize(new Dimension(0, 0));
-            return button;
-        }
-
-        @Override
-        protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
-            if (!scrollbar.isEnabled() || thumbBounds.isEmpty()) return;
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setColor(THUMB_COLOR);
-            g2.fillRoundRect(thumbBounds.x, thumbBounds.y, thumbBounds.width, thumbBounds.height, 10, 10);
-            g2.dispose();
-        }
-
-        @Override
-        protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {}
-    }
-
-    private static class RoundedScrollContainer extends JPanel {
-        private final int radius;
-
-        public RoundedScrollContainer(Component content, int radius) {
-            super(new BorderLayout());
-            this.radius = radius;
-            setOpaque(false);
-            add(content, BorderLayout.CENTER);
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-            Shape clip = new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), radius, radius);
-            g2.setClip(clip);
-
-            g2.setColor(getBackground());
-            g2.fill(clip);
-
-            super.paintComponent(g2);
-            g2.dispose();
-        }
-    }
 
 
     private String getPriceForPlan(String planName) {

@@ -19,65 +19,10 @@ import java.util.List;
 public class AddPlansPage extends JFrame {
 
     public AddPlansPage() {
-        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
-        setIconImage(icon.getImage());
-        setTitle("FiberXpress");
-        setSize(1440, 1024);
-        setResizable(false);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(null);
-
-        BackgroundPanel background = new BackgroundPanel(1);
-        background.setLayout(null);
-        setContentPane(background);
-
-        // ─── Logo ─────────────────────────────────────────────────────────────────
-        ImageIcon rawLogo = new ImageIcon(
-            getClass().getClassLoader().getResource("images/converge_logo.png")
-        );
-        Image logoImg = rawLogo.getImage().getScaledInstance(200, 70, Image.SCALE_SMOOTH);
-        JLabel logo = new JLabel(new ImageIcon(logoImg));
-        logo.setBounds(40, 30, 200, 44);
-        background.add(logo);
-
-        // ─── Navigation Menu ─────────────────────────────────────────────────────
-        String[] navItems = {"Home", "Plans", "Help & Support", "About Us", "Account"};
-        int xPos = 900, spacing = 30;
-        Color normalColor = new Color(22, 6, 48, 128);
-        Color hoverColor  = new Color(62, 10, 118);
-
-        for (String item : navItems) {
-            JLabel label = new JLabel(item);
-            label.setFont(FontUtil.getOutfitFont(16f));
-            label.setForeground(normalColor);
-            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            int w = label.getPreferredSize().width;
-            label.setBounds(xPos, 30, w + 10, 40);
-            background.add(label);
-            xPos += w + spacing + 10;
-
-            label.addMouseListener(new java.awt.event.MouseAdapter() {
-                @Override public void mouseEntered(java.awt.event.MouseEvent e) {
-                    label.setForeground(hoverColor);
-                }
-                @Override public void mouseExited(java.awt.event.MouseEvent e) {
-                    label.setForeground(normalColor);
-                }
-                @Override public void mouseClicked(java.awt.event.MouseEvent e) {
-                    switch (item) {
-                        case "Home" -> { new TrackingPage().setVisible(true); dispose(); }
-                        case "Plans" -> { new PlansPage().setVisible(true); dispose(); }
-                        case "Help & Support" -> { new HelpSupportPage().setVisible(true); dispose(); }
-                        case "About Us" -> { new AboutUsPage().setVisible(true); dispose(); }
-                        case "Account" -> { new AccountDetailsPage().setVisible(true); dispose(); }
-                    }
-                }
-            });
-        }
+        BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
 
         // 2) White rounded container
-        JPanel container = createContentPanel();
+        JPanel container = FormUIUtil.createRoundedShadowPanel(235, 165, 970, 695);
         background.add(container);
 
         // 3) Inner content
@@ -305,30 +250,6 @@ public class AddPlansPage extends JFrame {
     }
 
     /** The white rounded container background. */
-    private JPanel createContentPanel() {
-        JPanel c = new JPanel(null) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(
-                    RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON
-                );
-                int s = 4;
-                g2.setColor(new Color(0,0,0,20));
-                g2.fillRoundRect(s, s, getWidth()-s, getHeight()-s, 25,25);
-                g2.setColor(new Color(255,241,255));
-                g2.fillRoundRect(0,0,getWidth()-s,getHeight()-s,25,25);
-                g2.setColor(new Color(220,200,230));
-                g2.setStroke(new BasicStroke(1.5f));
-                g2.drawRoundRect(0,0,getWidth()-s-1,getHeight()-s-1,25,25);
-                g2.dispose();
-            }
-        };
-        c.setBounds(235, 165, 970, 695);
-        c.setOpaque(false);
-        return c;
-    }
 
     // --- inner class for selectable plan cards ---
     class SelectablePlanPanel extends JPanel {

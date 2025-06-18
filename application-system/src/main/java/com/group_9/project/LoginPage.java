@@ -15,75 +15,7 @@ import java.text.SimpleDateFormat;
 public class LoginPage extends JFrame {
 
     public LoginPage() {
-        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
-        setIconImage(icon.getImage());
-        setTitle("FiberXpress");
-        setSize(1440, 1024);
-        setResizable(false);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(null);
-
-        BackgroundPanel background = new BackgroundPanel(1);
-        background.setLayout(null);
-        setContentPane(background);
-
-        ImageIcon originalIcon = new ImageIcon(getClass().getClassLoader().getResource("images/converge_logo.png"));
-        Image scaledImage = originalIcon.getImage().getScaledInstance(200, 70, Image.SCALE_SMOOTH);
-        ImageIcon logoIcon = new ImageIcon(scaledImage);
-
-        JLabel logo = new JLabel(logoIcon);
-        logo.setBounds(40, 30, 200, 44);
-        background.add(logo);
-
-        String[] navItems = {"Home", "Plans", "Help & Support", "About Us"};
-        int xPos = 900;
-        int spacing = 30;
-        Color normalColor = new Color(22, 6, 48, 128);
-        Color hoverColor = new Color(62, 10, 118);
-
-        for (String item : navItems) {
-            JLabel label = new JLabel(item);
-            label.setFont(FontUtil.getOutfitFont(16f));
-            label.setForeground(normalColor);
-            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-            label.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mouseEntered(java.awt.event.MouseEvent e) {
-                    label.setForeground(hoverColor);
-                }
-
-                public void mouseExited(java.awt.event.MouseEvent e) {
-                    label.setForeground(normalColor);
-                }
-
-                public void mouseClicked(java.awt.event.MouseEvent e) {
-                    switch (item) {
-                        case "Home" -> {
-                            new Homepage().setVisible(true);
-                            dispose();
-                        }
-                        case "Plans" -> {
-                            new PlansPage().setVisible(true);
-                            dispose();
-                        }
-                        case "Help & Support" -> {
-                            new HelpSupportPage().setVisible(true);
-                            dispose();
-                        }
-                        case "About Us" -> {
-                            new AboutUsPage().setVisible(true);
-                            dispose();
-                        }
-                    }
-                }
-            });
-
-            int textWidth = label.getPreferredSize().width;
-            label.setBounds(xPos, 30, textWidth + 10, 40);
-            background.add(label);
-            xPos += textWidth + spacing + 10;
-        }
+        BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
 
         JLabel headline = new JLabel("<html><div style='text-align:center;color:#2B0243;font-weight:700;'>Supercharge your home with<br>ultra-fast internet and endless entertainment.</div></html>", SwingConstants.CENTER);
         headline.setFont(FontUtil.getOutfitFont(50f));
