@@ -19,8 +19,7 @@ public class SignUp6 extends JFrame {
     private static final int RADIUS = 15;
 
     public SignUp6() {
-        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
-        setIconImage(icon.getImage());
+        BaseFrameSetup.applyAppIcon(this);
         // 1) Base frame + background
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
 

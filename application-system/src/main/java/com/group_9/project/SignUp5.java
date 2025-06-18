@@ -25,8 +25,7 @@ public class SignUp5 extends JFrame {
     private JRadioButton full, install;
 
     public SignUp5() {
-        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
-        setIconImage(icon.getImage());
+        BaseFrameSetup.applyAppIcon(this);
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
 
         // Main content container

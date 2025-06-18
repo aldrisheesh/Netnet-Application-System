@@ -21,7 +21,17 @@ public class BaseFrameSetup {
     public static final Color NAV_HOVER_COLOR = new Color(62, 10, 118);
     public static final Color LOGIN_BTN_PRIMARY = new Color(62, 10, 118);
     public static final Color LOGIN_BTN_PRESSED = new Color(42, 2, 67);
-    
+
+    /**
+     * Apply the application icon to the given frame.
+     */
+    public static void applyAppIcon(JFrame frame) {
+        ImageIcon icon = new ImageIcon(
+            BaseFrameSetup.class.getClassLoader().getResource("images/app_icon.png")
+        );
+        frame.setIconImage(icon.getImage());
+    }
+
 
     public static void setupFrame(JFrame frame) {
         frame.setTitle(WINDOW_TITLE);
@@ -134,6 +144,7 @@ public class BaseFrameSetup {
     // Fixed: Updated to pass currentFrame parameter to createLoginButton
     public static BackgroundPanel setupCompleteFrame(JFrame frame, int gradientType) {
         setupFrame(frame);
+        applyAppIcon(frame);
         BackgroundPanel background = createBackgroundPanel(gradientType);
         frame.setContentPane(background);
         
