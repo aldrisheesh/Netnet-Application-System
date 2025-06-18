@@ -270,4 +270,43 @@ public class RoundedComponents {
             g2.dispose();
         }
     }
+
+    /** Panel with rounded corners and a subtle shadow for reuse across pages. */
+    public static class RoundedShadowPanel extends JPanel {
+        private final int radius;
+        private final int shadowOffset;
+
+        public RoundedShadowPanel(int radius, int shadowOffset) {
+            super(null);
+            this.radius = radius;
+            this.shadowOffset = shadowOffset;
+            setOpaque(false);
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+
+            g2.setColor(new Color(0, 0, 0, 20));
+            g2.fillRoundRect(shadowOffset, shadowOffset,
+                    getWidth() - shadowOffset, getHeight() - shadowOffset,
+                    radius, radius);
+
+            g2.setColor(new Color(255, 241, 255));
+            g2.fillRoundRect(0, 0,
+                    getWidth() - shadowOffset, getHeight() - shadowOffset,
+                    radius, radius);
+
+            g2.setColor(new Color(220, 200, 230));
+            g2.setStroke(new BasicStroke(1.5f));
+            g2.drawRoundRect(0, 0,
+                    getWidth() - shadowOffset - 1, getHeight() - shadowOffset - 1,
+                    radius, radius);
+
+            g2.dispose();
+            super.paintComponent(g);
+        }
+    }
 }

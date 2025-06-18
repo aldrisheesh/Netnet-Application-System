@@ -28,7 +28,8 @@ public class AccountAddressPage extends Template {
         JPanel sidebar = createSidebar();
         background.add(sidebar);
 
-        JPanel content = createContentPanel();
+        JPanel content = new RoundedComponents.RoundedShadowPanel(25, 4);
+        content.setBounds(290, 150, 1020, 720);
         background.add(content);
 
         JPanel detailsContainer = createDetailsContainer();
@@ -107,29 +108,6 @@ public class AccountAddressPage extends Template {
         return sidebar;
     }
 
-    private JPanel createContentPanel() { //main container
-        JPanel content = new JPanel(null) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                
-                int shadowOffset = 4;
-                g2.setColor(new Color(0, 0, 0, 20)); // Semi-transparent black for shadow
-                g2.fillRoundRect(shadowOffset, shadowOffset, getWidth() - shadowOffset, getHeight() - shadowOffset, 25, 25);
-                
-                g2.setColor(new Color(255, 241, 255));
-                g2.fillRoundRect(0, 0, getWidth() - shadowOffset, getHeight() - shadowOffset, 25, 25);
-                g2.setColor(new Color(220, 200, 230));
-                g2.setStroke(new BasicStroke(1.5f));
-                g2.drawRoundRect(0, 0, getWidth() - shadowOffset - 1, getHeight() - shadowOffset - 1, 25, 25);
-                g2.dispose();
-            }
-        };
-        content.setBounds(290, 150, 1020, 720);
-        content.setOpaque(false);
-        return content;
-    }
 
     private JPanel createDetailsContainer() {
         JPanel detailsContainer = new JPanel(null);

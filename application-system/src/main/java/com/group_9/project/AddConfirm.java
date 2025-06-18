@@ -30,7 +30,8 @@ public class AddConfirm extends JFrame {
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
 
         // — White rounded container
-        JPanel container = createContentPanel();
+        JPanel container = new RoundedComponents.RoundedShadowPanel(25, 4);
+        container.setBounds(235, 165, 970, 695);
         background.add(container);
 
         // — Inner content
@@ -280,30 +281,6 @@ public class AddConfirm extends JFrame {
 
     // --- All helper/UI methods below ---
 
-    private JPanel createContentPanel() {
-        JPanel c = new JPanel(null) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(
-                    RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON
-                );
-                int s = 4;
-                g2.setColor(new Color(0,0,0,20));
-                g2.fillRoundRect(s, s, getWidth()-s, getHeight()-s, 25,25);
-                g2.setColor(new Color(255,241,255));
-                g2.fillRoundRect(0,0,getWidth()-s,getHeight()-s,25,25);
-                g2.setColor(new Color(220,200,230));
-                g2.setStroke(new BasicStroke(1.5f));
-                g2.drawRoundRect(0,0,getWidth()-s-1,getHeight()-s-1,25,25);
-                g2.dispose();
-            }
-        };
-        c.setBounds(235, 165, 970, 695);
-        c.setOpaque(false);
-        return c;
-    }
 
     private JPanel createPlanSummaryPanel() {
         Color txtColor = Color.decode("#1E1E1E");
