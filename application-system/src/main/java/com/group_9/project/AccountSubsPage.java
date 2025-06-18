@@ -11,64 +11,8 @@ import java.util.List;
 
 public class AccountSubsPage extends Template {
     public AccountSubsPage() {
-        BackgroundPanel background = new BackgroundPanel(3); //bg
-        background.setLayout(null);
-        setContentPane(background);
-
-        ImageIcon originalIcon = new ImageIcon(getClass().getClassLoader().getResource("images/converge_logo.png"));
-        Image scaledImage = originalIcon.getImage().getScaledInstance(200, 70, Image.SCALE_SMOOTH);
-        JLabel logo = new JLabel(new ImageIcon(scaledImage));
-        logo.setBounds(40, 30, 200, 44);
-        background.add(logo);
-
-        String[] navItems = {"Home", "Plans", "Help & Support", "About Us", "Account"}; //navbar
-        int xPos = 900;
-        int spacing = 30;
-        Color normalColor = new Color(22, 6, 48, 128);
-        Color hoverColor = new Color(62, 10, 118);
-
-        for (String item : navItems) {
-            JLabel label = new JLabel(item);
-            label.setFont(FontUtil.getOutfitFont(16f));
-            label.setForeground(normalColor);
-            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-            label.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mouseEntered(java.awt.event.MouseEvent e) {
-                    label.setForeground(hoverColor);
-                }
-
-                public void mouseExited(java.awt.event.MouseEvent e) {
-                    label.setForeground(normalColor);
-                }
-
-                public void mouseClicked(java.awt.event.MouseEvent e) {
-                    switch (item) {
-                        case "Home" -> {
-                            new TrackingPage().setVisible(true);
-                            dispose();
-                        }
-                        case "Plans", "About Us" -> {
-                            new AboutUsPage().setVisible(true);
-                            dispose();
-                        }
-                        case "Help & Support" -> {
-                            new HelpSupportPage().setVisible(true);
-                            dispose();
-                        }
-                        case "Account" -> {
-                            new AccountDetailsPage().setVisible(true);
-                            dispose();
-                        }
-                    }
-                }
-            });
-
-            int textWidth = label.getPreferredSize().width;
-            label.setBounds(xPos, 30, textWidth + 10, 40);
-            background.add(label);
-            xPos += textWidth + spacing + 10;
-        }
+        BaseFrameSetup.applyAppIcon(this);
+        BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 3);
 
         JPanel sidebar = createSidebar();
         background.add(sidebar);

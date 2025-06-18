@@ -13,130 +13,23 @@ import java.awt.event.MouseEvent;
 public class AboutUsPage extends Template {
 
     public AboutUsPage() {
-        setSize(1440, 1024);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-        BackgroundPanel background = new BackgroundPanel(5);
-        background.setLayout(null);
+        BaseFrameSetup.applyAppIcon(this);
+        BaseFrameSetup.setupFrame(this);
+        BackgroundPanel background = BaseFrameSetup.createBackgroundPanel(5);
         background.setPreferredSize(new Dimension(1440, 1354));
-
         JScrollPane scrollPane = new JScrollPane(background);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.setBorder(null);
-
         JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
         verticalScrollBar.setUI(new CustomScrollBarUI());
         verticalScrollBar.setOpaque(false);
-        verticalScrollBar.setPreferredSize(new Dimension(10, 0));
-
+        verticalScrollBar.setPreferredSize(new Dimension(10,0));
         setContentPane(scrollPane);
-
-        ImageIcon originalIcon = new ImageIcon(getClass().getClassLoader().getResource("images/converge_logo.png"));
-        Image scaledImage = originalIcon.getImage().getScaledInstance(200, 70, Image.SCALE_SMOOTH);
-        JLabel logo = new JLabel(new ImageIcon(scaledImage));
-        logo.setBounds(40, 30, 200, 70);
-        background.add(logo);
-
-        String[] navItems = {"Home", "Plans", "Help & Support", "About Us"}; //navbar
-        int xPos = 900;
-        int spacing = 30;
-        Color normalColor = new Color(22, 6, 48, 128);
-        Color hoverColor = new Color(62, 10, 118);
-
-        for (String item : navItems) {
-            JLabel label = new JLabel(item);
-            label.setFont(FontUtil.getOutfitFont(16f));
-            label.setForeground(normalColor);
-            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-            label.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mouseEntered(java.awt.event.MouseEvent e) {
-                    label.setForeground(hoverColor);
-                }
-
-                public void mouseExited(java.awt.event.MouseEvent e) {
-                    label.setForeground(normalColor);
-                }
-
-                public void mouseClicked(java.awt.event.MouseEvent e) {
-                    switch (item) {
-                        case "Home" -> {
-                            String appNo = UserApplicationData.get("ApplicationNo");
-                            if (appNo != null && !appNo.isEmpty()) {
-                                new TrackingPage().setVisible(true);
-                            } else {
-                                new Homepage().setVisible(true);
-                            }
-                            dispose();
-                        }
-                        case "Plans" -> {
-                            new PlansPage().setVisible(true);
-                            dispose();
-                        }
-                        case "Help & Support" -> {
-                            new HelpSupportPage().setVisible(true);
-                            dispose();
-                        }
-                        case "About Us" -> {
-                            new AboutUsPage().setVisible(true);
-                            dispose();
-                        }
-                    }
-                }
-            });
-
-            int textWidth = label.getPreferredSize().width;
-            label.setBounds(xPos, 30, textWidth + 10, 40);
-            background.add(label);
-            xPos += textWidth + spacing + 10;
-        }
-
-        String appNo = UserApplicationData.get("ApplicationNo");
-        if (appNo != null && !appNo.isEmpty()) {
-            // Show "Account"
-            JLabel accountLbl = new JLabel("Account");
-            accountLbl.setFont(FontUtil.getOutfitFont(16f));
-            accountLbl.setForeground(normalColor);
-            accountLbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            int w = accountLbl.getPreferredSize().width;
-            accountLbl.setBounds(1300, 30, w + 10, 40);
-            background.add(accountLbl);
-
-            accountLbl.addMouseListener(new MouseAdapter() {
-                @Override public void mouseEntered(MouseEvent e) {
-                    accountLbl.setForeground(hoverColor);
-                }
-                @Override public void mouseExited(MouseEvent e) {
-                    accountLbl.setForeground(normalColor);
-                }
-                @Override public void mouseClicked(MouseEvent e) {
-                    AccountNavigationUtil.openAccountPageByApplication(AboutUsPage.this);
-                    new AccountDetailsPage().setVisible(true);
-                    dispose();
-                }
-            });
-        } else {
-            // Show "Log In"
-            RoundedComponents.RoundedButton loginBtn = 
-                new RoundedComponents.RoundedButton("Log In", 20);
-            loginBtn.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
-            loginBtn.setBounds(1300, 30, 80, 35);
-            loginBtn.setFocusPainted(false);
-            ButtonHoverEffect.apply(
-                loginBtn,
-                new Color(62, 10, 118), Color.WHITE,
-                new Color(42, 2, 67),  Color.WHITE,
-                new Color(62, 10, 118), new Color(42, 2, 67)
-            );
-            loginBtn.addActionListener(ev -> {
-                new LoginPage().setVisible(true);
-                dispose();
-            });
-            background.add(loginBtn);
-        }
+        BaseFrameSetup.createLogo(background);
+        BaseFrameSetup.createNavigation(background, this);
+        BaseFrameSetup.createLoginButton(background, this);
 
         JLabel header = new JLabel("About Us."); //header
         header.setFont(FontUtil.getOutfitBoldFont(50f));

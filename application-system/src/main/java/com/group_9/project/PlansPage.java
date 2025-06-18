@@ -9,8 +9,7 @@ import java.awt.*;
 
 public class PlansPage extends JFrame {
     public PlansPage() {
-        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
-        setIconImage(icon.getImage());
+        BaseFrameSetup.applyAppIcon(this);
         BaseFrameSetup.setupFrame(this);
 
         JPanel mainContainer = new JPanel();
