@@ -125,6 +125,9 @@ public class Homepage extends JFrame {
         JLabel loginClickable = new JLabel(" Log in!");
         loginClickable.setFont(FontUtil.getInterFont(16f));
         
+        Color normalColor = new Color(22, 6, 48, 128);
+        Color hoverColor = new Color(62, 10, 118);
+
         loginClickable.setForeground(normalColor);
         loginClickable.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         loginClickable.setBounds(applyX + 200, applyY + 155, 60, 30);
