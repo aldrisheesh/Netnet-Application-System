@@ -18,7 +18,8 @@ public class SignUp1 extends JFrame {
     public SignUp1() {
         BaseFrameSetup.applyAppIcon(this);
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
-        JPanel container = createContentPanel();
+        JPanel container = new RoundedComponents.RoundedShadowPanel(25, 4);
+        container.setBounds(235, 165, 970, 695);
         background.add(container);
 
         JPanel innerContent = new JPanel();
@@ -374,27 +375,6 @@ public class SignUp1 extends JFrame {
         SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
     }
 
-    private JPanel createContentPanel() {
-        JPanel content = new JPanel(null) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                int shadowOffset = 4;
-                g2.setColor(new Color(0, 0, 0, 20));
-                g2.fillRoundRect(shadowOffset, shadowOffset, getWidth() - shadowOffset, getHeight() - shadowOffset, 25, 25);
-                g2.setColor(new Color(255, 241, 255));
-                g2.fillRoundRect(0, 0, getWidth() - shadowOffset, getHeight() - shadowOffset, 25, 25);
-                g2.setColor(new Color(220, 200, 230));
-                g2.setStroke(new BasicStroke(1.5f));
-                g2.drawRoundRect(0, 0, getWidth() - shadowOffset - 1, getHeight() - shadowOffset - 1, 25, 25);
-                g2.dispose();
-            }
-        };
-        content.setBounds(235, 165, 970, 695);
-        content.setOpaque(false);
-        return content;
-    }
 
     private RoundedComponents.RoundedTextField createRoundedTextField(String placeholder) {
         RoundedComponents.RoundedTextField field = new RoundedComponents.RoundedTextField(placeholder, 15);
