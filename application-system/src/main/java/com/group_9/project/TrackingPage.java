@@ -15,62 +15,8 @@ import java.util.Map;
 public class TrackingPage extends JFrame {
 
     public TrackingPage() {
-        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("images/app_icon.png"));
-        setIconImage(icon.getImage());
-        setTitle("FiberXpress");
-        setSize(1440, 1024);
-        setResizable(false);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(null);
-
-        BackgroundPanel background = new BackgroundPanel(1);
-        background.setLayout(null);
-        setContentPane(background);
-
-        // ─── Logo ─────────────────────────────────────────────────────────────────
-        ImageIcon rawLogo = new ImageIcon(
-            getClass().getClassLoader().getResource("images/converge_logo.png")
-        );
-        Image logoImg = rawLogo.getImage().getScaledInstance(200, 70, Image.SCALE_SMOOTH);
-        JLabel logo = new JLabel(new ImageIcon(logoImg));
-        logo.setBounds(40, 30, 200, 44);
-        background.add(logo);
-
-        // ─── Navigation Menu ─────────────────────────────────────────────────────
-        String[] navItems = {"Home", "Plans", "Help & Support", "About Us", "Account"};
-        int xPos = 900, spacing = 30;
-        Color normalColor = new Color(22, 6, 48, 128);
-        Color hoverColor  = new Color(62, 10, 118);
-
-        for (String item : navItems) {
-            JLabel label = new JLabel(item);
-            label.setFont(FontUtil.getOutfitFont(16f));
-            label.setForeground(normalColor);
-            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            int w = label.getPreferredSize().width;
-            label.setBounds(xPos, 30, w + 10, 40);
-            background.add(label);
-            xPos += w + spacing + 10;
-
-            label.addMouseListener(new java.awt.event.MouseAdapter() {
-                @Override public void mouseEntered(java.awt.event.MouseEvent e) {
-                    label.setForeground(hoverColor);
-                }
-                @Override public void mouseExited(java.awt.event.MouseEvent e) {
-                    label.setForeground(normalColor);
-                }
-                @Override public void mouseClicked(java.awt.event.MouseEvent e) {
-                    switch (item) {
-                        case "Home" -> { new TrackingPage().setVisible(true); dispose(); }
-                        case "Plans" -> { new PlansPage().setVisible(true); dispose(); }
-                        case "Help & Support" -> { new HelpSupportPage().setVisible(true); dispose(); }
-                        case "About Us" -> { new AboutUsPage().setVisible(true); dispose(); }
-                        case "Account" -> { AccountNavigationUtil.openAccountPageByApplication(TrackingPage.this); }
-                    }
-                }
-            });
-        }
+        BaseFrameSetup.applyAppIcon(this);
+        BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
 
         // ─── Headline & Subheadline ───────────────────────────────────────────────
         JLabel headline = new JLabel(
