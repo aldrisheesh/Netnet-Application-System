@@ -266,7 +266,7 @@ public class CustomDialogUtil {
         contentPanel.setBorder(BorderFactory.createEmptyBorder(25, 40, 30, 40));
         contentPanel.setOpaque(false);
 
-        ImageIcon infoIcon = new ImageIcon(CustomDialogUtil.class.getResource("/icons/info.png"));
+        ImageIcon infoIcon = new ImageIcon(CustomDialogUtil.class.getResource("/icons/help.png"));
         Image scaledImage = infoIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         JLabel icon = new JLabel(new ImageIcon(scaledImage));
         icon.setAlignmentX(Component.CENTER_ALIGNMENT);
