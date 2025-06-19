@@ -5,6 +5,7 @@ import com.group_9.project.session.UserApplicationData;
 import com.group_9.project.utils.*;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
@@ -524,7 +525,78 @@ public class AddConfirm extends JFrame {
         }
     }
 
+    private static class CustomScrollBarUI extends BasicScrollBarUI {
+        private static final Color THUMB_COLOR = new Color(42, 2, 67);
 
+        @Override protected void configureScrollBarColors() {
+            thumbColor = THUMB_COLOR;
+            trackColor = new Color(0, 0, 0, 0);
+        }
+
+        @Override protected JButton createDecreaseButton(int orientation) { return createZeroButton(); }
+        @Override protected JButton createIncreaseButton(int orientation) { return createZeroButton(); }
+
+        private JButton createZeroButton() {
+            JButton btn = new JButton();
+            btn.setPreferredSize(new Dimension(0, 0));
+            return btn;
+        }
+
+        @Override protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
+            if (!scrollbar.isEnabled() || thumbBounds.isEmpty()) return;
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setColor(THUMB_COLOR);
+            g2.fillRoundRect(thumbBounds.x, thumbBounds.y, thumbBounds.width, thumbBounds.height, 10, 10);
+            g2.dispose();
+        }
+        @Override protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {}
+    }
+
+    private static class RoundedScrollContainer extends JPanel {
+        private final int radius;
+        public RoundedScrollContainer(Component content, int radius) {
+            super(new BorderLayout());
+            this.radius = radius;
+            setOpaque(false);
+            add(content, BorderLayout.CENTER);
+        }
+        @Override protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON
+            );
+            Shape clip = new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), radius, radius);
+            g2.setClip(clip);
+            g2.setColor(getBackground());
+            g2.fill(clip);
+            super.paintComponent(g2);
+            g2.dispose();
+        }
+    }
 
     private String getPriceForPlan(String planName) {
         return switch (planName.toUpperCase()) {
+            case "FIBERX 1500" -> "₱1500";
+            case "FIBERX 2500" -> "₱2500";
+            case "FIBERX 3500" -> "₱3500";
+            case "FIBER XTREAM 4500" -> "₱4500";
+            case "FIBER XTREAM 7000" -> "₱7000";
+            default -> "₱0";
+        };
+    }
+
+    private String getInstallationFeeForPlan(String planName) {
+        return switch (planName.toUpperCase()) {
+            case "FIBER XTREAM 4500", "FIBER XTREAM 7000" -> "WAIVED";
+            case "FIBERX 1500", "FIBERX 2500" -> "₱125/24mo.";
+            case "FIBERX 3500" -> "₱125/12mo.";
+            default -> "₱0";
+        };
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(AddConfirm::new);
+    }
+}
+
