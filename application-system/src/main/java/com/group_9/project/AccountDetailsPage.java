@@ -19,31 +19,31 @@ import com.group_9.project.utils.RoundedComponents.*;
 
 public class AccountDetailsPage extends Template {
     
-    private boolean isEditMode = false;
-    private JButton actionButton;
-    private List<JTextField> textFields = new ArrayList<>();
-    private List<JComboBox<String>> comboBoxes = new ArrayList<>();
-    private JTextField passwordField;
+    private boolean boolEditMode = false;
+    private JButton cmdAction;
+    private List<JTextField> lstTextFields = new ArrayList<>();
+    private List<JComboBox<String>> lstComboBoxes = new ArrayList<>();
+    private JTextField txtPasswordField;
 
     public AccountDetailsPage() {
         BaseFrameSetup.applyAppIcon(this);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 3);
+        BackgroundPanel pnlBackground = BaseFrameSetup.setupCompleteFrame(this, 3);
 
-        JPanel sidebar = AccountSidebarUtil.createSidebar(this, "My Details");
-        background.add(sidebar);
+        JPanel pnlSidebar = AccountSidebarUtil.createSidebar(this, "My Details");
+        pnlBackground.add(pnlSidebar);
 
-        JPanel content = new RoundedComponents.RoundedShadowPanel(25, 4);
-        content.setBounds(290, 150, 1020, 720);
-        background.add(content);
+        JPanel pnlContent = new RoundedComponents.RoundedShadowPanel(25, 4);
+        pnlContent.setBounds(290, 150, 1020, 720);
+        pnlBackground.add(pnlContent);
 
-        JPanel detailsContainer = createDetailsContainer();
-        content.add(detailsContainer);
+        JPanel pnlDetailsContainer = createDetailsContainer();
+        pnlContent.add(pnlDetailsContainer);
 
         populateFromSession();
         
         SwingUtilities.invokeLater(() -> {
-            background.requestFocusInWindow();
+            pnlBackground.requestFocusInWindow();
         });
     }
 
@@ -51,93 +51,93 @@ public class AccountDetailsPage extends Template {
 
 
     private JPanel createDetailsContainer() {
-        JPanel detailsContainer = new JPanel(null);
-        detailsContainer.setBackground(new Color(0, 0, 0, 0));
-        detailsContainer.setBounds(0, 0, 1250, 700);
-        detailsContainer.setOpaque(false);
+        JPanel pnlDetailsContainer = new JPanel(null);
+        pnlDetailsContainer.setBackground(new Color(0, 0, 0, 0));
+        pnlDetailsContainer.setBounds(0, 0, 1250, 700);
+        pnlDetailsContainer.setOpaque(false);
     
-        JLabel titleLabel = new JLabel("MY DETAILS");
-        titleLabel.setFont(FontUtil.getOutfitBoldFont(26f));
-        titleLabel.setForeground(new Color(42, 2, 67, 255));
-        titleLabel.setBounds(70, 50, 300, 30);
-        detailsContainer.add(titleLabel);
+        JLabel lblTitle = new JLabel("MY DETAILS");
+        lblTitle.setFont(FontUtil.getOutfitBoldFont(26f));
+        lblTitle.setForeground(new Color(42, 2, 67, 255));
+        lblTitle.setBounds(70, 50, 300, 30);
+        pnlDetailsContainer.add(lblTitle);
     
-        JLabel sectionLabel = new JLabel("PERSONAL INFORMATION");
-        sectionLabel.setFont(FontUtil.getOutfitFont(16f));
-        sectionLabel.setBounds(70, 100, 300, 20);
-        detailsContainer.add(sectionLabel);
+        JLabel lblSection = new JLabel("PERSONAL INFORMATION");
+        lblSection.setFont(FontUtil.getOutfitFont(16f));
+        lblSection.setBounds(70, 100, 300, 20);
+        pnlDetailsContainer.add(lblSection);
     
-        JSeparator sep = new JSeparator();
-        sep.setBounds(70, 130, 880, 1);
-        sep.setForeground(new Color(180, 180, 180));
-        detailsContainer.add(sep);
+        JSeparator sepSeparator = new JSeparator();
+        sepSeparator.setBounds(70, 130, 880, 1);
+        sepSeparator.setForeground(new Color(180, 180, 180));
+        pnlDetailsContainer.add(sepSeparator);
     
-        String[] leftLabels = { "USERNAME", "PASSWORD", "EMAIL ADDRESS", "MOBILE NO. / TEL. NO." };
-        String[] rightLabels = { "FULL NAME", "BIRTHDAY", "GENDER", "CIVIL STATUS", "NATIONALITY", "NAME OF SPOUSE (IF MARRIED)", "FULL MOTHER'S MAIDEN NAME" };
+        String[] arrLeftLabels = { "USERNAME", "PASSWORD", "EMAIL ADDRESS", "MOBILE NO. / TEL. NO." };
+        String[] arrRightLabels = { "FULL NAME", "BIRTHDAY", "GENDER", "CIVIL STATUS", "NATIONALITY", "NAME OF SPOUSE (IF MARRIED)", "FULL MOTHER'S MAIDEN NAME" };
     
-        int yLeft = 150;
-        for (int i = 0; i < leftLabels.length; i++) {
-            JLabel label = new JLabel(leftLabels[i]);
-            label.setFont(FontUtil.getOutfitBoldFont(13f));
-            label.setForeground(new Color(42, 2, 67));
-            label.setBounds(95, yLeft, 200, 40);
-            detailsContainer.add(label);
+        int intYLeft = 150;
+        for (int i = 0; i < arrLeftLabels.length; i++) {
+            JLabel lbl = new JLabel(arrLeftLabels[i]);
+            lbl.setFont(FontUtil.getOutfitBoldFont(13f));
+            lbl.setForeground(new Color(42, 2, 67));
+            lbl.setBounds(95, intYLeft, 200, 40);
+            pnlDetailsContainer.add(lbl);
     
-            JTextField field;
-            if (leftLabels[i].equals("PASSWORD")) {
-                field = new RoundedPasswordField("Enter your password", 20);
-                passwordField = field;
+            JTextField txtField;
+            if (arrLeftLabels[i].equals("PASSWORD")) {
+                txtField = new RoundedPasswordField("Enter your password", 20);
+                txtPasswordField = txtField;
             } else {
-                field = new RoundedTextField("Enter your " + leftLabels[i].toLowerCase(), 20);
+                txtField = new RoundedTextField("Enter your " + arrLeftLabels[i].toLowerCase(), 20);
             }
     
-            field.setFont(FontUtil.getOutfitFont(15f));
-            field.setBackground(Color.WHITE);
-            field.setForeground(Color.BLACK);
-            field.setCaretColor(Color.BLACK);
-            field.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-            field.setEditable(false);
-            field.setFocusable(false);
-            textFields.add(field);
+            txtField.setFont(FontUtil.getOutfitFont(15f));
+            txtField.setBackground(Color.WHITE);
+            txtField.setForeground(Color.BLACK);
+            txtField.setCaretColor(Color.BLACK);
+            txtField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+            txtField.setEditable(false);
+            txtField.setFocusable(false);
+            lstTextFields.add(txtField);
     
-            JPanel wrapper = createTextFieldWrapper(field, 20);
-            wrapper.setBounds(95, yLeft + 33, 330, 47);
-            detailsContainer.add(wrapper);
+            JPanel pnlWrapper = createTextFieldWrapper(txtField, 20);
+            pnlWrapper.setBounds(95, intYLeft + 33, 330, 47);
+            pnlDetailsContainer.add(pnlWrapper);
     
             // 🔍 Add real-time validation
-            if (leftLabels[i].equals("PASSWORD")) {
-                ValidationUtil.addTextValidation(field, wrapper, s -> s.length() >= 8);
-            } else if (leftLabels[i].equals("EMAIL ADDRESS")) {
-                ValidationUtil.addTextValidation(field, wrapper, s -> s.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,}$"));
-            } else if (leftLabels[i].equals("MOBILE NO. / TEL. NO.")) {
-                ValidationUtil.addTextValidation(field, wrapper, s -> s.matches("^\\+63\\s9\\d{2}-\\d{3}-\\d{4}$"));
-                SmartFieldFormatter.attachMobileFormatter(field);
+            if (arrLeftLabels[i].equals("PASSWORD")) {
+                ValidationUtil.addTextValidation(txtField, pnlWrapper, s -> s.length() >= 8);
+            } else if (arrLeftLabels[i].equals("EMAIL ADDRESS")) {
+                ValidationUtil.addTextValidation(txtField, pnlWrapper, s -> s.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,}$"));
+            } else if (arrLeftLabels[i].equals("MOBILE NO. / TEL. NO.")) {
+                ValidationUtil.addTextValidation(txtField, pnlWrapper, s -> s.matches("^\\+63\\s9\\d{2}-\\d{3}-\\d{4}$"));
+                SmartFieldFormatter.attachMobileFormatter(txtField);
             }
     
-            yLeft += 74;
-            if (i == 1) yLeft += 130;
+            intYLeft += 74;
+            if (i == 1) intYLeft += 130;
         }
     
         JLabel contactLabel = new JLabel("Contact Information");
         contactLabel.setFont(FontUtil.getOutfitBoldFont(17f));
         contactLabel.setBounds(95, 350, 300, 20);
-        detailsContainer.add(contactLabel);
+        pnlDetailsContainer.add(contactLabel);
     
         JLabel contactInfo = new JLabel("<html>Keep your contact info up to date so we can reach you with important updates.</html>");
         contactInfo.setFont(FontUtil.getInterFont(14f));
         contactInfo.setBounds(95, 375, 350, 40);
-        detailsContainer.add(contactInfo);
+        pnlDetailsContainer.add(contactInfo);
     
-        int yRight = 150;
-        for (int i = 0; i < rightLabels.length; i++) {
-            String labelText = rightLabels[i];
+        int intYRight = 150;
+        for (int i = 0; i < arrRightLabels.length; i++) {
+            String labelText = arrRightLabels[i];
             JLabel label = new JLabel(labelText);
             label.setFont(FontUtil.getOutfitBoldFont(13f));
             label.setForeground(new Color(42, 2, 67));
     
             if (labelText.equals("BIRTHDAY")) {
-                label.setBounds(490, yRight + 5, 150, 28);
-                detailsContainer.add(label);
+                label.setBounds(490, intYRight + 5, 150, 28);
+                pnlDetailsContainer.add(label);
     
                 JTextField bdayField = new RoundedTextField("MM/DD/YYYY", 15);
                 bdayField.setFont(FontUtil.getOutfitFont(15f));
@@ -147,11 +147,11 @@ public class AccountDetailsPage extends Template {
                 bdayField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
                 bdayField.setEditable(false);
                 bdayField.setFocusable(false);
-                textFields.add(bdayField);
+                lstTextFields.add(bdayField);
     
                 JPanel bdayWrapper = createTextFieldWrapper(bdayField, 15);
-                bdayWrapper.setBounds(490, yRight + 31, 210, 47);
-                detailsContainer.add(bdayWrapper);
+                bdayWrapper.setBounds(490, intYRight + 31, 210, 47);
+                pnlDetailsContainer.add(bdayWrapper);
     
                 SmartFieldFormatter.attachDateFormatter(bdayField);
                 ValidationUtil.addTextValidation(bdayField, bdayWrapper, s -> {
@@ -169,32 +169,32 @@ public class AccountDetailsPage extends Template {
                 JLabel genderLabel = new JLabel("GENDER");
                 genderLabel.setFont(FontUtil.getOutfitBoldFont(13f));
                 genderLabel.setForeground(new Color(42, 2, 67));
-                genderLabel.setBounds(730, yRight + 5, 150, 28);
-                detailsContainer.add(genderLabel);
+                genderLabel.setBounds(730, intYRight + 5, 150, 28);
+                pnlDetailsContainer.add(genderLabel);
     
                 JComboBox<String> genderCombo = FormComponent.createStyledComboBox("Choose Gender", new String[]{"Male", "Female"});
                 genderCombo.setEnabled(false);
-                comboBoxes.add(genderCombo);
-                genderCombo.setBounds(730, yRight + 30, 190, 45);
-                detailsContainer.add(genderCombo);
+                lstComboBoxes.add(genderCombo);
+                genderCombo.setBounds(730, intYRight + 30, 190, 45);
+                pnlDetailsContainer.add(genderCombo);
     
-                yRight += 77;
+                intYRight += 77;
                 i++;
             } else if (labelText.equals("CIVIL STATUS")) {
-                label.setBounds(490, yRight + 5, 150, 20);
-                detailsContainer.add(label);
+                label.setBounds(490, intYRight + 5, 150, 20);
+                pnlDetailsContainer.add(label);
     
                 JComboBox<String> civilCombo = FormComponent.createStyledComboBox("Choose Civil Status", new String[]{"Single", "Married", "Separated", "Widow"});
                 civilCombo.setEnabled(false);
-                comboBoxes.add(civilCombo);
-                civilCombo.setBounds(490, yRight + 25, 210, 45);
-                detailsContainer.add(civilCombo);
+                lstComboBoxes.add(civilCombo);
+                civilCombo.setBounds(490, intYRight + 25, 210, 45);
+                pnlDetailsContainer.add(civilCombo);
     
                 JLabel natLabel = new JLabel("NATIONALITY");
                 natLabel.setFont(FontUtil.getOutfitBoldFont(13f));
                 natLabel.setForeground(new Color(42, 2, 67));
-                natLabel.setBounds(730, yRight + 5, 150, 20);
-                detailsContainer.add(natLabel);
+                natLabel.setBounds(730, intYRight + 5, 150, 20);
+                pnlDetailsContainer.add(natLabel);
     
                 JTextField natField = new RoundedTextField("e.g., Filipino", 25);
                 natField.setFont(FontUtil.getOutfitFont(15f));
@@ -204,51 +204,51 @@ public class AccountDetailsPage extends Template {
                 natField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
                 natField.setEditable(false);
                 natField.setFocusable(false);
-                textFields.add(natField);
+                lstTextFields.add(natField);
     
                 JPanel natWrapper = createTextFieldWrapper(natField, 15);
-                natWrapper.setBounds(730, yRight + 25, 190, 47);
-                detailsContainer.add(natWrapper);
+                natWrapper.setBounds(730, intYRight + 25, 190, 47);
+                pnlDetailsContainer.add(natWrapper);
     
                 // Optional validation
                 ValidationUtil.addTextValidation(natField, natWrapper, s -> !s.trim().isEmpty());
     
-                yRight += 74;
+                intYRight += 74;
                 i++;
             } else {
-                label.setBounds(490, yRight + 10, 270, 20);
-                detailsContainer.add(label);
+                label.setBounds(490, intYRight + 10, 270, 20);
+                pnlDetailsContainer.add(label);
     
-                JTextField field = new RoundedTextField("Enter " + labelText.toLowerCase(), 20);
-                field.setFont(FontUtil.getOutfitFont(15f));
-                field.setBackground(Color.WHITE);
-                field.setForeground(Color.BLACK);
-                field.setCaretColor(Color.BLACK);
-                field.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-                field.setEditable(false);
-                field.setFocusable(false);
-                textFields.add(field);
-    
-                JPanel wrapper = createTextFieldWrapper(field, 15);
-                wrapper.setBounds(490, yRight + 33, 430, 47);
-                detailsContainer.add(wrapper);
-    
+                JTextField txtField = new RoundedTextField("Enter " + labelText.toLowerCase(), 20);
+                txtField.setFont(FontUtil.getOutfitFont(15f));
+                txtField.setBackground(Color.WHITE);
+                txtField.setForeground(Color.BLACK);
+                txtField.setCaretColor(Color.BLACK);
+                txtField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+                txtField.setEditable(false);
+                txtField.setFocusable(false);
+                lstTextFields.add(txtField);
+
+                JPanel pnlWrapper = createTextFieldWrapper(txtField, 15);
+                pnlWrapper.setBounds(490, intYRight + 33, 430, 47);
+                pnlDetailsContainer.add(pnlWrapper);
+
                 // Optional basic validation
-                ValidationUtil.addTextValidation(field, wrapper, s -> !s.trim().isEmpty());
+                ValidationUtil.addTextValidation(txtField, pnlWrapper, s -> !s.trim().isEmpty());
     
-                yRight += 75;
+                intYRight += 75;
             }
         }
     
-        actionButton = new RoundedComponents.RoundedButton("UPDATE", 20);
-        actionButton.setFont(FontUtil.getOutfitBoldFont(18f));
-        actionButton.setBounds(740, 590, 150, 45);
-        styleButton(actionButton);
+        cmdAction = new RoundedComponents.RoundedButton("UPDATE", 20);
+        cmdAction.setFont(FontUtil.getOutfitBoldFont(18f));
+        cmdAction.setBounds(740, 590, 150, 45);
+        styleButton(cmdAction);
     
-        actionButton.addActionListener(e -> {
-            if (!isEditMode) {
-                isEditMode = true;
-                actionButton.setText("SAVE CHANGES");
+        cmdAction.addActionListener(e -> {
+            if (!boolEditMode) {
+                boolEditMode = true;
+                cmdAction.setText("SAVE CHANGES");
                 enableEditing(true);
             } else {
                 if (!validateFields()) {
@@ -258,24 +258,24 @@ public class AccountDetailsPage extends Template {
                 
                 saveChanges();
 
-                isEditMode = false;
-                actionButton.setText("UPDATE");
+                boolEditMode = false;
+                cmdAction.setText("UPDATE");
                 enableEditing(false);
-            }            
+            }
         });
-    
-        detailsContainer.add(actionButton);
-        return detailsContainer;
+
+        pnlDetailsContainer.add(cmdAction);
+        return pnlDetailsContainer;
 
     }
 
     private void enableEditing(boolean enabled) {
-        for (JTextField field : textFields) {
+        for (JTextField field : lstTextFields) {
             field.setEditable(enabled);
             field.setFocusable(enabled); 
             field.setBackground(Color.WHITE);
         }
-        for (JComboBox<String> combo : comboBoxes) {
+        for (JComboBox<String> combo : lstComboBoxes) {
             combo.setEnabled(enabled);
         }
     }
@@ -283,7 +283,7 @@ public class AccountDetailsPage extends Template {
     private boolean validateFields() {
         boolean allValid = true;
     
-        for (JTextField field : textFields) {
+        for (JTextField field : lstTextFields) {
             if (!field.isEditable()) continue;
     
             String newValue = field.getText().trim();
@@ -298,7 +298,7 @@ public class AccountDetailsPage extends Template {
             }
         }
     
-        for (JComboBox<String> combo : comboBoxes) {
+        for (JComboBox<String> combo : lstComboBoxes) {
             if (!combo.isEnabled()) continue; 
     
             if (combo instanceof RoundedComponents.RoundedComboBox<String> styledCombo) {
@@ -315,22 +315,22 @@ public class AccountDetailsPage extends Template {
         try {
             // 1️⃣ Gather all the new values from your UI:
             String origUsername   = UserApplicationData.get("Username");
-            String newPassword    = passwordField.getText().trim();
-            String newEmail       = textFields.get(2).getText().trim();
-            String newMobile      = textFields.get(3).getText().trim();
+            String newPassword    = txtPasswordField.getText().trim();
+            String newEmail       = lstTextFields.get(2).getText().trim();
+            String newMobile      = lstTextFields.get(3).getText().trim();
     
-            String newFullName    = textFields.get(4).getText().trim();
+            String newFullName    = lstTextFields.get(4).getText().trim();
             // parse into a java.util.Date
             java.util.Date utilBirth = new SimpleDateFormat("MM/dd/yyyy")
-                                           .parse(textFields.get(5).getText().trim());
+                                           .parse(lstTextFields.get(5).getText().trim());
             // convert into java.sql.Date for JDBC
             java.sql.Date sqlBirth = new java.sql.Date(utilBirth.getTime());
     
-            String newGender      = (String) comboBoxes.get(0).getSelectedItem();
-            String newCivilStatus = (String) comboBoxes.get(1).getSelectedItem();
-            String newNationality = textFields.get(6).getText().trim();
-            String newSpouse      = textFields.get(7).getText().trim();
-            String newMotherMn    = textFields.get(8).getText().trim();
+            String newGender      = (String) lstComboBoxes.get(0).getSelectedItem();
+            String newCivilStatus = (String) lstComboBoxes.get(1).getSelectedItem();
+            String newNationality = lstTextFields.get(6).getText().trim();
+            String newSpouse      = lstTextFields.get(7).getText().trim();
+            String newMotherMn    = lstTextFields.get(8).getText().trim();
     
             // 2️⃣ Update the DB (note sqlBirth)
             AccountService.updateCustomerInfoByUsername(
@@ -403,20 +403,20 @@ public class AccountDetailsPage extends Template {
       
     private void populateFromSession() {
         // LEFT SIDE:
-        textFields.get(0).setText(UserApplicationData.get("Username"));
-        passwordField        .setText(UserApplicationData.get("Password"));
-        textFields.get(2).setText(UserApplicationData.get("Email"));
-        textFields.get(3).setText(UserApplicationData.get("Mobile"));
+        lstTextFields.get(0).setText(UserApplicationData.get("Username"));
+        txtPasswordField        .setText(UserApplicationData.get("Password"));
+        lstTextFields.get(2).setText(UserApplicationData.get("Email"));
+        lstTextFields.get(3).setText(UserApplicationData.get("Mobile"));
 
         // RIGHT SIDE:
-        textFields.get(4).setText(UserApplicationData.get("CustomerName"));
-        textFields.get(5).setText(UserApplicationData.get("Birthday"));
-        comboBoxes.get(0).setSelectedItem(UserApplicationData.get("Gender"));
-        comboBoxes.get(1).setSelectedItem(UserApplicationData.get("CivilStatus"));
-        textFields.get(6).setText(UserApplicationData.get("Nationality"));
+        lstTextFields.get(4).setText(UserApplicationData.get("CustomerName"));
+        lstTextFields.get(5).setText(UserApplicationData.get("Birthday"));
+        lstComboBoxes.get(0).setSelectedItem(UserApplicationData.get("Gender"));
+        lstComboBoxes.get(1).setSelectedItem(UserApplicationData.get("CivilStatus"));
+        lstTextFields.get(6).setText(UserApplicationData.get("Nationality"));
         String spouse = UserApplicationData.get("Spouse").trim();
-        textFields.get(7).setText(spouse.isEmpty() ? "N/A" : spouse);
-        textFields.get(8).setText(UserApplicationData.get("MaidenName"));
+        lstTextFields.get(7).setText(spouse.isEmpty() ? "N/A" : spouse);
+        lstTextFields.get(8).setText(UserApplicationData.get("MaidenName"));
     }
 
     
