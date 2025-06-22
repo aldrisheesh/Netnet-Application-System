@@ -2,7 +2,6 @@ package com.group_9.project.utils;
 
 import com.group_9.project.database.AccountService;
 import com.group_9.project.session.UserApplicationData;
-import com.group_9.project.utils.CustomDialogUtil;
 import com.group_9.project.AccountDetailsPage;
 
 import javax.swing.*;
