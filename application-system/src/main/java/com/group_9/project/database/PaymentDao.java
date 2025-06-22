@@ -64,22 +64,4 @@ public class PaymentDao {
         String option   = UserApplicationData.get("paymentOption");
         insertPayments(appNo, planIds, option);
     }
-
-    /**
-     * Deletes one payment row for the given application and plan ID.
-     *
-     * @param applicationNo the application number
-     * @param planId        the plan ID
-     * @throws SQLException if the delete fails
-     */
-    public void deletePayment(String applicationNo, String planId) throws SQLException {
-        String sql = "DELETE FROM tbl_payment WHERE application_no = ? AND plan_ID = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, applicationNo);
-            ps.setString(2, planId);
-            ps.executeUpdate();
-        }
-    }
 }
