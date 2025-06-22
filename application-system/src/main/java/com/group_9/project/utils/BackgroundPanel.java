@@ -5,16 +5,16 @@ import java.awt.*;
 import java.net.URL;
 
 public class BackgroundPanel extends JPanel {
-    private Image backgroundImage;
+    private Image imgBackground;
 
-    public BackgroundPanel(int imageNumber) {
+    public BackgroundPanel(int intImageNumber) {
         try {
-            String imageName = "images/background" + imageNumber + ".png";
-            URL imageUrl = getClass().getClassLoader().getResource(imageName);
-            if (imageUrl != null) {
-                backgroundImage = new ImageIcon(imageUrl).getImage();
+            String strImageName = "images/background" + intImageNumber + ".png";
+            URL urlImage = getClass().getClassLoader().getResource(strImageName);
+            if (urlImage != null) {
+                imgBackground = new ImageIcon(urlImage).getImage();
             } else {
-                System.err.println("Background image not found: " + imageName);
+                System.err.println("Background image not found: " + strImageName);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -24,8 +24,8 @@ public class BackgroundPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (backgroundImage != null) {
-            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        if (imgBackground != null) {
+            g.drawImage(imgBackground, 0, 0, getWidth(), getHeight(), this);
         }
     }
 }

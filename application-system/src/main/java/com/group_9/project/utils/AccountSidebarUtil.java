@@ -14,89 +14,89 @@ public final class AccountSidebarUtil {
     private static final Color DEFAULT_COLOR  = new Color(22, 6, 48, 128);
     private static final Color HOVER_COLOR    = new Color(62, 10, 118);
 
-    public static JPanel createSidebar(JFrame frame, String activeItem) {
-        JPanel sidebar = new JPanel();
-        sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
-        sidebar.setBounds(50, 125, 200, 300);
-        sidebar.setBackground(new Color(0, 0, 0, 0));
-        sidebar.setOpaque(false);
+    public static JPanel createSidebar(JFrame frmParent, String strActiveItem) {
+        JPanel pnlSidebar = new JPanel();
+        pnlSidebar.setLayout(new BoxLayout(pnlSidebar, BoxLayout.Y_AXIS));
+        pnlSidebar.setBounds(50, 125, 200, 300);
+        pnlSidebar.setBackground(new Color(0, 0, 0, 0));
+        pnlSidebar.setOpaque(false);
 
-        JLabel title = new JLabel("MY ACCOUNT");
-        title.setFont(FontUtil.getOutfitBoldFont(25f));
-        title.setForeground(new Color(42, 2, 67, 255));
-        title.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        title.setOpaque(false);
-        sidebar.add(title);
-        sidebar.add(Box.createVerticalStrut(15));
+        JLabel lblTitle = new JLabel("MY ACCOUNT");
+        lblTitle.setFont(FontUtil.getOutfitBoldFont(25f));
+        lblTitle.setForeground(new Color(42, 2, 67, 255));
+        lblTitle.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        lblTitle.setOpaque(false);
+        pnlSidebar.add(lblTitle);
+        pnlSidebar.add(Box.createVerticalStrut(15));
 
-        String[] items = {"My Details", "My Address", "My Subscriptions", "Sign Out"};
-        for (String item : items) {
-            Color color = item.equals(activeItem) ? SELECTED_COLOR : DEFAULT_COLOR;
-            JLabel label = createLabel("   " + item, color);
-            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        String[] arrItems = {"My Details", "My Address", "My Subscriptions", "Sign Out"};
+        for (String strItem : arrItems) {
+            Color colCurrent = strItem.equals(strActiveItem) ? SELECTED_COLOR : DEFAULT_COLOR;
+            JLabel lblOption = createLabel("   " + strItem, colCurrent);
+            lblOption.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-            label.addMouseListener(new java.awt.event.MouseAdapter() {
+            lblOption.addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override public void mouseClicked(java.awt.event.MouseEvent e) {
-                    switch (item) {
+                    switch (strItem) {
                         case "My Details" -> {
-                            if (!activeItem.equals("My Details")) {
+                            if (!strActiveItem.equals("My Details")) {
                                 SwingUtilities.invokeLater(() -> {
                                     new AccountDetailsPage().setVisible(true);
-                                    frame.dispose();
+                                    frmParent.dispose();
                                 });
                             }
                         }
                         case "My Address" -> {
-                            if (!activeItem.equals("My Address")) {
+                            if (!strActiveItem.equals("My Address")) {
                                 SwingUtilities.invokeLater(() -> {
                                     new AccountAddressPage().setVisible(true);
-                                    frame.dispose();
+                                    frmParent.dispose();
                                 });
                             }
                         }
                         case "My Subscriptions" -> {
-                            if (!activeItem.equals("My Subscriptions")) {
+                            if (!strActiveItem.equals("My Subscriptions")) {
                                 SwingUtilities.invokeLater(() -> {
                                     new AccountSubsPage().setVisible(true);
-                                    frame.dispose();
+                                    frmParent.dispose();
                                 });
                             }
                         }
                         case "Sign Out" -> {
                             boolean confirm = CustomDialogUtil.showStyledConfirmDialog(
-                                frame,
+                                frmParent,
                                 "Sign Out",
                                 "Are you sure you want to sign out?"
                             );
                             if (confirm) {
                                 UserApplicationData.clear();
                                 new Homepage().setVisible(true);
-                                frame.dispose();
+                                frmParent.dispose();
                             }
                         }
                     }
                 }
 
                 @Override public void mouseEntered(java.awt.event.MouseEvent e) {
-                    if (!item.equals(activeItem)) {
-                        label.setForeground(HOVER_COLOR);
-                        label.repaint();
+                    if (!strItem.equals(strActiveItem)) {
+                        lblOption.setForeground(HOVER_COLOR);
+                        lblOption.repaint();
                     }
                 }
 
                 @Override public void mouseExited(java.awt.event.MouseEvent e) {
-                    if (!item.equals(activeItem)) {
-                        label.setForeground(DEFAULT_COLOR);
-                        label.repaint();
+                    if (!strItem.equals(strActiveItem)) {
+                        lblOption.setForeground(DEFAULT_COLOR);
+                        lblOption.repaint();
                     }
                 }
             });
 
-            sidebar.add(label);
-            sidebar.add(Box.createVerticalStrut(30));
+            pnlSidebar.add(lblOption);
+            pnlSidebar.add(Box.createVerticalStrut(30));
         }
 
-        return sidebar;
+        return pnlSidebar;
     }
 
     private static JLabel createLabel(String text, Color color) {

@@ -162,7 +162,7 @@ public class AccountDetailsPage extends Template {
                         return false;
                     }
                 });
-    
+
                 JLabel lblGenderLabel = new JLabel("GENDER");
                 lblGenderLabel.setFont(FontUtil.getOutfitBoldFont(13f));
                 lblGenderLabel.setForeground(new Color(42, 2, 67));
