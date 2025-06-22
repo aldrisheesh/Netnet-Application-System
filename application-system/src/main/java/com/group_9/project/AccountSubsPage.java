@@ -4,7 +4,6 @@ import com.group_9.project.database.AccountService;
 import com.group_9.project.database.AccountService.Subscription;
 import com.group_9.project.session.UserApplicationData;
 import com.group_9.project.utils.*;
-import com.group_9.project.database.PaymentDao;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
@@ -90,7 +89,6 @@ public class AccountSubsPage extends Template {
                     String.format("₱%,.2f", s.planDetails.serviceFee),
                     s.planDetails.installFee,
                     s.applicationNo,
-                    s.planDetails.planId,
                     s.dateSubmitted
                 );
                 container.add(card);
@@ -104,12 +102,11 @@ public class AccountSubsPage extends Template {
             for (Subscription s : subs) {
                 // each card will auto–size via GridLayout
                 JPanel card = createWhiteBox(
-                    0, 0,
+                    0, 0, 
                     s.planDetails.servicePlan,
                     String.format("₱%,.2f", s.planDetails.serviceFee),
                     s.planDetails.installFee,
                     s.applicationNo,
-                    s.planDetails.planId,
                     s.dateSubmitted
                 );
                 grid.add(card);
@@ -134,7 +131,7 @@ public class AccountSubsPage extends Template {
     
 
     JPanel createWhiteBox(int x, int y, String product, String monthlyFee, String installFee,
-                                  String appNo, String planId, String submittedDate) {
+                                  String appNo, String submittedDate) {
         JPanel applicantBox = new JPanel(null) {
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
@@ -184,61 +181,7 @@ public class AccountSubsPage extends Template {
         details.setBounds(20, 130, 300, 75);
         applicantBox.add(details);
 
-        RoundedComponents.RoundedButton unsubBtn =
-                new RoundedComponents.RoundedButton("UNSUBSCRIBE", 20);
-        unsubBtn.setBounds(230, 170, 130, 35);
-        unsubBtn.setFont(FontUtil.getOutfitBoldFont(14f));
-        ButtonHoverEffect.apply(
-                unsubBtn,
-                new Color(62, 10, 118), Color.WHITE,
-                new Color(42, 2, 67), Color.WHITE,
-                new Color(62, 10, 118), new Color(42, 2, 67)
-        );
-        unsubBtn.addActionListener(e -> onUnsubscribe(appNo, planId));
-        applicantBox.add(unsubBtn);
-
         return applicantBox;
-    }
-
-    private void onUnsubscribe(String appNo, String planId) {
-        boolean confirm = CustomDialogUtil.showStyledConfirmDialog(
-                this,
-                "Unsubscribe",
-                "Are you sure you want to unsubscribe from this plan?"
-        );
-        if (!confirm) return;
-
-        new SwingWorker<Boolean, Void>() {
-            @Override protected Boolean doInBackground() {
-                try {
-                    new PaymentDao().deletePayment(appNo, planId);
-                    return true;
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    return false;
-                }
-            }
-
-            @Override protected void done() {
-                boolean ok = false;
-                try { ok = get(); } catch (Exception ignored) {}
-                if (ok) {
-                    CustomDialogUtil.showStyledInfoDialog(
-                            AccountSubsPage.this,
-                            "Unsubscribed",
-                            "Your subscription has been removed."
-                    );
-                    new AccountSubsPage().setVisible(true);
-                    dispose();
-                } else {
-                    CustomDialogUtil.showStyledErrorDialog(
-                            AccountSubsPage.this,
-                            "Database Error",
-                            "Failed to unsubscribe. Please try again."
-                    );
-                }
-            }
-        }.execute();
     }
 
     
