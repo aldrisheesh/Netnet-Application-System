@@ -1,359 +1,243 @@
 package com.group_9.project;
+
 import com.group_9.project.session.UserApplicationData;
 import com.group_9.project.utils.*;
-
+import com.group_9.project.utils.RoundedComponents.*;
 import java.awt.*;
 import javax.swing.*;
-import com.group_9.project.utils.RoundedComponents.*;
 
 public class AccountAddressPage extends Template {
-    private JTextField homeOwnershipField;
-    private JTextField companyPaidField;
-    private JTextField yearsField;
-    private JTextField nameOwnerField;
-    private JTextField contactField;
-    private JTextField houseField;
-    private JTextField apartmentField;
-    private JTextField subdivisionField;
-    private JTextField barangayField;
-    private JTextField streetField;
-    private JTextField cityField;
-    private JTextField provinceField;
-    private JTextField zipField;
+    // Field declarations with Reddick-style prefixes
+    private JTextField txtHomeOwnership;
+    private JTextField txtCompanyPaid;
+    private JTextField txtYearsResidency;
+    private JTextField txtOwnerName;
+    private JTextField txtContactNumber;
+    private JTextField txtHouseNumber;
+    private JTextField txtApartment;
+    private JTextField txtSubdivision;
+    private JTextField txtBarangay;
+    private JTextField txtStreet;
+    private JTextField txtCity;
+    private JTextField txtProvince;
+    private JTextField txtZipCode;
 
     public AccountAddressPage() {
         BaseFrameSetup.applyAppIcon(this);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 3);
+        BackgroundPanel pnlBackground = BaseFrameSetup.setupCompleteFrame(this, 3);
         
-        JPanel sidebar = AccountSidebarUtil.createSidebar(this, "My Address");
-        background.add(sidebar);
+        JPanel pnlSidebar = AccountSidebarUtil.createSidebar(this, "My Address");
+        pnlBackground.add(pnlSidebar);
 
-        JPanel content = new RoundedComponents.RoundedShadowPanel(25, 4);
-        content.setBounds(290, 150, 1020, 720);
-        background.add(content);
+        JPanel pnlContent = new RoundedComponents.RoundedShadowPanel(25, 4);
+        pnlContent.setBounds(290, 150, 1020, 720);
+        pnlBackground.add(pnlContent);
 
-        JPanel detailsContainer = createDetailsContainer();
-        content.add(detailsContainer);
+        JPanel pnlDetailsContainer = createDetailsContainer();
+        pnlContent.add(pnlDetailsContainer);
 
         populateFromSession();  
-        SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
+        SwingUtilities.invokeLater(() -> pnlBackground.requestFocusInWindow());
     }
-
-    
-
 
     private JPanel createDetailsContainer() {
-        JPanel detailsContainer = new JPanel(null);
-        detailsContainer.setBackground(new Color(0, 0, 0, 0));
-        detailsContainer.setBounds(0, 0, 1250, 700);
-        detailsContainer.setOpaque(false);
+        JPanel pnlContainer = new JPanel(null);
+        pnlContainer.setBackground(new Color(0, 0, 0, 0));
+        pnlContainer.setBounds(0, 0, 1250, 700);
+        pnlContainer.setOpaque(false);
 
-        JLabel titleLabel = new JLabel("MY ADDRESS"); //header1
-        titleLabel.setFont(FontUtil.getOutfitBoldFont(26f));
-        titleLabel.setForeground(new Color(42, 2, 67, 255));
-        titleLabel.setBounds(70, 50, 300, 30);
-        detailsContainer.add(titleLabel);
+        // Header section
+        JLabel lblTitle = new JLabel("MY ADDRESS");
+        lblTitle.setFont(FontUtil.getOutfitBoldFont(26f));
+        lblTitle.setForeground(new Color(42, 2, 67, 255));
+        lblTitle.setBounds(70, 50, 300, 30);
+        pnlContainer.add(lblTitle);
 
-        JLabel sectionLabel = new JLabel("SERVICE ADDRESS"); //header2
-        sectionLabel.setFont(FontUtil.getOutfitFont(16f));
-        sectionLabel.setBounds(70, 100, 300, 20);
-        detailsContainer.add(sectionLabel);
+        JLabel lblSection = new JLabel("SERVICE ADDRESS");
+        lblSection.setFont(FontUtil.getOutfitFont(16f));
+        lblSection.setBounds(70, 100, 300, 20);
+        pnlContainer.add(lblSection);
 
-        JSeparator sep = new JSeparator(); //line separator
-        sep.setBounds(70, 130, 880, 1);
-        sep.setForeground(new Color(180, 180, 180));
-        detailsContainer.add(sep);
+        JSeparator sepDivider = new JSeparator();
+        sepDivider.setBounds(70, 130, 880, 1);
+        sepDivider.setForeground(new Color(180, 180, 180));
+        pnlContainer.add(sepDivider);
 
-        JLabel reminder = new JLabel("<html>This is your registered service address. For minor corrections (e.g., spelling or formatting), please contact our support team."); //disclaimer/support notice
-        reminder.setFont(FontUtil.getInterFont(13f));
-        reminder.setBounds(150, 610, 800, 40);
-        detailsContainer.add(reminder);
+        JLabel lblReminder = new JLabel("<html>This is your registered service address. For minor corrections (e.g., spelling or formatting), please contact our support team.");
+        lblReminder.setFont(FontUtil.getInterFont(13f));
+        lblReminder.setBounds(150, 610, 800, 40);
+        pnlContainer.add(lblReminder);
 
-        int currentY = 160;
+        int intCurrentY = 160;
+        intCurrentY = createOwnershipRow(pnlContainer, intCurrentY);
+        intCurrentY = createOwnerInfoRow(pnlContainer, intCurrentY);
+        intCurrentY = createResidenceRow(pnlContainer, intCurrentY);
+        intCurrentY = createLocationRow(pnlContainer, intCurrentY);
+        intCurrentY = createAddressDetailsRow(pnlContainer, intCurrentY);
 
-        currentY = createRow1(detailsContainer, currentY); //row1 - home ownership, comp paid, residence years
+        return pnlContainer;
+    }
+
+    private int createOwnershipRow(JPanel pnlContainer, int intStartY) {
+        // Home ownership field
+        JLabel lblHomeOwnership = createLabel("HOME OWNERSHIP", 95, intStartY, 150);
+        pnlContainer.add(lblHomeOwnership);
         
-        currentY = createRow2(detailsContainer, currentY); //row2 - owner name, contact num
+        txtHomeOwnership = createDisabledTextField();
+        JPanel pnlHomeWrapper = createTextFieldWrapper(txtHomeOwnership, 15);
+        pnlHomeWrapper.setBounds(95, intStartY + 20, 270, 47);
+        pnlContainer.add(pnlHomeWrapper);
+
+        // Company paid field
+        JLabel lblCompanyPaid = createLabel("COMPANY PAID", 395, intStartY, 120);
+        pnlContainer.add(lblCompanyPaid);
         
-        currentY = createRow3(detailsContainer, currentY); //row3 - house num, apartment bldg
+        txtCompanyPaid = createDisabledTextField();
+        JPanel pnlCompanyWrapper = createTextFieldWrapper(txtCompanyPaid, 15);
+        pnlCompanyWrapper.setBounds(395, intStartY + 20, 230, 47);
+        pnlContainer.add(pnlCompanyWrapper);
+
+        // Years of residency field
+        JLabel lblYearsResidency = createLabel("YEARS OF RESIDENCY", 655, intStartY, 180);
+        pnlContainer.add(lblYearsResidency);
         
-        currentY = createRow4(detailsContainer, currentY); //row4 - subd, brgy
+        txtYearsResidency = createDisabledTextField();
+        JPanel pnlYearsWrapper = createTextFieldWrapper(txtYearsResidency, 15);
+        pnlYearsWrapper.setBounds(655, intStartY + 20, 270, 47);
+        pnlContainer.add(pnlYearsWrapper);
+
+        return intStartY + 75;
+    }
+
+    private int createOwnerInfoRow(JPanel pnlContainer, int intStartY) {
+        // Owner name field
+        JLabel lblOwnerName = createLabel("NAME OF OWNER", 95, intStartY, 200);
+        pnlContainer.add(lblOwnerName);
         
-        currentY = createRow5(detailsContainer, currentY); //row5 - street, city, province, zip
+        txtOwnerName = createDisabledTextField();
+        JPanel pnlNameWrapper = createTextFieldWrapper(txtOwnerName, 15);
+        pnlNameWrapper.setBounds(95, intStartY + 20, 400, 47);
+        pnlContainer.add(pnlNameWrapper);
 
-        return detailsContainer;
+        // Contact number field
+        JLabel lblContactNumber = createLabel("CONTACT NUMBER", 525, intStartY, 200);
+        pnlContainer.add(lblContactNumber);
+        
+        txtContactNumber = createDisabledTextField();
+        JPanel pnlContactWrapper = createTextFieldWrapper(txtContactNumber, 15);
+        pnlContactWrapper.setBounds(525, intStartY + 20, 400, 47);
+        pnlContainer.add(pnlContactWrapper);
+
+        return intStartY + 75;
     }
 
-    private int createRow1(JPanel container, int startY) {
-        JLabel homeOwnershipLabel = new JLabel("HOME OWNERSHIP"); //home ownership
-        homeOwnershipLabel.setFont(FontUtil.getOutfitBoldFont(13f));
-        homeOwnershipLabel.setForeground(new Color(42, 2, 67));
-        homeOwnershipLabel.setBounds(95, startY, 150, 20);
-        container.add(homeOwnershipLabel);
+    private int createResidenceRow(JPanel pnlContainer, int intStartY) {
+        // House number field
+        JLabel lblHouseNumber = createLabel("HOUSE/ROOM NO./FLOOR", 95, intStartY, 220);
+        pnlContainer.add(lblHouseNumber);
+        
+        txtHouseNumber = createDisabledTextField();
+        JPanel pnlHouseWrapper = createTextFieldWrapper(txtHouseNumber, 15);
+        pnlHouseWrapper.setBounds(95, intStartY + 20, 400, 47);
+        pnlContainer.add(pnlHouseWrapper);
 
-        homeOwnershipField = new RoundedTextField("  ", 20);
-        homeOwnershipField.setFont(FontUtil.getOutfitFont(15f));
-        homeOwnershipField.setBackground(Color.WHITE);
-        homeOwnershipField.setForeground(Color.BLACK);
-        homeOwnershipField.setCaretColor(Color.BLACK);
-        homeOwnershipField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        homeOwnershipField.setEditable(false); 
-        homeOwnershipField.setFocusable(false); 
+        // Apartment field
+        JLabel lblApartment = createLabel("APARTMENT/COMPOUND/BUILDING", 525, intStartY, 280);
+        pnlContainer.add(lblApartment);
+        
+        txtApartment = createDisabledTextField();
+        JPanel pnlApartmentWrapper = createTextFieldWrapper(txtApartment, 15);
+        pnlApartmentWrapper.setBounds(525, intStartY + 20, 400, 47);
+        pnlContainer.add(pnlApartmentWrapper);
 
-        JPanel homeOwnershipWrapper = createTextFieldWrapper(homeOwnershipField, 15);
-        homeOwnershipWrapper.setBounds(95, startY + 20, 270, 47);
-        container.add(homeOwnershipWrapper);
-
-        JLabel companyPaidLabel = new JLabel("COMPANY PAID"); //company paid
-        companyPaidLabel.setFont(FontUtil.getOutfitBoldFont(13f));
-        companyPaidLabel.setForeground(new Color(42, 2, 67));
-        companyPaidLabel.setBounds(395, startY, 120, 20);
-        container.add(companyPaidLabel);
-
-        companyPaidField = new RoundedTextField("  ", 20);
-        companyPaidField.setFont(FontUtil.getOutfitFont(15f));
-        companyPaidField.setBackground(Color.WHITE);
-        companyPaidField.setForeground(Color.BLACK);
-        companyPaidField.setCaretColor(Color.BLACK);
-        companyPaidField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        companyPaidField.setEditable(false);
-        companyPaidField.setFocusable(false); 
-
-        JPanel companyPaidWrapper = createTextFieldWrapper(companyPaidField, 15);
-        companyPaidWrapper.setBounds(395, startY + 20, 230, 47);
-        container.add(companyPaidWrapper);
-
-        JLabel yearsLabel = new JLabel("YEARS OF RESIDENCY"); //residence years
-        yearsLabel.setFont(FontUtil.getOutfitBoldFont(13f));
-        yearsLabel.setForeground(new Color(42, 2, 67));
-        yearsLabel.setBounds(655, startY, 180, 20);
-        container.add(yearsLabel);
-
-        yearsField = new RoundedTextField("  ", 20);
-        yearsField.setFont(FontUtil.getOutfitFont(15f));
-        yearsField.setBackground(Color.WHITE);
-        yearsField.setForeground(Color.BLACK);
-        yearsField.setCaretColor(Color.BLACK);
-        yearsField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        yearsField.setEditable(false); 
-        yearsField.setFocusable(false); 
-
-        JPanel yearsWrapper = createTextFieldWrapper(yearsField, 15);
-        yearsWrapper.setBounds(655, startY + 20, 270, 47);
-        container.add(yearsWrapper);
-
-        return startY + 75;
+        return intStartY + 75;
     }
 
-    private int createRow2(JPanel container, int startY) {
-        JLabel nameOwnerLabel = new JLabel("NAME OF OWNER"); //owner name
-        nameOwnerLabel.setFont(FontUtil.getOutfitBoldFont(13f));
-        nameOwnerLabel.setForeground(new Color(42, 2, 67));
-        nameOwnerLabel.setBounds(95, startY, 200, 20);
-        container.add(nameOwnerLabel);
+    private int createLocationRow(JPanel pnlContainer, int intStartY) {
+        // Subdivision field
+        JLabel lblSubdivision = createLabel("SUBDIVISION", 95, intStartY, 150);
+        pnlContainer.add(lblSubdivision);
+        
+        txtSubdivision = createDisabledTextField();
+        JPanel pnlSubdivisionWrapper = createTextFieldWrapper(txtSubdivision, 15);
+        pnlSubdivisionWrapper.setBounds(95, intStartY + 20, 400, 47);
+        pnlContainer.add(pnlSubdivisionWrapper);
 
-        nameOwnerField = new RoundedTextField("  ", 20);
-        nameOwnerField.setFont(FontUtil.getOutfitFont(15f));
-        nameOwnerField.setBackground(Color.WHITE);
-        nameOwnerField.setForeground(Color.BLACK);
-        nameOwnerField.setCaretColor(Color.BLACK);
-        nameOwnerField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        nameOwnerField.setEditable(false);
-        nameOwnerField.setFocusable(false);
+        // Barangay field
+        JLabel lblBarangay = createLabel("BARANGAY", 525, intStartY, 150);
+        pnlContainer.add(lblBarangay);
+        
+        txtBarangay = createDisabledTextField();
+        JPanel pnlBarangayWrapper = createTextFieldWrapper(txtBarangay, 15);
+        pnlBarangayWrapper.setBounds(525, intStartY + 20, 400, 47);
+        pnlContainer.add(pnlBarangayWrapper);
 
-        JPanel nameOwnerWrapper = createTextFieldWrapper(nameOwnerField, 15);
-        nameOwnerWrapper.setBounds(95, startY + 20, 400, 47);
-        container.add(nameOwnerWrapper);
-
-        JLabel contactLabel = new JLabel("CONTACT NUMBER"); // contact num
-        contactLabel.setFont(FontUtil.getOutfitBoldFont(13f));
-        contactLabel.setForeground(new Color(42, 2, 67));
-        contactLabel.setBounds(525, startY, 200, 20);
-        container.add(contactLabel);
-
-        contactField = new RoundedTextField("  ", 20);
-        contactField.setFont(FontUtil.getOutfitFont(15f));
-        contactField.setBackground(Color.WHITE);
-        contactField.setForeground(Color.BLACK);
-        contactField.setCaretColor(Color.BLACK);
-        contactField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        contactField.setEditable(false); 
-        contactField.setFocusable(false); 
-
-        JPanel contactWrapper = createTextFieldWrapper(contactField, 15);
-        contactWrapper.setBounds(525, startY + 20, 400, 47);
-        container.add(contactWrapper);
-
-        return startY + 75;
+        return intStartY + 75;
     }
 
-    private int createRow3(JPanel container, int startY) {
-        JLabel houseLabel = new JLabel("HOUSE/ROOM NO./FLOOR"); //house num
-        houseLabel.setFont(FontUtil.getOutfitBoldFont(13f));
-        houseLabel.setForeground(new Color(42, 2, 67));
-        houseLabel.setBounds(95, startY, 220, 20);
-        container.add(houseLabel);
+    private int createAddressDetailsRow(JPanel pnlContainer, int intStartY) {
+        // Street field
+        JLabel lblStreet = createLabel("STREET", 95, intStartY, 100);
+        pnlContainer.add(lblStreet);
+        
+        txtStreet = createDisabledTextField();
+        JPanel pnlStreetWrapper = createTextFieldWrapper(txtStreet, 15);
+        pnlStreetWrapper.setBounds(95, intStartY + 20, 185, 47);
+        pnlContainer.add(pnlStreetWrapper);
 
-        houseField = new RoundedTextField("  ", 20);
-        houseField.setFont(FontUtil.getOutfitFont(15f));
-        houseField.setBackground(Color.WHITE);
-        houseField.setForeground(Color.BLACK);
-        houseField.setCaretColor(Color.BLACK);
-        houseField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        houseField.setEditable(false); 
-        houseField.setFocusable(false); 
+        // City field
+        JLabel lblCity = createLabel("MUNICIPALITY/CITY", 310, intStartY, 180);
+        pnlContainer.add(lblCity);
+        
+        txtCity = createDisabledTextField();
+        JPanel pnlCityWrapper = createTextFieldWrapper(txtCity, 15);
+        pnlCityWrapper.setBounds(310, intStartY + 20, 185, 47);
+        pnlContainer.add(pnlCityWrapper);
 
-        JPanel houseWrapper = createTextFieldWrapper(houseField, 15);
-        houseWrapper.setBounds(95, startY + 20, 400, 47);
-        container.add(houseWrapper);
+        // Province field
+        JLabel lblProvince = createLabel("PROVINCE", 525, intStartY, 100);
+        pnlContainer.add(lblProvince);
+        
+        txtProvince = createDisabledTextField();
+        JPanel pnlProvinceWrapper = createTextFieldWrapper(txtProvince, 15);
+        pnlProvinceWrapper.setBounds(525, intStartY + 20, 185, 47);
+        pnlContainer.add(pnlProvinceWrapper);
 
-        JLabel apartmentLabel = new JLabel("APARTMENT/COMPOUND/BUILDING"); //apartment bldg
-        apartmentLabel.setFont(FontUtil.getOutfitBoldFont(13f));
-        apartmentLabel.setForeground(new Color(42, 2, 67));
-        apartmentLabel.setBounds(525, startY, 280, 20);
-        container.add(apartmentLabel);
+        // Zip code field
+        JLabel lblZipCode = createLabel("ZIP CODE", 740, intStartY, 100);
+        pnlContainer.add(lblZipCode);
+        
+        txtZipCode = createDisabledTextField();
+        JPanel pnlZipWrapper = createTextFieldWrapper(txtZipCode, 15);
+        pnlZipWrapper.setBounds(740, intStartY + 20, 185, 47);
+        pnlContainer.add(pnlZipWrapper);
 
-        apartmentField = new RoundedTextField("  ", 20);
-        apartmentField.setFont(FontUtil.getOutfitFont(15f));
-        apartmentField.setBackground(Color.WHITE);
-        apartmentField.setForeground(Color.BLACK);
-        apartmentField.setCaretColor(Color.BLACK);
-        apartmentField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        apartmentField.setEditable(false);
-        apartmentField.setFocusable(false); 
-
-        JPanel apartmentWrapper = createTextFieldWrapper(apartmentField, 15);
-        apartmentWrapper.setBounds(525, startY + 20, 400, 47);
-        container.add(apartmentWrapper);
-
-        return startY + 75;
+        return intStartY + 75;
     }
 
-    private int createRow4(JPanel container, int startY) {
-        JLabel subdivisionLabel = new JLabel("SUBDIVISION"); //subd
-        subdivisionLabel.setFont(FontUtil.getOutfitBoldFont(13f));
-        subdivisionLabel.setForeground(new Color(42, 2, 67));
-        subdivisionLabel.setBounds(95, startY, 150, 20);
-        container.add(subdivisionLabel);
-
-        subdivisionField = new RoundedTextField("  ", 20);
-        subdivisionField.setFont(FontUtil.getOutfitFont(15f));
-        subdivisionField.setBackground(Color.WHITE);
-        subdivisionField.setForeground(Color.BLACK);
-        subdivisionField.setCaretColor(Color.BLACK);
-        subdivisionField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        subdivisionField.setEditable(false); 
-        subdivisionField.setFocusable(false); 
-
-        JPanel subdivisionWrapper = createTextFieldWrapper(subdivisionField, 15);
-        subdivisionWrapper.setBounds(95, startY + 20, 400, 47);
-        container.add(subdivisionWrapper);
-
-        JLabel barangayLabel = new JLabel("BARANGAY"); //brgy
-        barangayLabel.setFont(FontUtil.getOutfitBoldFont(13f));
-        barangayLabel.setForeground(new Color(42, 2, 67));
-        barangayLabel.setBounds(525, startY, 150, 20);
-        container.add(barangayLabel);
-
-        barangayField = new RoundedTextField("  ", 20);
-        barangayField.setFont(FontUtil.getOutfitFont(15f));
-        barangayField.setBackground(Color.WHITE);
-        barangayField.setForeground(Color.BLACK);
-        barangayField.setCaretColor(Color.BLACK);
-        barangayField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        barangayField.setEditable(false); 
-        barangayField.setFocusable(false); 
-
-        JPanel barangayWrapper = createTextFieldWrapper(barangayField, 15);
-        barangayWrapper.setBounds(525, startY + 20, 400, 47);
-        container.add(barangayWrapper);
-
-        return startY + 75;
+    private JLabel createLabel(String strText, int x, int y, int width) {
+        JLabel lbl = new JLabel(strText);
+        lbl.setFont(FontUtil.getOutfitBoldFont(13f));
+        lbl.setForeground(new Color(42, 2, 67));
+        lbl.setBounds(x, y, width, 20);
+        return lbl;
     }
 
-    private int createRow5(JPanel container, int startY) {
-        JLabel streetLabel = new JLabel("STREET"); //street
-        streetLabel.setFont(FontUtil.getOutfitBoldFont(13f));
-        streetLabel.setForeground(new Color(42, 2, 67));
-        streetLabel.setBounds(95, startY, 100, 20);
-        container.add(streetLabel);
-
-        streetField = new RoundedTextField("  ", 20);
-        streetField.setFont(FontUtil.getOutfitFont(15f));
-        streetField.setBackground(Color.WHITE);
-        streetField.setForeground(Color.BLACK);
-        streetField.setCaretColor(Color.BLACK);
-        streetField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        streetField.setEditable(false); 
-        streetField.setFocusable(false); 
-
-        JPanel streetWrapper = createTextFieldWrapper(streetField, 15);
-        streetWrapper.setBounds(95, startY + 20, 185, 47);
-        container.add(streetWrapper);
-
-        JLabel cityLabel = new JLabel("MUNICIPALITY/CITY"); //city
-        cityLabel.setFont(FontUtil.getOutfitBoldFont(13f));
-        cityLabel.setForeground(new Color(42, 2, 67));
-        cityLabel.setBounds(310, startY, 180, 20);
-        container.add(cityLabel);
-
-        cityField = new RoundedTextField("  ", 20);
-        cityField.setFont(FontUtil.getOutfitFont(15f));
-        cityField.setBackground(Color.WHITE);
-        cityField.setForeground(Color.BLACK);
-        cityField.setCaretColor(Color.BLACK);
-        cityField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        cityField.setEditable(false); 
-        cityField.setFocusable(false); 
-
-        JPanel cityWrapper = createTextFieldWrapper(cityField, 15);
-        cityWrapper.setBounds(310, startY + 20, 185, 47);
-        container.add(cityWrapper);
-
-        JLabel provinceLabel = new JLabel("PROVINCE"); //province
-        provinceLabel.setFont(FontUtil.getOutfitBoldFont(13f));
-        provinceLabel.setForeground(new Color(42, 2, 67));
-        provinceLabel.setBounds(525, startY, 100, 20);
-        container.add(provinceLabel);
-
-        provinceField = new RoundedTextField("  ", 20);
-        provinceField.setFont(FontUtil.getOutfitFont(15f));
-        provinceField.setBackground(Color.WHITE);
-        provinceField.setForeground(Color.BLACK);
-        provinceField.setCaretColor(Color.BLACK);
-        provinceField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        provinceField.setEditable(false);
-        provinceField.setFocusable(false); 
-
-        JPanel provinceWrapper = createTextFieldWrapper(provinceField, 15);
-        provinceWrapper.setBounds(525, startY + 20, 185, 47);
-        container.add(provinceWrapper);
-
-        JLabel zipLabel = new JLabel("ZIP CODE"); //zip code
-        zipLabel.setFont(FontUtil.getOutfitBoldFont(13f));
-        zipLabel.setForeground(new Color(42, 2, 67));
-        zipLabel.setBounds(740, startY, 100, 20);
-        container.add(zipLabel);
-
-        zipField = new RoundedTextField("  ", 20);
-        zipField.setFont(FontUtil.getOutfitFont(15f));
-        zipField.setBackground(Color.WHITE);
-        zipField.setForeground(Color.BLACK);
-        zipField.setCaretColor(Color.BLACK);
-        zipField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        zipField.setEditable(false); 
-        zipField.setFocusable(false); 
-
-        JPanel zipWrapper = createTextFieldWrapper(zipField, 15);
-        zipWrapper.setBounds(740, startY + 20, 185, 47);
-        container.add(zipWrapper);
-
-        return startY + 75;
+    private JTextField createDisabledTextField() {
+        JTextField txtField = new RoundedTextField("  ", 20);
+        txtField.setFont(FontUtil.getOutfitFont(15f));
+        txtField.setBackground(Color.WHITE);
+        txtField.setForeground(Color.BLACK);
+        txtField.setCaretColor(Color.BLACK);
+        txtField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        txtField.setEditable(false);
+        txtField.setFocusable(false);
+        return txtField;
     }
 
-    private JPanel createTextFieldWrapper(JTextField field, int arc) {
-        JPanel wrapper = new JPanel() {
+    private JPanel createTextFieldWrapper(JTextField txtField, int arc) {
+        JPanel pnlWrapper = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -364,45 +248,41 @@ public class AccountAddressPage extends Template {
                 g2.drawRoundRect(1, 1, getWidth() - 3, getHeight() - 3, arc, arc);
             }
         };
-        wrapper.setLayout(new BorderLayout());
-        wrapper.setOpaque(false);
-        wrapper.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-        wrapper.add(field, BorderLayout.CENTER);
-        return wrapper;
+        pnlWrapper.setLayout(new BorderLayout());
+        pnlWrapper.setOpaque(false);
+        pnlWrapper.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+        pnlWrapper.add(txtField, BorderLayout.CENTER);
+        return pnlWrapper;
     }
 
     private void populateFromSession() {
-        // the first three address parts
-        homeOwnershipField.setText(UserApplicationData.get("HomeOwnership"));
-        companyPaidField .setText(UserApplicationData.get("CompanyPaid"));
-        yearsField       .setText(UserApplicationData.get("YearsOfResidency"));
+        // Basic address info
+        txtHomeOwnership.setText(UserApplicationData.get("HomeOwnership"));
+        txtCompanyPaid.setText(UserApplicationData.get("CompanyPaid"));
+        txtYearsResidency.setText(UserApplicationData.get("YearsOfResidency"));
 
-        // owner info
-        nameOwnerField.setText(UserApplicationData.get("NameOfOwner"));
-        contactField  .setText(UserApplicationData.get("ContactNumber"));
+        // Owner info
+        txtOwnerName.setText(UserApplicationData.get("NameOfOwner"));
+        txtContactNumber.setText(UserApplicationData.get("ContactNumber"));
 
-        // split the single comma-separated address...
-        String full = UserApplicationData.get("ResidenceAddress");
-        if (full != null && !full.isBlank()) {
-            String[] parts = full.split("\\s*,\\s*");
-            if (parts.length >= 8) {
-                houseField      .setText(parts[0]);
-                apartmentField  .setText(parts[1]);
-                subdivisionField.setText(parts[2]);
-                barangayField   .setText(parts[3]);
-                streetField     .setText(parts[4]);
-                cityField       .setText(parts[5]);
-                provinceField   .setText(parts[6]);
-                zipField        .setText(parts[7]);
+        // Parse address components
+        String strFullAddress = UserApplicationData.get("ResidenceAddress");
+        if (strFullAddress != null && !strFullAddress.isBlank()) {
+            String[] arrParts = strFullAddress.split("\\s*,\\s*");
+            if (arrParts.length >= 8) {
+                txtHouseNumber.setText(arrParts[0]);
+                txtApartment.setText(arrParts[1]);
+                txtSubdivision.setText(arrParts[2]);
+                txtBarangay.setText(arrParts[3]);
+                txtStreet.setText(arrParts[4]);
+                txtCity.setText(arrParts[5]);
+                txtProvince.setText(arrParts[6]);
+                txtZipCode.setText(arrParts[7]);
             } else {
-                // fallback: dump entire address
-                streetField.setText(full);
+                txtStreet.setText(strFullAddress);
             }
         }
     }
-
-
-    
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new AccountAddressPage().setVisible(true));

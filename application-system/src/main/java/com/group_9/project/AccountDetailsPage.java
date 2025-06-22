@@ -4,8 +4,6 @@ import com.group_9.project.session.UserApplicationData;
 import com.group_9.project.utils.*;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,9 +44,6 @@ public class AccountDetailsPage extends Template {
             pnlBackground.requestFocusInWindow();
         });
     }
-
-    
-
 
     private JPanel createDetailsContainer() {
         JPanel pnlDetailsContainer = new JPanel(null);
@@ -131,30 +126,32 @@ public class AccountDetailsPage extends Template {
         int intYRight = 150;
         for (int i = 0; i < arrRightLabels.length; i++) {
             String labelText = arrRightLabels[i];
-            JLabel label = new JLabel(labelText);
-            label.setFont(FontUtil.getOutfitBoldFont(13f));
-            label.setForeground(new Color(42, 2, 67));
+
+            JLabel lblLabel = new JLabel(labelText);
+            lblLabel.setFont(FontUtil.getOutfitBoldFont(13f));
+            lblLabel.setForeground(new Color(42, 2, 67));
     
             if (labelText.equals("BIRTHDAY")) {
-                label.setBounds(490, intYRight + 5, 150, 28);
-                pnlDetailsContainer.add(label);
+                lblLabel.setBounds(490, intYRight + 5, 150, 28);
+                pnlDetailsContainer.add(lblLabel);
     
-                JTextField bdayField = new RoundedTextField("MM/DD/YYYY", 15);
-                bdayField.setFont(FontUtil.getOutfitFont(15f));
-                bdayField.setBackground(Color.WHITE);
-                bdayField.setForeground(Color.BLACK);
-                bdayField.setCaretColor(Color.BLACK);
-                bdayField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-                bdayField.setEditable(false);
-                bdayField.setFocusable(false);
-                lstTextFields.add(bdayField);
+                JTextField txtBdayField = new RoundedTextField("MM/DD/YYYY", 15);
+                txtBdayField.setFont(FontUtil.getOutfitFont(15f));
+                txtBdayField.setBackground(Color.WHITE);
+                txtBdayField.setForeground(Color.BLACK);
+                txtBdayField.setCaretColor(Color.BLACK);
+                txtBdayField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+                txtBdayField.setEditable(false);
+                txtBdayField.setFocusable(false);
+                lstTextFields.add(txtBdayField);
     
-                JPanel bdayWrapper = createTextFieldWrapper(bdayField, 15);
-                bdayWrapper.setBounds(490, intYRight + 31, 210, 47);
-                pnlDetailsContainer.add(bdayWrapper);
+                JPanel pnlBdayWrapper = createTextFieldWrapper(txtBdayField, 15);
+                pnlBdayWrapper.setBounds(490, intYRight + 31, 210, 47);
+                pnlDetailsContainer.add(pnlBdayWrapper);
     
-                SmartFieldFormatter.attachDateFormatter(bdayField);
-                ValidationUtil.addTextValidation(bdayField, bdayWrapper, s -> {
+                SmartFieldFormatter.attachDateFormatter(txtBdayField);
+                ValidationUtil.addTextValidation(txtBdayField, pnlBdayWrapper, s -> {
+
                     if (!s.matches("^\\d{2}/\\d{2}/\\d{4}$")) return false;
                     try {
                         Date dob = new SimpleDateFormat("MM/dd/yy").parse(s);
@@ -165,59 +162,61 @@ public class AccountDetailsPage extends Template {
                         return false;
                     }
                 });
+
+                JLabel lblGenderLabel = new JLabel("GENDER");
+                lblGenderLabel.setFont(FontUtil.getOutfitBoldFont(13f));
+                lblGenderLabel.setForeground(new Color(42, 2, 67));
+                lblGenderLabel.setBounds(730, intYRight + 5, 150, 28);
+                pnlDetailsContainer.add(lblGenderLabel);
     
-                JLabel genderLabel = new JLabel("GENDER");
-                genderLabel.setFont(FontUtil.getOutfitBoldFont(13f));
-                genderLabel.setForeground(new Color(42, 2, 67));
-                genderLabel.setBounds(730, intYRight + 5, 150, 28);
-                pnlDetailsContainer.add(genderLabel);
-    
-                JComboBox<String> genderCombo = FormComponent.createStyledComboBox("Choose Gender", new String[]{"Male", "Female"});
-                genderCombo.setEnabled(false);
-                lstComboBoxes.add(genderCombo);
-                genderCombo.setBounds(730, intYRight + 30, 190, 45);
-                pnlDetailsContainer.add(genderCombo);
+                JComboBox<String> cboGenderCombo = FormComponent.createStyledComboBox("Choose Gender", new String[]{"Male", "Female"});
+                cboGenderCombo.setEnabled(false);
+                lstComboBoxes.add(cboGenderCombo);
+                cboGenderCombo.setBounds(730, intYRight + 30, 190, 45);
+                pnlDetailsContainer.add(cboGenderCombo);
     
                 intYRight += 77;
                 i++;
             } else if (labelText.equals("CIVIL STATUS")) {
-                label.setBounds(490, intYRight + 5, 150, 20);
-                pnlDetailsContainer.add(label);
+              
+                lblLabel.setBounds(490, intYRight + 5, 150, 20);
+                pnlDetailsContainer.add(lblLabel);
     
-                JComboBox<String> civilCombo = FormComponent.createStyledComboBox("Choose Civil Status", new String[]{"Single", "Married", "Separated", "Widow"});
-                civilCombo.setEnabled(false);
-                lstComboBoxes.add(civilCombo);
-                civilCombo.setBounds(490, intYRight + 25, 210, 45);
-                pnlDetailsContainer.add(civilCombo);
+                JComboBox<String> cboCivilCombo = FormComponent.createStyledComboBox("Choose Civil Status", new String[]{"Single", "Married", "Separated", "Widow"});
+                cboCivilCombo.setEnabled(false);
+                lstComboBoxes.add(cboCivilCombo);
+                cboCivilCombo.setBounds(490, intYRight + 25, 210, 45);
+                pnlDetailsContainer.add(cboCivilCombo);
     
-                JLabel natLabel = new JLabel("NATIONALITY");
-                natLabel.setFont(FontUtil.getOutfitBoldFont(13f));
-                natLabel.setForeground(new Color(42, 2, 67));
-                natLabel.setBounds(730, intYRight + 5, 150, 20);
-                pnlDetailsContainer.add(natLabel);
+                JLabel lblNatLabel = new JLabel("NATIONALITY");
+                lblNatLabel.setFont(FontUtil.getOutfitBoldFont(13f));
+                lblNatLabel.setForeground(new Color(42, 2, 67));
+                lblNatLabel.setBounds(730, intYRight + 5, 150, 20);
+                pnlDetailsContainer.add(lblNatLabel);
     
-                JTextField natField = new RoundedTextField("e.g., Filipino", 25);
-                natField.setFont(FontUtil.getOutfitFont(15f));
-                natField.setBackground(Color.WHITE);
-                natField.setForeground(Color.BLACK);
-                natField.setCaretColor(Color.BLACK);
-                natField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-                natField.setEditable(false);
-                natField.setFocusable(false);
-                lstTextFields.add(natField);
+                JTextField txtNatField = new RoundedTextField("e.g., Filipino", 25);
+                txtNatField.setFont(FontUtil.getOutfitFont(15f));
+                txtNatField.setBackground(Color.WHITE);
+                txtNatField.setForeground(Color.BLACK);
+                txtNatField.setCaretColor(Color.BLACK);
+                txtNatField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+                txtNatField.setEditable(false);
+                txtNatField.setFocusable(false);
+                lstTextFields.add(txtNatField);
     
-                JPanel natWrapper = createTextFieldWrapper(natField, 15);
-                natWrapper.setBounds(730, intYRight + 25, 190, 47);
-                pnlDetailsContainer.add(natWrapper);
+                JPanel pnlNatWrapper = createTextFieldWrapper(txtNatField, 15);
+                pnlNatWrapper.setBounds(730, intYRight + 25, 190, 47);
+                pnlDetailsContainer.add(pnlNatWrapper);
     
                 // Optional validation
-                ValidationUtil.addTextValidation(natField, natWrapper, s -> !s.trim().isEmpty());
+                ValidationUtil.addTextValidation(txtNatField, pnlNatWrapper, s -> !s.trim().isEmpty());
     
                 intYRight += 74;
                 i++;
             } else {
-                label.setBounds(490, intYRight + 10, 270, 20);
-                pnlDetailsContainer.add(label);
+
+                lblLabel.setBounds(490, intYRight + 10, 270, 20);
+                pnlDetailsContainer.add(lblLabel);
     
                 JTextField txtField = new RoundedTextField("Enter " + labelText.toLowerCase(), 20);
                 txtField.setFont(FontUtil.getOutfitFont(15f));
@@ -283,28 +282,28 @@ public class AccountDetailsPage extends Template {
     private boolean validateFields() {
         boolean allValid = true;
     
-        for (JTextField field : lstTextFields) {
-            if (!field.isEditable()) continue;
+        for (JTextField txtField : lstTextFields) {
+            if (!txtField.isEditable()) continue;
     
-            String newValue = field.getText().trim();
-            JComponent wrapper = (JComponent) field.getParent();
+            String strNewValue = txtField.getText().trim();
+            JComponent cmpWrapper = (JComponent) txtField.getParent();
     
-            Predicate<String> validator = (Predicate<String>) wrapper.getClientProperty("validator");
+            Predicate<String> validator = (Predicate<String>) cmpWrapper.getClientProperty("validator");
             if (validator != null) {
-                boolean valid = validator.test(newValue);
-                wrapper.putClientProperty("validationColor", valid ? Color.GRAY : Color.RED);
-                wrapper.repaint();
-                if (!valid) allValid = false;
+                boolean boolValid = validator.test(strNewValue);
+                cmpWrapper.putClientProperty("validationColor", boolValid ? Color.GRAY : Color.RED);
+                cmpWrapper.repaint();
+                if (!boolValid) allValid = false;
             }
         }
     
-        for (JComboBox<String> combo : lstComboBoxes) {
-            if (!combo.isEnabled()) continue; 
+        for (JComboBox<String> cboCombo : lstComboBoxes) {
+            if (!cboCombo.isEnabled()) continue; 
     
-            if (combo instanceof RoundedComponents.RoundedComboBox<String> styledCombo) {
-                boolean valid = styledCombo.getSelectedIndex() != -1;
-                styledCombo.setValidationBorderColor(valid ? Color.GRAY : Color.RED);
-                if (!valid) allValid = false;
+            if (cboCombo instanceof RoundedComponents.RoundedComboBox<String> styledCombo) {
+                boolean boolValid = styledCombo.getSelectedIndex() != -1;
+                styledCombo.setValidationBorderColor(boolValid ? Color.GRAY : Color.RED);
+                if (!boolValid) allValid = false;
             }
         }
     
@@ -314,52 +313,52 @@ public class AccountDetailsPage extends Template {
     private void saveChanges() {
         try {
             // 1️⃣ Gather all the new values from your UI:
-            String origUsername   = UserApplicationData.get("Username");
-            String newPassword    = txtPasswordField.getText().trim();
-            String newEmail       = lstTextFields.get(2).getText().trim();
-            String newMobile      = lstTextFields.get(3).getText().trim();
+            String strOrigUsername   = UserApplicationData.get("Username");
+            String strNewPassword    = txtPasswordField.getText().trim();
+            String strNewEmail       = lstTextFields.get(2).getText().trim();
+            String strNewMobile      = lstTextFields.get(3).getText().trim();
     
-            String newFullName    = lstTextFields.get(4).getText().trim();
+            String strNewFullName    = lstTextFields.get(4).getText().trim();
             // parse into a java.util.Date
             java.util.Date utilBirth = new SimpleDateFormat("MM/dd/yyyy")
                                            .parse(lstTextFields.get(5).getText().trim());
             // convert into java.sql.Date for JDBC
             java.sql.Date sqlBirth = new java.sql.Date(utilBirth.getTime());
     
-            String newGender      = (String) lstComboBoxes.get(0).getSelectedItem();
-            String newCivilStatus = (String) lstComboBoxes.get(1).getSelectedItem();
-            String newNationality = lstTextFields.get(6).getText().trim();
-            String newSpouse      = lstTextFields.get(7).getText().trim();
-            String newMotherMn    = lstTextFields.get(8).getText().trim();
+            String strNewGender      = (String) lstComboBoxes.get(0).getSelectedItem();
+            String strNewCivilStatus = (String) lstComboBoxes.get(1).getSelectedItem();
+            String strNewNationality = lstTextFields.get(6).getText().trim();
+            String strNewSpouse      = lstTextFields.get(7).getText().trim();
+            String strNewMotherMn    = lstTextFields.get(8).getText().trim();
     
             // 2️⃣ Update the DB (note sqlBirth)
             AccountService.updateCustomerInfoByUsername(
-                origUsername,
-                newPassword,
-                newFullName,
+                strOrigUsername,
+                strNewPassword,
+                strNewFullName,
                 sqlBirth,   
-                newGender,
-                newCivilStatus,
-                newMotherMn,
-                newSpouse,
-                newNationality,
-                newMobile,
-                newEmail
+                strNewGender,
+                strNewCivilStatus,
+                strNewMotherMn,
+                strNewSpouse,
+                strNewNationality,
+                strNewMobile,
+                strNewEmail
             );
     
             // 3️⃣ Update session
-            UserApplicationData.set("Password",     newPassword);
-            UserApplicationData.set("Email",        newEmail);
-            UserApplicationData.set("Mobile",       newMobile);
-            UserApplicationData.set("CustomerName", newFullName);
+            UserApplicationData.set("Password",     strNewPassword);
+            UserApplicationData.set("Email",        strNewEmail);
+            UserApplicationData.set("Mobile",       strNewMobile);
+            UserApplicationData.set("CustomerName", strNewFullName);
             // store back in MM/dd/yyyy format
             UserApplicationData.set("Birthday",
                 new SimpleDateFormat("MM/dd/yyyy").format(utilBirth));
-            UserApplicationData.set("Gender",       newGender);
-            UserApplicationData.set("CivilStatus",  newCivilStatus);
-            UserApplicationData.set("Nationality",  newNationality);
-            UserApplicationData.set("Spouse",       newSpouse);
-            UserApplicationData.set("MaidenName",   newMotherMn);
+            UserApplicationData.set("Gender",       strNewGender);
+            UserApplicationData.set("CivilStatus",  strNewCivilStatus);
+            UserApplicationData.set("Nationality",  strNewNationality);
+            UserApplicationData.set("Spouse",       strNewSpouse);
+            UserApplicationData.set("MaidenName",   strNewMotherMn);
     
             // 4️⃣ Notify user
             CustomDialogUtil.showStyledInfoDialog(
@@ -380,7 +379,7 @@ public class AccountDetailsPage extends Template {
     
 
     private JPanel createTextFieldWrapper(JTextField field, int arc) {
-        JPanel wrapper = new JPanel() {
+        JPanel pnlWrapper = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -393,12 +392,12 @@ public class AccountDetailsPage extends Template {
                 g2.drawRoundRect(1, 1, getWidth() - 3, getHeight() - 3, arc, arc);
             }
         };
-        wrapper.setLayout(new BorderLayout());
-        wrapper.setOpaque(false);
-        wrapper.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-        wrapper.add(field, BorderLayout.CENTER);
-        wrapper.putClientProperty("validationColor", Color.GRAY);
-        return wrapper;
+        pnlWrapper.setLayout(new BorderLayout());
+        pnlWrapper.setOpaque(false);
+        pnlWrapper.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+        pnlWrapper.add(field, BorderLayout.CENTER);
+        pnlWrapper.putClientProperty("validationColor", Color.GRAY);
+        return pnlWrapper;
     }
       
     private void populateFromSession() {
@@ -421,12 +420,12 @@ public class AccountDetailsPage extends Template {
 
     
 
-    private void styleButton(JButton btn) {
-        btn.setBackground(new Color(45, 2, 67));
-        btn.setForeground(Color.WHITE);
-        btn.setFocusPainted(false);
-        btn.setFont(FontUtil.getOutfitBoldFont(14f));
-        btn.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+    private void styleButton(JButton cmdBtn) {
+        cmdBtn.setBackground(new Color(45, 2, 67));
+        cmdBtn.setForeground(Color.WHITE);
+        cmdBtn.setFocusPainted(false);
+        cmdBtn.setFont(FontUtil.getOutfitBoldFont(14f));
+        cmdBtn.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
     }  
 
     public static void main(String[] args) {

@@ -1,63 +1,70 @@
 package com.group_9.project;
-import com.group_9.project.session.UserApplicationData;
-import com.group_9.project.utils.*;
 
+import com.group_9.project.utils.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import javax.swing.*;
-import com.group_9.project.utils.CustomScrollBarUI;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class AboutUsPage extends Template {
 
     public AboutUsPage() {
+        // Frame setup
         BaseFrameSetup.applyAppIcon(this);
         BaseFrameSetup.setupFrame(this);
-        BackgroundPanel background = BaseFrameSetup.createBackgroundPanel(5);
-        background.setPreferredSize(new Dimension(1440, 1354));
-        JScrollPane scrollPane = new JScrollPane(background);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        scrollPane.setBorder(null);
-        JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
-        verticalScrollBar.setUI(new CustomScrollBarUI());
-        verticalScrollBar.setOpaque(false);
-        verticalScrollBar.setPreferredSize(new Dimension(10,0));
-        setContentPane(scrollPane);
-        BaseFrameSetup.createLogo(background);
-        BaseFrameSetup.createNavigation(background, this);
-        BaseFrameSetup.createLoginButton(background, this);
+        
+        // Background and scrolling
+        BackgroundPanel bgPanel = BaseFrameSetup.createBackgroundPanel(5);
+        bgPanel.setPreferredSize(new Dimension(1440, 1354));
+        JScrollPane scrPane = new JScrollPane(bgPanel);
+        scrPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrPane.setBorder(null);
+        
+        // Custom scrollbar
+        JScrollBar vrtScrollBar = scrPane.getVerticalScrollBar();
+        vrtScrollBar.setUI(new CustomScrollBarUI());
+        vrtScrollBar.setOpaque(false);
+        vrtScrollBar.setPreferredSize(new Dimension(10, 0));
+        setContentPane(scrPane);
+        
+        // Header components
+        BaseFrameSetup.createLogo(bgPanel);
+        BaseFrameSetup.createNavigation(bgPanel, this);
+        BaseFrameSetup.createLoginButton(bgPanel, this);
 
-        JLabel header = new JLabel("About Us."); //header
-        header.setFont(FontUtil.getOutfitBoldFont(50f));
-        header.setForeground(new Color(43, 2, 67));
-        Dimension textSize = header.getPreferredSize();
-        header.setBounds((1440 - textSize.width) / 2, 130, textSize.width, textSize.height);
-        background.add(header);
+        // About Us header
+        JLabel lblHeader = new JLabel("About Us.");
+        lblHeader.setFont(FontUtil.getOutfitBoldFont(50f));
+        lblHeader.setForeground(new Color(43, 2, 67));
+        Dimension dimTextSize = lblHeader.getPreferredSize();
+        lblHeader.setBounds((1440 - dimTextSize.width) / 2, 130, dimTextSize.width, dimTextSize.height);
+        bgPanel.add(lblHeader);
 
-        JLabel title = new JLabel("<html><b>Made for People,<br>Built for Ease</html>"); //title
-        title.setFont(FontUtil.getOutfitBoldFont(35f));
-        title.setForeground(new Color(42, 2, 67));
-        title.setBounds(150, 250, 400, 80);
-        background.add(title);
+        // Title section
+        JLabel lblTitle = new JLabel("<html><b>Made for People,<br>Built for Ease</html>");
+        lblTitle.setFont(FontUtil.getOutfitBoldFont(35f));
+        lblTitle.setForeground(new Color(42, 2, 67));
+        lblTitle.setBounds(150, 250, 400, 80);
+        bgPanel.add(lblTitle);
 
-        JLabel body = new JLabel("<html>Welcome to NETNET: Wi-Finally Yours!, where convenience meets care. We're<br>all about creating a smoother, smarter service journey for everyone. We are a<br>team of BSIT Sophomores from the Polytechnic University of the Philippines.</html>");
-        body.setFont(FontUtil.getOutfitFont(17f));
-        body.setForeground(new Color(30, 30, 30));
-        body.setBounds(150, 340, 800, 100);
-        background.add(body);
+        // Body text
+        JLabel lblBody = new JLabel("<html>Welcome to NETNET: Wi-Finally Yours!, where convenience meets care. We're<br>all about creating a smoother, smarter service journey for everyone. We are a<br>team of BSIT Sophomores from the Polytechnic University of the Philippines.</html>");
+        lblBody.setFont(FontUtil.getOutfitFont(17f));
+        lblBody.setForeground(new Color(30, 30, 30));
+        lblBody.setBounds(150, 340, 800, 100);
+        bgPanel.add(lblBody);
 
-        JLabel teamIntro = new JLabel("MEET OUR TEAM"); //Group 9 members introduction
-        teamIntro.setFont(FontUtil.getOutfitBoldFont(25f));
-        teamIntro.setForeground(new Color(42, 2, 67));
-        Dimension teamTextSize = teamIntro.getPreferredSize();
-        teamIntro.setBounds((1440 - teamTextSize.width) / 2, 480, teamTextSize.width, teamTextSize.height);
-        background.add(teamIntro);
+        // Team introduction
+        JLabel lblTeamIntro = new JLabel("MEET OUR TEAM");
+        lblTeamIntro.setFont(FontUtil.getOutfitBoldFont(25f));
+        lblTeamIntro.setForeground(new Color(42, 2, 67));
+        Dimension dimTeamTextSize = lblTeamIntro.getPreferredSize();
+        lblTeamIntro.setBounds((1440 - dimTeamTextSize.width) / 2, 480, dimTeamTextSize.width, dimTeamTextSize.height);
+        bgPanel.add(lblTeamIntro);
 
-        String[][] teamMembers = {
+        // Team member data
+        String[][] arrTeamMembers = {
             {"images/Cabalin.jpg", "Cabalin, Hailey Jade P."},
             {"images/Estalilla.jpg", "Estalilla, Johanna Angela P."},
             {"images/Magpantay.jpg", "Magpantay, Reina Chloe D."},
@@ -65,92 +72,103 @@ public class AboutUsPage extends Template {
             {"images/Ramiro.png", "Ramiro, Mika Ella T."}
         };
 
-        int cardWidth = 350;
-        int cardHeight = 350;
-        int cardSpacing = 10;
+        createTeamMemberCards(bgPanel, arrTeamMembers);
+        SwingUtilities.invokeLater(() -> bgPanel.requestFocusInWindow());
+    }
 
-        int startY = 520;
-        int totalWidth2 = (2 * cardWidth) + cardSpacing;
-        int startX2 = (1440 - totalWidth2) / 2;
+    private void createTeamMemberCards(BackgroundPanel bgPanel, String[][] arrTeamMembers) {
+        final int intCardWidth = 350;
+        final int intCardHeight = 350;
+        final int intCardSpacing = 10;
+
+        // First row (2 members)
+        int intStartY = 520;
+        int intTotalWidth2 = (2 * intCardWidth) + intCardSpacing;
+        int intStartX2 = (1440 - intTotalWidth2) / 2;
 
         for (int i = 0; i < 2; i++) {
-            String[] member = teamMembers[i];
-            RoundedPanel panel = createTeamMemberPanel(
-                member[0],
-                member[1],
-                startX2 + i * (cardWidth + cardSpacing),
-                startY
+            RoundedPanel pnlMember = createTeamMemberPanel(
+                arrTeamMembers[i][0],
+                arrTeamMembers[i][1],
+                intStartX2 + i * (intCardWidth + intCardSpacing),
+                intStartY
             );
-            background.add(panel);
+            bgPanel.add(pnlMember);
         }
 
-        int startY2 = startY + cardHeight + 50;
-        int totalWidth3 = (3 * cardWidth) + (2 * cardSpacing);
-        int startX3 = (1440 - totalWidth3) / 2;
+        // Second row (3 members)
+        int intStartY2 = intStartY + intCardHeight + 50;
+        int intTotalWidth3 = (3 * intCardWidth) + (2 * intCardSpacing);
+        int intStartX3 = (1440 - intTotalWidth3) / 2;
 
         for (int i = 2; i < 5; i++) {
-            String[] member = teamMembers[i];
-            RoundedPanel panel = createTeamMemberPanel(
-                member[0],
-                member[1],
-                startX3 + (i - 2) * (cardWidth + cardSpacing),
-                startY2
+            RoundedPanel pnlMember = createTeamMemberPanel(
+                arrTeamMembers[i][0],
+                arrTeamMembers[i][1],
+                intStartX3 + (i - 2) * (intCardWidth + intCardSpacing),
+                intStartY2
             );
-            background.add(panel);
+            bgPanel.add(pnlMember);
         }
-
-        SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
     }
 
-    private RoundedPanel createTeamMemberPanel(String imagePath, String fullName, int x, int y) {
-        RoundedPanel panel = new RoundedPanel(30);
-        panel.setLayout(null);
-        panel.setBounds(x, y, 320, 350);
-        panel.setBackground(new Color(255, 241, 255));
+    private RoundedPanel createTeamMemberPanel(String strImagePath, String strFullName, int x, int y) {
+        RoundedPanel pnlMember = new RoundedPanel(30);
+        pnlMember.setLayout(null);
+        pnlMember.setBounds(x, y, 320, 350);
+        pnlMember.setBackground(new Color(255, 241, 255));
 
         try {
-            ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(imagePath));
-            Image scaledImage = icon.getImage().getScaledInstance(180, 180, Image.SCALE_SMOOTH);
-            CircularImagePanel imagePanel = new CircularImagePanel(scaledImage);
-            imagePanel.setBounds(70, 50, 180, 180);
-            panel.add(imagePanel);
+            ImageIcon imgIcon = new ImageIcon(getClass().getClassLoader().getResource(strImagePath));
+            Image imgScaled = imgIcon.getImage().getScaledInstance(180, 180, Image.SCALE_SMOOTH);
+            CircularImagePanel pnlImage = new CircularImagePanel(imgScaled);
+            pnlImage.setBounds(70, 50, 180, 180);
+            pnlMember.add(pnlImage);
         } catch (Exception e) {
-            JLabel placeholder = new JLabel("<html><center>IMAGE<br>PLACEHOLDER</center></html>", SwingConstants.CENTER);
-            placeholder.setBounds(70, 50, 180, 180);
-            placeholder.setFont(FontUtil.getOutfitFont(10f));
-            placeholder.setForeground(new Color(150, 150, 150));
-            placeholder.setOpaque(true);
-            placeholder.setBackground(new Color(240, 240, 240));
-            panel.add(placeholder);
+            JLabel lblPlaceholder = createImagePlaceholder();
+            pnlMember.add(lblPlaceholder);
         }
 
-        String[] parts = fullName.split(",", 2); //split surname from full name
-        String surname = parts[0].trim().toUpperCase();
-        String givenNames = parts.length > 1 ? parts[1].trim() : "";
-
-        JLabel surnameLabel = new JLabel(surname, SwingConstants.CENTER);
-        surnameLabel.setFont(FontUtil.getOutfitBoldFont(20f));
-        surnameLabel.setForeground(new Color(42, 2, 67));
-        surnameLabel.setBounds(10, 260, 300, 25);
-
-        JLabel givenNameLabel = new JLabel(givenNames, SwingConstants.CENTER);
-        givenNameLabel.setFont(FontUtil.getOutfitFont(18f));
-        givenNameLabel.setForeground(new Color(42, 2, 67));
-        givenNameLabel.setBounds(10, 285, 300, 25);
-
-        panel.add(surnameLabel);
-        panel.add(givenNameLabel);
-
-        return panel;
+        addNameLabels(pnlMember, strFullName);
+        return pnlMember;
     }
 
-    private static class CircularImagePanel extends JPanel { //make image circular
-        private final Image image;
-        private final int borderThickness = 1;
-        private final Color borderColor = new Color(42, 2, 67);
+    private JLabel createImagePlaceholder() {
+        JLabel lblPlaceholder = new JLabel("<html><center>IMAGE<br>PLACEHOLDER</center></html>", SwingConstants.CENTER);
+        lblPlaceholder.setBounds(70, 50, 180, 180);
+        lblPlaceholder.setFont(FontUtil.getOutfitFont(10f));
+        lblPlaceholder.setForeground(new Color(150, 150, 150));
+        lblPlaceholder.setOpaque(true);
+        lblPlaceholder.setBackground(new Color(240, 240, 240));
+        return lblPlaceholder;
+    }
+
+    private void addNameLabels(RoundedPanel pnlMember, String strFullName) {
+        String[] arrParts = strFullName.split(",", 2);
+        String strSurname = arrParts[0].trim().toUpperCase();
+        String strGivenNames = arrParts.length > 1 ? arrParts[1].trim() : "";
+
+        JLabel lblSurname = new JLabel(strSurname, SwingConstants.CENTER);
+        lblSurname.setFont(FontUtil.getOutfitBoldFont(20f));
+        lblSurname.setForeground(new Color(42, 2, 67));
+        lblSurname.setBounds(10, 260, 300, 25);
+
+        JLabel lblGivenNames = new JLabel(strGivenNames, SwingConstants.CENTER);
+        lblGivenNames.setFont(FontUtil.getOutfitFont(18f));
+        lblGivenNames.setForeground(new Color(42, 2, 67));
+        lblGivenNames.setBounds(10, 285, 300, 25);
+
+        pnlMember.add(lblSurname);
+        pnlMember.add(lblGivenNames);
+    }
+
+    private static class CircularImagePanel extends JPanel {
+        private final Image imgMember;
+        private final int intBorderThickness = 1;
+        private final Color clrBorder = new Color(42, 2, 67);
 
         public CircularImagePanel(Image image) {
-            this.image = image;
+            this.imgMember = image;
             setPreferredSize(new Dimension(180, 180));
             setOpaque(false);
         }
@@ -158,31 +176,29 @@ public class AboutUsPage extends Template {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            if (image != null) {
+            if (imgMember != null) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-                int diameter = Math.min(getWidth(), getHeight());
-                int inset = borderThickness;
+                int intDiameter = Math.min(getWidth(), getHeight());
+                int intInset = intBorderThickness;
 
-                // Clip the image to a circle
-                Shape clip = new Ellipse2D.Float(inset, inset, diameter - 2 * inset, diameter - 2 * inset);
-                g2.setClip(clip);
+                Shape shpClip = new Ellipse2D.Float(intInset, intInset, 
+                    intDiameter - 2 * intInset, intDiameter - 2 * intInset);
+                g2.setClip(shpClip);
+                g2.drawImage(imgMember, intInset, intInset, 
+                    intDiameter - 2 * intInset, intDiameter - 2 * intInset, this);
+                g2.setClip(null);
 
-                g2.drawImage(image, inset, inset, diameter - 2 * inset, diameter - 2 * inset, this);
-                g2.setClip(null); // Remove clip
-
-                // Draw circular border
-                g2.setStroke(new BasicStroke(borderThickness));
-                g2.setColor(borderColor);
-                g2.drawOval(inset / 2, inset / 2, diameter - inset, diameter - inset);
+                g2.setStroke(new BasicStroke(intBorderThickness));
+                g2.setColor(clrBorder);
+                g2.drawOval(intInset / 2, intInset / 2, 
+                    intDiameter - intInset, intDiameter - intInset);
 
                 g2.dispose();
             }
         }
     }
-
-
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new AboutUsPage().setVisible(true));
