@@ -18,51 +18,51 @@ public class LoginPage extends JFrame {
         BaseFrameSetup.applyAppIcon(this);
         BaseFrameSetup.setupFrame(this);
 
-        BackgroundPanel background = BaseFrameSetup.createBackgroundPanel(1);
-        setContentPane(background);
-        BaseFrameSetup.createLogo(background);
-        BaseFrameSetup.createNavigation(background, this);
+        BackgroundPanel pnlBackground = BaseFrameSetup.createBackgroundPanel(1);
+        setContentPane(pnlBackground);
+        BaseFrameSetup.createLogo(pnlBackground);
+        BaseFrameSetup.createNavigation(pnlBackground, this);
 
-        JLabel headline = new JLabel("<html><div style='text-align:center;color:#2B0243;font-weight:700;'>Supercharge your home with<br>ultra-fast internet and endless entertainment.</div></html>", SwingConstants.CENTER);
-        headline.setFont(FontUtil.getOutfitFont(50f));
-        headline.setForeground(new Color(0x2B0243));
-        headline.setBounds(112, 220, 1200, 120);
-        background.add(headline);
+        JLabel lblHeadline = new JLabel("<html><div style='text-align:center;color:#2B0243;font-weight:700;'>Supercharge your home with<br>ultra-fast internet and endless entertainment.</div></html>", SwingConstants.CENTER);
+        lblHeadline.setFont(FontUtil.getOutfitFont(50f));
+        lblHeadline.setForeground(new Color(0x2B0243));
+        lblHeadline.setBounds(112, 220, 1200, 120);
+        pnlBackground.add(lblHeadline);
 
-        JLabel subHeadline = new JLabel("Enjoy faster speed, and incredible value with our plans.", SwingConstants.CENTER);
-        subHeadline.setFont(FontUtil.getInterFont(16f));
-        subHeadline.setBounds(420, 350, 600, 30);
-        background.add(subHeadline);
+        JLabel lblSubHeadline = new JLabel("Enjoy faster speed, and incredible value with our plans.", SwingConstants.CENTER);
+        lblSubHeadline.setFont(FontUtil.getInterFont(16f));
+        lblSubHeadline.setBounds(420, 350, 600, 30);
+        pnlBackground.add(lblSubHeadline);
 
-        int yPosi = 435;
+        int intYPos = 435;
 
-        JLabel letsLabel = new JLabel("<html><div style='text-align:center;color:#2B0243;font-weight:600;'>Let’s make things happen.</div></html>");
-        letsLabel.setFont(FontUtil.getOutfitFont(16f));
-        letsLabel.setBounds(562, yPosi, 300, 30);
-        letsLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        background.add(letsLabel);
+        JLabel lblLets = new JLabel("<html><div style='text-align:center;color:#2B0243;font-weight:600;'>Let’s make things happen.</div></html>");
+        lblLets.setFont(FontUtil.getOutfitFont(16f));
+        lblLets.setBounds(562, intYPos, 300, 30);
+        lblLets.setHorizontalAlignment(SwingConstants.CENTER);
+        pnlBackground.add(lblLets);
 
-        RoundedComponents.RoundedTextField emailField = new RoundedComponents.RoundedTextField("Username or email", 20);
-        emailField.setFont(FontUtil.getInterFont(14f));
-        emailField.setBounds(524, yPosi + 40, 375, 60);
-        background.add(emailField);
+        RoundedComponents.RoundedTextField txtEmailField = new RoundedComponents.RoundedTextField("Username or email", 20);
+        txtEmailField.setFont(FontUtil.getInterFont(14f));
+        txtEmailField.setBounds(524, intYPos + 40, 375, 60);
+        pnlBackground.add(txtEmailField);
 
-        RoundedComponents.RoundedPasswordField passwordField = new RoundedComponents.RoundedPasswordField("Password", 20);
-        passwordField.setFont(FontUtil.getInterFont(14f));
-        passwordField.setBounds(524, yPosi + 117, 375, 60);
-        background.add(passwordField);
+        RoundedComponents.RoundedPasswordField txtPassword = new RoundedComponents.RoundedPasswordField("Password", 20);
+        txtPassword.setFont(FontUtil.getInterFont(14f));
+        txtPassword.setBounds(524, intYPos + 117, 375, 60);
+        pnlBackground.add(txtPassword);
 
         // ➕ Add validation
-        ValidationUtil.addTextValidation(emailField, s -> !s.trim().isEmpty());
-        ValidationUtil.addTextValidation(passwordField, s -> !s.trim().isEmpty());
+        ValidationUtil.addTextValidation(txtEmailField, s -> !s.trim().isEmpty());
+        ValidationUtil.addTextValidation(txtPassword, s -> !s.trim().isEmpty());
 
-        JButton loginBtn = new RoundedComponents.RoundedButton("LOG IN", 20);
-        loginBtn.setFont(FontUtil.getOutfitFont(16f));
-        loginBtn.setBounds(525, yPosi + 195, 130, 40);
-        loginBtn.setFocusPainted(false);
-        loginBtn.setFocusable(false);
+        JButton cmdLogin = new RoundedComponents.RoundedButton("LOG IN", 20);
+        cmdLogin.setFont(FontUtil.getOutfitFont(16f));
+        cmdLogin.setBounds(525, intYPos + 195, 130, 40);
+        cmdLogin.setFocusPainted(false);
+        cmdLogin.setFocusable(false);
         ButtonHoverEffect.apply(
-                loginBtn,
+                cmdLogin,
                 new Color(62, 10, 118),
                 Color.WHITE,
                 new Color(42, 2, 67),
@@ -70,29 +70,29 @@ public class LoginPage extends JFrame {
                 new Color(62, 10, 118),
                 new Color(42, 2, 67)
         );
-        background.add(loginBtn);
+        pnlBackground.add(cmdLogin);
 
-        ToolTipUtil.attachCustomTooltip(emailField, "Enter your username or email");
-        ToolTipUtil.attachCustomTooltip(passwordField, "Enter your password");
+        ToolTipUtil.attachCustomTooltip(txtEmailField, "Enter your username or email");
+        ToolTipUtil.attachCustomTooltip(txtPassword, "Enter your password");
 
         // ⚠️ LOGIN VALIDATION LOGIC
-        loginBtn.addActionListener(e -> {
-            String userId = emailField.getText().trim();
-            String pwd    = new String(passwordField.getPassword()).trim();
+        cmdLogin.addActionListener(e -> {
+            String userId = txtEmailField.getText().trim();
+            String pwd    = new String(txtPassword.getPassword()).trim();
 
             // 1) Validate empty fields
             boolean valid = true;
             if (userId.isEmpty()) {
-                emailField.setValidationBorderColor(Color.RED);
+                txtEmailField.setValidationBorderColor(Color.RED);
                 valid = false;
             } else {
-                emailField.setValidationBorderColor(Color.GRAY);
+                txtEmailField.setValidationBorderColor(Color.GRAY);
             }
             if (pwd.isEmpty()) {
-                passwordField.setValidationBorderColor(Color.RED);
+                txtPassword.setValidationBorderColor(Color.RED);
                 valid = false;
             } else {
-                passwordField.setValidationBorderColor(Color.GRAY);
+                txtPassword.setValidationBorderColor(Color.GRAY);
             }
             if (!valid) {
                 CustomDialogUtil.showStyledErrorDialog(
@@ -197,27 +197,27 @@ public class LoginPage extends JFrame {
         });
                 
 
-        JLabel forgotLabel = new JLabel("<html><div style='color:#7E4CA5;font-weight:600;'>Forgotten your password?</div></html>");
-        forgotLabel.setFont(FontUtil.getOutfitFont(16f));
-        forgotLabel.setBounds(679, yPosi + 195 + 3, 200, 30);
-        forgotLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        background.add(forgotLabel);
+        JLabel lblForgot = new JLabel("<html><div style='color:#7E4CA5;font-weight:600;'>Forgotten your password?</div></html>");
+        lblForgot.setFont(FontUtil.getOutfitFont(16f));
+        lblForgot.setBounds(679, intYPos + 195 + 3, 200, 30);
+        lblForgot.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        pnlBackground.add(lblForgot);
 
-        JCheckBox keepSignedIn = new JCheckBox("Keep me signed in");
-        keepSignedIn.setFont(FontUtil.getOutfitFont(16f));
-        keepSignedIn.setForeground(new Color(140, 140, 140));
-        keepSignedIn.setOpaque(false);
-        keepSignedIn.setFocusPainted(false);
-        keepSignedIn.setBorderPainted(false);
-        keepSignedIn.setContentAreaFilled(false);
+        JCheckBox chkKeepSignedIn = new JCheckBox("Keep me signed in");
+        chkKeepSignedIn.setFont(FontUtil.getOutfitFont(16f));
+        chkKeepSignedIn.setForeground(new Color(140, 140, 140));
+        chkKeepSignedIn.setOpaque(false);
+        chkKeepSignedIn.setFocusPainted(false);
+        chkKeepSignedIn.setBorderPainted(false);
+        chkKeepSignedIn.setContentAreaFilled(false);
 
-        keepSignedIn.setIcon(new ImageIcon(getClass().getClassLoader().getResource("icons/checkbox_unchecked.png")));
-        keepSignedIn.setSelectedIcon(new ImageIcon(getClass().getClassLoader().getResource("icons/checkbox_checked.png")));
+        chkKeepSignedIn.setIcon(new ImageIcon(getClass().getClassLoader().getResource("icons/checkbox_unchecked.png")));
+        chkKeepSignedIn.setSelectedIcon(new ImageIcon(getClass().getClassLoader().getResource("icons/checkbox_checked.png")));
 
-        keepSignedIn.setBounds(523, yPosi + 195 + 45, 250, 40);
-        background.add(keepSignedIn);
+        chkKeepSignedIn.setBounds(523, intYPos + 195 + 45, 250, 40);
+        pnlBackground.add(chkKeepSignedIn);
 
-        SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
+        SwingUtilities.invokeLater(() -> pnlBackground.requestFocusInWindow());
     }
 
     public static void main(String[] args) {

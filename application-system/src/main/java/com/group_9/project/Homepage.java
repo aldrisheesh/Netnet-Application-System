@@ -12,29 +12,29 @@ public class Homepage extends JFrame {
 
     public Homepage() {
     BaseFrameSetup.applyAppIcon(this);
-    BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
+    BackgroundPanel pnlBackground = BaseFrameSetup.setupCompleteFrame(this, 1);
                 
 
         // Main headline - enlarged and repositioned
-        JLabel headline = new JLabel("<html><div style='text-align:center;color:#2B0243;font-weight:700;'>Supercharge your home with<br>ultra-fast internet and endless entertainment.</div></html>", SwingConstants.CENTER);
-        headline.setFont(FontUtil.getOutfitFont(50f));
-        headline.setForeground(new Color(0x2B0243));
-        headline.setBounds(112, 220, 1200, 120);
-        background.add(headline);
+        JLabel lblHeadline = new JLabel("<html><div style='text-align:center;color:#2B0243;font-weight:700;'>Supercharge your home with<br>ultra-fast internet and endless entertainment.</div></html>", SwingConstants.CENTER);
+        lblHeadline.setFont(FontUtil.getOutfitFont(50f));
+        lblHeadline.setForeground(new Color(0x2B0243));
+        lblHeadline.setBounds(112, 220, 1200, 120);
+        pnlBackground.add(lblHeadline);
 
-        JLabel subHeadline = new JLabel("Enjoy faster speed, and incredible value with our plans.", SwingConstants.CENTER);
-        subHeadline.setFont(FontUtil.getInterFont(16f));
-        subHeadline.setBounds(420, 350, 600, 30);
-        background.add(subHeadline);
+        JLabel lblSubHeadline = new JLabel("Enjoy faster speed, and incredible value with our plans.", SwingConstants.CENTER);
+        lblSubHeadline.setFont(FontUtil.getInterFont(16f));
+        lblSubHeadline.setBounds(420, 350, 600, 30);
+        pnlBackground.add(lblSubHeadline);
 
-        JButton viewPlans = new JButton("VIEW PLANS");
-        viewPlans.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
-        viewPlans.setBounds(530, 400, 160, 45);
-        viewPlans.setFocusPainted(false);
-        ButtonHoverEffect.apply(viewPlans, new Color(62, 10, 118), Color.WHITE,
+        JButton cmdViewPlans = new JButton("VIEW PLANS");
+        cmdViewPlans.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
+        cmdViewPlans.setBounds(530, 400, 160, 45);
+        cmdViewPlans.setFocusPainted(false);
+        ButtonHoverEffect.apply(cmdViewPlans, new Color(62, 10, 118), Color.WHITE,
                 new Color(42, 2, 67), Color.WHITE, new Color(62, 10, 118), new Color(42, 2, 67));
-        
-        viewPlans.addActionListener(new ActionListener() {
+
+        cmdViewPlans.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new PlansPage().setVisible(true);
@@ -43,24 +43,24 @@ public class Homepage extends JFrame {
         });
                 
         
-        background.add(viewPlans);
+        pnlBackground.add(cmdViewPlans);
         
-        JButton checkAvailability = new JButton("CHECK AVAILABILITY");
-        checkAvailability.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
-        checkAvailability.setBounds(700, 400, 220, 45);
-        checkAvailability.setFocusPainted(false);
-        checkAvailability.setContentAreaFilled(false);
+        JButton cmdCheckAvailability = new JButton("CHECK AVAILABILITY");
+        cmdCheckAvailability.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
+        cmdCheckAvailability.setBounds(700, 400, 220, 45);
+        cmdCheckAvailability.setFocusPainted(false);
+        cmdCheckAvailability.setContentAreaFilled(false);
         ButtonHoverEffect.apply(
-                                checkAvailability, 
-                                new Color(62, 10, 118), 
+                                cmdCheckAvailability,
                                 new Color(62, 10, 118),
-                                new Color(0, 0, 0, 0), 
-                                new Color(38, 6, 67), 
-                                new Color(62, 10, 118), 
+                                new Color(62, 10, 118),
+                                new Color(0, 0, 0, 0),
+                                new Color(38, 6, 67),
+                                new Color(62, 10, 118),
                                 new Color(42, 2, 67)
         );
-        
-        checkAvailability.addActionListener(new ActionListener() {
+
+        cmdCheckAvailability.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ErrorPage().setVisible(true);
@@ -69,29 +69,29 @@ public class Homepage extends JFrame {
         });
         
         
-        background.add(checkAvailability);
+        pnlBackground.add(cmdCheckAvailability);
 
         // Apply Now Section
-        int applyX = 205;
-        int applyY = 535;
-        int applyWidth = 520;
+        int intApplyX = 205;
+        int intApplyY = 535;
+        int intApplyWidth = 520;
 
-        JLabel applyNow = new JLabel("<html><div style='font-weight:600;color:#2B0243;'>Apply Now!</div></html>", SwingConstants.LEFT);
-        applyNow.setFont(FontUtil.getInterFont(35f));
-        applyNow.setBounds(applyX, applyY, applyWidth, 40);
-        background.add(applyNow);
+        JLabel lblApplyNow = new JLabel("<html><div style='font-weight:600;color:#2B0243;'>Apply Now!</div></html>", SwingConstants.LEFT);
+        lblApplyNow.setFont(FontUtil.getInterFont(35f));
+        lblApplyNow.setBounds(intApplyX, intApplyY, intApplyWidth, 40);
+        pnlBackground.add(lblApplyNow);
 
-        JLabel applyDesc = new JLabel("<html>The process is simple, guided, and built for you.<br>Apply at your own pace, anytime.</html>");
-        applyDesc.setFont(FontUtil.getOutfitFont(16f));
-        applyDesc.setBounds(applyX, applyY + 50, applyWidth, 50);
-        background.add(applyDesc);
+        JLabel lblApplyDesc = new JLabel("<html>The process is simple, guided, and built for you.<br>Apply at your own pace, anytime.</html>");
+        lblApplyDesc.setFont(FontUtil.getOutfitFont(16f));
+        lblApplyDesc.setBounds(intApplyX, intApplyY + 50, intApplyWidth, 50);
+        pnlBackground.add(lblApplyDesc);
 
-        JButton getStarted = new RoundedComponents.RoundedButton("GET STARTED", 20);
-        getStarted.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
-        getStarted.setBounds(applyX, applyY + 105, 160, 45);
-        getStarted.setFocusPainted(false);
+        JButton cmdGetStarted = new RoundedComponents.RoundedButton("GET STARTED", 20);
+        cmdGetStarted.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
+        cmdGetStarted.setBounds(intApplyX, intApplyY + 105, 160, 45);
+        cmdGetStarted.setFocusPainted(false);
         ButtonHoverEffect.apply(
-                                getStarted, 
+                                cmdGetStarted,
                                 new Color(62, 10, 118),          //hover bg
                                 Color.WHITE,                           //hover fg
                                 new Color(42, 2, 67),            //normal bg
@@ -99,9 +99,9 @@ public class Homepage extends JFrame {
                                 new Color(62, 10, 118),          //hover border
                                 new Color(42, 2, 67)             //normal border
         );
-        background.add(getStarted);
+        pnlBackground.add(cmdGetStarted);
 
-        getStarted.addActionListener(new ActionListener() {
+        cmdGetStarted.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String appNo = UserApplicationData.get("ApplicationNo");
@@ -116,31 +116,31 @@ public class Homepage extends JFrame {
         
 
         // Left text (not clickable)
-        JLabel promptText = new JLabel("Already have an account?");
-        promptText.setFont(FontUtil.getInterFont(16f));
-        promptText.setBounds(applyX, applyY + 155, 200, 30);
-        background.add(promptText);
+        JLabel lblPromptText = new JLabel("Already have an account?");
+        lblPromptText.setFont(FontUtil.getInterFont(16f));
+        lblPromptText.setBounds(intApplyX, intApplyY + 155, 200, 30);
+        pnlBackground.add(lblPromptText);
 
         // Clickable "Log in!" part
-        JLabel loginClickable = new JLabel(" Log in!");
-        loginClickable.setFont(FontUtil.getInterFont(16f));
+        JLabel lblLoginClickable = new JLabel(" Log in!");
+        lblLoginClickable.setFont(FontUtil.getInterFont(16f));
         
         Color normalColor = new Color(22, 6, 48, 128);
         Color hoverColor = new Color(62, 10, 118);
 
-        loginClickable.setForeground(normalColor);
-        loginClickable.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        loginClickable.setBounds(applyX + 200, applyY + 155, 60, 30);
+        lblLoginClickable.setForeground(normalColor);
+        lblLoginClickable.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        lblLoginClickable.setBounds(intApplyX + 200, intApplyY + 155, 60, 30);
         
-        loginClickable.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblLoginClickable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent e) {
-                loginClickable.setForeground(hoverColor);
+                lblLoginClickable.setForeground(hoverColor);
             }
         
             @Override
             public void mouseExited(java.awt.event.MouseEvent e) {
-                loginClickable.setForeground(normalColor);
+                lblLoginClickable.setForeground(normalColor);
             }
         
             @Override
@@ -150,15 +150,15 @@ public class Homepage extends JFrame {
             }
         });
         
-        background.add(loginClickable);
+        pnlBackground.add(lblLoginClickable);
              
 
         // Steps Panel
-        RoundedPanel stepsPanel = new RoundedPanel(30);
-        stepsPanel.setLayout(null);
-        stepsPanel.setBounds(700, 520, 520, 320);
-        stepsPanel.setBackground(new Color(255, 255, 255, 180));
-        background.add(stepsPanel);
+        RoundedPanel pnlSteps = new RoundedPanel(30);
+        pnlSteps.setLayout(null);
+        pnlSteps.setBounds(700, 520, 520, 320);
+        pnlSteps.setBackground(new Color(255, 255, 255, 180));
+        pnlBackground.add(pnlSteps);
         
 
         String[] stepTitles = {
@@ -175,39 +175,39 @@ public class Homepage extends JFrame {
         for (int i = 0; i < stepTitles.length; i++) {
             int y = i * 75 + 25;
         
-            JLabel number = new JLabel(String.valueOf(i + 1), SwingConstants.CENTER);
-            number.setBounds(30, y, 43, 43);
-            number.setOpaque(false); // disable default opaque rect rendering
-            number.setFont(FontUtil.getOutfitFont(20f));
+            JLabel lblNumber = new JLabel(String.valueOf(i + 1), SwingConstants.CENTER);
+            lblNumber.setBounds(30, y, 43, 43);
+            lblNumber.setOpaque(false); // disable default opaque rect rendering
+            lblNumber.setFont(FontUtil.getOutfitFont(20f));
         
             if (i == 0) {
-                number.setBackground(new Color(255, 241, 255));
-                number.setForeground(new Color(80, 0, 128));
-                number.setUI(new RoundedLabelUI(40, new Color(126, 76, 165)));
+                lblNumber.setBackground(new Color(255, 241, 255));
+                lblNumber.setForeground(new Color(80, 0, 128));
+                lblNumber.setUI(new RoundedLabelUI(40, new Color(126, 76, 165)));
             } else {
-                number.setBackground(new Color(42, 2, 67));
-                number.setForeground(new Color(255, 241, 255));
-                number.setUI(new RoundedLabelUI(40, new Color(42, 2, 67))); // purple w/ border
+                lblNumber.setBackground(new Color(42, 2, 67));
+                lblNumber.setForeground(new Color(255, 241, 255));
+                lblNumber.setUI(new RoundedLabelUI(40, new Color(42, 2, 67))); // purple w/ border
             }
-        
-            stepsPanel.add(number);
+
+            pnlSteps.add(lblNumber);
         
             if (i < stepTitles.length - 1) {
-                JPanel connector = new JPanel();
-                connector.setBackground(new Color(126, 76, 165));
-                connector.setBounds(48, y + 40, 4, 35);
-                stepsPanel.add(connector);
+                JPanel pnlConnector = new JPanel();
+                pnlConnector.setBackground(new Color(126, 76, 165));
+                pnlConnector.setBounds(48, y + 40, 4, 35);
+                pnlSteps.add(pnlConnector);
             }
-        
-            JLabel title = new JLabel(stepTitles[i]);
-            title.setFont(FontUtil.getOutfitFont(18f).deriveFont(Font.BOLD));
-            title.setBounds(90, y, 420, 25);
-            stepsPanel.add(title);
-        
-            JLabel description = new JLabel(stepDescriptions[i]);
-            description.setFont(FontUtil.getOutfitFont(15f));
-            description.setBounds(90, y + 15, 420, 30);
-            stepsPanel.add(description);
+
+            JLabel lblStepTitle = new JLabel(stepTitles[i]);
+            lblStepTitle.setFont(FontUtil.getOutfitFont(18f).deriveFont(Font.BOLD));
+            lblStepTitle.setBounds(90, y, 420, 25);
+            pnlSteps.add(lblStepTitle);
+
+            JLabel lblStepDescription = new JLabel(stepDescriptions[i]);
+            lblStepDescription.setFont(FontUtil.getOutfitFont(15f));
+            lblStepDescription.setBounds(90, y + 15, 420, 30);
+            pnlSteps.add(lblStepDescription);
         }
         
         
