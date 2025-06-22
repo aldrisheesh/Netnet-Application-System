@@ -20,151 +20,151 @@ public class AddPlansPage extends JFrame {
 
     public AddPlansPage() {
         BaseFrameSetup.applyAppIcon(this);
-        BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
+        BackgroundPanel pnlBackground = BaseFrameSetup.setupCompleteFrame(this, 1);
 
         // 2) White rounded container
-        JPanel container = new RoundedComponents.RoundedShadowPanel(25, 4);
-        container.setBounds(235, 165, 970, 695);
-        background.add(container);
+        JPanel pnlContainer = new RoundedComponents.RoundedShadowPanel(25, 4);
+        pnlContainer.setBounds(235, 165, 970, 695);
+        pnlBackground.add(pnlContainer);
 
         // 3) Inner content
-        JPanel inner = new JPanel();
-        inner.setLayout(new BoxLayout(inner, BoxLayout.Y_AXIS));
-        inner.setOpaque(false);
-        inner.setBounds(40, 40, 890, 615);
-        container.add(inner);
+        JPanel pnlInnerContent = new JPanel();
+        pnlInnerContent.setLayout(new BoxLayout(pnlInnerContent, BoxLayout.Y_AXIS));
+        pnlInnerContent.setOpaque(false);
+        pnlInnerContent.setBounds(40, 40, 890, 615);
+        pnlContainer.add(pnlInnerContent);
 
-        inner.add(Box.createRigidArea(new Dimension(0, 20)));
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
         // Title
-        JLabel title = new JLabel("SERVICE APPLICATION", SwingConstants.CENTER);
-        title.setFont(FontUtil.getOutfitBoldFont(26f));
-        title.setForeground(Color.decode("#2B0243"));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        inner.add(title);
+        JLabel lblTitle = new JLabel("SERVICE APPLICATION", SwingConstants.CENTER);
+        lblTitle.setFont(FontUtil.getOutfitBoldFont(26f));
+        lblTitle.setForeground(Color.decode("#2B0243"));
+        lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlInnerContent.add(lblTitle);
 
-        inner.add(Box.createRigidArea(new Dimension(0, 20)));
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
         // Step tracker (step 1)
-        JPanel steps = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        steps.setOpaque(false);
-        steps.add(CreateStepTracker.createStepTracker(1));
-        inner.add(steps);
+        JPanel pnlStepWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        pnlStepWrapper.setOpaque(false);
+        pnlStepWrapper.add(CreateStepTracker.createStepTracker(1));
+        pnlInnerContent.add(pnlStepWrapper);
 
-        inner.add(Box.createRigidArea(new Dimension(0, 20)));
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
         // Subtitle + Note
         Color subColor = Color.decode("#302E2E");
-        JLabel subtitle = new JLabel("CHOOSE YOUR PLAN", SwingConstants.LEFT);
-        subtitle.setFont(FontUtil.getOutfitFont(16f));
-        subtitle.setForeground(subColor);
+        JLabel lblSubtitle = new JLabel("CHOOSE YOUR PLAN", SwingConstants.LEFT);
+        lblSubtitle.setFont(FontUtil.getOutfitFont(16f));
+        lblSubtitle.setForeground(subColor);
 
-        JLabel subNote = new JLabel(
+        JLabel lblSubNote = new JLabel(
             "Choose one or more plans to get started. You can also add more later."
         );
-        subNote.setFont(FontUtil.getInterFont(14f));
-        subNote.setForeground(subColor);
+        lblSubNote.setFont(FontUtil.getInterFont(14f));
+        lblSubNote.setForeground(subColor);
 
-        JPanel infoPanel = new JPanel(new BorderLayout());
-        infoPanel.setOpaque(false);
-        infoPanel.setMaximumSize(new Dimension(826, 60));
-        JPanel leftLabels = new JPanel();
-        leftLabels.setOpaque(false);
-        leftLabels.setLayout(new BoxLayout(leftLabels, BoxLayout.Y_AXIS));
-        leftLabels.add(subtitle);
-        leftLabels.add(Box.createRigidArea(new Dimension(0, 5)));
-        leftLabels.add(subNote);
-        infoPanel.add(leftLabels, BorderLayout.WEST);
-        inner.add(infoPanel);
+        JPanel pnlInfoPanel = new JPanel(new BorderLayout());
+        pnlInfoPanel.setOpaque(false);
+        pnlInfoPanel.setMaximumSize(new Dimension(826, 60));
+        JPanel pnlLeftLabels = new JPanel();
+        pnlLeftLabels.setOpaque(false);
+        pnlLeftLabels.setLayout(new BoxLayout(pnlLeftLabels, BoxLayout.Y_AXIS));
+        pnlLeftLabels.add(lblSubtitle);
+        pnlLeftLabels.add(Box.createRigidArea(new Dimension(0, 5)));
+        pnlLeftLabels.add(lblSubNote);
+        pnlInfoPanel.add(pnlLeftLabels, BorderLayout.WEST);
+        pnlInnerContent.add(pnlInfoPanel);
 
-        inner.add(Box.createRigidArea(new Dimension(0, 10)));
-        JSeparator sep = new JSeparator(SwingConstants.HORIZONTAL);
-        sep.setMaximumSize(new Dimension(826, 2));
-        sep.setForeground(Color.decode("#B2B2B2"));
-        sep.setAlignmentX(Component.CENTER_ALIGNMENT);
-        inner.add(sep);
-        inner.add(Box.createRigidArea(new Dimension(0, 20)));
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 10)));
+        JSeparator sepDivider = new JSeparator(SwingConstants.HORIZONTAL);
+        sepDivider.setMaximumSize(new Dimension(826, 2));
+        sepDivider.setForeground(Color.decode("#B2B2B2"));
+        sepDivider.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlInnerContent.add(sepDivider);
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
         // 4) Plan grid
-        JPanel planGrid = new JPanel(new GridBagLayout());
-        planGrid.setOpaque(false);
-        planGrid.setMaximumSize(new Dimension(826, 350));
+        JPanel pnlPlanGrid = new JPanel(new GridBagLayout());
+        pnlPlanGrid.setOpaque(false);
+        pnlPlanGrid.setMaximumSize(new Dimension(826, 350));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 20, 10, 20);
         gbc.fill   = GridBagConstraints.HORIZONTAL;
 
         // build the panels
-        ArrayList<SelectablePlanPanel> plans = new ArrayList<>();
-        plans.add(new SelectablePlanPanel("P001", "FIBERX 1500",       "₱1500", "Installation Fee: ₱125/24mo."));
-        plans.add(new SelectablePlanPanel("P002", "FIBER Xtream 4500", "₱4500", "Installation Fee: WAIVED"));
-        plans.add(new SelectablePlanPanel("P003", "FIBERX 2500",       "₱2500", "Installation Fee: ₱125/24mo."));
-        plans.add(new SelectablePlanPanel("P004", "FIBER Xtream 7000", "₱7000", "Installation Fee: WAIVED"));
-        plans.add(new SelectablePlanPanel("P005", "FIBERX 3500",       "₱3500", "Installation Fee: ₱125/12mo."));
+        ArrayList<SelectablePlanPanel> lstPlanPanels = new ArrayList<>();
+        lstPlanPanels.add(new SelectablePlanPanel("P001", "FIBERX 1500",       "₱1500", "Installation Fee: ₱125/24mo."));
+        lstPlanPanels.add(new SelectablePlanPanel("P002", "FIBER Xtream 4500", "₱4500", "Installation Fee: WAIVED"));
+        lstPlanPanels.add(new SelectablePlanPanel("P003", "FIBERX 2500",       "₱2500", "Installation Fee: ₱125/24mo."));
+        lstPlanPanels.add(new SelectablePlanPanel("P004", "FIBER Xtream 7000", "₱7000", "Installation Fee: WAIVED"));
+        lstPlanPanels.add(new SelectablePlanPanel("P005", "FIBERX 3500",       "₱3500", "Installation Fee: ₱125/12mo."));
 
         // fetch which ones the user already has
-        List<String> subscribedPlanIDs = fetchSubscribedPlanIDs(
+        List<String> lstSubscribedPlanIDs = fetchSubscribedPlanIDs(
             UserApplicationData.get("Username")
         );
 
         // lay them out, pre-select & disable those already subscribed
-        for (int i = 0; i < plans.size(); i++) {
-            SelectablePlanPanel p = plans.get(i);
+        for (int i = 0; i < lstPlanPanels.size(); i++) {
+            SelectablePlanPanel pnl = lstPlanPanels.get(i);
 
-            if (subscribedPlanIDs.contains(p.getPlanID())) {
-                p.setDisabled(true);
+            if (lstSubscribedPlanIDs.contains(pnl.getPlanID())) {
+                pnl.setDisabled(true);
             }
 
             gbc.gridx = i % 2;
             gbc.gridy = i / 2;
-            planGrid.add(p, gbc);
+            pnlPlanGrid.add(pnl, gbc);
 
             if (i == 4) {
                 gbc.gridx = 1;
-                JTextArea note = new JTextArea(
+                JTextArea txtNote = new JTextArea(
                     "*With outright Payment Option of Php 2,500 for\n" +
                     " Plans 1500 & 2500, and Php 1,250 for Plan 3500.\n" +
                     " Waived Installation Fee for Plans 4500 and 7000.\n" +
                     " *Prices are VAT Inclusive"
                 );
-                note.setFont(FontUtil.getOutfitFont(14f));
-                note.setOpaque(false);
-                note.setEditable(false);
-                planGrid.add(note, gbc);
+                txtNote.setFont(FontUtil.getOutfitFont(14f));
+                txtNote.setOpaque(false);
+                txtNote.setEditable(false);
+                pnlPlanGrid.add(txtNote, gbc);
             }
         }
 
         gbc.gridx      = 0;
         gbc.gridy++;
         gbc.gridwidth = 2;
-        inner.add(planGrid);
+        pnlInnerContent.add(pnlPlanGrid);
 
-        inner.add(Box.createRigidArea(new Dimension(0, 40)));
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 40)));
 
         // 5) NEXT button
-        JPanel btnPanel = new JPanel(new BorderLayout());
-        btnPanel.setOpaque(false);
-        btnPanel.setMaximumSize(new Dimension(826, 50));
-        RoundedComponents.RoundedButton next = new RoundedComponents.RoundedButton("NEXT", 25);
-        next.setPreferredSize(new Dimension(148, 41));
-        next.setBackground(Color.decode("#2B0243"));
-        next.setForeground(Color.WHITE);
-        next.setFont(FontUtil.getOutfitBoldFont(16f));
-        next.setBorderColor(Color.decode("#2B0243"));
-        btnPanel.add(next, BorderLayout.EAST);
-        inner.add(btnPanel);
+        JPanel pnlBtnPanel = new JPanel(new BorderLayout());
+        pnlBtnPanel.setOpaque(false);
+        pnlBtnPanel.setMaximumSize(new Dimension(826, 50));
+        RoundedComponents.RoundedButton cmdNext = new RoundedComponents.RoundedButton("NEXT", 25);
+        cmdNext.setPreferredSize(new Dimension(148, 41));
+        cmdNext.setBackground(Color.decode("#2B0243"));
+        cmdNext.setForeground(Color.WHITE);
+        cmdNext.setFont(FontUtil.getOutfitBoldFont(16f));
+        cmdNext.setBorderColor(Color.decode("#2B0243"));
+        pnlBtnPanel.add(cmdNext, BorderLayout.EAST);
+        pnlInnerContent.add(pnlBtnPanel);
 
-        next.addActionListener(e -> {
+        cmdNext.addActionListener(e -> {
             // only gather *new* selections (skip disabled ones)
-            ArrayList<String> newPlanTitles = new ArrayList<>();
-            ArrayList<String> newPlanIDs    = new ArrayList<>();
-            for (SelectablePlanPanel panel : plans) {
+            ArrayList<String> lstNewPlanTitles = new ArrayList<>();
+            ArrayList<String> lstNewPlanIDs    = new ArrayList<>();
+            for (SelectablePlanPanel panel : lstPlanPanels) {
                 if (panel.isSelected() && !panel.isDisabled()) {
-                    newPlanTitles.add(panel.getPlanTitle());
-                    newPlanIDs.add(panel.getPlanID());
+                    lstNewPlanTitles.add(panel.getPlanTitle());
+                    lstNewPlanIDs.add(panel.getPlanID());
                 }
             }
 
-            if (newPlanIDs.isEmpty()) {
+            if (lstNewPlanIDs.isEmpty()) {
                 CustomDialogUtil.showStyledErrorDialog(
                     AddPlansPage.this,
                     "No New Plan Selected",
@@ -174,8 +174,8 @@ public class AddPlansPage extends JFrame {
             }
 
             // re-check DB for conflicts (just in case)
-            String username = UserApplicationData.get("Username");
-            String sql = """
+            String strUsername = UserApplicationData.get("Username");
+            String strSql = """
                 SELECT s.service_plan
                   FROM tbl_payment p
                   JOIN tbl_application a ON p.application_no = a.application_no
@@ -186,10 +186,10 @@ public class AddPlansPage extends JFrame {
             """;
 
             try (Connection conn = DatabaseConnection.getConnection();
-                 PreparedStatement ps = conn.prepareStatement(sql)) {
+                 PreparedStatement ps = conn.prepareStatement(strSql)) {
 
-                ps.setString(1, username);
-                for (String planId : newPlanIDs) {
+                ps.setString(1, strUsername);
+                for (String planId : lstNewPlanIDs) {
                     ps.setString(2, planId);
                     try (ResultSet rs = ps.executeQuery()) {
                         if (rs.next()) {
@@ -214,21 +214,21 @@ public class AddPlansPage extends JFrame {
             }
 
             // save *only* the new ones
-            UserApplicationData.set("selectedPlans",   String.join(",", newPlanTitles));
-            UserApplicationData.set("selectedPlanIDs", String.join(",", newPlanIDs));
+            UserApplicationData.set("selectedPlans",   String.join(",", lstNewPlanTitles));
+            UserApplicationData.set("selectedPlanIDs", String.join(",", lstNewPlanIDs));
 
             new AddConfirm().setVisible(true);
             dispose();
         });
 
         setVisible(true);
-        SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
+        SwingUtilities.invokeLater(() -> pnlBackground.requestFocusInWindow());
     }
 
     /** Helper to fetch all plan_IDs this user already has paid for. */
-    private List<String> fetchSubscribedPlanIDs(String username) {
-        List<String> list = new ArrayList<>();
-        String sql =
+    private List<String> fetchSubscribedPlanIDs(String strUsername) {
+        List<String> lstIDs = new ArrayList<>();
+        String strSql =
             "SELECT p.plan_ID " +
             "  FROM tbl_payment p " +
             "  JOIN tbl_application a ON p.application_no = a.application_no " +
@@ -236,19 +236,19 @@ public class AddPlansPage extends JFrame {
             " WHERE c.username = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(strSql)) {
 
-            ps.setString(1, username);
+            ps.setString(1, strUsername);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    list.add(rs.getString("plan_ID"));
+                    lstIDs.add(rs.getString("plan_ID"));
                 }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
             // optionally show a dialog here
         }
-        return list;
+        return lstIDs;
     }
 
 
