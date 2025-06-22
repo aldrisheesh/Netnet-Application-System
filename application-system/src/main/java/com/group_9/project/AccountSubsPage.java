@@ -100,6 +100,10 @@ public class AccountSubsPage extends Template {
             // 1) Build a JPanel with GridLayout(0,2)
             JPanel grid = new JPanel(new GridLayout(0, 2, hGap, vGap));
             grid.setOpaque(false);
+            int rows = (int) Math.ceil(subs.size() / 2.0);
+            int gridW = 2 * boxW + hGap;
+            int gridH = rows * boxH + (rows - 1) * vGap;
+            grid.setPreferredSize(new Dimension(gridW, gridH));
     
             for (Subscription s : subs) {
                 // each card will auto–size via GridLayout
@@ -152,6 +156,7 @@ public class AccountSubsPage extends Template {
             }
         };
         applicantBox.setBounds(x, y, 380, 220);
+        applicantBox.setPreferredSize(new Dimension(380, 220));
 
         JLabel header = new JLabel("Product and Service");
         header.setFont(FontUtil.getOutfitFont(17f));
