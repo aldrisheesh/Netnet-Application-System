@@ -13,6 +13,7 @@ import java.util.List;
 public class AccountSubsPage extends Template {
     public AccountSubsPage() {
         BaseFrameSetup.applyAppIcon(this);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 3);
 
         JPanel sidebar = AccountSidebarUtil.createSidebar(this, "My Subscriptions");
@@ -122,13 +123,20 @@ public class AccountSubsPage extends Template {
             // 2) Wrap it in a JScrollPane sized to show exactly 4 cards (2×2)
             int viewportWidth  = 2 * boxW + hGap;
             int viewportHeight = 2 * boxH + vGap;
-            JScrollPane scroll = new JScrollPane(grid,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            JScrollPane scroll = new JScrollPane(
+                    grid,
+                    JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                    JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
             scroll.setBounds(startX, startY, viewportWidth, viewportHeight);
             scroll.setBorder(null);
             scroll.setOpaque(false);
             scroll.getViewport().setOpaque(false);
+
+            JScrollBar vsb = scroll.getVerticalScrollBar();
+            vsb.setUI(new CustomScrollBarUI());
+            vsb.setOpaque(false);
+            vsb.setPreferredSize(new Dimension(10, 0));
+            vsb.setUnitIncrement(16);
     
             container.add(scroll);
         }
@@ -195,6 +203,7 @@ public class AccountSubsPage extends Template {
         unsubBtn.setBackground(new Color(98, 60, 187));
         unsubBtn.setForeground(Color.WHITE);
         unsubBtn.setBorderColor(new Color(98, 60, 187));
+        unsubBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         ButtonHoverEffect.apply(
                 unsubBtn,
                 new Color(75, 39, 143), Color.WHITE,

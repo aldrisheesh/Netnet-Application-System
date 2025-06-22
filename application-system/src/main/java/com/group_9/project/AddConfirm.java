@@ -5,7 +5,7 @@ import com.group_9.project.session.UserApplicationData;
 import com.group_9.project.utils.*;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicScrollBarUI;
+import com.group_9.project.utils.CustomScrollBarUI;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
@@ -525,32 +525,6 @@ public class AddConfirm extends JFrame {
         }
     }
 
-    private static class CustomScrollBarUI extends BasicScrollBarUI {
-        private static final Color THUMB_COLOR = new Color(42, 2, 67);
-
-        @Override protected void configureScrollBarColors() {
-            thumbColor = THUMB_COLOR;
-            trackColor = new Color(0, 0, 0, 0);
-        }
-
-        @Override protected JButton createDecreaseButton(int orientation) { return createZeroButton(); }
-        @Override protected JButton createIncreaseButton(int orientation) { return createZeroButton(); }
-
-        private JButton createZeroButton() {
-            JButton btn = new JButton();
-            btn.setPreferredSize(new Dimension(0, 0));
-            return btn;
-        }
-
-        @Override protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
-            if (!scrollbar.isEnabled() || thumbBounds.isEmpty()) return;
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setColor(THUMB_COLOR);
-            g2.fillRoundRect(thumbBounds.x, thumbBounds.y, thumbBounds.width, thumbBounds.height, 10, 10);
-            g2.dispose();
-        }
-        @Override protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {}
-    }
 
     private static class RoundedScrollContainer extends JPanel {
         private final int radius;
