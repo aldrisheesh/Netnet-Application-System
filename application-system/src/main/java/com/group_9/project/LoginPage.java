@@ -71,6 +71,7 @@ public class LoginPage extends JFrame {
                 new Color(42, 2, 67)
         );
         pnlBackground.add(cmdLogin);
+        getRootPane().setDefaultButton(cmdLogin);
 
         ToolTipUtil.attachCustomTooltip(txtEmailField, "Enter your username or email");
         ToolTipUtil.attachCustomTooltip(txtPassword, "Enter your password");

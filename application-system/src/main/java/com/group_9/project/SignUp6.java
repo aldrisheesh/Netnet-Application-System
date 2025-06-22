@@ -159,6 +159,7 @@ public class SignUp6 extends JFrame {
         cmdDone.setFont(FontUtil.getOutfitBoldFont(16f));
         cmdDone.setBorderColor(Color.decode("#2A0243"));
         pnlBtn.add(cmdDone);
+        getRootPane().setDefaultButton(cmdDone);
         pnlInner.add(pnlBtn);
 
         cmdDone.addActionListener((ActionEvent e) -> {

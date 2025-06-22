@@ -16,47 +16,60 @@ public class AccountService {
     // ───────────────────────────────────────────────────────────────
 
     public static class CustomerProfile {
-        public final String username, password, fullName, birthdate, gender;
-        public final String civilStatus, motherMn, spouseName, nationality;
-        public final String contactNo, emailAdd;
-        public final String residenceType, compPaid;
-        public final int residenceYrs;
-        public final String ownerName, ownerContact, residenceAdd;
+        public final String strUsername;
+        public final String strPassword;
+        public final String strFullName;
+        public final String strBirthdate;
+        public final String strGender;
+        public final String strCivilStatus;
+        public final String strMotherMn;
+        public final String strSpouseName;
+        public final String strNationality;
+        public final String strContactNo;
+        public final String strEmailAdd;
+        public final String strResidenceType;
+        public final int intResidenceYrs;
+        public final String strCompPaid;
+        public final String strOwnerName;
+        public final String strOwnerContact;
+        public final String strResidenceAdd;
 
-        public CustomerProfile(String username,
-                               String password,
-                               String fullName,
-                               String birthdate,
-                               String gender,
-                               String civilStatus,
-                               String motherMn,
-                               String spouseName,
-                               String nationality,
-                               String contactNo,
-                               String emailAdd,
-                               String residenceType,
-                               int residenceYrs,
-                               String compPaid,
-                               String ownerName,
-                               String ownerContact,
-                               String residenceAdd) {
-            this.username       = username;
-            this.password       = password;
-            this.fullName       = fullName;
-            this.birthdate      = birthdate;
-            this.gender         = gender;
-            this.civilStatus    = civilStatus;
-            this.motherMn       = motherMn;
-            this.spouseName     = spouseName;
-            this.nationality    = nationality;
-            this.contactNo      = contactNo;
-            this.emailAdd       = emailAdd;
-            this.residenceType  = residenceType;
-            this.residenceYrs   = residenceYrs;
-            this.compPaid       = compPaid;
-            this.ownerName      = ownerName;
-            this.ownerContact   = ownerContact;
-            this.residenceAdd   = residenceAdd;
+        public CustomerProfile(
+            String strUsername,
+            String strPassword,
+            String strFullName,
+            String strBirthdate,
+            String strGender,
+            String strCivilStatus,
+            String strMotherMn,
+            String strSpouseName,
+            String strNationality,
+            String strContactNo,
+            String strEmailAdd,
+            String strResidenceType,
+            int intResidenceYrs,
+            String strCompPaid,
+            String strOwnerName,
+            String strOwnerContact,
+            String strResidenceAdd
+        ) {
+            this.strUsername      = strUsername;
+            this.strPassword      = strPassword;
+            this.strFullName      = strFullName;
+            this.strBirthdate     = strBirthdate;
+            this.strGender        = strGender;
+            this.strCivilStatus   = strCivilStatus;
+            this.strMotherMn      = strMotherMn;
+            this.strSpouseName    = strSpouseName;
+            this.strNationality   = strNationality;
+            this.strContactNo     = strContactNo;
+            this.strEmailAdd      = strEmailAdd;
+            this.strResidenceType = strResidenceType;
+            this.intResidenceYrs  = intResidenceYrs;
+            this.strCompPaid      = strCompPaid;
+            this.strOwnerName     = strOwnerName;
+            this.strOwnerContact  = strOwnerContact;
+            this.strResidenceAdd  = strResidenceAdd;
         }
     }
 
@@ -89,32 +102,32 @@ public class AccountService {
                 OR c.email_add = ?
             """;
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement psStmt = conn.prepareStatement(strSql)) {
+        try (Connection objConn = DatabaseConnection.getConnection();
+             PreparedStatement objPsStmt = objConn.prepareStatement(strSql)) {
 
-            psStmt.setString(1, strLoginId);
-            psStmt.setString(2, strLoginId);
+            objPsStmt.setString(1, strLoginId);
+            objPsStmt.setString(2, strLoginId);
 
-            try (ResultSet rs = psStmt.executeQuery()) {
-                if (!rs.next()) return null;
+            try (ResultSet objRs = objPsStmt.executeQuery()) {
+                if (!objRs.next()) return null;
                 return new CustomerProfile(
-                    rs.getString("username"),
-                    rs.getString("password"),
-                    rs.getString("customer_name"),
-                    rs.getString("birthdate"),
-                    rs.getString("gender"),
-                    rs.getString("civil_status"),
-                    rs.getString("mother_mn"),
-                    rs.getString("spouse_name"),
-                    rs.getString("nationality"),
-                    rs.getString("contact_no"),
-                    rs.getString("email_add"),
-                    rs.getString("residence_type"),
-                    rs.getInt   ("residence_yrs"),
-                    rs.getString("comp_paid"),
-                    rs.getString("owner_name"),
-                    rs.getString("owner_contact"),
-                    rs.getString("residence_add")
+                    objRs.getString("username"),
+                    objRs.getString("password"),
+                    objRs.getString("customer_name"),
+                    objRs.getString("birthdate"),
+                    objRs.getString("gender"),
+                    objRs.getString("civil_status"),
+                    objRs.getString("mother_mn"),
+                    objRs.getString("spouse_name"),
+                    objRs.getString("nationality"),
+                    objRs.getString("contact_no"),
+                    objRs.getString("email_add"),
+                    objRs.getString("residence_type"),
+                    objRs.getInt   ("residence_yrs"),
+                    objRs.getString("comp_paid"),
+                    objRs.getString("owner_name"),
+                    objRs.getString("owner_contact"),
+                    objRs.getString("residence_add")
                 );
             }
         }
@@ -150,31 +163,31 @@ public class AccountService {
              WHERE a.application_no = ?
             """;
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement psStmt = conn.prepareStatement(strSql)) {
+        try (Connection objConn = DatabaseConnection.getConnection();
+             PreparedStatement objPsStmt = objConn.prepareStatement(strSql)) {
 
-            psStmt.setString(1, strApplicationNo);
+            objPsStmt.setString(1, strApplicationNo);
 
-            try (ResultSet rs = psStmt.executeQuery()) {
-                if (!rs.next()) return null;
+            try (ResultSet objRs = objPsStmt.executeQuery()) {
+                if (!objRs.next()) return null;
                 return new CustomerProfile(
-                    rs.getString("username"),
-                    rs.getString("password"),
-                    rs.getString("customer_name"),
-                    rs.getString("birthdate"),
-                    rs.getString("gender"),
-                    rs.getString("civil_status"),
-                    rs.getString("mother_mn"),
-                    rs.getString("spouse_name"),
-                    rs.getString("nationality"),
-                    rs.getString("contact_no"),
-                    rs.getString("email_add"),
-                    rs.getString("residence_type"),
-                    rs.getInt   ("residence_yrs"),
-                    rs.getString("comp_paid"),
-                    rs.getString("owner_name"),
-                    rs.getString("owner_contact"),
-                    rs.getString("residence_add")
+                    objRs.getString("username"),
+                    objRs.getString("password"),
+                    objRs.getString("customer_name"),
+                    objRs.getString("birthdate"),
+                    objRs.getString("gender"),
+                    objRs.getString("civil_status"),
+                    objRs.getString("mother_mn"),
+                    objRs.getString("spouse_name"),
+                    objRs.getString("nationality"),
+                    objRs.getString("contact_no"),
+                    objRs.getString("email_add"),
+                    objRs.getString("residence_type"),
+                    objRs.getInt   ("residence_yrs"),
+                    objRs.getString("comp_paid"),
+                    objRs.getString("owner_name"),
+                    objRs.getString("owner_contact"),
+                    objRs.getString("residence_add")
                 );
             }
         }
@@ -215,22 +228,22 @@ public class AccountService {
              WHERE username = ?
             """;
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement psStmt = conn.prepareStatement(strSql)) {
+        try (Connection objConn = DatabaseConnection.getConnection();
+             PreparedStatement objPsStmt = objConn.prepareStatement(strSql)) {
 
-            psStmt.setString(1, strNewPassword);
-            psStmt.setString(2, strNewName);
-            psStmt.setDate(   3, dtNewBirthdate);
-            psStmt.setString(4, strNewGender);
-            psStmt.setString(5, strNewCivilStatus);
-            psStmt.setString(6, strNewMotherMn);
-            psStmt.setString(7, strNewSpouseName);
-            psStmt.setString(8, strNewNationality);
-            psStmt.setString(9, strNewContactNo);
-            psStmt.setString(10, strNewEmailAdd);
-            psStmt.setString(11, strOriginalUsername);
+            objPsStmt.setString(1, strNewPassword);
+            objPsStmt.setString(2, strNewName);
+            objPsStmt.setDate(   3, dtNewBirthdate);
+            objPsStmt.setString(4, strNewGender);
+            objPsStmt.setString(5, strNewCivilStatus);
+            objPsStmt.setString(6, strNewMotherMn);
+            objPsStmt.setString(7, strNewSpouseName);
+            objPsStmt.setString(8, strNewNationality);
+            objPsStmt.setString(9, strNewContactNo);
+            objPsStmt.setString(10, strNewEmailAdd);
+            objPsStmt.setString(11, strOriginalUsername);
 
-            psStmt.executeUpdate();
+            objPsStmt.executeUpdate();
         }
     }
 
@@ -240,14 +253,16 @@ public class AccountService {
 
     /** Simple DTO for a service plan. */
     public static class PlanDetails {
-        public final String planId, servicePlan, installFee;
-        public final double serviceFee;
+        public final String strPlanId;
+        public final String strServicePlan;
+        public final double dblServiceFee;
+        public final String strInstallFee;
 
-        public PlanDetails(String planId, String servicePlan, double serviceFee, String installFee) {
-            this.planId       = planId;
-            this.servicePlan  = servicePlan;
-            this.serviceFee   = serviceFee;
-            this.installFee   = installFee;
+        public PlanDetails(String strPlanId, String strServicePlan, double dblServiceFee, String strInstallFee) {
+            this.strPlanId      = strPlanId;
+            this.strServicePlan = strServicePlan;
+            this.dblServiceFee  = dblServiceFee;
+            this.strInstallFee  = strInstallFee;
         }
     }
 
@@ -267,17 +282,17 @@ public class AccountService {
              WHERE a.application_no = ?
             """;
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement psStmt = conn.prepareStatement(strSql)) {
+        try (Connection objConn = DatabaseConnection.getConnection();
+             PreparedStatement objPsStmt = objConn.prepareStatement(strSql)) {
 
-            psStmt.setString(1, strApplicationNo);
-            try (ResultSet rs = psStmt.executeQuery()) {
-                if (!rs.next()) return null;
+            objPsStmt.setString(1, strApplicationNo);
+            try (ResultSet objRs = objPsStmt.executeQuery()) {
+                if (!objRs.next()) return null;
                 return new PlanDetails(
-                    rs.getString("plan_ID"),
-                    rs.getString("service_plan"),
-                    rs.getDouble("service_fee"),
-                    rs.getString("install_fee")
+                    objRs.getString("plan_ID"),
+                    objRs.getString("service_plan"),
+                    objRs.getDouble("service_fee"),
+                    objRs.getString("install_fee")
                 );
             }
         }
@@ -287,16 +302,18 @@ public class AccountService {
         public final String strApplicationNo;
         public final String strDateSubmitted;
         public final String strStatus;
-        public final PlanDetails planDetails;
+        public final PlanDetails objPlanDetails;
 
-        public Subscription(String strApplicationNo,
-                            String strDateSubmitted,
-                            String strStatus,
-                            PlanDetails planDetails) {
+        public Subscription(
+            String strApplicationNo,
+            String strDateSubmitted,
+            String strStatus,
+            PlanDetails objPlanDetails
+        ) {
             this.strApplicationNo = strApplicationNo;
             this.strDateSubmitted = strDateSubmitted;
-            this.strStatus        = strStatus;
-            this.planDetails      = planDetails;
+            this.strStatus       = strStatus;
+            this.objPlanDetails  = objPlanDetails;
         }
     }
 
@@ -319,74 +336,74 @@ public class AccountService {
              WHERE c.username = ?
             """;
 
-        List<Subscription> lstSubscriptions = new ArrayList<>();
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement psStmt = conn.prepareStatement(strSql)) {
+        List<Subscription> colSubscriptions = new ArrayList<>();
+        try (Connection objConn = DatabaseConnection.getConnection();
+             PreparedStatement objPsStmt = objConn.prepareStatement(strSql)) {
 
-            psStmt.setString(1, strUsername);
-            try (ResultSet rs = psStmt.executeQuery()) {
-                while (rs.next()) {
-                    PlanDetails pd = new PlanDetails(
-                        rs.getString("plan_ID"),
-                        rs.getString("service_plan"),
-                        rs.getDouble("service_fee"),
-                        rs.getString("install_fee")
+            objPsStmt.setString(1, strUsername);
+            try (ResultSet objRs = objPsStmt.executeQuery()) {
+                while (objRs.next()) {
+                    PlanDetails objPlanDetails = new PlanDetails(
+                        objRs.getString("plan_ID"),
+                        objRs.getString("service_plan"),
+                        objRs.getDouble("service_fee"),
+                        objRs.getString("install_fee")
                     );
-                    lstSubscriptions.add(new Subscription(
-                        rs.getString("application_no"),
-                        rs.getString("date_submitted"),
-                        rs.getString("status"),
-                        pd
+                    colSubscriptions.add(new Subscription(
+                        objRs.getString("application_no"),
+                        objRs.getString("date_submitted"),
+                        objRs.getString("status"),
+                        objPlanDetails
                     ));
                 }
             }
         }
-        return lstSubscriptions;
+        return colSubscriptions;
     }
 
-        /** Simple DTO for your applications (one row per application). */
-        public static class ApplicationInfo {
-            public final String strApplicationNo;
-            public final String strDateSubmitted;
-            public final String strStatus;
+    /** Simple DTO for your applications (one row per application). */
+    public static class ApplicationInfo {
+        public final String strApplicationNo;
+        public final String strDateSubmitted;
+        public final String strStatus;
 
-            public ApplicationInfo(String strApplicationNo, String strDateSubmitted, String strStatus) {
-                this.strApplicationNo = strApplicationNo;
-                this.strDateSubmitted = strDateSubmitted;
-                this.strStatus        = strStatus;
-            }
+        public ApplicationInfo(String strApplicationNo, String strDateSubmitted, String strStatus) {
+            this.strApplicationNo = strApplicationNo;
+            this.strDateSubmitted = strDateSubmitted;
+            this.strStatus       = strStatus;
         }
-    
-        /**
-         * Fetches all application rows (one per application_no) for a given username.
-         */
-        public static List<ApplicationInfo> getApplicationsByUsername(String strUsername) throws SQLException {
-            String strSql = """
-                SELECT a.application_no,
-                       DATE_FORMAT(a.application_date, '%m/%d/%Y') AS date_submitted,
-                       p.payment_option AS status
-                  FROM tbl_customer c
-                  JOIN tbl_application a ON c.customer_ID = a.customer_ID
-                  JOIN tbl_payment     p ON a.application_no = p.application_no
-                 WHERE c.username = ?
-                 ORDER BY a.application_date DESC
-                """;
-    
-            List<ApplicationInfo> lstApplications = new ArrayList<>();
-            try (Connection conn = DatabaseConnection.getConnection();
-                 PreparedStatement psStmt = conn.prepareStatement(strSql)) {
+    }
 
-                psStmt.setString(1, strUsername);
-                try (ResultSet rs = psStmt.executeQuery()) {
-                    while (rs.next()) {
-                        lstApplications.add(new ApplicationInfo(
-                            rs.getString("application_no"),
-                            rs.getString("date_submitted"),
-                            rs.getString("status")
-                        ));
-                    }
+    /**
+     * Fetches all application rows (one per application_no) for a given username.
+     */
+    public static List<ApplicationInfo> getApplicationsByUsername(String strUsername) throws SQLException {
+        String strSql = """
+            SELECT a.application_no,
+                   DATE_FORMAT(a.application_date, '%m/%d/%Y') AS date_submitted,
+                   p.payment_option AS status
+              FROM tbl_customer c
+              JOIN tbl_application a ON c.customer_ID = a.customer_ID
+              JOIN tbl_payment     p ON a.application_no = p.application_no
+             WHERE c.username = ?
+             ORDER BY a.application_date DESC
+            """;
+
+        List<ApplicationInfo> colApplications = new ArrayList<>();
+        try (Connection objConn = DatabaseConnection.getConnection();
+             PreparedStatement objPsStmt = objConn.prepareStatement(strSql)) {
+
+            objPsStmt.setString(1, strUsername);
+            try (ResultSet objRs = objPsStmt.executeQuery()) {
+                while (objRs.next()) {
+                    colApplications.add(new ApplicationInfo(
+                        objRs.getString("application_no"),
+                        objRs.getString("date_submitted"),
+                        objRs.getString("status")
+                    ));
                 }
             }
-            return lstApplications;
         }
+        return colApplications;
+    }
 }

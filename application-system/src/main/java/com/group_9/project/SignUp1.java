@@ -199,6 +199,7 @@ public class SignUp1 extends JFrame {
         cmdNext.setBorderColor(Color.decode("#2A0243"));
 
         pnlButtons.add(cmdNext);
+        getRootPane().setDefaultButton(cmdNext);
         pnlInnerContent.add(pnlButtons);
         pnlContainer.add(pnlInnerContent);
 

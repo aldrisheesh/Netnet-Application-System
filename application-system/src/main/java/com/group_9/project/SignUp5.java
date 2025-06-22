@@ -5,7 +5,6 @@ import com.group_9.project.session.UserApplicationData;
 import com.group_9.project.utils.*;
 
 import javax.swing.*;
-import com.group_9.project.utils.CustomScrollBarUI;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.JTextComponent;
 
@@ -225,6 +224,7 @@ public class SignUp5 extends JFrame {
 
         pnlButton.add(cmdBack, BorderLayout.WEST);
         pnlButton.add(cmdConfirm, BorderLayout.EAST);
+        getRootPane().setDefaultButton(cmdConfirm);
         pnlInnerContent.add(pnlButton);
 
         pnlContainer.add(pnlInnerContent);

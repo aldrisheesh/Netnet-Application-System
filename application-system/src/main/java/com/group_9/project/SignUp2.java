@@ -183,6 +183,7 @@ public class SignUp2 extends JFrame {
 
         pnlButton.add(cmdBack, BorderLayout.WEST);
         pnlButton.add(cmdNext, BorderLayout.EAST);
+        getRootPane().setDefaultButton(cmdNext);
         pnlInnerContent.add(pnlButton);
 
         cmdNext.addActionListener((ActionEvent e) -> {

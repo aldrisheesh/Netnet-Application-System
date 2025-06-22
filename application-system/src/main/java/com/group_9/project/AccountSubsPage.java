@@ -7,6 +7,7 @@ import com.group_9.project.utils.*;
 import com.group_9.project.database.PaymentDao;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -29,31 +30,28 @@ public class AccountSubsPage extends Template {
         SwingUtilities.invokeLater(() -> pnlBackground.requestFocusInWindow());
     }
 
-    
-
-
     private JPanel createDetailsContainer() {
         JPanel pnlContainer = new JPanel(null);
         pnlContainer.setOpaque(false);
         pnlContainer.setBounds(0, 0, 1250, 700);
-    
+
         // ─── Headers ─────────────────────────────────────────
         JLabel lblTitle = new JLabel("MY SUBSCRIPTIONS");
         lblTitle.setFont(FontUtil.getOutfitBoldFont(26f));
         lblTitle.setForeground(new Color(42,2,67));
         lblTitle.setBounds(70, 50, 300, 30);
         pnlContainer.add(lblTitle);
-    
+
         JLabel lblSection = new JLabel("SERVICE AND PLAN SUBSCRIPTIONS");
         lblSection.setFont(FontUtil.getOutfitFont(16f));
         lblSection.setBounds(70, 100, 400, 20);
         pnlContainer.add(lblSection);
-    
+
         JSeparator sepDivider = new JSeparator();
         sepDivider.setBounds(70, 130, 880, 1);
         sepDivider.setForeground(new Color(180,180,180));
         pnlContainer.add(sepDivider);
-    
+
         // ─── Fetch subscriptions ────────────────────────────
         String username = UserApplicationData.get("strUsername");
         List<Subscription> subs;
@@ -63,7 +61,7 @@ public class AccountSubsPage extends Template {
             ex.printStackTrace();
             subs = List.of();
         }
-    
+
         if (subs.isEmpty()) {
             JLabel lblNone = new JLabel("You have no active subscriptions.");
             lblNone.setFont(FontUtil.getOutfitFont(18f));
@@ -72,11 +70,11 @@ public class AccountSubsPage extends Template {
             pnlContainer.add(lblNone);
             return pnlContainer;
         }
-    
+
         final int boxW = 380, boxH = 220;
         final int hGap = 30, vGap = 30;
         final int startX = 70, startY = 180;
-    
+
         if (subs.size() < 5) {
             // ─── Fewer than 5: absolute layout in two columns ──
             for (int i = 0; i < subs.size(); i++) {
@@ -84,50 +82,45 @@ public class AccountSubsPage extends Template {
                 int col = i % 2, row = i / 2;
                 int x = startX + col * (boxW + hGap);
                 int y = startY + row * (boxH + vGap);
-    
+
                 JPanel card = createWhiteBox(
                     x, y,
-                    s.planDetails.servicePlan,
-                    String.format("₱%,.2f", s.planDetails.serviceFee),
-                    s.planDetails.installFee,
+                    s.objPlanDetails.strServicePlan,
+                    String.format("₱%,.2f", s.objPlanDetails.dblServiceFee),
+                    s.objPlanDetails.strInstallFee,
                     s.strApplicationNo,
                     s.strDateSubmitted,
-                    s.planDetails.planId
+                    s.objPlanDetails.strPlanId
                 );
                 pnlContainer.add(card);
             }
         } else {
             // ─── 5 or more: scrollable 2-column grid ───────────
-            // 1) Build a JPanel with GridLayout(0,2)
             JPanel pnlGrid = new JPanel(new GridLayout(0, 2, hGap, vGap));
             pnlGrid.setOpaque(false);
             int rows = (int) Math.ceil(subs.size() / 2.0);
             int gridW = 2 * boxW + hGap;
             int gridH = rows * boxH + (rows - 1) * vGap;
             pnlGrid.setPreferredSize(new Dimension(gridW, gridH));
-    
+
             for (Subscription s : subs) {
-                // each card will auto–size via GridLayout
                 JPanel card = createWhiteBox(
                     0, 0,
-                    s.planDetails.servicePlan,
-                    String.format("₱%,.2f", s.planDetails.serviceFee),
-                    s.planDetails.installFee,
+                    s.objPlanDetails.strServicePlan,
+                    String.format("₱%,.2f", s.objPlanDetails.dblServiceFee),
+                    s.objPlanDetails.strInstallFee,
                     s.strApplicationNo,
                     s.strDateSubmitted,
-                    s.planDetails.planId
+                    s.objPlanDetails.strPlanId
                 );
                 pnlGrid.add(card);
             }
-    
-            // 2) Wrap it in a JScrollPane sized to show exactly 4 cards (2×2)
-            int viewportWidth  = 2 * boxW + hGap;
-            int viewportHeight = 2 * boxH + vGap;
+
             JScrollPane scrScroll = new JScrollPane(
                     pnlGrid,
                     JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                     JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-            scrScroll.setBounds(startX, startY, viewportWidth, viewportHeight);
+            scrScroll.setBounds(startX, startY, 2 * boxW + hGap, 2 * boxH + vGap);
             scrScroll.setBorder(null);
             scrScroll.setOpaque(false);
             scrScroll.getViewport().setOpaque(false);
@@ -137,13 +130,12 @@ public class AccountSubsPage extends Template {
             sbVertical.setOpaque(false);
             sbVertical.setPreferredSize(new Dimension(10, 0));
             sbVertical.setUnitIncrement(16);
-    
+
             pnlContainer.add(scrScroll);
         }
-    
+
         return pnlContainer;
     }
-    
 
     JPanel createWhiteBox(int x, int y, String product, String monthlyFee, String installFee,
                                   String appNo, String submittedDate, String planId) {
@@ -247,8 +239,6 @@ public class AccountSubsPage extends Template {
 
         return pnlApplicantBox;
     }
-
-    
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new AccountSubsPage().setVisible(true));
