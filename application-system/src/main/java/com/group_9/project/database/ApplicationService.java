@@ -423,12 +423,12 @@ public class ApplicationService {
     }
 
     public static class ApplicationInfo {
-        public final String applicationNo;
-        public final String applicationDate; // formatted M/d/yyyy
+        public final String strApplicationNo;
+        public final String strApplicationDate; // formatted M/d/yyyy
 
-        public ApplicationInfo(String no, String date) {
-            this.applicationNo   = no;
-            this.applicationDate = date;
+        public ApplicationInfo(String strNo, String strDate) {
+            this.strApplicationNo   = strNo;
+            this.strApplicationDate = strDate;
         }
     }
 
@@ -458,12 +458,12 @@ public class ApplicationService {
                     psApp.setString(1, strCustId);
                     try (ResultSet rsApp = psApp.executeQuery()) {
                         if (rsApp.next()) {
-                            String no = rsApp.getString("application_no");
+                            String strNo = rsApp.getString("application_no");
                             Timestamp ts = rsApp.getTimestamp("application_date");
-                            String date = LocalDateTime
+                            String strDate = LocalDateTime
                                 .ofInstant(ts.toInstant(), ZoneId.systemDefault())
                                 .format(DateTimeFormatter.ofPattern("M/d/yyyy"));
-                            return new ApplicationInfo(no, date);
+                            return new ApplicationInfo(strNo, strDate);
                         }
                     }
                 }

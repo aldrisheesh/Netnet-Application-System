@@ -284,19 +284,19 @@ public class AccountService {
     }
 
     public static class Subscription {
-        public final String applicationNo;
-        public final String dateSubmitted;
-        public final String status;
+        public final String strApplicationNo;
+        public final String strDateSubmitted;
+        public final String strStatus;
         public final PlanDetails planDetails;
 
-        public Subscription(String applicationNo,
-                            String dateSubmitted,
-                            String status,
+        public Subscription(String strApplicationNo,
+                            String strDateSubmitted,
+                            String strStatus,
                             PlanDetails planDetails) {
-            this.applicationNo = applicationNo;
-            this.dateSubmitted = dateSubmitted;
-            this.status        = status;
-            this.planDetails   = planDetails;
+            this.strApplicationNo = strApplicationNo;
+            this.strDateSubmitted = strDateSubmitted;
+            this.strStatus        = strStatus;
+            this.planDetails      = planDetails;
         }
     }
 
@@ -346,14 +346,14 @@ public class AccountService {
 
         /** Simple DTO for your applications (one row per application). */
         public static class ApplicationInfo {
-            public final String applicationNo;
-            public final String dateSubmitted;
-            public final String status;
-    
-            public ApplicationInfo(String applicationNo, String dateSubmitted, String status) {
-                this.applicationNo = applicationNo;
-                this.dateSubmitted = dateSubmitted;
-                this.status        = status;
+            public final String strApplicationNo;
+            public final String strDateSubmitted;
+            public final String strStatus;
+
+            public ApplicationInfo(String strApplicationNo, String strDateSubmitted, String strStatus) {
+                this.strApplicationNo = strApplicationNo;
+                this.strDateSubmitted = strDateSubmitted;
+                this.strStatus        = strStatus;
             }
         }
     

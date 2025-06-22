@@ -323,13 +323,13 @@ public class AddConfirm extends JFrame {
 
         String savedPlans = UserApplicationData.get("selectedPlans");
         if (savedPlans != null && !savedPlans.isEmpty()) {
-            String[] plans = savedPlans.split(",");
-            for (int i = 0; i < plans.length; i++) {
-                String plan = plans[i].trim();
-                pnlSummaryContent.add(new GridPanel(plan, ""));
-                pnlSummaryContent.add(new GridPanel("Monthly Service Fee", getPriceForPlan(plan)));
-                pnlSummaryContent.add(new GridPanel("Installation Fee", getInstallationFeeForPlan(plan)));
-                if (i < plans.length - 1) pnlSummaryContent.add(Box.createRigidArea(new Dimension(0, 20)));
+            String[] arrPlans = savedPlans.split(",");
+            for (int i = 0; i < arrPlans.length; i++) {
+                String strPlan = arrPlans[i].trim();
+                pnlSummaryContent.add(new GridPanel(strPlan, ""));
+                pnlSummaryContent.add(new GridPanel("Monthly Service Fee", getPriceForPlan(strPlan)));
+                pnlSummaryContent.add(new GridPanel("Installation Fee", getInstallationFeeForPlan(strPlan)));
+                if (i < arrPlans.length - 1) pnlSummaryContent.add(Box.createRigidArea(new Dimension(0, 20)));
             }
         }
 
@@ -549,8 +549,8 @@ public class AddConfirm extends JFrame {
         }
     }
 
-    private String getPriceForPlan(String planName) {
-        return switch (planName.toUpperCase()) {
+    private String getPriceForPlan(String strPlanName) {
+        return switch (strPlanName.toUpperCase()) {
             case "FIBERX 1500" -> "₱1500";
             case "FIBERX 2500" -> "₱2500";
             case "FIBERX 3500" -> "₱3500";
@@ -560,8 +560,8 @@ public class AddConfirm extends JFrame {
         };
     }
 
-    private String getInstallationFeeForPlan(String planName) {
-        return switch (planName.toUpperCase()) {
+    private String getInstallationFeeForPlan(String strPlanName) {
+        return switch (strPlanName.toUpperCase()) {
             case "FIBER XTREAM 4500", "FIBER XTREAM 7000" -> "WAIVED";
             case "FIBERX 1500", "FIBERX 2500" -> "₱125/24mo.";
             case "FIBERX 3500" -> "₱125/12mo.";

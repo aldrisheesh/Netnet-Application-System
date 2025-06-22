@@ -90,8 +90,8 @@ public class AccountSubsPage extends Template {
                     s.planDetails.servicePlan,
                     String.format("₱%,.2f", s.planDetails.serviceFee),
                     s.planDetails.installFee,
-                    s.applicationNo,
-                    s.dateSubmitted,
+                    s.strApplicationNo,
+                    s.strDateSubmitted,
                     s.planDetails.planId
                 );
                 pnlContainer.add(card);
@@ -113,8 +113,8 @@ public class AccountSubsPage extends Template {
                     s.planDetails.servicePlan,
                     String.format("₱%,.2f", s.planDetails.serviceFee),
                     s.planDetails.installFee,
-                    s.applicationNo,
-                    s.dateSubmitted,
+                    s.strApplicationNo,
+                    s.strDateSubmitted,
                     s.planDetails.planId
                 );
                 pnlGrid.add(card);
