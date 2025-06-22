@@ -85,15 +85,15 @@ public class SignUp1 extends JFrame {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        RoundedComponents.RoundedTextField txtUsername = createRoundedTextField("Username");
-        txtUsername.setName("Username");
+        RoundedComponents.RoundedTextField txtUsername = createRoundedTextField("strUsername");
+        txtUsername.setName("strUsername");
         ValidationUtil.addTextValidation(txtUsername, s -> !s.trim().isEmpty());
         pnlForm.add(txtUsername, gbc);
         ToolTipUtil.attachCustomTooltip(txtUsername, "Create a username");
 
         gbc.gridx = 1;
-        RoundedComponents.RoundedPasswordField txtPassword = createRoundedPasswordField("Password");
-        txtPassword.setName("Password");
+        RoundedComponents.RoundedPasswordField txtPassword = createRoundedPasswordField("strPassword");
+        txtPassword.setName("strPassword");
         ValidationUtil.addTextValidation(txtPassword, s -> s.length() >= 8);
         pnlForm.add(txtPassword, gbc);
         ToolTipUtil.attachCustomTooltip(txtPassword, "Create a password");
@@ -101,14 +101,14 @@ public class SignUp1 extends JFrame {
         gbc.gridx = 0;
         gbc.gridy++;
         RoundedComponents.RoundedTextField txtCustomerName = createRoundedTextField("Customer Name");
-        txtCustomerName.setName("CustomerName");
+        txtCustomerName.setName("strCustomerName");
         ValidationUtil.addTextValidation(txtCustomerName, s -> !s.trim().isEmpty());
         pnlForm.add(txtCustomerName, gbc);
         ToolTipUtil.attachCustomTooltip(txtCustomerName, "Enter your full name");
 
         gbc.gridx = 1;
         RoundedComponents.RoundedTextField txtBirthday = createRoundedTextField("Birthday (MM/dd/yyyy)");
-        txtBirthday.setName("Birthday");
+        txtBirthday.setName("strBirthday");
         ValidationUtil.addTextValidation(txtBirthday, s -> {
             if (!s.matches("^\\d{2}/\\d{2}/\\d{4}$")) return false;
         
@@ -147,8 +147,8 @@ public class SignUp1 extends JFrame {
                 FormComponent.createStyledComboBox("Select Civil Status", new String[]{"Single", "Married", "Divorced", "Widowed"});
         ValidationUtil.addComboBoxValidation(cboCivilStatus);
 
-        RoundedComponents.RoundedTextField txtNationality = createRoundedTextField("Nationality");
-        txtNationality.setName("Nationality");
+        RoundedComponents.RoundedTextField txtNationality = createRoundedTextField("strNationality");
+        txtNationality.setName("strNationality");
         ValidationUtil.addTextValidation(txtNationality, s -> !s.trim().isEmpty());
         pnlForm.add(createPairPanel(cboCivilStatus, txtNationality), gbc);
 
@@ -157,13 +157,13 @@ public class SignUp1 extends JFrame {
 
         gbc.gridx = 1;
         RoundedComponents.RoundedTextField txtMobileNo = createRoundedTextField("Mobile No.");
-        txtMobileNo.setName("Mobile");
+        txtMobileNo.setName("strMobile");
         ValidationUtil.addTextValidation(txtMobileNo, s -> s.matches("^\\+63\\s9\\d{2}-\\d{3}-\\d{4}$"));
         ((AbstractDocument) txtMobileNo.getDocument()).setDocumentFilter(new LengthLimitFilter(17));
         SmartFieldFormatter.attachMobileFormatter(txtMobileNo);
 
-        RoundedComponents.RoundedTextField txtEmail = createRoundedTextField("Email");
-        txtEmail.setName("Email");
+        RoundedComponents.RoundedTextField txtEmail = createRoundedTextField("strEmail");
+        txtEmail.setName("strEmail");
         ValidationUtil.addTextValidation(txtEmail, s -> s.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,}$"));
 
         pnlForm.add(createPairPanel(txtMobileNo, txtEmail), gbc);
@@ -173,14 +173,14 @@ public class SignUp1 extends JFrame {
         gbc.gridx = 0;
         gbc.gridy++;
         RoundedComponents.RoundedTextField txtMaidenName = createRoundedTextField("Full Mother's Maiden Name");
-        txtMaidenName.setName("MaidenName");
+        txtMaidenName.setName("strMaidenName");
         ValidationUtil.addTextValidation(txtMaidenName, s -> !s.trim().isEmpty());
         pnlForm.add(txtMaidenName, gbc);
         ToolTipUtil.attachCustomTooltip(txtMaidenName, "Enter your mother's maiden name");
 
         gbc.gridx = 1;
         RoundedComponents.RoundedTextField txtSpouseName = createRoundedTextField("Spouse Name (if married)");
-        txtSpouseName.setName("Spouse");
+        txtSpouseName.setName("strSpouse");
         pnlForm.add(txtSpouseName, gbc);
         ToolTipUtil.attachCustomTooltip(txtSpouseName, "Enter your spouse's name (if married)");
 
@@ -228,7 +228,7 @@ public class SignUp1 extends JFrame {
         
             for (JTextComponent field : inputFields) {
                 String strName = field.getName();
-                boolean boolOptional = strName != null && strName.equalsIgnoreCase("Spouse");
+                boolean boolOptional = strName != null && strName.equalsIgnoreCase("strSpouse");
                 boolean boolValid = boolOptional || !field.getText().trim().isEmpty();
         
                 if (field instanceof RoundedComponents.RoundedTextField textField) {
@@ -258,10 +258,10 @@ public class SignUp1 extends JFrame {
             for (JTextComponent field : inputFields) {
                 if (field.getName() == null) continue;
                 switch (field.getName()) {
-                    case "Password": strPassword = field.getText(); break;
-                    case "Mobile": strMobile = field.getText().trim(); break;
-                    case "Email": strEmail = field.getText().trim(); break;
-                    case "Birthday": strBirthdate = field.getText().trim(); break;
+                    case "strPassword": strPassword = field.getText(); break;
+                    case "strMobile": strMobile = field.getText().trim(); break;
+                    case "strEmail": strEmail = field.getText().trim(); break;
+                    case "strBirthday": strBirthdate = field.getText().trim(); break;
                 }
             }
             
@@ -341,17 +341,17 @@ public class SignUp1 extends JFrame {
             }
         
             // everything passed, proceed and store data
-            UserApplicationData.set("Username", txtUsername.getText().trim());
-            UserApplicationData.set("Password", txtPassword.getText());
-            UserApplicationData.set("CustomerName", txtCustomerName.getText().trim());
-            UserApplicationData.set("Birthday", txtBirthday.getText().trim());
-            UserApplicationData.set("Gender", (String) cboGender.getSelectedItem());
-            UserApplicationData.set("CivilStatus", (String) cboCivilStatus.getSelectedItem());
-            UserApplicationData.set("Nationality", txtNationality.getText().trim());
-            UserApplicationData.set("Mobile", txtMobileNo.getText().trim());
-            UserApplicationData.set("Email", txtEmail.getText().trim());
-            UserApplicationData.set("MaidenName", txtMaidenName.getText().trim());
-            UserApplicationData.set("Spouse", txtSpouseName.getText().trim());
+            UserApplicationData.set("strUsername", txtUsername.getText().trim());
+            UserApplicationData.set("strPassword", txtPassword.getText());
+            UserApplicationData.set("strCustomerName", txtCustomerName.getText().trim());
+            UserApplicationData.set("strBirthday", txtBirthday.getText().trim());
+            UserApplicationData.set("strGender", (String) cboGender.getSelectedItem());
+            UserApplicationData.set("strCivilStatus", (String) cboCivilStatus.getSelectedItem());
+            UserApplicationData.set("strNationality", txtNationality.getText().trim());
+            UserApplicationData.set("strMobile", txtMobileNo.getText().trim());
+            UserApplicationData.set("strEmail", txtEmail.getText().trim());
+            UserApplicationData.set("strMaidenName", txtMaidenName.getText().trim());
+            UserApplicationData.set("strSpouse", txtSpouseName.getText().trim());
         
             new SignUp2();
             dispose();
@@ -359,17 +359,17 @@ public class SignUp1 extends JFrame {
         
 
         // Restore Data
-        txtUsername.setText(UserApplicationData.get("Username"));
-        txtPassword.setText(UserApplicationData.get("Password"));
-        txtCustomerName.setText(UserApplicationData.get("CustomerName"));
-        txtBirthday.setText(UserApplicationData.get("Birthday"));
-        cboGender.setSelectedItem(UserApplicationData.get("Gender"));
-        cboCivilStatus.setSelectedItem(UserApplicationData.get("CivilStatus"));
-        txtNationality.setText(UserApplicationData.get("Nationality"));
-        txtMobileNo.setText(UserApplicationData.get("Mobile"));
-        txtEmail.setText(UserApplicationData.get("Email"));
-        txtMaidenName.setText(UserApplicationData.get("MaidenName"));
-        txtSpouseName.setText(UserApplicationData.get("Spouse"));
+        txtUsername.setText(UserApplicationData.get("strUsername"));
+        txtPassword.setText(UserApplicationData.get("strPassword"));
+        txtCustomerName.setText(UserApplicationData.get("strCustomerName"));
+        txtBirthday.setText(UserApplicationData.get("strBirthday"));
+        cboGender.setSelectedItem(UserApplicationData.get("strGender"));
+        cboCivilStatus.setSelectedItem(UserApplicationData.get("strCivilStatus"));
+        txtNationality.setText(UserApplicationData.get("strNationality"));
+        txtMobileNo.setText(UserApplicationData.get("strMobile"));
+        txtEmail.setText(UserApplicationData.get("strEmail"));
+        txtMaidenName.setText(UserApplicationData.get("strMaidenName"));
+        txtSpouseName.setText(UserApplicationData.get("strSpouse"));
 
         setVisible(true);
         SwingUtilities.invokeLater(() -> background.requestFocusInWindow());

@@ -139,7 +139,7 @@ public class AddConfirm extends JFrame {
         if (!validateAllFields()) return;
 
         // 2) Gather data
-        String appNo = UserApplicationData.get("ApplicationNo");
+        String appNo = UserApplicationData.get("strApplicationNo");
         if (appNo == null) {
             CustomDialogUtil.showStyledErrorDialog(this,
                 "Missing Application",
@@ -149,7 +149,7 @@ public class AddConfirm extends JFrame {
         }
 
         String paymentOpt = rbtnFull.isSelected() ? "full" : "installment";
-        String[] planIds = Optional.ofNullable(UserApplicationData.get("selectedPlanIDs"))
+        String[] planIds = Optional.ofNullable(UserApplicationData.get("strSelectedPlanIDs"))
                                    .map(s -> s.split(","))
                                    .orElse(new String[0]);
         if (planIds.length == 0) {
@@ -258,23 +258,23 @@ public class AddConfirm extends JFrame {
     }
 
     private void saveFormState() {
-        UserApplicationData.set("cardholderName", txtCardholderName.getText());
-        UserApplicationData.set("cardNumber",     txtCardNumber.getText());
-        UserApplicationData.set("expiryDate",     txtExpiryDate.getText());
-        UserApplicationData.set("cvv",            txtCvv.getText());
-        UserApplicationData.set("paymentOption", rbtnFull.isSelected()? "full":"installment");
+        UserApplicationData.set("strCardholderName", txtCardholderName.getText());
+        UserApplicationData.set("strCardNumber",     txtCardNumber.getText());
+        UserApplicationData.set("strExpiryDate",     txtExpiryDate.getText());
+        UserApplicationData.set("strCVV",            txtCvv.getText());
+        UserApplicationData.set("strPaymentOption", rbtnFull.isSelected()? "full":"installment");
     }
 
     private void loadFormState() {
-        Optional.ofNullable(UserApplicationData.get("cardholderName"))
+        Optional.ofNullable(UserApplicationData.get("strCardholderName"))
                 .ifPresent(txtCardholderName::setText);
-        Optional.ofNullable(UserApplicationData.get("cardNumber"))
+        Optional.ofNullable(UserApplicationData.get("strCardNumber"))
                 .ifPresent(txtCardNumber::setText);
-        Optional.ofNullable(UserApplicationData.get("expiryDate"))
+        Optional.ofNullable(UserApplicationData.get("strExpiryDate"))
                 .ifPresent(txtExpiryDate::setText);
-        Optional.ofNullable(UserApplicationData.get("cvv"))
+        Optional.ofNullable(UserApplicationData.get("strCVV"))
                 .ifPresent(txtCvv::setText);
-        String opt = UserApplicationData.get("paymentOption");
+        String opt = UserApplicationData.get("strPaymentOption");
         if ("full".equals(opt)) rbtnFull.setSelected(true);
         else if ("installment".equals(opt)) rbtnInstall.setSelected(true);
     }
@@ -321,7 +321,7 @@ public class AddConfirm extends JFrame {
         }});
         pnlSummaryContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        String savedPlans = UserApplicationData.get("selectedPlans");
+        String savedPlans = UserApplicationData.get("strSelectedPlans");
         if (savedPlans != null && !savedPlans.isEmpty()) {
             String[] arrPlans = savedPlans.split(",");
             for (int i = 0; i < arrPlans.length; i++) {

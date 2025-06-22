@@ -64,9 +64,9 @@ public class PaymentDao {
      * Convenience: pull parameters from UserApplicationData session.
      */
     public void insertCurrentUserPayments() throws SQLException {
-        String strAppNo   = UserApplicationData.get("applicationNo");
-        String strPlanIds = UserApplicationData.get("selectedPlanIDs");
-        String strOption  = UserApplicationData.get("paymentOption");
+        String strAppNo   = UserApplicationData.get("strApplicationNo");
+        String strPlanIds = UserApplicationData.get("strSelectedPlanIDs");
+        String strOption  = UserApplicationData.get("strPaymentOption");
         insertPayments(strAppNo, strPlanIds, strOption);
     }
 

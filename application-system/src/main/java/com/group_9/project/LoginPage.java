@@ -47,7 +47,7 @@ public class LoginPage extends JFrame {
         txtEmailField.setBounds(524, intYPos + 40, 375, 60);
         pnlBackground.add(txtEmailField);
 
-        RoundedComponents.RoundedPasswordField txtPassword = new RoundedComponents.RoundedPasswordField("Password", 20);
+        RoundedComponents.RoundedPasswordField txtPassword = new RoundedComponents.RoundedPasswordField("strPassword", 20);
         txtPassword.setFont(FontUtil.getInterFont(14f));
         txtPassword.setBounds(524, intYPos + 117, 375, 60);
         pnlBackground.add(txtPassword);
@@ -144,7 +144,7 @@ public class LoginPage extends JFrame {
                         ex.printStackTrace();
                     }
                 }
-                UserApplicationData.set("Username", actualUsername);
+                UserApplicationData.set("strUsername", actualUsername);
 
                 // 4) Retrieve internal customer_ID
                 String custId = LoginAuth.getCustomerId(userId);
@@ -167,17 +167,17 @@ public class LoginPage extends JFrame {
                             Timestamp ts = rs.getTimestamp("application_date");
                             String dateStr = new SimpleDateFormat("MM/dd/yyyy").format(ts);
 
-                            UserApplicationData.set("ApplicationNo", appNo);
-                            UserApplicationData.set("ApplicationDate", dateStr);
+                            UserApplicationData.set("strApplicationNo", appNo);
+                            UserApplicationData.set("strApplicationDate", dateStr);
                         } else {
-                            UserApplicationData.set("ApplicationNo", "");
-                            UserApplicationData.set("ApplicationDate", "");
+                            UserApplicationData.set("strApplicationNo", "");
+                            UserApplicationData.set("strApplicationDate", "");
                         }
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
-                    UserApplicationData.set("ApplicationNo", "");
-                    UserApplicationData.set("ApplicationDate", "");
+                    UserApplicationData.set("strApplicationNo", "");
+                    UserApplicationData.set("strApplicationDate", "");
                 }
 
                 // 6) Success → open TrackingPage

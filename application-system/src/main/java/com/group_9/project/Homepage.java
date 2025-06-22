@@ -104,7 +104,7 @@ public class Homepage extends JFrame {
         cmdGetStarted.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String appNo = UserApplicationData.get("ApplicationNo");
+                String appNo = UserApplicationData.get("strApplicationNo");
                 if (appNo != null && !appNo.isEmpty()) {
                     new TrackingPage().setVisible(true);
                 } else {

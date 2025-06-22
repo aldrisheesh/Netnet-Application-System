@@ -257,16 +257,16 @@ public class AccountAddressPage extends Template {
 
     private void populateFromSession() {
         // Basic address info
-        txtHomeOwnership.setText(UserApplicationData.get("HomeOwnership"));
-        txtCompanyPaid.setText(UserApplicationData.get("CompanyPaid"));
-        txtYearsResidency.setText(UserApplicationData.get("YearsOfResidency"));
+        txtHomeOwnership.setText(UserApplicationData.get("strHomeOwnership"));
+        txtCompanyPaid.setText(UserApplicationData.get("strCompanyPaid"));
+        txtYearsResidency.setText(UserApplicationData.get("intYearsOfResidency"));
 
         // Owner info
-        txtOwnerName.setText(UserApplicationData.get("NameOfOwner"));
-        txtContactNumber.setText(UserApplicationData.get("ContactNumber"));
+        txtOwnerName.setText(UserApplicationData.get("strNameOfOwner"));
+        txtContactNumber.setText(UserApplicationData.get("strContactNumber"));
 
         // Parse address components
-        String strFullAddress = UserApplicationData.get("ResidenceAddress");
+        String strFullAddress = UserApplicationData.get("strResidenceAddress");
         if (strFullAddress != null && !strFullAddress.isBlank()) {
             String[] arrParts = strFullAddress.split("\\s*,\\s*");
             if (arrParts.length >= 8) {

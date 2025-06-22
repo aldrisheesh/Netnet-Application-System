@@ -124,7 +124,7 @@ public class TrackingPage extends JFrame {
         txtSearchField.setBackground(Color.WHITE);
 
         // 1) Load all subscriptions (one per plan)
-        String username = UserApplicationData.get("Username");
+        String username = UserApplicationData.get("strUsername");
         List<Subscription> subs;
         try {
             subs = AccountService.getSubscriptionsByUsername(username);

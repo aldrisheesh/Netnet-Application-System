@@ -92,7 +92,7 @@ public class BaseFrameSetup {
     
     // Fixed: Added currentFrame parameter to properly dispose of the current frame
     public static JButton createLoginButton(BackgroundPanel pnlBackground, JFrame frmCurrent) {
-        String strAppNo = UserApplicationData.get("ApplicationNo");
+        String strAppNo = UserApplicationData.get("strApplicationNo");
         if (strAppNo != null && !strAppNo.isEmpty()) {
             JLabel lblAccount = new JLabel("Account");
             lblAccount.setFont(FontUtil.getOutfitFont(16f));
@@ -155,7 +155,7 @@ public class BaseFrameSetup {
     private static void navigateToPage(String strDestination, JFrame frmCurrent) {
         switch (strDestination) {
             case "Home" -> {
-                String strAppNo = UserApplicationData.get("ApplicationNo");
+                String strAppNo = UserApplicationData.get("strApplicationNo");
                 if (strAppNo != null && !strAppNo.isEmpty()) {
                     new TrackingPage().setVisible(true);
                 } else {

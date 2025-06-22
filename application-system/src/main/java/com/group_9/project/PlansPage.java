@@ -199,7 +199,7 @@ public class PlansPage extends JFrame {
         cmdNextButton.setBorderColor(Color.decode("#2A0243"));
         // on click → go to SignUp1
         cmdNextButton.addActionListener(e -> {
-            String appNo = UserApplicationData.get("ApplicationNo");
+            String appNo = UserApplicationData.get("strApplicationNo");
             if (appNo != null && !appNo.isEmpty()) {
                 new AddPlansPage().setVisible(true);
             } else {
