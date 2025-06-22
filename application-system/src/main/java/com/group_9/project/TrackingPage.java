@@ -16,112 +16,112 @@ public class TrackingPage extends JFrame {
 
     public TrackingPage() {
         BaseFrameSetup.applyAppIcon(this);
-        BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
+        BackgroundPanel pnlBackground = BaseFrameSetup.setupCompleteFrame(this, 1);
 
         // ─── Headline & Subheadline ───────────────────────────────────────────────
-        JLabel headline = new JLabel(
+        JLabel lblHeadline = new JLabel(
             "<html><div style='text-align:center;color:#2B0243;font-weight:700;'>"
           + "Supercharge your home with<br>ultra-fast internet and endless entertainment."
           + "</div></html>",
             SwingConstants.CENTER
         );
-        headline.setFont(FontUtil.getOutfitFont(50f));
-        headline.setForeground(new Color(0x2B0243));
-        headline.setBounds(112, 220, 1200, 120);
-        background.add(headline);
+        lblHeadline.setFont(FontUtil.getOutfitFont(50f));
+        lblHeadline.setForeground(new Color(0x2B0243));
+        lblHeadline.setBounds(112, 220, 1200, 120);
+        pnlBackground.add(lblHeadline);
 
-        JLabel subHeadline = new JLabel(
+        JLabel lblSubHeadline = new JLabel(
             "Enjoy faster speed, and incredible value with our plans.",
             SwingConstants.CENTER
         );
-        subHeadline.setFont(FontUtil.getInterFont(16f));
-        subHeadline.setBounds(420, 350, 600, 30);
-        background.add(subHeadline);
+        lblSubHeadline.setFont(FontUtil.getInterFont(16f));
+        lblSubHeadline.setBounds(420, 350, 600, 30);
+        pnlBackground.add(lblSubHeadline);
 
         // ─── CTA Buttons ─────────────────────────────────────────────────────────
-        JButton viewPlans = new JButton("VIEW PLANS");
-        viewPlans.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
-        viewPlans.setBounds(530, 400, 160, 45);
-        viewPlans.setFocusPainted(false);
+        JButton cmdViewPlans = new JButton("VIEW PLANS");
+        cmdViewPlans.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
+        cmdViewPlans.setBounds(530, 400, 160, 45);
+        cmdViewPlans.setFocusPainted(false);
         ButtonHoverEffect.apply(
-            viewPlans,
+            cmdViewPlans,
             new Color(62, 10, 118), Color.WHITE,
             new Color(42, 2, 67),  Color.WHITE,
             new Color(62, 10, 118), new Color(42, 2, 67)
         );
-        viewPlans.addActionListener(e -> { new PlansPage().setVisible(true); dispose(); });
-        background.add(viewPlans);
+        cmdViewPlans.addActionListener(e -> { new PlansPage().setVisible(true); dispose(); });
+        pnlBackground.add(cmdViewPlans);
 
-        JButton checkAvail = new JButton("CHECK AVAILABILITY");
-        checkAvail.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
-        checkAvail.setBounds(700, 400, 220, 45);
-        checkAvail.setFocusPainted(false);
-        checkAvail.setContentAreaFilled(false);
+        JButton cmdCheckAvail = new JButton("CHECK AVAILABILITY");
+        cmdCheckAvail.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
+        cmdCheckAvail.setBounds(700, 400, 220, 45);
+        cmdCheckAvail.setFocusPainted(false);
+        cmdCheckAvail.setContentAreaFilled(false);
         ButtonHoverEffect.apply(
-            checkAvail,
+            cmdCheckAvail,
             new Color(62, 10, 118), new Color(62, 10, 118),
             new Color(0,0,0,0),    new Color(38,6,67),
             new Color(62,10,118),  new Color(42,2,67)
         );
-        checkAvail.addActionListener(e -> { new ErrorPage().setVisible(true); dispose(); });
-        background.add(checkAvail);
+        cmdCheckAvail.addActionListener(e -> { new ErrorPage().setVisible(true); dispose(); });
+        pnlBackground.add(cmdCheckAvail);
 
         // ─── WiFi Icon ───────────────────────────────────────────────────────────
         ImageIcon wifiRaw = new ImageIcon(
             getClass().getClassLoader().getResource("images/wifi.png")
         );
         Image wifiImg2 = wifiRaw.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-        JLabel wifiLabel = new JLabel(new ImageIcon(wifiImg2));
-        wifiLabel.setBounds(302, 495, 200, 200);
-        background.add(wifiLabel);
+        JLabel lblWifi = new JLabel(new ImageIcon(wifiImg2));
+        lblWifi.setBounds(302, 495, 200, 200);
+        pnlBackground.add(lblWifi);
 
         // ─── Upgrade CTA ─────────────────────────────────────────────────────────
         int xLeft = 140, yLeft = 780;
-        JLabel upgradeTitle = new JLabel(
+        JLabel lblUpgradeTitle = new JLabel(
             "<html><div style='text-align:left;color:#2B0243;font-weight:700;'>"
           + "Ready to Upgrade Your Setup?</div></html>"
         );
-        upgradeTitle.setFont(FontUtil.getInterFont(35f));
-        upgradeTitle.setForeground(new Color(43, 2, 67));
-        upgradeTitle.setBounds(xLeft, yLeft - 50, 600, 45);
-        background.add(upgradeTitle);
+        lblUpgradeTitle.setFont(FontUtil.getInterFont(35f));
+        lblUpgradeTitle.setForeground(new Color(43, 2, 67));
+        lblUpgradeTitle.setBounds(xLeft, yLeft - 50, 600, 45);
+        pnlBackground.add(lblUpgradeTitle);
 
-        JLabel upgradeDesc = new JLabel(
+        JLabel lblUpgradeDesc = new JLabel(
             "<html>Start with one, then add more plans as your<br>needs grow.</html>"
         );
-        upgradeDesc.setFont(FontUtil.getInterFont(16f));
-        upgradeDesc.setForeground(new Color(43, 2, 67));
-        upgradeDesc.setBounds(xLeft, yLeft, 450, 50);
-        background.add(upgradeDesc);
+        lblUpgradeDesc.setFont(FontUtil.getInterFont(16f));
+        lblUpgradeDesc.setForeground(new Color(43, 2, 67));
+        lblUpgradeDesc.setBounds(xLeft, yLeft, 450, 50);
+        pnlBackground.add(lblUpgradeDesc);
 
-        RoundedComponents.RoundedButton morePlans = new RoundedComponents.RoundedButton("GET MORE PLANS", 20);
-        morePlans.setFont(FontUtil.getOutfitFont(14f).deriveFont(Font.BOLD));
-        morePlans.setBounds(xLeft, yLeft + 60, 160, 40);
-        morePlans.setFocusPainted(false);
+        RoundedComponents.RoundedButton cmdMorePlans = new RoundedComponents.RoundedButton("GET MORE PLANS", 20);
+        cmdMorePlans.setFont(FontUtil.getOutfitFont(14f).deriveFont(Font.BOLD));
+        cmdMorePlans.setBounds(xLeft, yLeft + 60, 160, 40);
+        cmdMorePlans.setFocusPainted(false);
         ButtonHoverEffect.apply(
-            morePlans,
+            cmdMorePlans,
             new Color(62, 10, 118), Color.WHITE,
             new Color(42, 2, 67),  Color.WHITE,
             new Color(62, 10, 118), new Color(42, 2, 67)
         );
-        morePlans.addActionListener(e -> { new PlansPage().setVisible(true); dispose(); });
-        background.add(morePlans);
+        cmdMorePlans.addActionListener(e -> { new PlansPage().setVisible(true); dispose(); });
+        pnlBackground.add(cmdMorePlans);
 
         // ─────────────────────────────────────────────────────────────────────────
         // APPLICATION TRACKER panel (dynamic, one card per application)
         // ─────────────────────────────────────────────────────────────────────────
 
         // Title + search field
-        JLabel trackerTitle = new JLabel(
+        JLabel lblTrackerTitle = new JLabel(
           "<html><div style='color:#2A0243;font-weight:700;'>APPLICATION TRACKER</div></html>",
           SwingConstants.CENTER
         );
-        trackerTitle.setFont(FontUtil.getOutfitFont(26f));
+        lblTrackerTitle.setFont(FontUtil.getOutfitFont(26f));
 
-        RoundedComponents.RoundedTextField searchField =
+        RoundedComponents.RoundedTextField txtSearchField =
             new RoundedComponents.RoundedTextField("Enter application number", 20);
-        searchField.setFont(FontUtil.getInterFont(14f));
-        searchField.setBackground(Color.WHITE);
+        txtSearchField.setFont(FontUtil.getInterFont(14f));
+        txtSearchField.setBackground(Color.WHITE);
 
         // 1) Load all subscriptions (one per plan)
         String username = UserApplicationData.get("Username");
@@ -141,85 +141,85 @@ public class TrackingPage extends JFrame {
         List<Subscription> apps = new ArrayList<>(unique.values());
 
         // 3) Build cards container
-        JPanel cardsContainer = new JPanel();
-        cardsContainer.setLayout(new BoxLayout(cardsContainer, BoxLayout.Y_AXIS));
-        cardsContainer.setOpaque(false);
+        JPanel pnlCardsContainer = new JPanel();
+        pnlCardsContainer.setLayout(new BoxLayout(pnlCardsContainer, BoxLayout.Y_AXIS));
+        pnlCardsContainer.setOpaque(false);
 
         if (apps.isEmpty()) {
-            JLabel none = new JLabel("You have no applications to track.");
-            none.setFont(FontUtil.getOutfitFont(16f));
-            none.setForeground(new Color(80,80,80));
-            none.setAlignmentX(Component.CENTER_ALIGNMENT);
-            cardsContainer.add(Box.createVerticalGlue());
-            cardsContainer.add(none);
-            cardsContainer.add(Box.createVerticalGlue());
+            JLabel lblNone = new JLabel("You have no applications to track.");
+            lblNone.setFont(FontUtil.getOutfitFont(16f));
+            lblNone.setForeground(new Color(80,80,80));
+            lblNone.setAlignmentX(Component.CENTER_ALIGNMENT);
+            pnlCardsContainer.add(Box.createVerticalGlue());
+            pnlCardsContainer.add(lblNone);
+            pnlCardsContainer.add(Box.createVerticalGlue());
         } else {
             for (Subscription s : apps) {
-                RoundedGradientPanel card = new RoundedGradientPanel(20);
-                card.setLayout(null);
-                card.setPreferredSize(new Dimension(887, 90));
-                card.setMaximumSize(new Dimension(887, 90));
+                RoundedGradientPanel pnlCard = new RoundedGradientPanel(20);
+                pnlCard.setLayout(null);
+                pnlCard.setPreferredSize(new Dimension(887, 90));
+                pnlCard.setMaximumSize(new Dimension(887, 90));
 
-                JLabel appNumberLbl = new JLabel("Application No. " + s.applicationNo);
-                appNumberLbl.setFont(FontUtil.getOutfitFont(14f).deriveFont(Font.BOLD));
-                appNumberLbl.setForeground(Color.WHITE);
-                appNumberLbl.setBounds(20, 15, 300, 20);
-                card.add(appNumberLbl);
+                JLabel lblAppNumber = new JLabel("Application No. " + s.applicationNo);
+                lblAppNumber.setFont(FontUtil.getOutfitFont(14f).deriveFont(Font.BOLD));
+                lblAppNumber.setForeground(Color.WHITE);
+                lblAppNumber.setBounds(20, 15, 300, 20);
+                pnlCard.add(lblAppNumber);
 
-                JLabel appStatusLbl = new JLabel("Status: Pending");
-                appStatusLbl.setFont(FontUtil.getInterFont(12f));
-                appStatusLbl.setForeground(Color.WHITE);
-                appStatusLbl.setBounds(20, 38, 300, 18);
-                card.add(appStatusLbl);
+                JLabel lblAppStatus = new JLabel("Status: Pending");
+                lblAppStatus.setFont(FontUtil.getInterFont(12f));
+                lblAppStatus.setForeground(Color.WHITE);
+                lblAppStatus.setBounds(20, 38, 300, 18);
+                pnlCard.add(lblAppStatus);
 
-                JLabel appDateLbl = new JLabel("Date Submitted: " + s.dateSubmitted);
-                appDateLbl.setFont(FontUtil.getInterFont(12f));
-                appDateLbl.setForeground(Color.WHITE);
-                appDateLbl.setBounds(20, 58, 300, 18);
-                card.add(appDateLbl);
+                JLabel lblAppDate = new JLabel("Date Submitted: " + s.dateSubmitted);
+                lblAppDate.setFont(FontUtil.getInterFont(12f));
+                lblAppDate.setForeground(Color.WHITE);
+                lblAppDate.setBounds(20, 58, 300, 18);
+                pnlCard.add(lblAppDate);
 
-                JLabel viewSummary = new JLabel("<html><u>View Plan Summary</u></html>");
-                viewSummary.setFont(FontUtil.getInterFont(12f));
-                viewSummary.setForeground(Color.WHITE);
-                viewSummary.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                viewSummary.setBounds(250, 58, 130, 18);
-                card.add(viewSummary);
+                JLabel lblViewSummary = new JLabel("<html><u>View Plan Summary</u></html>");
+                lblViewSummary.setFont(FontUtil.getInterFont(12f));
+                lblViewSummary.setForeground(Color.WHITE);
+                lblViewSummary.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                lblViewSummary.setBounds(250, 58, 130, 18);
+                pnlCard.add(lblViewSummary);
 
-                cardsContainer.add(card);
-                cardsContainer.add(Box.createRigidArea(new Dimension(0, 15)));
+                pnlCardsContainer.add(pnlCard);
+                pnlCardsContainer.add(Box.createRigidArea(new Dimension(0, 15)));
             }
         }
 
         // 4) Wrap in scroll pane
-        JScrollPane scroll = new JScrollPane(
-            cardsContainer,
+        JScrollPane scrCards = new JScrollPane(
+            pnlCardsContainer,
             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
         );
-        scroll.setBorder(null);
-        scroll.setOpaque(false);
-        scroll.getViewport().setOpaque(false);
+        scrCards.setBorder(null);
+        scrCards.setOpaque(false);
+        scrCards.getViewport().setOpaque(false);
 
         // 5) Put everything in your tracker panel
-        RoundedPanel trackerPanel = new RoundedPanel(30) {
+        RoundedPanel pnlTracker = new RoundedPanel(30) {
             @Override public void doLayout() {
                 int pad = 20;
                 int w   = getWidth() - 2 * pad;
-                trackerTitle.setBounds(pad, 20, w, 30);
-                searchField .setBounds(pad, 60, w, 35);
-                scroll      .setBounds(pad, 110, w, getHeight() - 110 - pad);
+                lblTrackerTitle.setBounds(pad, 20, w, 30);
+                txtSearchField.setBounds(pad, 60, w, 35);
+                scrCards.setBounds(pad, 110, w, getHeight() - 110 - pad);
             }
         };
-        trackerPanel.setBackground(new Color(255, 255, 255, 180));
-        trackerPanel.setBounds(800, 515, 484, 350);
-        trackerPanel.setLayout(null);
+        pnlTracker.setBackground(new Color(255, 255, 255, 180));
+        pnlTracker.setBounds(800, 515, 484, 350);
+        pnlTracker.setLayout(null);
 
-        trackerPanel.add(trackerTitle);
-        trackerPanel.add(searchField);
-        trackerPanel.add(scroll);
-        background.add(trackerPanel);
+        pnlTracker.add(lblTrackerTitle);
+        pnlTracker.add(txtSearchField);
+        pnlTracker.add(scrCards);
+        pnlBackground.add(pnlTracker);
 
-        SwingUtilities.invokeLater(background::requestFocusInWindow);
+        SwingUtilities.invokeLater(pnlBackground::requestFocusInWindow);
     }
 
     public static void main(String[] args) {
