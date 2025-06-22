@@ -178,7 +178,7 @@ public class RoundedComponents {
                 FontMetrics fm = g2.getFontMetrics();
                 int x = getInsets().left;
                 int y = getHeight() / 2 + fm.getAscent() / 2 - 2;
-                g2.drawString(placeholder, x, y);
+                g2.drawString(strPlaceholder, x, y);
             }
     
             int iconSize = 18;
