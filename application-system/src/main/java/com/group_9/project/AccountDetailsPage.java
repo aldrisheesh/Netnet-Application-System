@@ -126,6 +126,7 @@ public class AccountDetailsPage extends Template {
         int intYRight = 150;
         for (int i = 0; i < arrRightLabels.length; i++) {
             String labelText = arrRightLabels[i];
+
             JLabel lblLabel = new JLabel(labelText);
             lblLabel.setFont(FontUtil.getOutfitBoldFont(13f));
             lblLabel.setForeground(new Color(42, 2, 67));
@@ -150,6 +151,7 @@ public class AccountDetailsPage extends Template {
     
                 SmartFieldFormatter.attachDateFormatter(txtBdayField);
                 ValidationUtil.addTextValidation(txtBdayField, pnlBdayWrapper, s -> {
+
                     if (!s.matches("^\\d{2}/\\d{2}/\\d{4}$")) return false;
                     try {
                         Date dob = new SimpleDateFormat("MM/dd/yy").parse(s);
@@ -176,6 +178,7 @@ public class AccountDetailsPage extends Template {
                 intYRight += 77;
                 i++;
             } else if (labelText.equals("CIVIL STATUS")) {
+              
                 lblLabel.setBounds(490, intYRight + 5, 150, 20);
                 pnlDetailsContainer.add(lblLabel);
     
@@ -211,6 +214,7 @@ public class AccountDetailsPage extends Template {
                 intYRight += 74;
                 i++;
             } else {
+
                 lblLabel.setBounds(490, intYRight + 10, 270, 20);
                 pnlDetailsContainer.add(lblLabel);
     

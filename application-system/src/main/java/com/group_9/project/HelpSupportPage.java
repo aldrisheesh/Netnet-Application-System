@@ -16,47 +16,47 @@ public class HelpSupportPage extends JFrame {
 
     public HelpSupportPage() {
         BaseFrameSetup.applyAppIcon(this);
-        BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
+        BackgroundPanel pnlBackground = BaseFrameSetup.setupCompleteFrame(this, 1);
 
         // Page headline
-        JLabel headline = new JLabel("Hello, How Can We Help You?", SwingConstants.CENTER);
-        headline.setFont(FontUtil.getOutfitBoldFont(50f).deriveFont(Font.BOLD));
-        headline.setForeground(new Color(42, 2, 67));
-        headline.setBounds(0, 160, 1424, 50);
-        background.add(headline);
+        JLabel lblHeadline = new JLabel("Hello, How Can We Help You?", SwingConstants.CENTER);
+        lblHeadline.setFont(FontUtil.getOutfitBoldFont(50f).deriveFont(Font.BOLD));
+        lblHeadline.setForeground(new Color(42, 2, 67));
+        lblHeadline.setBounds(0, 160, 1424, 50);
+        pnlBackground.add(lblHeadline);
 
         // Search Field Panel
-        JPanel searchPanel = new JPanel(null);
-        searchPanel.setBounds(325, 230, 775, 60); 
-        searchPanel.setOpaque(false);
-        searchPanel.setLayout(null);
+        JPanel pnlSearchPanel = new JPanel(null);
+        pnlSearchPanel.setBounds(325, 230, 775, 60);
+        pnlSearchPanel.setOpaque(false);
+        pnlSearchPanel.setLayout(null);
 
         // Rounded Search Field (shortened to leave space for icon)
-        RoundedTextField searchField = new RoundedTextField("Search your keyword here...", 20);
-        searchField.setFont(FontUtil.getInterFont(20f));
-        searchField.setForeground(Color.BLACK);
-        searchField.setBounds(0, 0, 775, 60);
-        searchField.setBackground(new Color(255, 255, 255, 180));
-        searchPanel.add(searchField);
+        RoundedTextField txtSearchField = new RoundedTextField("Search your keyword here...", 20);
+        txtSearchField.setFont(FontUtil.getInterFont(20f));
+        txtSearchField.setForeground(Color.BLACK);
+        txtSearchField.setBounds(0, 0, 775, 60);
+        txtSearchField.setBackground(new Color(255, 255, 255, 180));
+        pnlSearchPanel.add(txtSearchField);
 
-        searchField.setFocusable(false);
-        SwingUtilities.invokeLater(() -> searchField.setFocusable(true));
+        txtSearchField.setFocusable(false);
+        SwingUtilities.invokeLater(() -> txtSearchField.setFocusable(true));
         
         ImageIcon rawIcon = new ImageIcon(getClass().getClassLoader().getResource("icons/search.png"));
         Image scaled = rawIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon = new ImageIcon(scaled);
 
         // Create icon label
-        JLabel searchIcon = new JLabel(resizedIcon);
+        JLabel lblSearchIcon = new JLabel(resizedIcon);
         int iconSize = 30;
         int iconX = 775 - iconSize - 20; 
         int iconY = (60 - iconSize) / 2; 
 
-        searchIcon.setBounds(iconX, iconY, iconSize, iconSize);
-        searchPanel.add(searchIcon);
+        lblSearchIcon.setBounds(iconX, iconY, iconSize, iconSize);
+        pnlSearchPanel.add(lblSearchIcon);
 
 
-        background.add(searchPanel);
+        pnlBackground.add(pnlSearchPanel);
 
 
         // Cards container
@@ -78,49 +78,49 @@ public class HelpSupportPage extends JFrame {
         int startX = 92; 
         
         for (int i = 0; i < 3; i++) {
-            RoundedPanel card = new RoundedPanel(30);
-            card.setBounds(startX + i * (cardWidth + spacingBetweenCards), 350, cardWidth, cardHeight);
-            card.setBackground(Color.WHITE);
-            card.setLayout(null);
+            RoundedPanel pnlCard = new RoundedPanel(30);
+            pnlCard.setBounds(startX + i * (cardWidth + spacingBetweenCards), 350, cardWidth, cardHeight);
+            pnlCard.setBackground(Color.WHITE);
+            pnlCard.setLayout(null);
             
             // Icon (120x120 centered)
             ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(iconPaths[i]));
             Image img = icon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
-            JLabel iconLabel = new JLabel(new ImageIcon(img));
-            iconLabel.setBounds((cardWidth - 120) / 2, 15, 120, 120);
-            card.add(iconLabel);
+            JLabel lblIcon = new JLabel(new ImageIcon(img));
+            lblIcon.setBounds((cardWidth - 120) / 2, 15, 120, 120);
+            pnlCard.add(lblIcon);
         
             // Title
-            JLabel titleLabel = new JLabel(titles[i], SwingConstants.CENTER);
-            titleLabel.setFont(FontUtil.getOutfitBoldFont(26f).deriveFont(Font.BOLD));
-            titleLabel.setForeground(new Color(42, 2, 67));
-            titleLabel.setBounds(0, 145, cardWidth, 35);
-            card.add(titleLabel);
+            JLabel lblTitle = new JLabel(titles[i], SwingConstants.CENTER);
+            lblTitle.setFont(FontUtil.getOutfitBoldFont(26f).deriveFont(Font.BOLD));
+            lblTitle.setForeground(new Color(42, 2, 67));
+            lblTitle.setBounds(0, 145, cardWidth, 35);
+            pnlCard.add(lblTitle);
         
             // Description
-            JLabel descLabel = new JLabel(descriptions[i], SwingConstants.CENTER);
-            descLabel.setFont(FontUtil.getInterFont(15f));
-            descLabel.setForeground(Color.DARK_GRAY);
-            descLabel.setBounds(25, 185, cardWidth - 50, 100); // horizontal padding
-            card.add(descLabel);
+            JLabel lblDesc = new JLabel(descriptions[i], SwingConstants.CENTER);
+            lblDesc.setFont(FontUtil.getInterFont(15f));
+            lblDesc.setForeground(Color.DARK_GRAY);
+            lblDesc.setBounds(25, 185, cardWidth - 50, 100); // horizontal padding
+            pnlCard.add(lblDesc);
         
-            background.add(card);
+            pnlBackground.add(pnlCard);
         }
         
         
 
         // Footer link
-        JLabel footer = new JLabel(
+        JLabel lblFooter = new JLabel(
             "<html><div style='text-align:center;'>" +
             "<span style='font-weight:500;color:#1E1E1E;'>Have more questions? </span>" +
             "<span style='font-weight:500;color:#623CBB;'>Submit a Request</span>" +
             "</div></html>",
             SwingConstants.CENTER
         );
-        footer.setFont(FontUtil.getInterFont(26f));
-        footer.setBounds(0, 750, 1440, 30);
-        footer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        background.add(footer);
+        lblFooter.setFont(FontUtil.getInterFont(26f));
+        lblFooter.setBounds(0, 750, 1440, 30);
+        lblFooter.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        pnlBackground.add(lblFooter);
         
     }
 
