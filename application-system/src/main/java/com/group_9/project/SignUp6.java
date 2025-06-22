@@ -111,10 +111,10 @@ public class SignUp6 extends JFrame {
         ApplicationInfo objInfo = ApplicationService.getLatestApplicationFor(strUsername);
 
         String strAppNumber = (objInfo != null)
-            ? objInfo.applicationNo
+            ? objInfo.strApplicationNo
             : "N/A";
         String strAppDate = (objInfo != null)
-            ? objInfo.applicationDate
+            ? objInfo.strApplicationDate
             : LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("M/d/yyyy"));
 

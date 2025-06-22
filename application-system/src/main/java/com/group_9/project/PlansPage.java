@@ -117,12 +117,12 @@ public class PlansPage extends JFrame {
     }
 
     private JPanel createPlanCard(
-            String planName,
-            String price,
-            String period,
-            String installationFee,
-            String description,
-            String upfrontFee
+            String strPlanName,
+            String strPrice,
+            String strPeriod,
+            String strInstallationFee,
+            String strDescription,
+            String strUpfrontFee
     ) {
         JPanel pnlCard = new JPanel();
         pnlCard.setLayout(new BoxLayout(pnlCard, BoxLayout.Y_AXIS));
@@ -132,7 +132,7 @@ public class PlansPage extends JFrame {
                 new RoundedComponents.RoundedBorder(15),
                 BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 
-        JLabel lblName = new JLabel(planName);
+        JLabel lblName = new JLabel(strPlanName);
         lblName.setFont(FontUtil.getOutfitBoldFont(18f));
         lblName.setForeground(Color.decode("#402F84"));
         lblName.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -143,11 +143,11 @@ public class PlansPage extends JFrame {
         pnlPrice.setLayout(new BoxLayout(pnlPrice, BoxLayout.X_AXIS));
         pnlPrice.setOpaque(false);
         pnlPrice.setAlignmentX(Component.LEFT_ALIGNMENT);
-        pnlPrice.add(new JLabel(price) {{
+        pnlPrice.add(new JLabel(strPrice) {{
             setFont(FontUtil.getOutfitBoldFont(50f));
             setForeground(Color.decode("#1E1E1E"));
         }});
-        pnlPrice.add(new JLabel(period) {{
+        pnlPrice.add(new JLabel(strPeriod) {{
             setFont(FontUtil.getInterFont(16f));
             setForeground(Color.decode("#1E1E1E"));
             setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 0));
@@ -155,14 +155,14 @@ public class PlansPage extends JFrame {
         pnlCard.add(pnlPrice);
 
         pnlCard.add(Box.createRigidArea(new Dimension(0, 10)));
-        pnlCard.add(new JLabel(installationFee) {{
+        pnlCard.add(new JLabel(strInstallationFee) {{
             setFont(FontUtil.getInterFont(16f));
             setForeground(Color.decode("#1E1E1E"));
             setAlignmentX(Component.LEFT_ALIGNMENT);
         }});
         pnlCard.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        JTextArea txtaDesc = new JTextArea(description);
+        JTextArea txtaDesc = new JTextArea(strDescription);
         txtaDesc.setFont(FontUtil.getInterFont(16f));
         txtaDesc.setForeground(Color.decode("#1E1E1E"));
         txtaDesc.setOpaque(false);
@@ -180,7 +180,7 @@ public class PlansPage extends JFrame {
             setForeground(Color.decode("#1E1E1E"));
             setAlignmentX(Component.LEFT_ALIGNMENT);
         }});
-        pnlCard.add(new JLabel(upfrontFee) {{
+        pnlCard.add(new JLabel(strUpfrontFee) {{
             setFont(FontUtil.getInterFont(16f));
             setForeground(Color.decode("#1E1E1E"));
             setAlignmentX(Component.LEFT_ALIGNMENT);

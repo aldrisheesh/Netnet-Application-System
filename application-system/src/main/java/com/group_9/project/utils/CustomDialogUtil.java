@@ -6,13 +6,13 @@ import java.awt.event.ActionEvent;
 
 public class CustomDialogUtil {
 
-    public static void showStyledErrorDialog(JFrame parent, String title, String message) {
+    public static void showStyledErrorDialog(JFrame frmParent, String strTitle, String strMessage) {
         final int WIDTH = 440;
         final int HEIGHT = 260;
         final int BORDER_RADIUS = 30;
 
         // Create a transparent background overlay window
-        JDialog dlgOverlay = new JDialog(parent, true);
+        JDialog dlgOverlay = new JDialog(frmParent, true);
         dlgOverlay.setUndecorated(true);
         dlgOverlay.setBackground(new Color(0, 0, 0, 80)); // semi-transparent black
         dlgOverlay.setLayout(null);
@@ -61,12 +61,12 @@ public class CustomDialogUtil {
         lblIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
-        JLabel lblTitle = new JLabel(title);
+        JLabel lblTitle = new JLabel(strTitle);
         lblTitle.setFont(FontUtil.getOutfitBoldFont(20f));
         lblTitle.setForeground(new Color(43, 2, 67));
         lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel lblMessage = new JLabel("<html><div style='text-align: center;'>" + message + "</div></html>");
+        JLabel lblMessage = new JLabel("<html><div style='text-align: center;'>" + strMessage + "</div></html>");
         lblMessage.setFont(FontUtil.getInterFont(14f));
         lblMessage.setForeground(new Color(50, 46, 46));
         lblMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -118,13 +118,13 @@ public class CustomDialogUtil {
         dlgOverlay.setVisible(true);
     }
 
-    public static void showStyledInfoDialog(JFrame parent, String title, String message) {
+    public static void showStyledInfoDialog(JFrame frmParent, String strTitle, String strMessage) {
         final int WIDTH = 440;
         final int HEIGHT = 260;
         final int BORDER_RADIUS = 30;
 
         // Create a transparent background overlay window
-        JDialog dlgOverlay = new JDialog(parent, true);
+        JDialog dlgOverlay = new JDialog(frmParent, true);
         dlgOverlay.setUndecorated(true);
         dlgOverlay.setBackground(new Color(0, 0, 0, 80)); // semi-transparent black
         dlgOverlay.setLayout(null);
@@ -173,12 +173,12 @@ public class CustomDialogUtil {
         lblIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
-        JLabel lblTitle = new JLabel(title);
+        JLabel lblTitle = new JLabel(strTitle);
         lblTitle.setFont(FontUtil.getOutfitBoldFont(20f));
         lblTitle.setForeground(new Color(43, 2, 67));
         lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel lblMessage = new JLabel("<html><div style='text-align: center;'>" + message + "</div></html>");
+        JLabel lblMessage = new JLabel("<html><div style='text-align: center;'>" + strMessage + "</div></html>");
         lblMessage.setFont(FontUtil.getInterFont(14f));
         lblMessage.setForeground(new Color(50, 46, 46));
         lblMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -229,13 +229,13 @@ public class CustomDialogUtil {
         dlgOverlay.add(pnlDialog);
         dlgOverlay.setVisible(true);
     }
-    public static boolean showStyledConfirmDialog(JFrame parent, String title, String message) {
+    public static boolean showStyledConfirmDialog(JFrame frmParent, String strTitle, String strMessage) {
         final int WIDTH = 440;
         final int HEIGHT = 260;
         final int BORDER_RADIUS = 30;
         final boolean[] arrResult = { false };
 
-        JDialog dlgOverlay = new JDialog(parent, true);
+        JDialog dlgOverlay = new JDialog(frmParent, true);
         dlgOverlay.setUndecorated(true);
         dlgOverlay.setBackground(new Color(0, 0, 0, 80));
         dlgOverlay.setLayout(null);
@@ -270,12 +270,12 @@ public class CustomDialogUtil {
         JLabel lblIcon = new JLabel(new ImageIcon(imgScaled));
         lblIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel lblTitle = new JLabel(title);
+        JLabel lblTitle = new JLabel(strTitle);
         lblTitle.setFont(FontUtil.getOutfitBoldFont(20f));
         lblTitle.setForeground(new Color(43, 2, 67));
         lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel lblMessage = new JLabel("<html><div style='text-align: center;'>" + message + "</div></html>");
+        JLabel lblMessage = new JLabel("<html><div style='text-align: center;'>" + strMessage + "</div></html>");
         lblMessage.setFont(FontUtil.getInterFont(14f));
         lblMessage.setForeground(new Color(50, 46, 46));
         lblMessage.setAlignmentX(Component.CENTER_ALIGNMENT);

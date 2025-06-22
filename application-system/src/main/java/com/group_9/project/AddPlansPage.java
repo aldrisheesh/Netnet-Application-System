@@ -189,8 +189,8 @@ public class AddPlansPage extends JFrame {
                  PreparedStatement ps = conn.prepareStatement(strSql)) {
 
                 ps.setString(1, strUsername);
-                for (String planId : lstNewPlanIDs) {
-                    ps.setString(2, planId);
+                for (String strPlanId : lstNewPlanIDs) {
+                    ps.setString(2, strPlanId);
                     try (ResultSet rs = ps.executeQuery()) {
                         if (rs.next()) {
                             String servicePlanName = rs.getString("service_plan");
@@ -264,14 +264,14 @@ public class AddPlansPage extends JFrame {
         private final Color fillDefault    = Color.WHITE;
         private final int   arc            = 12;
 
-        private final String planID, planTitle, planPrice, planFee;
+        private final String strPlanID, strPlanTitle, strPlanPrice, strPlanFee;
         private final JPanel box;
 
-        public SelectablePlanPanel(String id, String title, String price, String fee) {
-            this.planID    = id;
-            this.planTitle = title;
-            this.planPrice = price;
-            this.planFee   = fee;
+        public SelectablePlanPanel(String strId, String strTitle, String strPrice, String strFee) {
+            this.strPlanID    = strId;
+            this.strPlanTitle = strTitle;
+            this.strPlanPrice = strPrice;
+            this.strPlanFee   = strFee;
 
             setLayout(new BorderLayout(10,0));
             setBackground(Color.WHITE);
@@ -387,10 +387,10 @@ public class AddPlansPage extends JFrame {
         }
 
         // getters & setters
-        public boolean isSelected()       { return selected;   }
-        public String  getPlanID()        { return planID;     }
-        public String  getPlanTitle()     { return planTitle;  }
-        public boolean isDisabled()       { return disabled;   }
+        public boolean isSelected()       { return selected;     }
+        public String  getPlanID()        { return strPlanID;    }
+        public String  getPlanTitle()     { return strPlanTitle; }
+        public boolean isDisabled()       { return disabled;     }
 
         /** Mark this panel as already-subscribed: locks selection on, disallows clicks. */
         public void setDisabled(boolean d) {

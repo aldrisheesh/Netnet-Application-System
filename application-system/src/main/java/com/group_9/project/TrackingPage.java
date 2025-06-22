@@ -136,7 +136,7 @@ public class TrackingPage extends JFrame {
         // 2) Deduplicate by applicationNo
         Map<String,Subscription> unique = new LinkedHashMap<>();
         for(Subscription s: subs) {
-            unique.putIfAbsent(s.applicationNo, s);
+            unique.putIfAbsent(s.strApplicationNo, s);
         }
         List<Subscription> apps = new ArrayList<>(unique.values());
 
@@ -160,7 +160,7 @@ public class TrackingPage extends JFrame {
                 pnlCard.setPreferredSize(new Dimension(887, 90));
                 pnlCard.setMaximumSize(new Dimension(887, 90));
 
-                JLabel lblAppNumber = new JLabel("Application No. " + s.applicationNo);
+                JLabel lblAppNumber = new JLabel("Application No. " + s.strApplicationNo);
                 lblAppNumber.setFont(FontUtil.getOutfitFont(14f).deriveFont(Font.BOLD));
                 lblAppNumber.setForeground(Color.WHITE);
                 lblAppNumber.setBounds(20, 15, 300, 20);
@@ -172,7 +172,7 @@ public class TrackingPage extends JFrame {
                 lblAppStatus.setBounds(20, 38, 300, 18);
                 pnlCard.add(lblAppStatus);
 
-                JLabel lblAppDate = new JLabel("Date Submitted: " + s.dateSubmitted);
+                JLabel lblAppDate = new JLabel("Date Submitted: " + s.strDateSubmitted);
                 lblAppDate.setFont(FontUtil.getInterFont(12f));
                 lblAppDate.setForeground(Color.WHITE);
                 lblAppDate.setBounds(20, 58, 300, 18);
