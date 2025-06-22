@@ -110,8 +110,8 @@ public class SignUp3 extends JFrame {
             }
         }
 
-        String strSavedPlans = UserApplicationData.get("selectedPlans");
-        String strSavedPlanIDs = UserApplicationData.get("selectedPlanIDs");
+        String strSavedPlans = UserApplicationData.get("strSelectedPlans");
+        String strSavedPlanIDs = UserApplicationData.get("strSelectedPlanIDs");
         
         if (!strSavedPlanIDs.isEmpty()) {
             String[] arrSelectedPlanIDs = strSavedPlanIDs.split(",");
@@ -173,8 +173,8 @@ public class SignUp3 extends JFrame {
                 String strJoinedPlans = String.join(",", lstSelectedPlans);
                 String strJoinedPlanIDs = String.join(",", lstSelectedPlanIDs);
                 
-                UserApplicationData.set("selectedPlans", strJoinedPlans);
-                UserApplicationData.set("selectedPlanIDs", strJoinedPlanIDs);
+                UserApplicationData.set("strSelectedPlans", strJoinedPlans);
+                UserApplicationData.set("strSelectedPlanIDs", strJoinedPlanIDs);
                 
                 new SignUp5();
                 dispose();
@@ -195,8 +195,8 @@ public class SignUp3 extends JFrame {
             String strJoinedPlans = String.join(",", lstSelectedPlans);
             String strJoinedPlanIDs = String.join(",", lstSelectedPlanIDs);
             
-            UserApplicationData.set("selectedPlans", strJoinedPlans);
-            UserApplicationData.set("selectedPlanIDs", strJoinedPlanIDs);
+            UserApplicationData.set("strSelectedPlans", strJoinedPlans);
+            UserApplicationData.set("strSelectedPlanIDs", strJoinedPlanIDs);
         
             new SignUp2();
             dispose();

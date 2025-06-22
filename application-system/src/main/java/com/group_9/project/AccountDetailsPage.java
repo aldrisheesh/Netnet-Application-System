@@ -313,7 +313,7 @@ public class AccountDetailsPage extends Template {
     private void saveChanges() {
         try {
             // 1️⃣ Gather all the new values from your UI:
-            String strOrigUsername   = UserApplicationData.get("Username");
+            String strOrigUsername   = UserApplicationData.get("strUsername");
             String strNewPassword    = txtPasswordField.getText().trim();
             String strNewEmail       = lstTextFields.get(2).getText().trim();
             String strNewMobile      = lstTextFields.get(3).getText().trim();
@@ -347,18 +347,18 @@ public class AccountDetailsPage extends Template {
             );
     
             // 3️⃣ Update session
-            UserApplicationData.set("Password",     strNewPassword);
-            UserApplicationData.set("Email",        strNewEmail);
-            UserApplicationData.set("Mobile",       strNewMobile);
-            UserApplicationData.set("CustomerName", strNewFullName);
+            UserApplicationData.set("strPassword",     strNewPassword);
+            UserApplicationData.set("strEmail",        strNewEmail);
+            UserApplicationData.set("strMobile",       strNewMobile);
+            UserApplicationData.set("strCustomerName", strNewFullName);
             // store back in MM/dd/yyyy format
-            UserApplicationData.set("Birthday",
+            UserApplicationData.set("strBirthday",
                 new SimpleDateFormat("MM/dd/yyyy").format(utilBirth));
-            UserApplicationData.set("Gender",       strNewGender);
-            UserApplicationData.set("CivilStatus",  strNewCivilStatus);
-            UserApplicationData.set("Nationality",  strNewNationality);
-            UserApplicationData.set("Spouse",       strNewSpouse);
-            UserApplicationData.set("MaidenName",   strNewMotherMn);
+            UserApplicationData.set("strGender",       strNewGender);
+            UserApplicationData.set("strCivilStatus",  strNewCivilStatus);
+            UserApplicationData.set("strNationality",  strNewNationality);
+            UserApplicationData.set("strSpouse",       strNewSpouse);
+            UserApplicationData.set("strMaidenName",   strNewMotherMn);
     
             // 4️⃣ Notify user
             CustomDialogUtil.showStyledInfoDialog(
@@ -402,20 +402,20 @@ public class AccountDetailsPage extends Template {
       
     private void populateFromSession() {
         // LEFT SIDE:
-        lstTextFields.get(0).setText(UserApplicationData.get("Username"));
-        txtPasswordField        .setText(UserApplicationData.get("Password"));
-        lstTextFields.get(2).setText(UserApplicationData.get("Email"));
-        lstTextFields.get(3).setText(UserApplicationData.get("Mobile"));
+        lstTextFields.get(0).setText(UserApplicationData.get("strUsername"));
+        txtPasswordField        .setText(UserApplicationData.get("strPassword"));
+        lstTextFields.get(2).setText(UserApplicationData.get("strEmail"));
+        lstTextFields.get(3).setText(UserApplicationData.get("strMobile"));
 
         // RIGHT SIDE:
-        lstTextFields.get(4).setText(UserApplicationData.get("CustomerName"));
-        lstTextFields.get(5).setText(UserApplicationData.get("Birthday"));
-        lstComboBoxes.get(0).setSelectedItem(UserApplicationData.get("Gender"));
-        lstComboBoxes.get(1).setSelectedItem(UserApplicationData.get("CivilStatus"));
-        lstTextFields.get(6).setText(UserApplicationData.get("Nationality"));
-        String spouse = UserApplicationData.get("Spouse").trim();
+        lstTextFields.get(4).setText(UserApplicationData.get("strCustomerName"));
+        lstTextFields.get(5).setText(UserApplicationData.get("strBirthday"));
+        lstComboBoxes.get(0).setSelectedItem(UserApplicationData.get("strGender"));
+        lstComboBoxes.get(1).setSelectedItem(UserApplicationData.get("strCivilStatus"));
+        lstTextFields.get(6).setText(UserApplicationData.get("strNationality"));
+        String spouse = UserApplicationData.get("strSpouse").trim();
         lstTextFields.get(7).setText(spouse.isEmpty() ? "N/A" : spouse);
-        lstTextFields.get(8).setText(UserApplicationData.get("MaidenName"));
+        lstTextFields.get(8).setText(UserApplicationData.get("strMaidenName"));
     }
 
     

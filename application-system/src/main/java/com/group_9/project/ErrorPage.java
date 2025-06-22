@@ -54,7 +54,7 @@ public class ErrorPage extends JFrame {
         lblHomeLink.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
-                String appNo = UserApplicationData.get("ApplicationNo");
+                String appNo = UserApplicationData.get("strApplicationNo");
                 if (appNo != null && !appNo.isEmpty()) {
                     new TrackingPage().setVisible(true);
                 } else {

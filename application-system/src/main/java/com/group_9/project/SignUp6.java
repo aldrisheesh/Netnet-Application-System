@@ -107,7 +107,7 @@ public class SignUp6 extends JFrame {
         pnlRounded.setLayout(new BoxLayout(pnlRounded, BoxLayout.Y_AXIS));
         pnlRounded.add(Box.createVerticalGlue());
 
-        String strUsername = UserApplicationData.get("Username");
+        String strUsername = UserApplicationData.get("strUsername");
         ApplicationInfo objInfo = ApplicationService.getLatestApplicationFor(strUsername);
 
         String strAppNumber = (objInfo != null)
@@ -118,8 +118,8 @@ public class SignUp6 extends JFrame {
             : LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("M/d/yyyy"));
 
-        UserApplicationData.set("ApplicationNo", strAppNumber);
-        UserApplicationData.set("ApplicationDate", strAppDate);
+        UserApplicationData.set("strApplicationNo", strAppNumber);
+        UserApplicationData.set("strApplicationDate", strAppDate);
 
         JLabel lblAppNum = new JLabel(
             "Application No.  " + strAppNumber, SwingConstants.CENTER

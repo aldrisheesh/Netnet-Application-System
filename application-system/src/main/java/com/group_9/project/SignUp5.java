@@ -112,11 +112,11 @@ public class SignUp5 extends JFrame {
         cmdBack.setBorderColor(Color.decode("#2B0243"));
 
         cmdBack.addActionListener(evtAction -> {
-            UserApplicationData.set("cardholderName", txtCardholderName.getText());
-            UserApplicationData.set("cardNumber", txtCardNumber.getText());
-            UserApplicationData.set("expiryDate", txtExpiryDate.getText());
-            UserApplicationData.set("cvv", txtCvv.getText());
-            UserApplicationData.set("paymentOption", rbtnFull.isSelected() ? "full" : (rbtnInstall.isSelected() ? "installment" : ""));
+            UserApplicationData.set("strCardholderName", txtCardholderName.getText());
+            UserApplicationData.set("strCardNumber", txtCardNumber.getText());
+            UserApplicationData.set("strExpiryDate", txtExpiryDate.getText());
+            UserApplicationData.set("strCVV", txtCvv.getText());
+            UserApplicationData.set("strPaymentOption", rbtnFull.isSelected() ? "full" : (rbtnInstall.isSelected() ? "installment" : ""));
 
             new SignUp3();
             dispose();    
@@ -191,12 +191,12 @@ public class SignUp5 extends JFrame {
             }
 
             String strPaymentOption = rbtnFull.isSelected() ? "full" : "installment";
-            UserApplicationData.set("paymentOption", strPaymentOption);
+            UserApplicationData.set("strPaymentOption", strPaymentOption);
     
-            UserApplicationData.set("card_number", strRawCard);
-            UserApplicationData.set("expiry_date", txtExpiryDate.getText());
-            UserApplicationData.set("cvv", txtCvv.getText());
-            UserApplicationData.set("cardholder_name", txtCardholderName.getText());
+            UserApplicationData.set("strCardNumber", strRawCard);
+            UserApplicationData.set("strExpiryDate", txtExpiryDate.getText());
+            UserApplicationData.set("strCVV", txtCvv.getText());
+            UserApplicationData.set("strCardholderName", txtCardholderName.getText());
 
             ApplicationService svcApplication = new ApplicationService();
             boolean boolSuccess = svcApplication.processApplication();
@@ -231,19 +231,19 @@ public class SignUp5 extends JFrame {
         setVisible(true);
         SwingUtilities.invokeLater(() -> pnlBackground.requestFocusInWindow());
 
-        String strSavedName = UserApplicationData.get("cardholderName");
+        String strSavedName = UserApplicationData.get("strCardholderName");
         if (strSavedName != null) txtCardholderName.setText(strSavedName);
 
-        String strSavedCard = UserApplicationData.get("cardNumber");
+        String strSavedCard = UserApplicationData.get("strCardNumber");
         if (strSavedCard != null) txtCardNumber.setText(strSavedCard);
 
-        String strSavedExpiry = UserApplicationData.get("expiryDate");
+        String strSavedExpiry = UserApplicationData.get("strExpiryDate");
         if (strSavedExpiry != null) txtExpiryDate.setText(strSavedExpiry);
 
-        String strSavedCVV = UserApplicationData.get("cvv");
+        String strSavedCVV = UserApplicationData.get("strCVV");
         if (strSavedCVV != null) txtCvv.setText(strSavedCVV);
 
-        String strPaymentOption = UserApplicationData.get("paymentOption");
+        String strPaymentOption = UserApplicationData.get("strPaymentOption");
         if ("full".equals(strPaymentOption)) rbtnFull.setSelected(true);
         else if ("installment".equals(strPaymentOption)) rbtnInstall.setSelected(true);
     }
@@ -289,7 +289,7 @@ public class SignUp5 extends JFrame {
         }});
         pnlSummaryContent.add(Box.createRigidArea(new Dimension(0, 20)));
     
-        String strSavedPlans = UserApplicationData.get("selectedPlans");
+        String strSavedPlans = UserApplicationData.get("strSelectedPlans");
         if (strSavedPlans != null && !strSavedPlans.isEmpty()) {
             String[] arrPlans = strSavedPlans.split(",");
             for (int intIndex = 0; intIndex < arrPlans.length; intIndex++) {

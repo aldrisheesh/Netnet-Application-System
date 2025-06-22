@@ -55,7 +55,7 @@ public class AccountSubsPage extends Template {
         pnlContainer.add(sepDivider);
     
         // ─── Fetch subscriptions ────────────────────────────
-        String username = UserApplicationData.get("Username");
+        String username = UserApplicationData.get("strUsername");
         List<Subscription> subs;
         try {
             subs = AccountService.getSubscriptionsByUsername(username);
