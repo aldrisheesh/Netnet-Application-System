@@ -14,32 +14,32 @@ public final class LoginAuth {
     /**
      * Does a username/email exist?
      */
-    public static boolean userExists(String id) throws SQLException {
-        String sql = "SELECT 1 FROM tbl_customer WHERE username = ? OR email_add = ?";
-        try (Connection c = DatabaseConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setString(1, id);
-            ps.setString(2, id);
-            return ps.executeQuery().next();
+    public static boolean userExists(String strId) throws SQLException {
+        String strSql = "SELECT 1 FROM tbl_customer WHERE username = ? OR email_add = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement psStmt = conn.prepareStatement(strSql)) {
+            psStmt.setString(1, strId);
+            psStmt.setString(2, strId);
+            return psStmt.executeQuery().next();
         }
     }
 
     /**
      * Checks password for that username/email.
      */
-    public static boolean authenticate(String id, String pwd) throws SQLException {
-        String sql = """
+    public static boolean authenticate(String strId, String strPwd) throws SQLException {
+        String strSql = """
             SELECT 1
               FROM tbl_customer
              WHERE (username = ? OR email_add = ?)
                AND password = ?
             """;
-        try (Connection c = DatabaseConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setString(1, id);
-            ps.setString(2, id);
-            ps.setString(3, pwd);
-            return ps.executeQuery().next();
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement psStmt = conn.prepareStatement(strSql)) {
+            psStmt.setString(1, strId);
+            psStmt.setString(2, strId);
+            psStmt.setString(3, strPwd);
+            return psStmt.executeQuery().next();
         }
     }
 
@@ -48,13 +48,13 @@ public final class LoginAuth {
      * Fetches the internal customer_ID for a given username/email.
      * Call this *after* authenticate() succeeds.
      */
-    public static String getCustomerId(String id) throws SQLException {
-        String sql = "SELECT customer_ID FROM tbl_customer WHERE username = ? OR email_add = ?";
-        try (Connection c = DatabaseConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setString(1, id);
-            ps.setString(2, id);
-            try (ResultSet rs = ps.executeQuery()) {
+    public static String getCustomerId(String strId) throws SQLException {
+        String strSql = "SELECT customer_ID FROM tbl_customer WHERE username = ? OR email_add = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement psStmt = conn.prepareStatement(strSql)) {
+            psStmt.setString(1, strId);
+            psStmt.setString(2, strId);
+            try (ResultSet rs = psStmt.executeQuery()) {
                 if (rs.next()) {
                     return rs.getString("customer_ID");
                 } else {
