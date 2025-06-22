@@ -103,7 +103,7 @@ public class AddPlansPage extends JFrame {
 
         // fetch which ones the user already has
         List<String> lstSubscribedPlanIDs = fetchSubscribedPlanIDs(
-            UserApplicationData.get("Username")
+            UserApplicationData.get("strUsername")
         );
 
         // lay them out, pre-select & disable those already subscribed
@@ -174,7 +174,7 @@ public class AddPlansPage extends JFrame {
             }
 
             // re-check DB for conflicts (just in case)
-            String strUsername = UserApplicationData.get("Username");
+            String strUsername = UserApplicationData.get("strUsername");
             String strSql = """
                 SELECT s.service_plan
                   FROM tbl_payment p
@@ -214,8 +214,8 @@ public class AddPlansPage extends JFrame {
             }
 
             // save *only* the new ones
-            UserApplicationData.set("selectedPlans",   String.join(",", lstNewPlanTitles));
-            UserApplicationData.set("selectedPlanIDs", String.join(",", lstNewPlanIDs));
+            UserApplicationData.set("strSelectedPlans",   String.join(",", lstNewPlanTitles));
+            UserApplicationData.set("strSelectedPlanIDs", String.join(",", lstNewPlanIDs));
 
             new AddConfirm().setVisible(true);
             dispose();

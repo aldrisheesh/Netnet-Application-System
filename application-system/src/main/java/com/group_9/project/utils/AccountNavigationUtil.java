@@ -18,7 +18,7 @@ public final class AccountNavigationUtil {
      * @param parentFrame the JFrame to dispose after navigation
      */
     public static void openAccountPageByApplication(JFrame frmParent) {
-        String strAppNo = UserApplicationData.get("ApplicationNo");
+        String strAppNo = UserApplicationData.get("strApplicationNo");
         if (strAppNo == null || strAppNo.isEmpty()) {
             CustomDialogUtil.showStyledErrorDialog(
                 frmParent,
@@ -40,23 +40,23 @@ public final class AccountNavigationUtil {
             }
 
             // Populate session with all needed fields
-            UserApplicationData.set("Username",        objProfile.username);
-            UserApplicationData.set("Password",        objProfile.password);
-            UserApplicationData.set("CustomerName",    objProfile.fullName);
-            UserApplicationData.set("Birthday",        objProfile.birthdate);
-            UserApplicationData.set("Gender",          objProfile.gender);
-            UserApplicationData.set("CivilStatus",     objProfile.civilStatus);
-            UserApplicationData.set("MaidenName",      objProfile.motherMn);
-            UserApplicationData.set("Spouse",          objProfile.spouseName != null ? objProfile.spouseName : "");
-            UserApplicationData.set("Nationality",     objProfile.nationality);
-            UserApplicationData.set("Email",           objProfile.emailAdd);
-            UserApplicationData.set("Mobile",          objProfile.contactNo);
-            UserApplicationData.set("HomeOwnership",   objProfile.residenceType);
-            UserApplicationData.set("YearsOfResidency",String.valueOf(objProfile.residenceYrs));
-            UserApplicationData.set("CompanyPaid",     objProfile.compPaid);
-            UserApplicationData.set("NameOfOwner",     objProfile.ownerName);
-            UserApplicationData.set("ContactNumber",   objProfile.ownerContact);
-            UserApplicationData.set("ResidenceAddress",objProfile.residenceAdd);
+            UserApplicationData.set("strUsername",        objProfile.username);
+            UserApplicationData.set("strPassword",        objProfile.password);
+            UserApplicationData.set("strCustomerName",    objProfile.fullName);
+            UserApplicationData.set("strBirthday",        objProfile.birthdate);
+            UserApplicationData.set("strGender",          objProfile.gender);
+            UserApplicationData.set("strCivilStatus",     objProfile.civilStatus);
+            UserApplicationData.set("strMaidenName",      objProfile.motherMn);
+            UserApplicationData.set("strSpouse",          objProfile.spouseName != null ? objProfile.spouseName : "");
+            UserApplicationData.set("strNationality",     objProfile.nationality);
+            UserApplicationData.set("strEmail",           objProfile.emailAdd);
+            UserApplicationData.set("strMobile",          objProfile.contactNo);
+            UserApplicationData.set("strHomeOwnership",   objProfile.residenceType);
+            UserApplicationData.set("intYearsOfResidency",String.valueOf(objProfile.residenceYrs));
+            UserApplicationData.set("strCompanyPaid",     objProfile.compPaid);
+            UserApplicationData.set("strNameOfOwner",     objProfile.ownerName);
+            UserApplicationData.set("strContactNumber",   objProfile.ownerContact);
+            UserApplicationData.set("strResidenceAddress",objProfile.residenceAdd);
 
             // Launch the details page
             new AccountDetailsPage().setVisible(true);

@@ -195,15 +195,15 @@ public class ApplicationService {
         
         System.out.println("Executing residence insert with values:");
         System.out.println("  residence_ID: " + strResidenceId);
-        System.out.println("  owner_name: '" + UserApplicationData.get("NameOfOwner") + "'");
-        System.out.println("  owner_contact: '" + UserApplicationData.get("ContactNumber") + "'");
-        System.out.println("  residence_add: '" + UserApplicationData.get("ResidenceAddress") + "'");
+        System.out.println("  owner_name: '" + UserApplicationData.get("strNameOfOwner") + "'");
+        System.out.println("  owner_contact: '" + UserApplicationData.get("strContactNumber") + "'");
+        System.out.println("  residence_add: '" + UserApplicationData.get("strResidenceAddress") + "'");
         
         try (PreparedStatement psStmt = connDb.prepareStatement(strSql)) {
             psStmt.setString(1, strResidenceId);
-            psStmt.setString(2, UserApplicationData.get("NameOfOwner"));
-            psStmt.setString(3, UserApplicationData.get("ContactNumber"));
-            psStmt.setString(4, UserApplicationData.get("ResidenceAddress"));
+            psStmt.setString(2, UserApplicationData.get("strNameOfOwner"));
+            psStmt.setString(3, UserApplicationData.get("strContactNumber"));
+            psStmt.setString(4, UserApplicationData.get("strResidenceAddress"));
             
             int rowsAffected = psStmt.executeUpdate();
             System.out.println("✓ Residence inserted: " + rowsAffected + " row(s)");
@@ -221,30 +221,30 @@ public class ApplicationService {
         
         System.out.println("Executing customer insert with values:");
         System.out.println("  customer_ID: " + strCustomerId);
-        System.out.println("  username: '" + UserApplicationData.get("Username") + "'");
-        System.out.println("  password: '" + UserApplicationData.get("Password") + "'");
-        System.out.println("  customer_name: '" + UserApplicationData.get("CustomerName") + "'");
-        System.out.println("  birthdate: '" + UserApplicationData.get("Birthday") + "'");
-        System.out.println("  gender: '" + UserApplicationData.get("Gender") + "'");
-        System.out.println("  civil_status: '" + UserApplicationData.get("CivilStatus") + "'");
-        System.out.println("  mother_mn: '" + UserApplicationData.get("MaidenName") + "'");
-        System.out.println("  spouse_name: '" + UserApplicationData.get("Spouse") + "'");
-        System.out.println("  nationality: '" + UserApplicationData.get("Nationality") + "'");
-        System.out.println("  contact_no: '" + UserApplicationData.get("Mobile") + "'");
-        System.out.println("  email_add: '" + UserApplicationData.get("Email") + "'");
+        System.out.println("  username: '" + UserApplicationData.get("strUsername") + "'");
+        System.out.println("  password: '" + UserApplicationData.get("strPassword") + "'");
+        System.out.println("  customer_name: '" + UserApplicationData.get("strCustomerName") + "'");
+        System.out.println("  birthdate: '" + UserApplicationData.get("strBirthday") + "'");
+        System.out.println("  gender: '" + UserApplicationData.get("strGender") + "'");
+        System.out.println("  civil_status: '" + UserApplicationData.get("strCivilStatus") + "'");
+        System.out.println("  mother_mn: '" + UserApplicationData.get("strMaidenName") + "'");
+        System.out.println("  spouse_name: '" + UserApplicationData.get("strSpouse") + "'");
+        System.out.println("  nationality: '" + UserApplicationData.get("strNationality") + "'");
+        System.out.println("  contact_no: '" + UserApplicationData.get("strMobile") + "'");
+        System.out.println("  email_add: '" + UserApplicationData.get("strEmail") + "'");
         System.out.println("  residence_ID: " + strResidenceId);
-        System.out.println("  residence_type: '" + UserApplicationData.get("HomeOwnership") + "'");
-        System.out.println("  residence_yrs: '" + UserApplicationData.get("YearsOfResidency") + "'");
-        System.out.println("  comp_paid: '" + UserApplicationData.get("CompanyPaid") + "'");
+        System.out.println("  residence_type: '" + UserApplicationData.get("strHomeOwnership") + "'");
+        System.out.println("  residence_yrs: '" + UserApplicationData.get("intYearsOfResidency") + "'");
+        System.out.println("  comp_paid: '" + UserApplicationData.get("strCompanyPaid") + "'");
         
         try (PreparedStatement psStmt = connDb.prepareStatement(strSql)) {
             psStmt.setString(1, strCustomerId);
-            psStmt.setString(2, UserApplicationData.get("Username"));
-            psStmt.setString(3, UserApplicationData.get("Password"));
-            psStmt.setString(4, UserApplicationData.get("CustomerName"));
+            psStmt.setString(2, UserApplicationData.get("strUsername"));
+            psStmt.setString(3, UserApplicationData.get("strPassword"));
+            psStmt.setString(4, UserApplicationData.get("strCustomerName"));
             
             // Handle birthdate - convert from MM/dd/yyyy to yyyy-MM-dd format
-            String birthdate = UserApplicationData.get("Birthday");
+            String birthdate = UserApplicationData.get("strBirthday");
             try {
                 // Assuming input format is MM/dd/yyyy (like "07/11/2005")
                 String[] parts = birthdate.split("/");
@@ -259,31 +259,31 @@ public class ApplicationService {
                 throw new SQLException("Invalid birthdate format: " + birthdate + ". Expected format: MM/dd/yyyy or yyyy-MM-dd");
             }
             
-            psStmt.setString(6, UserApplicationData.get("Gender"));
-            psStmt.setString(7, UserApplicationData.get("CivilStatus"));
-            psStmt.setString(8, UserApplicationData.get("MaidenName"));
+            psStmt.setString(6, UserApplicationData.get("strGender"));
+            psStmt.setString(7, UserApplicationData.get("strCivilStatus"));
+            psStmt.setString(8, UserApplicationData.get("strMaidenName"));
 
-            String spouseName = UserApplicationData.get("Spouse");
+            String spouseName = UserApplicationData.get("strSpouse");
             if (spouseName == null || spouseName.trim().isEmpty()) {
                 psStmt.setNull(9, Types.VARCHAR);
             } else {
                 psStmt.setString(9, spouseName);
             }
 
-            psStmt.setString(10, UserApplicationData.get("Nationality"));
-            psStmt.setString(11, UserApplicationData.get("Mobile"));
-            psStmt.setString(12, UserApplicationData.get("Email"));
+            psStmt.setString(10, UserApplicationData.get("strNationality"));
+            psStmt.setString(11, UserApplicationData.get("strMobile"));
+            psStmt.setString(12, UserApplicationData.get("strEmail"));
             psStmt.setString(13, strResidenceId);
-            psStmt.setString(14, UserApplicationData.get("HomeOwnership"));
+            psStmt.setString(14, UserApplicationData.get("strHomeOwnership"));
             
             try {
-                int intResidenceYrs = Integer.parseInt(UserApplicationData.get("YearsOfResidency"));
+                int intResidenceYrs = Integer.parseInt(UserApplicationData.get("intYearsOfResidency"));
                 psStmt.setInt(15, intResidenceYrs);
             } catch (NumberFormatException e) {
-                throw new SQLException("Invalid residence years: " + UserApplicationData.get("YearsOfResidency"));
+                throw new SQLException("Invalid residence years: " + UserApplicationData.get("intYearsOfResidency"));
             }
             
-            psStmt.setString(16, UserApplicationData.get("CompanyPaid"));
+            psStmt.setString(16, UserApplicationData.get("strCompanyPaid"));
             
             int rowsAffected = psStmt.executeUpdate();
             System.out.println("✓ Customer inserted: " + rowsAffected + " row(s)");
@@ -321,8 +321,8 @@ public class ApplicationService {
         String strSql = "INSERT INTO tbl_payment (application_no, plan_ID, payment_option) VALUES (?, ?, ?)";
 
         // Get the selected plan IDs (comma-separated string)
-        String strSelectedPlanIDs = UserApplicationData.get("selectedPlanIDs");
-        String strPaymentOption = UserApplicationData.get("paymentOption");
+        String strSelectedPlanIDs = UserApplicationData.get("strSelectedPlanIDs");
+        String strPaymentOption = UserApplicationData.get("strPaymentOption");
 
         System.out.println("Executing payment insert with values:");
         System.out.println("  application_no: " + strApplicationNo);

@@ -226,11 +226,11 @@ public class SignUp2 extends JFrame {
                 return;
             }
 
-            UserApplicationData.set("HomeOwnership", (String) cboHomeOwnership.getSelectedItem());
-            UserApplicationData.set("CompanyPaid", (String) cboCompanyPaid.getSelectedItem());
-            UserApplicationData.set("YearsOfResidency", txtResidency.getText());
-            UserApplicationData.set("NameOfOwner", txtOwner.getText());
-            UserApplicationData.set("ContactNumber", txtContact.getText());
+            UserApplicationData.set("strHomeOwnership", (String) cboHomeOwnership.getSelectedItem());
+            UserApplicationData.set("strCompanyPaid", (String) cboCompanyPaid.getSelectedItem());
+            UserApplicationData.set("intYearsOfResidency", txtResidency.getText());
+            UserApplicationData.set("strNameOfOwner", txtOwner.getText());
+            UserApplicationData.set("strContactNumber", txtContact.getText());
             String strResidenceAddress = txtHouse.getText() + ", " +
                           txtBuilding.getText() + ", " +
                           txtSubdivision.getText() + ", " +
@@ -240,17 +240,17 @@ public class SignUp2 extends JFrame {
                           txtProvince.getText() + ", " +
                           txtZip.getText();
 
-            UserApplicationData.set("ResidenceAddress", strResidenceAddress);
+            UserApplicationData.set("strResidenceAddress", strResidenceAddress);
             new SignUp3();
             dispose();
         });
 
         cmdBack.addActionListener(e -> {
-            UserApplicationData.set("HomeOwnership", (String) cboHomeOwnership.getSelectedItem());
-            UserApplicationData.set("CompanyPaid", (String) cboCompanyPaid.getSelectedItem());
-            UserApplicationData.set("YearsOfResidency", txtResidency.getText());
-            UserApplicationData.set("NameOfOwner", txtOwner.getText());
-            UserApplicationData.set("ContactNumber", txtContact.getText());
+            UserApplicationData.set("strHomeOwnership", (String) cboHomeOwnership.getSelectedItem());
+            UserApplicationData.set("strCompanyPaid", (String) cboCompanyPaid.getSelectedItem());
+            UserApplicationData.set("intYearsOfResidency", txtResidency.getText());
+            UserApplicationData.set("strNameOfOwner", txtOwner.getText());
+            UserApplicationData.set("strContactNumber", txtContact.getText());
             String strResidenceAddress = txtHouse.getText() + ", " +
                           txtBuilding.getText() + ", " +
                           txtSubdivision.getText() + ", " +
@@ -260,19 +260,19 @@ public class SignUp2 extends JFrame {
                           txtProvince.getText() + ", " +
                           txtZip.getText();
 
-            UserApplicationData.set("ResidenceAddress", strResidenceAddress);
+            UserApplicationData.set("strResidenceAddress", strResidenceAddress);
 
             new SignUp1();
             dispose();
         });
 
         // Restore
-        cboHomeOwnership.setSelectedItem(UserApplicationData.get("HomeOwnership"));
-        cboCompanyPaid.setSelectedItem(UserApplicationData.get("CompanyPaid"));
-        txtResidency.setText(UserApplicationData.get("YearsOfResidency"));
-        txtOwner.setText(UserApplicationData.get("NameOfOwner"));
-        txtContact.setText(UserApplicationData.get("ContactNumber"));
-        String strResidenceAddress = UserApplicationData.get("ResidenceAddress");
+        cboHomeOwnership.setSelectedItem(UserApplicationData.get("strHomeOwnership"));
+        cboCompanyPaid.setSelectedItem(UserApplicationData.get("strCompanyPaid"));
+        txtResidency.setText(UserApplicationData.get("intYearsOfResidency"));
+        txtOwner.setText(UserApplicationData.get("strNameOfOwner"));
+        txtContact.setText(UserApplicationData.get("strContactNumber"));
+        String strResidenceAddress = UserApplicationData.get("strResidenceAddress");
         if (strResidenceAddress != null) {
             String[] arrParts = strResidenceAddress.split(",\\s*");
             if (arrParts.length >= 8) {
