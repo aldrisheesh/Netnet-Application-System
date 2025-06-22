@@ -77,18 +77,18 @@ public class LoginPage extends JFrame {
 
         // ⚠️ LOGIN VALIDATION LOGIC
         cmdLogin.addActionListener(e -> {
-            String userId = txtEmailField.getText().trim();
-            String pwd    = new String(txtPassword.getPassword()).trim();
+            String strUserId = txtEmailField.getText().trim();
+            String strPwd    = new String(txtPassword.getPassword()).trim();
 
             // 1) Validate empty fields
             boolean valid = true;
-            if (userId.isEmpty()) {
+            if (strUserId.isEmpty()) {
                 txtEmailField.setValidationBorderColor(Color.RED);
                 valid = false;
             } else {
                 txtEmailField.setValidationBorderColor(Color.GRAY);
             }
-            if (pwd.isEmpty()) {
+            if (strPwd.isEmpty()) {
                 txtPassword.setValidationBorderColor(Color.RED);
                 valid = false;
             } else {
@@ -105,7 +105,7 @@ public class LoginPage extends JFrame {
 
             try {
                 // 2) Check account existence
-                if (!LoginAuth.userExists(userId)) {
+                if (!LoginAuth.userExists(strUserId)) {
                     CustomDialogUtil.showStyledErrorDialog(
                         this,
                         "Account Not Found",
@@ -115,7 +115,7 @@ public class LoginPage extends JFrame {
                 }
 
                 // 3) Validate password
-                if (!LoginAuth.authenticate(userId, pwd)) {
+                if (!LoginAuth.authenticate(strUserId, strPwd)) {
                     CustomDialogUtil.showStyledErrorDialog(
                         this,
                         "Invalid Password",
@@ -124,33 +124,33 @@ public class LoginPage extends JFrame {
                     return;
                 }
 
-                String actualUsername = userId;
-                if (userId.contains("@")) {
+                String strActualUsername = strUserId;
+                if (strUserId.contains("@")) {
                     // they logged in with email, fetch the username
-                    String sqlUser = """
+                    String strSqlUser = """
                         SELECT username
                           FROM tbl_customer
                          WHERE email_add = ?
                         """;
                     try (Connection c = DatabaseConnection.getConnection();
-                         PreparedStatement psUser = c.prepareStatement(sqlUser)) {
-                        psUser.setString(1, userId);
+                         PreparedStatement psUser = c.prepareStatement(strSqlUser)) {
+                        psUser.setString(1, strUserId);
                         try (ResultSet rsUser = psUser.executeQuery()) {
                             if (rsUser.next()) {
-                                actualUsername = rsUser.getString("username");
+                                strActualUsername = rsUser.getString("username");
                             }
                         }
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
                 }
-                UserApplicationData.set("strUsername", actualUsername);
+                UserApplicationData.set("strUsername", strActualUsername);
 
                 // 4) Retrieve internal customer_ID
-                String custId = LoginAuth.getCustomerId(userId);
+                String strCustId = LoginAuth.getCustomerId(strUserId);
 
                 // 5) Fetch the latest application and store in session
-                String sql = """
+                String strSql = """
                     SELECT application_no, application_date
                     FROM tbl_application
                     WHERE customer_ID = ?
@@ -158,17 +158,17 @@ public class LoginPage extends JFrame {
                     LIMIT 1
                     """;
                 try (Connection conn = DatabaseConnection.getConnection();
-                    PreparedStatement ps = conn.prepareStatement(sql)) {
+                    PreparedStatement ps = conn.prepareStatement(strSql)) {
 
-                    ps.setString(1, custId);
+                    ps.setString(1, strCustId);
                     try (ResultSet rs = ps.executeQuery()) {
                         if (rs.next()) {
-                            String appNo = rs.getString("application_no");
+                            String strAppNo = rs.getString("application_no");
                             Timestamp ts = rs.getTimestamp("application_date");
-                            String dateStr = new SimpleDateFormat("MM/dd/yyyy").format(ts);
+                            String strDate = new SimpleDateFormat("MM/dd/yyyy").format(ts);
 
-                            UserApplicationData.set("strApplicationNo", appNo);
-                            UserApplicationData.set("strApplicationDate", dateStr);
+                            UserApplicationData.set("strApplicationNo", strAppNo);
+                            UserApplicationData.set("strApplicationDate", strDate);
                         } else {
                             UserApplicationData.set("strApplicationNo", "");
                             UserApplicationData.set("strApplicationDate", "");
