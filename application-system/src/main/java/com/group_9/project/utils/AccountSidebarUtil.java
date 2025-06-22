@@ -40,20 +40,26 @@ public final class AccountSidebarUtil {
                     switch (item) {
                         case "My Details" -> {
                             if (!activeItem.equals("My Details")) {
-                                new AccountDetailsPage().setVisible(true);
-                                frame.dispose();
+                                SwingUtilities.invokeLater(() -> {
+                                    new AccountDetailsPage().setVisible(true);
+                                    frame.dispose();
+                                });
                             }
                         }
                         case "My Address" -> {
                             if (!activeItem.equals("My Address")) {
-                                new AccountAddressPage().setVisible(true);
-                                frame.dispose();
+                                SwingUtilities.invokeLater(() -> {
+                                    new AccountAddressPage().setVisible(true);
+                                    frame.dispose();
+                                });
                             }
                         }
                         case "My Subscriptions" -> {
                             if (!activeItem.equals("My Subscriptions")) {
-                                new AccountSubsPage().setVisible(true);
-                                frame.dispose();
+                                SwingUtilities.invokeLater(() -> {
+                                    new AccountSubsPage().setVisible(true);
+                                    frame.dispose();
+                                });
                             }
                         }
                         case "Sign Out" -> {
