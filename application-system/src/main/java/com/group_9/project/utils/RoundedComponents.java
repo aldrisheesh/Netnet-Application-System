@@ -9,21 +9,21 @@ import java.awt.geom.RoundRectangle2D;
 public class RoundedComponents {
 
     public static class RoundedBorder implements Border {
-        private final int radius;
-        private Color borderColor;
+        private final int intRadius;
+        private Color clrBorderColor;
 
-        public RoundedBorder(int radius) {
-            this.radius = radius;
-            this.borderColor = Color.GRAY;
+        public RoundedBorder(int intRadius) {
+            this.intRadius = intRadius;
+            this.clrBorderColor = Color.GRAY;
         }
 
         public void setBorderColor(Color color) {
-            this.borderColor = color;
+            this.clrBorderColor = color;
         }
 
         @Override
         public Insets getBorderInsets(Component c) {
-            return new Insets(radius + 1, radius + 1, radius + 1, radius + 1);
+            return new Insets(intRadius + 1, intRadius + 1, intRadius + 1, intRadius + 1);
         }
 
         @Override
@@ -35,20 +35,20 @@ public class RoundedComponents {
         public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
             Graphics2D g2d = (Graphics2D) g;
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.setColor(borderColor);
-            g2d.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
+            g2d.setColor(clrBorderColor);
+            g2d.drawRoundRect(x, y, width - 1, height - 1, intRadius, intRadius);
         }
     }
 
     public static class RoundedTextField extends JTextField {
-        private final String placeholder;
-        private final RoundedBorder border;
+        private final String strPlaceholder;
+        private final RoundedBorder bdrBorder;
 
-        public RoundedTextField(String placeholder, int columns) {
+        public RoundedTextField(String strPlaceholder, int columns) {
             super(columns);
-            this.placeholder = placeholder;
-            this.border = new RoundedBorder(15);
-            setBorder(border);
+            this.strPlaceholder = strPlaceholder;
+            this.bdrBorder = new RoundedBorder(15);
+            setBorder(bdrBorder);
             setOpaque(false);
             setBackground(Color.decode("#FFFFFF"));
 
@@ -64,7 +64,7 @@ public class RoundedComponents {
         }
 
         public void setValidationBorderColor(Color color) {
-            border.setBorderColor(color);
+            bdrBorder.setBorderColor(color);
             repaint();
         }
 
@@ -82,7 +82,7 @@ public class RoundedComponents {
                 FontMetrics fm = g2.getFontMetrics();
                 int x = getInsets().left;
                 int y = getHeight() / 2 + fm.getAscent() / 2 - 2;
-                g2.drawString(placeholder, x, y);
+                g2.drawString(strPlaceholder, x, y);
             }
 
             g2.dispose();
@@ -95,25 +95,25 @@ public class RoundedComponents {
     }
 
     public static class RoundedPasswordField extends JPasswordField {
-        private final String placeholder;
-        private final RoundedBorder border;
-        private boolean showPassword = false;
-        private Rectangle eyeIconBounds;
+        private final String strPlaceholder;
+        private final RoundedBorder bdrBorder;
+        private boolean bolShowPassword = false;
+        private Rectangle recEyeIconBounds;
     
-        private final Image eyeIcon;
-        private final Image eyeOffIcon;
+        private final Image imgEyeIcon;
+        private final Image imgEyeOffIcon;
     
-        public RoundedPasswordField(String placeholder, int columns) {
+        public RoundedPasswordField(String strPlaceholder, int columns) {
             super(columns);
-            this.placeholder = placeholder;
-            this.border = new RoundedBorder(15);
-            setBorder(border);
+            this.strPlaceholder = strPlaceholder;
+            this.bdrBorder = new RoundedBorder(15);
+            setBorder(bdrBorder);
             setOpaque(false);
             setBackground(Color.decode("#FFFFFF"));
             setEchoChar('•');
     
-            eyeIcon = loadIcon("/icons/eye.png", 18, 18);
-            eyeOffIcon = loadIcon("/icons/eye-off.png", 18, 18);
+            imgEyeIcon = loadIcon("/icons/eye.png", 18, 18);
+            imgEyeOffIcon = loadIcon("/icons/eye-off.png", 18, 18);
     
             addFocusListener(new FocusAdapter() {
                 public void focusGained(FocusEvent e) { repaint(); }
@@ -123,7 +123,7 @@ public class RoundedComponents {
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    if (eyeIconBounds != null && eyeIconBounds.contains(e.getPoint())) {
+                    if (recEyeIconBounds != null && recEyeIconBounds.contains(e.getPoint())) {
                         togglePasswordVisibility();
                     }
                 }
@@ -131,7 +131,7 @@ public class RoundedComponents {
     
             addMouseMotionListener(new MouseMotionAdapter() {
                 public void mouseMoved(MouseEvent e) {
-                    if (eyeIconBounds != null && eyeIconBounds.contains(e.getPoint())) {
+                    if (recEyeIconBounds != null && recEyeIconBounds.contains(e.getPoint())) {
                         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                     } else {
                         setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
@@ -153,13 +153,13 @@ public class RoundedComponents {
         }
     
         private void togglePasswordVisibility() {
-            showPassword = !showPassword;
-            setEchoChar(showPassword ? (char) 0 : '•');
+            bolShowPassword = !bolShowPassword;
+            setEchoChar(bolShowPassword ? (char) 0 : '•');
             repaint();
         }
     
         public void setValidationBorderColor(Color color) {
-            border.setBorderColor(color);
+            bdrBorder.setBorderColor(color);
             repaint();
         }
     
@@ -185,9 +185,9 @@ public class RoundedComponents {
             int iconPaddingRight = 20;
             int iconX = getWidth() - iconSize - iconPaddingRight;
             int iconY = (getHeight() - iconSize) / 2;
-            eyeIconBounds = new Rectangle(iconX, iconY, iconSize, iconSize);
+            recEyeIconBounds = new Rectangle(iconX, iconY, iconSize, iconSize);
     
-            Image iconToDraw = showPassword ? eyeOffIcon : eyeIcon;
+            Image iconToDraw = bolShowPassword ? imgEyeOffIcon : imgEyeIcon;
             if (iconToDraw != null) {
                 g2.drawImage(iconToDraw, iconX, iconY, this);
             }
@@ -202,8 +202,8 @@ public class RoundedComponents {
     
         @Override
         public String getToolTipText(MouseEvent event) {
-            if (eyeIconBounds != null && eyeIconBounds.contains(event.getPoint())) {
-                return showPassword ? "Hide password" : "Show password";
+            if (recEyeIconBounds != null && recEyeIconBounds.contains(event.getPoint())) {
+                return bolShowPassword ? "Hide password" : "Show password";
             }
             return null;
         }
@@ -216,28 +216,28 @@ public class RoundedComponents {
     
 
     public static class RoundedComboBox<T> extends JComboBox<T> {
-        private final RoundedBorder border;
+        private final RoundedBorder bdrBorder;
 
         public RoundedComboBox(DefaultComboBoxModel<T> model, int radius) {
             super(model);
-            this.border = new RoundedBorder(radius);
-            setBorder(border);
+            this.bdrBorder = new RoundedBorder(radius);
+            setBorder(bdrBorder);
             setBackground(Color.WHITE);
         }
 
         public void setValidationBorderColor(Color color) {
-            border.setBorderColor(color);
+            bdrBorder.setBorderColor(color);
             repaint();
         }
     }
 
     public static class RoundedButton extends JButton {
-        private int radius;
-        private Color borderColor = new Color(0, 0, 0, 0);
+        private int intRadius;
+        private Color clrBorderColor = new Color(0, 0, 0, 0);
 
-        public RoundedButton(String text, int radius) {
+        public RoundedButton(String text, int intRadius) {
             super(text);
-            this.radius = radius;
+            this.intRadius = intRadius;
             setContentAreaFilled(false);
             setFocusPainted(false);
             setBorderPainted(false);
@@ -247,7 +247,7 @@ public class RoundedComponents {
         }
 
         public void setBorderColor(Color color) {
-            this.borderColor = color;
+            this.clrBorderColor = color;
             repaint();
         }
 
@@ -259,11 +259,11 @@ public class RoundedComponents {
             g2.setColor(getModel().isPressed() ? getBackground().darker()
                     : getModel().isRollover() ? getBackground().brighter() : getBackground());
 
-            g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), intRadius, intRadius);
 
-            if (borderColor.getAlpha() > 0) {
-                g2.setColor(borderColor);
-                g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, radius, radius);
+            if (clrBorderColor.getAlpha() > 0) {
+                g2.setColor(clrBorderColor);
+                g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, intRadius, intRadius);
             }
 
             super.paintComponent(g2);
@@ -273,13 +273,13 @@ public class RoundedComponents {
 
     /** Panel with rounded corners and a subtle shadow for reuse across pages. */
     public static class RoundedShadowPanel extends JPanel {
-        private final int radius;
-        private final int shadowOffset;
+        private final int intRadius;
+        private final int intShadowOffset;
 
-        public RoundedShadowPanel(int radius, int shadowOffset) {
+        public RoundedShadowPanel(int intRadius, int intShadowOffset) {
             super(null);
-            this.radius = radius;
-            this.shadowOffset = shadowOffset;
+            this.intRadius = intRadius;
+            this.intShadowOffset = intShadowOffset;
             setOpaque(false);
         }
 
@@ -290,20 +290,20 @@ public class RoundedComponents {
                     RenderingHints.VALUE_ANTIALIAS_ON);
 
             g2.setColor(new Color(0, 0, 0, 20));
-            g2.fillRoundRect(shadowOffset, shadowOffset,
-                    getWidth() - shadowOffset, getHeight() - shadowOffset,
-                    radius, radius);
+            g2.fillRoundRect(intShadowOffset, intShadowOffset,
+                    getWidth() - intShadowOffset, getHeight() - intShadowOffset,
+                    intRadius, intRadius);
 
             g2.setColor(new Color(255, 241, 255));
             g2.fillRoundRect(0, 0,
-                    getWidth() - shadowOffset, getHeight() - shadowOffset,
-                    radius, radius);
+                    getWidth() - intShadowOffset, getHeight() - intShadowOffset,
+                    intRadius, intRadius);
 
             g2.setColor(new Color(220, 200, 230));
             g2.setStroke(new BasicStroke(1.5f));
             g2.drawRoundRect(0, 0,
-                    getWidth() - shadowOffset - 1, getHeight() - shadowOffset - 1,
-                    radius, radius);
+                    getWidth() - intShadowOffset - 1, getHeight() - intShadowOffset - 1,
+                    intRadius, intRadius);
 
             g2.dispose();
             super.paintComponent(g);

@@ -3,17 +3,17 @@ package com.group_9.project.utils;
 import javax.swing.text.*;
 
 public class LengthLimitFilter extends DocumentFilter {
-    private final int maxLength;
+    private final int intMaxLength;
 
-    public LengthLimitFilter(int maxLength) {
-        this.maxLength = maxLength;
+    public LengthLimitFilter(int intMaxLength) {
+        this.intMaxLength = intMaxLength;
     }
 
     @Override
     public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr)
             throws BadLocationException {
         if (string == null) return;
-        if ((fb.getDocument().getLength() + string.length()) <= maxLength) {
+        if ((fb.getDocument().getLength() + string.length()) <= intMaxLength) {
             super.insertString(fb, offset, string, attr);
         }
     }
@@ -22,9 +22,9 @@ public class LengthLimitFilter extends DocumentFilter {
     public void replace(FilterBypass fb, int offset, int length, String string, AttributeSet attr)
             throws BadLocationException {
         if (string == null) return;
-        int currentLength = fb.getDocument().getLength();
-        int newLength = currentLength - length + string.length();
-        if (newLength <= maxLength) {
+        int intCurrentLength = fb.getDocument().getLength();
+        int intNewLength = intCurrentLength - length + string.length();
+        if (intNewLength <= intMaxLength) {
             super.replace(fb, offset, length, string, attr);
         }
     }

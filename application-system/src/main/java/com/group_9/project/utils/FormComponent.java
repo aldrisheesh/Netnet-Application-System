@@ -8,23 +8,23 @@ public class FormComponent {
     private static final int RADIUS = 15;
 
     public static JComboBox<String> createStyledComboBox(String placeholder, String[] options) {
-        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
-        for (String option : options) model.addElement(option);
+        DefaultComboBoxModel<String> mdlOptions = new DefaultComboBoxModel<>();
+        for (String strOption : options) mdlOptions.addElement(strOption);
 
-        RoundedComponents.RoundedComboBox<String> box = new RoundedComponents.RoundedComboBox<>(model, RADIUS);
-        box.setFont(FontUtil.getOutfitFont(15f));
-        box.setPreferredSize(new Dimension(375, 35));
-        box.setFocusable(false);
-        box.setSelectedIndex(-1);
-        box.setForeground(Color.GRAY);
+        RoundedComponents.RoundedComboBox<String> cboBox = new RoundedComponents.RoundedComboBox<>(mdlOptions, RADIUS);
+        cboBox.setFont(FontUtil.getOutfitFont(15f));
+        cboBox.setPreferredSize(new Dimension(375, 35));
+        cboBox.setFocusable(false);
+        cboBox.setSelectedIndex(-1);
+        cboBox.setForeground(Color.GRAY);
 
-        box.setRenderer(new DefaultListCellRenderer() {
+        cboBox.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index,
                                                           boolean isSelected, boolean cellHasFocus) {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-                boolean isPlaceholder = (box.getSelectedIndex() == -1 && index == -1);
+                boolean isPlaceholder = (cboBox.getSelectedIndex() == -1 && index == -1);
                 setBorder(BorderFactory.createEmptyBorder(0, isPlaceholder ? 0 : 10, 0, 0));
                 setText(isPlaceholder ? placeholder : value.toString());
                 setForeground(isPlaceholder ? Color.GRAY : (isSelected ? new Color(43, 43, 43) : Color.BLACK));
@@ -34,33 +34,33 @@ public class FormComponent {
             }
         });
 
-        box.addActionListener(e -> box.setForeground(box.getSelectedIndex() != -1 ? Color.BLACK : Color.GRAY));
-        box.setBackground(Color.WHITE);
-        box.setOpaque(true);
+        cboBox.addActionListener(e -> cboBox.setForeground(cboBox.getSelectedIndex() != -1 ? Color.BLACK : Color.GRAY));
+        cboBox.setBackground(Color.WHITE);
+        cboBox.setOpaque(true);
 
-        box.setUI(new BasicComboBoxUI() {
+        cboBox.setUI(new BasicComboBoxUI() {
             @Override
             protected JButton createArrowButton() {
-                JButton button = new JButton();
+                JButton cmdButton = new JButton();
             
                 try {
-                    ImageIcon originalIcon = new ImageIcon(FormComponent.class.getResource("/icons/dropdown-icn.png"));
-                    Image scaledImage = originalIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
-                    ImageIcon finalDropdownIcon = new ImageIcon(scaledImage);
-                    button.setIcon(finalDropdownIcon);
+                    ImageIcon icnOriginal = new ImageIcon(FormComponent.class.getResource("/icons/dropdown-icn.png"));
+                    Image imgScaled = icnOriginal.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+                    ImageIcon icnDropdown = new ImageIcon(imgScaled);
+                    cmdButton.setIcon(icnDropdown);
                 } catch (Exception e) {
                     System.err.println("Failed to load dropdown icon: " + e.getMessage());
                 }
             
-                button.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
-                button.setContentAreaFilled(false);
-                button.setFocusPainted(false);
-                button.setPreferredSize(new Dimension(25, 35));
-                button.setHorizontalAlignment(SwingConstants.CENTER);
-                button.setVerticalAlignment(SwingConstants.CENTER);
-                button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                cmdButton.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
+                cmdButton.setContentAreaFilled(false);
+                cmdButton.setFocusPainted(false);
+                cmdButton.setPreferredSize(new Dimension(25, 35));
+                cmdButton.setHorizontalAlignment(SwingConstants.CENTER);
+                cmdButton.setVerticalAlignment(SwingConstants.CENTER);
+                cmdButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             
-                return button;
+                return cmdButton;
             }
             
 
@@ -71,14 +71,14 @@ public class FormComponent {
             }
         });
 
-        return box;
+        return cboBox;
     }
 
     public static JPanel createPairPanel(JComponent left, JComponent right) {
-        JPanel panel = new JPanel(new GridLayout(1, 2, 10, 0));
-        panel.setOpaque(false);
-        panel.add(left);
-        panel.add(right);
-        return panel;
+        JPanel pnlPanel = new JPanel(new GridLayout(1, 2, 10, 0));
+        pnlPanel.setOpaque(false);
+        pnlPanel.add(left);
+        pnlPanel.add(right);
+        return pnlPanel;
     }
 }

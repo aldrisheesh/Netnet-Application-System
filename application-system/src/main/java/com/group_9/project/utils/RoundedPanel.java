@@ -4,10 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RoundedPanel extends JPanel {
-    private final int cornerRadius;
+    private final int intCornerRadius;
 
-    public RoundedPanel(int radius) {
-        this.cornerRadius = radius;
+    public RoundedPanel(int intRadius) {
+        this.intCornerRadius = intRadius;
         setOpaque(false); // Important for rounded corners
     }
 
@@ -18,7 +18,7 @@ public class RoundedPanel extends JPanel {
 
         // Fill background with rounded corners
         g2.setColor(getBackground());
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), cornerRadius, cornerRadius);
+        g2.fillRoundRect(0, 0, getWidth(), getHeight(), intCornerRadius, intCornerRadius);
 
         g2.dispose();
         super.paintComponent(g); // Paint children
