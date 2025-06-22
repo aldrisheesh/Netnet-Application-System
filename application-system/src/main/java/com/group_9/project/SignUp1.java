@@ -85,14 +85,14 @@ public class SignUp1 extends JFrame {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        RoundedComponents.RoundedTextField txtUsername = createRoundedTextField("strUsername");
+        RoundedComponents.RoundedTextField txtUsername = createRoundedTextField("Username");
         txtUsername.setName("strUsername");
         ValidationUtil.addTextValidation(txtUsername, s -> !s.trim().isEmpty());
         pnlForm.add(txtUsername, gbc);
         ToolTipUtil.attachCustomTooltip(txtUsername, "Create a username");
 
         gbc.gridx = 1;
-        RoundedComponents.RoundedPasswordField txtPassword = createRoundedPasswordField("strPassword");
+        RoundedComponents.RoundedPasswordField txtPassword = createRoundedPasswordField("Password");
         txtPassword.setName("strPassword");
         ValidationUtil.addTextValidation(txtPassword, s -> s.length() >= 8);
         pnlForm.add(txtPassword, gbc);
@@ -147,7 +147,7 @@ public class SignUp1 extends JFrame {
                 FormComponent.createStyledComboBox("Select Civil Status", new String[]{"Single", "Married", "Divorced", "Widowed"});
         ValidationUtil.addComboBoxValidation(cboCivilStatus);
 
-        RoundedComponents.RoundedTextField txtNationality = createRoundedTextField("strNationality");
+        RoundedComponents.RoundedTextField txtNationality = createRoundedTextField("Nationality");
         txtNationality.setName("strNationality");
         ValidationUtil.addTextValidation(txtNationality, s -> !s.trim().isEmpty());
         pnlForm.add(createPairPanel(cboCivilStatus, txtNationality), gbc);
@@ -162,7 +162,7 @@ public class SignUp1 extends JFrame {
         ((AbstractDocument) txtMobileNo.getDocument()).setDocumentFilter(new LengthLimitFilter(17));
         SmartFieldFormatter.attachMobileFormatter(txtMobileNo);
 
-        RoundedComponents.RoundedTextField txtEmail = createRoundedTextField("strEmail");
+        RoundedComponents.RoundedTextField txtEmail = createRoundedTextField("Email");
         txtEmail.setName("strEmail");
         ValidationUtil.addTextValidation(txtEmail, s -> s.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,}$"));
 

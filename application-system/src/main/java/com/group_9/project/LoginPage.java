@@ -47,7 +47,7 @@ public class LoginPage extends JFrame {
         txtEmailField.setBounds(524, intYPos + 40, 375, 60);
         pnlBackground.add(txtEmailField);
 
-        RoundedComponents.RoundedPasswordField txtPassword = new RoundedComponents.RoundedPasswordField("strPassword", 20);
+        RoundedComponents.RoundedPasswordField txtPassword = new RoundedComponents.RoundedPasswordField("Password", 20);
         txtPassword.setFont(FontUtil.getInterFont(14f));
         txtPassword.setBounds(524, intYPos + 117, 375, 60);
         pnlBackground.add(txtPassword);
@@ -57,7 +57,7 @@ public class LoginPage extends JFrame {
         ValidationUtil.addTextValidation(txtPassword, s -> !s.trim().isEmpty());
 
         JButton cmdLogin = new RoundedComponents.RoundedButton("LOG IN", 20);
-        cmdLogin.setFont(FontUtil.getOutfitFont(16f));
+        cmdLogin.setFont(FontUtil.getOutfitFont(16f).deriveFont(Font.BOLD));
         cmdLogin.setBounds(525, intYPos + 195, 130, 40);
         cmdLogin.setFocusPainted(false);
         cmdLogin.setFocusable(false);
