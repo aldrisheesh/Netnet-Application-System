@@ -11,184 +11,163 @@ import java.awt.event.ActionEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * Final signup confirmation screen: displays your application info
- * and stores it in session so TrackingPage can pick it up.
- */
 public class SignUp6 extends JFrame {
-    private static final int RADIUS = 15;
+    private static final int intRadius = 15;
 
     public SignUp6() {
         BaseFrameSetup.applyAppIcon(this);
-        // 1) Base frame + background
-        BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
+        BackgroundPanel pnlBackground = BaseFrameSetup.setupCompleteFrame(this, 1);
 
-        // 2) Main white rounded container
-        JPanel container = new RoundedComponents.RoundedShadowPanel(25, 4);
-        container.setBounds(235, 165, 970, 695);
-        background.add(container);
+        JPanel pnlContainer = new RoundedComponents.RoundedShadowPanel(25, 4);
+        pnlContainer.setBounds(235, 165, 970, 695);
+        pnlBackground.add(pnlContainer);
 
-        // 3) Inner vertical box for content
-        JPanel inner = new JPanel();
-        inner.setLayout(new BoxLayout(inner, BoxLayout.Y_AXIS));
-        inner.setOpaque(false);
-        inner.setBounds(40, 40, 890, 615);
-        container.add(inner);
+        JPanel pnlInner = new JPanel();
+        pnlInner.setLayout(new BoxLayout(pnlInner, BoxLayout.Y_AXIS));
+        pnlInner.setOpaque(false);
+        pnlInner.setBounds(40, 40, 890, 615);
+        pnlContainer.add(pnlInner);
 
-        inner.add(Box.createRigidArea(new Dimension(0, 20)));
+        pnlInner.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // Title
-        JLabel title = new JLabel("SERVICE APPLICATION", SwingConstants.CENTER);
-        title.setFont(FontUtil.getOutfitBoldFont(26f));
-        title.setForeground(Color.decode("#2B0243"));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        inner.add(title);
+        JLabel lblTitle = new JLabel("SERVICE APPLICATION", SwingConstants.CENTER);
+        lblTitle.setFont(FontUtil.getOutfitBoldFont(26f));
+        lblTitle.setForeground(Color.decode("#2B0243"));
+        lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlInner.add(lblTitle);
 
-        inner.add(Box.createRigidArea(new Dimension(0, 20)));
+        pnlInner.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // Step tracker
-        JPanel steps = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        steps.setOpaque(false);
-        steps.add(CreateStepTracker.createStepTracker(3));
-        inner.add(steps);
+        JPanel pnlSteps = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        pnlSteps.setOpaque(false);
+        pnlSteps.add(CreateStepTracker.createStepTracker(3));
+        pnlInner.add(pnlSteps);
 
-        inner.add(Box.createRigidArea(new Dimension(0, 20)));
+        pnlInner.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // Confirmation icon
-        ImageIcon confirmRaw = new ImageIcon(
+        ImageIcon imgConfirmRaw = new ImageIcon(
             getClass().getClassLoader().getResource("images/confirmation-icn.png")
         );
-        Image confirmImg = confirmRaw.getImage()
+        Image imgConfirm = imgConfirmRaw.getImage()
             .getScaledInstance(61, 61, Image.SCALE_SMOOTH);
-        JLabel confirmIcon = new JLabel(new ImageIcon(confirmImg));
-        confirmIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
-        inner.add(confirmIcon);
+        JLabel lblConfirmIcon = new JLabel(new ImageIcon(imgConfirm));
+        lblConfirmIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlInner.add(lblConfirmIcon);
 
-        inner.add(Box.createRigidArea(new Dimension(0, 20)));
+        pnlInner.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        Color txtColor = Color.decode("#302E2E");
+        Color clrTxt = Color.decode("#302E2E");
 
-        // Success messages
-        JLabel success = new JLabel(
+        JLabel lblSuccess = new JLabel(
             "APPLICATION SUBMITTED SUCCESSFULLY!", SwingConstants.CENTER
         );
-        success.setFont(FontUtil.getOutfitFont(16f));
-        success.setForeground(txtColor);
-        success.setAlignmentX(Component.CENTER_ALIGNMENT);
-        inner.add(success);
+        lblSuccess.setFont(FontUtil.getOutfitFont(16f));
+        lblSuccess.setForeground(clrTxt);
+        lblSuccess.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlInner.add(lblSuccess);
 
-        inner.add(Box.createRigidArea(new Dimension(0, 10)));
+        pnlInner.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        JLabel thanks = new JLabel(
+        JLabel lblThanks = new JLabel(
             "Thank you for choosing NETNET!", SwingConstants.CENTER
         );
-        thanks.setFont(FontUtil.getInterFont(15f));
-        thanks.setForeground(txtColor);
-        thanks.setAlignmentX(Component.CENTER_ALIGNMENT);
-        inner.add(thanks);
+        lblThanks.setFont(FontUtil.getInterFont(15f));
+        lblThanks.setForeground(clrTxt);
+        lblThanks.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlInner.add(lblThanks);
 
-        inner.add(Box.createRigidArea(new Dimension(0, 20)));
+        pnlInner.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        JLabel info = new JLabel(
+        JLabel lblInfo = new JLabel(
             "Your application has been submitted and is now being processed.", 
             SwingConstants.CENTER
         );
-        info.setFont(FontUtil.getInterFont(15f));
-        info.setForeground(txtColor);
-        info.setAlignmentX(Component.CENTER_ALIGNMENT);
-        inner.add(info);
+        lblInfo.setFont(FontUtil.getInterFont(15f));
+        lblInfo.setForeground(clrTxt);
+        lblInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlInner.add(lblInfo);
 
-        inner.add(Box.createRigidArea(new Dimension(0, 20)));
+        pnlInner.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // Track prompt
-        JLabel trackTxt = new JLabel(
+        JLabel lblTrackTxt = new JLabel(
             "Track Your Application Status", SwingConstants.CENTER
         );
-        trackTxt.setFont(FontUtil.getOutfitFont(15f));
-        trackTxt.setForeground(txtColor);
-        trackTxt.setAlignmentX(Component.CENTER_ALIGNMENT);
-        inner.add(trackTxt);
+        lblTrackTxt.setFont(FontUtil.getOutfitFont(15f));
+        lblTrackTxt.setForeground(clrTxt);
+        lblTrackTxt.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlInner.add(lblTrackTxt);
 
-        inner.add(Box.createRigidArea(new Dimension(0, 5)));
+        pnlInner.add(Box.createRigidArea(new Dimension(0, 5)));
 
-        // 4) Rounded panel for application info
-        JPanel roundedPanel = new JPanel();
-        roundedPanel.setBackground(Color.WHITE);
-        roundedPanel.setBorder(new RoundedComponents.RoundedBorder(RADIUS));
-        roundedPanel.setPreferredSize(new Dimension(375, 118));
-        roundedPanel.setMaximumSize(new Dimension(375, 118));
-        roundedPanel.setLayout(new BoxLayout(roundedPanel, BoxLayout.Y_AXIS));
-        roundedPanel.add(Box.createVerticalGlue());
+        JPanel pnlRounded = new JPanel();
+        pnlRounded.setBackground(Color.WHITE);
+        pnlRounded.setBorder(new RoundedComponents.RoundedBorder(intRadius));
+        pnlRounded.setPreferredSize(new Dimension(375, 118));
+        pnlRounded.setMaximumSize(new Dimension(375, 118));
+        pnlRounded.setLayout(new BoxLayout(pnlRounded, BoxLayout.Y_AXIS));
+        pnlRounded.add(Box.createVerticalGlue());
 
-        // 5) Fetch application info & store in session
-        String username = UserApplicationData.get("Username");
-        ApplicationInfo infoObj = ApplicationService.getLatestApplicationFor(username);
+        String strUsername = UserApplicationData.get("Username");
+        ApplicationInfo objInfo = ApplicationService.getLatestApplicationFor(strUsername);
 
-        String appNumber = (infoObj != null)
-            ? infoObj.applicationNo
+        String strAppNumber = (objInfo != null)
+            ? objInfo.applicationNo
             : "N/A";
-        String appDate = (infoObj != null)
-            ? infoObj.applicationDate
+        String strAppDate = (objInfo != null)
+            ? objInfo.applicationDate
             : LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("M/d/yyyy"));
 
-        // store into session for TrackingPage
-        UserApplicationData.set("ApplicationNo", appNumber);
-        UserApplicationData.set("ApplicationDate", appDate);
+        UserApplicationData.set("ApplicationNo", strAppNumber);
+        UserApplicationData.set("ApplicationDate", strAppDate);
 
-        // Display application number
-        JLabel appNum = new JLabel(
-            "Application No.  " + appNumber, SwingConstants.CENTER
+        JLabel lblAppNum = new JLabel(
+            "Application No.  " + strAppNumber, SwingConstants.CENTER
         );
-        appNum.setFont(FontUtil.getOutfitFont(15f));
-        appNum.setForeground(txtColor);
-        appNum.setAlignmentX(Component.CENTER_ALIGNMENT);
-        roundedPanel.add(appNum);
+        lblAppNum.setFont(FontUtil.getOutfitFont(15f));
+        lblAppNum.setForeground(clrTxt);
+        lblAppNum.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlRounded.add(lblAppNum);
 
-        roundedPanel.add(Box.createRigidArea(new Dimension(0, 9)));
+        pnlRounded.add(Box.createRigidArea(new Dimension(0, 9)));
 
-        // Display submission date
-        JLabel dateLbl = new JLabel(
-            "Date Submitted:  " + appDate, SwingConstants.CENTER
+        JLabel lblDate = new JLabel(
+            "Date Submitted:  " + strAppDate, SwingConstants.CENTER
         );
-        dateLbl.setFont(FontUtil.getOutfitFont(15f));
-        dateLbl.setForeground(txtColor);
-        dateLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
-        roundedPanel.add(dateLbl);
+        lblDate.setFont(FontUtil.getOutfitFont(15f));
+        lblDate.setForeground(clrTxt);
+        lblDate.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlRounded.add(lblDate);
 
-        roundedPanel.add(Box.createVerticalGlue());
+        pnlRounded.add(Box.createVerticalGlue());
 
-        // center the roundedPanel
-        JPanel wrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        wrapper.setOpaque(false);
-        wrapper.add(roundedPanel);
-        inner.add(wrapper);
+        JPanel pnlWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        pnlWrapper.setOpaque(false);
+        pnlWrapper.add(pnlRounded);
+        pnlInner.add(pnlWrapper);
 
-        inner.add(Box.createVerticalGlue());
+        pnlInner.add(Box.createVerticalGlue());
 
-        // 6) DONE button
-        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        btnPanel.setOpaque(false);
-        btnPanel.setMaximumSize(new Dimension(826, 50));
-        RoundedComponents.RoundedButton doneBtn =
+        JPanel pnlBtn = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        pnlBtn.setOpaque(false);
+        pnlBtn.setMaximumSize(new Dimension(826, 50));
+        RoundedComponents.RoundedButton cmdDone =
             new RoundedComponents.RoundedButton("DONE", 25);
-        doneBtn.setPreferredSize(new Dimension(148, 41));
-        doneBtn.setBackground(Color.decode("#2A0243"));
-        doneBtn.setForeground(Color.WHITE);
-        doneBtn.setFont(FontUtil.getOutfitBoldFont(16f));
-        doneBtn.setBorderColor(Color.decode("#2A0243"));
-        btnPanel.add(doneBtn);
-        inner.add(btnPanel);
+        cmdDone.setPreferredSize(new Dimension(148, 41));
+        cmdDone.setBackground(Color.decode("#2A0243"));
+        cmdDone.setForeground(Color.WHITE);
+        cmdDone.setFont(FontUtil.getOutfitBoldFont(16f));
+        cmdDone.setBorderColor(Color.decode("#2A0243"));
+        pnlBtn.add(cmdDone);
+        pnlInner.add(pnlBtn);
 
-        // DONE action: go to TrackingPage
-        doneBtn.addActionListener((ActionEvent e) -> {
+        cmdDone.addActionListener((ActionEvent e) -> {
             new TrackingPage().setVisible(true);
             dispose();
         });
 
         setVisible(true);
     }
-
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(SignUp6::new);

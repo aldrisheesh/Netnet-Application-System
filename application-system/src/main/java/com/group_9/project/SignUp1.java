@@ -18,66 +18,66 @@ public class SignUp1 extends JFrame {
     public SignUp1() {
         BaseFrameSetup.applyAppIcon(this);
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
-        JPanel container = new RoundedComponents.RoundedShadowPanel(25, 4);
-        container.setBounds(235, 165, 970, 695);
-        background.add(container);
+        JPanel pnlContainer = new RoundedComponents.RoundedShadowPanel(25, 4);
+        pnlContainer.setBounds(235, 165, 970, 695);
+        background.add(pnlContainer);
 
-        JPanel innerContent = new JPanel();
-        innerContent.setLayout(new BoxLayout(innerContent, BoxLayout.Y_AXIS));
-        innerContent.setOpaque(false);
-        innerContent.setBounds(40, 40, 890, 615);
+        JPanel pnlInnerContent = new JPanel();
+        pnlInnerContent.setLayout(new BoxLayout(pnlInnerContent, BoxLayout.Y_AXIS));
+        pnlInnerContent.setOpaque(false);
+        pnlInnerContent.setBounds(40, 40, 890, 615);
 
-        innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
         Color titleColor = Color.decode("#2B0243");
         Color subColor = Color.decode("#302E2E");
 
-        JLabel title = new JLabel("SERVICE APPLICATION", SwingConstants.CENTER);
-        title.setFont(FontUtil.getOutfitBoldFont(26f));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        title.setForeground(titleColor);
-        innerContent.add(title);
-        innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
+        JLabel lblTitle = new JLabel("SERVICE APPLICATION", SwingConstants.CENTER);
+        lblTitle.setFont(FontUtil.getOutfitBoldFont(26f));
+        lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblTitle.setForeground(titleColor);
+        pnlInnerContent.add(lblTitle);
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        JPanel stepWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        stepWrapper.setOpaque(false);
-        stepWrapper.add(CreateStepTracker.createStepTracker(0));
-        innerContent.add(stepWrapper);
-        innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
+        JPanel pnlStepWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        pnlStepWrapper.setOpaque(false);
+        pnlStepWrapper.add(CreateStepTracker.createStepTracker(0));
+        pnlInnerContent.add(pnlStepWrapper);
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        JPanel infoPanel = new JPanel(new BorderLayout());
-        infoPanel.setOpaque(false);
-        infoPanel.setMaximumSize(new Dimension(826, 60));
+        JPanel pnlInformation = new JPanel(new BorderLayout());
+        pnlInformation.setOpaque(false);
+        pnlInformation.setMaximumSize(new Dimension(826, 60));
 
-        JPanel leftLabels = new JPanel();
-        leftLabels.setLayout(new BoxLayout(leftLabels, BoxLayout.Y_AXIS));
-        leftLabels.setOpaque(false);
+        JPanel pnlLeftLabels = new JPanel();
+        pnlLeftLabels.setLayout(new BoxLayout(pnlLeftLabels, BoxLayout.Y_AXIS));
+        pnlLeftLabels.setOpaque(false);
 
-        JLabel subtitle = new JLabel("PERSONAL INFORMATION", SwingConstants.LEFT);
-        subtitle.setFont(FontUtil.getOutfitFont(16f));
-        subtitle.setForeground(subColor);
+        JLabel lblSubtitle = new JLabel("PERSONAL INFORMATION", SwingConstants.LEFT);
+        lblSubtitle.setFont(FontUtil.getOutfitFont(16f));
+        lblSubtitle.setForeground(subColor);
 
-        JLabel subNote = new JLabel("Provide the necessary details to register your information with us");
-        subNote.setFont(FontUtil.getInterFont(14f));
-        subNote.setForeground(subColor);
+        JLabel lblSubnote = new JLabel("Provide the necessary details to register your information with us");
+        lblSubnote.setFont(FontUtil.getInterFont(14f));
+        lblSubnote.setForeground(subColor);
 
-        leftLabels.add(subtitle);
-        leftLabels.add(Box.createRigidArea(new Dimension(0, 5)));
-        leftLabels.add(subNote);
+        pnlLeftLabels.add(lblSubtitle);
+        pnlLeftLabels.add(Box.createRigidArea(new Dimension(0, 5)));
+        pnlLeftLabels.add(lblSubnote);
 
-        infoPanel.add(leftLabels, BorderLayout.WEST);
-        innerContent.add(infoPanel);
+        pnlInformation.add(pnlLeftLabels, BorderLayout.WEST);
+        pnlInnerContent.add(pnlInformation);
 
-        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
-        separator.setMaximumSize(new Dimension(826, 2));
-        separator.setForeground(Color.decode("#B2B2B2"));
-        separator.setAlignmentX(Component.CENTER_ALIGNMENT);
-        innerContent.add(Box.createRigidArea(new Dimension(0, 10)));
-        innerContent.add(separator);
-        innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
+        JSeparator sepSeparator = new JSeparator(SwingConstants.HORIZONTAL);
+        sepSeparator.setMaximumSize(new Dimension(826, 2));
+        sepSeparator.setForeground(Color.decode("#B2B2B2"));
+        sepSeparator.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 10)));
+        pnlInnerContent.add(sepSeparator);
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setOpaque(false);
+        JPanel pnlForm = new JPanel(new GridBagLayout());
+        pnlForm.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 30, 5, 30);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -85,128 +85,128 @@ public class SignUp1 extends JFrame {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        RoundedComponents.RoundedTextField usernameField = createRoundedTextField("Username");
-        usernameField.setName("Username");
-        ValidationUtil.addTextValidation(usernameField, s -> !s.trim().isEmpty());
-        formPanel.add(usernameField, gbc);
-        ToolTipUtil.attachCustomTooltip(usernameField, "Create a username");
+        RoundedComponents.RoundedTextField txtUsername = createRoundedTextField("Username");
+        txtUsername.setName("Username");
+        ValidationUtil.addTextValidation(txtUsername, s -> !s.trim().isEmpty());
+        pnlForm.add(txtUsername, gbc);
+        ToolTipUtil.attachCustomTooltip(txtUsername, "Create a username");
 
         gbc.gridx = 1;
-        RoundedComponents.RoundedPasswordField passwordField = createRoundedPasswordField("Password");
-        passwordField.setName("Password");
-        ValidationUtil.addTextValidation(passwordField, s -> s.length() >= 8);
-        formPanel.add(passwordField, gbc);
-        ToolTipUtil.attachCustomTooltip(passwordField, "Create a password");
+        RoundedComponents.RoundedPasswordField txtPassword = createRoundedPasswordField("Password");
+        txtPassword.setName("Password");
+        ValidationUtil.addTextValidation(txtPassword, s -> s.length() >= 8);
+        pnlForm.add(txtPassword, gbc);
+        ToolTipUtil.attachCustomTooltip(txtPassword, "Create a password");
 
         gbc.gridx = 0;
         gbc.gridy++;
-        RoundedComponents.RoundedTextField nameField = createRoundedTextField("Customer Name");
-        nameField.setName("CustomerName");
-        ValidationUtil.addTextValidation(nameField, s -> !s.trim().isEmpty());
-        formPanel.add(nameField, gbc);
-        ToolTipUtil.attachCustomTooltip(nameField, "Enter your full name");
+        RoundedComponents.RoundedTextField txtCustomerName = createRoundedTextField("Customer Name");
+        txtCustomerName.setName("CustomerName");
+        ValidationUtil.addTextValidation(txtCustomerName, s -> !s.trim().isEmpty());
+        pnlForm.add(txtCustomerName, gbc);
+        ToolTipUtil.attachCustomTooltip(txtCustomerName, "Enter your full name");
 
         gbc.gridx = 1;
-        RoundedComponents.RoundedTextField birthdayField = createRoundedTextField("Birthday (MM/dd/yyyy)");
-        birthdayField.setName("Birthday");
-        ValidationUtil.addTextValidation(birthdayField, s -> {
+        RoundedComponents.RoundedTextField txtBirthday = createRoundedTextField("Birthday (MM/dd/yyyy)");
+        txtBirthday.setName("Birthday");
+        ValidationUtil.addTextValidation(txtBirthday, s -> {
             if (!s.matches("^\\d{2}/\\d{2}/\\d{4}$")) return false;
         
             try {
-                int month = Integer.parseInt(s.substring(0, 2));
-                int day = Integer.parseInt(s.substring(3, 5));
-                if (month < 1 || month > 12) return false;
-                if (day < 1 || day > 31) return false;
+                int intMonth = Integer.parseInt(s.substring(0, 2));
+                int intDay = Integer.parseInt(s.substring(3, 5));
+                if (intMonth < 1 || intMonth > 12) return false;
+                if (intDay < 1 || intDay > 31) return false;
         
                 // Age check
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
                 sdf.setLenient(false);
-                Date dob = sdf.parse(s);
-                Calendar minAdult = Calendar.getInstance();
-                minAdult.add(Calendar.YEAR, -18);
-                return !dob.after(minAdult.getTime());
+                Date datDob = sdf.parse(s);
+                Calendar calMinAdult = Calendar.getInstance();
+                calMinAdult.add(Calendar.YEAR, -18);
+                return !datDob.after(calMinAdult.getTime());
         
             } catch (NumberFormatException | ParseException e) {
                 return false;
             }
         });                       
-        SmartFieldFormatter.attachDateFormatter(birthdayField);
+        SmartFieldFormatter.attachDateFormatter(txtBirthday);
 
-        RoundedComponents.RoundedComboBox<String> genderCombo = (RoundedComponents.RoundedComboBox<String>)
+        RoundedComponents.RoundedComboBox<String> cboGender = (RoundedComponents.RoundedComboBox<String>)
                 FormComponent.createStyledComboBox("Select Gender", new String[]{"Male", "Female"});
-        ValidationUtil.addComboBoxValidation(genderCombo);
+        ValidationUtil.addComboBoxValidation(cboGender);
 
-        formPanel.add(createPairPanel(birthdayField, genderCombo), gbc);
+        pnlForm.add(createPairPanel(txtBirthday, cboGender), gbc);
 
-        ToolTipUtil.attachCustomTooltip(genderCombo, "Select your gender");
-        ToolTipUtil.attachCustomTooltip(birthdayField, "Enter your birthday (MM/dd/yyyy)");
+        ToolTipUtil.attachCustomTooltip(cboGender, "Select your gender");
+        ToolTipUtil.attachCustomTooltip(txtBirthday, "Enter your birthday (MM/dd/yyyy)");
 
         gbc.gridx = 0;
         gbc.gridy++;
-        RoundedComponents.RoundedComboBox<String> civilCombo = (RoundedComponents.RoundedComboBox<String>)
+        RoundedComponents.RoundedComboBox<String> cboCivilStatus = (RoundedComponents.RoundedComboBox<String>)
                 FormComponent.createStyledComboBox("Select Civil Status", new String[]{"Single", "Married", "Divorced", "Widowed"});
-        ValidationUtil.addComboBoxValidation(civilCombo);
+        ValidationUtil.addComboBoxValidation(cboCivilStatus);
 
-        RoundedComponents.RoundedTextField nationalityField = createRoundedTextField("Nationality");
-        nationalityField.setName("Nationality");
-        ValidationUtil.addTextValidation(nationalityField, s -> !s.trim().isEmpty());
-        formPanel.add(createPairPanel(civilCombo, nationalityField), gbc);
+        RoundedComponents.RoundedTextField txtNationality = createRoundedTextField("Nationality");
+        txtNationality.setName("Nationality");
+        ValidationUtil.addTextValidation(txtNationality, s -> !s.trim().isEmpty());
+        pnlForm.add(createPairPanel(cboCivilStatus, txtNationality), gbc);
 
-        ToolTipUtil.attachCustomTooltip(civilCombo, "Select your civil status");
-        ToolTipUtil.attachCustomTooltip(nationalityField, "Enter your nationality");
+        ToolTipUtil.attachCustomTooltip(cboCivilStatus, "Select your civil status");
+        ToolTipUtil.attachCustomTooltip(txtNationality, "Enter your nationality");
 
         gbc.gridx = 1;
-        RoundedComponents.RoundedTextField mobileField = createRoundedTextField("Mobile No.");
-        mobileField.setName("Mobile");
-        ValidationUtil.addTextValidation(mobileField, s -> s.matches("^\\+63\\s9\\d{2}-\\d{3}-\\d{4}$"));
-        ((AbstractDocument) mobileField.getDocument()).setDocumentFilter(new LengthLimitFilter(17));
-        SmartFieldFormatter.attachMobileFormatter(mobileField);
+        RoundedComponents.RoundedTextField txtMobileNo = createRoundedTextField("Mobile No.");
+        txtMobileNo.setName("Mobile");
+        ValidationUtil.addTextValidation(txtMobileNo, s -> s.matches("^\\+63\\s9\\d{2}-\\d{3}-\\d{4}$"));
+        ((AbstractDocument) txtMobileNo.getDocument()).setDocumentFilter(new LengthLimitFilter(17));
+        SmartFieldFormatter.attachMobileFormatter(txtMobileNo);
 
-        RoundedComponents.RoundedTextField emailField = createRoundedTextField("Email");
-        emailField.setName("Email");
-        ValidationUtil.addTextValidation(emailField, s -> s.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,}$"));
+        RoundedComponents.RoundedTextField txtEmail = createRoundedTextField("Email");
+        txtEmail.setName("Email");
+        ValidationUtil.addTextValidation(txtEmail, s -> s.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,}$"));
 
-        formPanel.add(createPairPanel(mobileField, emailField), gbc);
-        ToolTipUtil.attachCustomTooltip(mobileField, "Enter your mobile No. (9XX-XXX-XXXX)");
-        ToolTipUtil.attachCustomTooltip(emailField, "Enter a valid email address");
+        pnlForm.add(createPairPanel(txtMobileNo, txtEmail), gbc);
+        ToolTipUtil.attachCustomTooltip(txtMobileNo, "Enter your mobile No. (9XX-XXX-XXXX)");
+        ToolTipUtil.attachCustomTooltip(txtEmail, "Enter a valid email address");
 
         gbc.gridx = 0;
         gbc.gridy++;
-        RoundedComponents.RoundedTextField maidenField = createRoundedTextField("Full Mother's Maiden Name");
-        maidenField.setName("MaidenName");
-        ValidationUtil.addTextValidation(maidenField, s -> !s.trim().isEmpty());
-        formPanel.add(maidenField, gbc);
-        ToolTipUtil.attachCustomTooltip(maidenField, "Enter your mother's maiden name");
+        RoundedComponents.RoundedTextField txtMaidenName = createRoundedTextField("Full Mother's Maiden Name");
+        txtMaidenName.setName("MaidenName");
+        ValidationUtil.addTextValidation(txtMaidenName, s -> !s.trim().isEmpty());
+        pnlForm.add(txtMaidenName, gbc);
+        ToolTipUtil.attachCustomTooltip(txtMaidenName, "Enter your mother's maiden name");
 
         gbc.gridx = 1;
-        RoundedComponents.RoundedTextField spouseField = createRoundedTextField("Spouse Name (if married)");
-        spouseField.setName("Spouse");
-        formPanel.add(spouseField, gbc);
-        ToolTipUtil.attachCustomTooltip(spouseField, "Enter your spouse's name (if married)");
+        RoundedComponents.RoundedTextField txtSpouseName = createRoundedTextField("Spouse Name (if married)");
+        txtSpouseName.setName("Spouse");
+        pnlForm.add(txtSpouseName, gbc);
+        ToolTipUtil.attachCustomTooltip(txtSpouseName, "Enter your spouse's name (if married)");
 
-        innerContent.add(formPanel);
-        innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
+        pnlInnerContent.add(pnlForm);
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.setOpaque(false);
-        buttonPanel.setMaximumSize(new Dimension(826, 50));
+        JPanel pnlButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        pnlButtons.setOpaque(false);
+        pnlButtons.setMaximumSize(new Dimension(826, 50));
 
-        RoundedComponents.RoundedButton nextButton = new RoundedComponents.RoundedButton("NEXT", 25);
-        nextButton.setPreferredSize(new Dimension(148, 41));
-        nextButton.setBackground(Color.decode("#2A0243"));
-        nextButton.setForeground(Color.WHITE);
-        nextButton.setFont(FontUtil.getOutfitBoldFont(16f));
-        nextButton.setBorderColor(Color.decode("#2A0243"));
+        RoundedComponents.RoundedButton cmdNext = new RoundedComponents.RoundedButton("NEXT", 25);
+        cmdNext.setPreferredSize(new Dimension(148, 41));
+        cmdNext.setBackground(Color.decode("#2A0243"));
+        cmdNext.setForeground(Color.WHITE);
+        cmdNext.setFont(FontUtil.getOutfitBoldFont(16f));
+        cmdNext.setBorderColor(Color.decode("#2A0243"));
 
-        buttonPanel.add(nextButton);
-        innerContent.add(buttonPanel);
-        container.add(innerContent);
+        pnlButtons.add(cmdNext);
+        pnlInnerContent.add(pnlButtons);
+        pnlContainer.add(pnlInnerContent);
 
-        nextButton.addActionListener((ActionEvent e) -> {
+        cmdNext.addActionListener((ActionEvent e) -> {
             List<JTextComponent> inputFields = new ArrayList<>();
-            String password = "", email = "", mobile = "", birthdate = "";
+            String strPassword = "", strEmail = "", strMobile = "", strBirthdate = "";
         
-            for (Component comp : formPanel.getComponents()) {
+            for (Component comp : pnlForm.getComponents()) {
                 if (comp instanceof JTextComponent) {
                     inputFields.add((JTextComponent) comp);
                 } else if (comp instanceof JPanel) {
@@ -224,32 +224,32 @@ public class SignUp1 extends JFrame {
                 }
             }
         
-            boolean allValid = true;
+            boolean boolAllValid = true;
         
             for (JTextComponent field : inputFields) {
-                String name = field.getName();
-                boolean optional = name != null && name.equalsIgnoreCase("Spouse");
-                boolean valid = optional || !field.getText().trim().isEmpty();
+                String strName = field.getName();
+                boolean boolOptional = strName != null && strName.equalsIgnoreCase("Spouse");
+                boolean boolValid = boolOptional || !field.getText().trim().isEmpty();
         
                 if (field instanceof RoundedComponents.RoundedTextField textField) {
-                    textField.setValidationBorderColor(valid ? Color.GRAY : Color.RED);
+                    textField.setValidationBorderColor(boolValid ? Color.GRAY : Color.RED);
                 } else if (field instanceof RoundedComponents.RoundedPasswordField pwdField) {
-                    pwdField.setValidationBorderColor(valid ? Color.GRAY : Color.RED);
+                    pwdField.setValidationBorderColor(boolValid ? Color.GRAY : Color.RED);
                 }
         
-                if (!valid) allValid = false;
+                if (!boolValid) boolAllValid = false;
             }
         
-            List<RoundedComponents.RoundedComboBox<String>> comboBoxes = List.of(genderCombo, civilCombo);
-            boolean comboValid = true;
+            List<RoundedComponents.RoundedComboBox<String>> comboBoxes = List.of(cboGender, cboCivilStatus);
+            boolean boolComboValid = true;
         
             for (var combo : comboBoxes) {
-                boolean valid = combo.getSelectedIndex() != -1;
-                combo.setValidationBorderColor(valid ? Color.GRAY : Color.RED);
-                if (!valid) comboValid = false;
+                boolean boolValid = combo.getSelectedIndex() != -1;
+                combo.setValidationBorderColor(boolValid ? Color.GRAY : Color.RED);
+                if (!boolValid) boolComboValid = false;
             }
         
-            if (!allValid || !comboValid) {
+            if (!boolAllValid || !boolComboValid) {
                 CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
                         "Missing Information", "Please complete all required fields and selections.");
                 return;
@@ -258,39 +258,39 @@ public class SignUp1 extends JFrame {
             for (JTextComponent field : inputFields) {
                 if (field.getName() == null) continue;
                 switch (field.getName()) {
-                    case "Password": password = field.getText(); break;
-                    case "Mobile": mobile = field.getText().trim(); break;
-                    case "Email": email = field.getText().trim(); break;
-                    case "Birthday": birthdate = field.getText().trim(); break;
+                    case "Password": strPassword = field.getText(); break;
+                    case "Mobile": strMobile = field.getText().trim(); break;
+                    case "Email": strEmail = field.getText().trim(); break;
+                    case "Birthday": strBirthdate = field.getText().trim(); break;
                 }
             }
             
-            // ✅ Recolor border if invalid before dialog
-            if (password.length() < 8) {
-                passwordField.setValidationBorderColor(Color.RED);
+            // recolor border if invalid before dialog
+            if (strPassword.length() < 8) {
+                txtPassword.setValidationBorderColor(Color.RED);
                 CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
                         "Weak Password", "Password must be at least 8 characters long.");
                 return;
             }
             
             try {
-                if (!birthdate.matches("^\\d{2}/\\d{2}/\\d{4}$")) {
-                    birthdayField.setValidationBorderColor(Color.RED);
+                if (!strBirthdate.matches("^\\d{2}/\\d{2}/\\d{4}$")) {
+                    txtBirthday.setValidationBorderColor(Color.RED);
                     CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
                             "Invalid Format", "Please use the format MM/dd/yyyy.");
                     return;
                 }
             
-                int month = Integer.parseInt(birthdate.substring(0, 2));
-                int day = Integer.parseInt(birthdate.substring(3, 5));
-                if (month < 1 || month > 12) {
-                    birthdayField.setValidationBorderColor(Color.RED);
+                int intMonth = Integer.parseInt(strBirthdate.substring(0, 2));
+                int intDay = Integer.parseInt(strBirthdate.substring(3, 5));
+                if (intMonth < 1 || intMonth > 12) {
+                    txtBirthday.setValidationBorderColor(Color.RED);
                     CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
                             "Invalid Birthdate", "Month must be between 01 and 12.");
                     return;
                 }
-                if (day < 1 || day > 31) {
-                    birthdayField.setValidationBorderColor(Color.RED);
+                if (intDay < 1 || intDay > 31) {
+                    txtBirthday.setValidationBorderColor(Color.RED);
                     CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
                             "Invalid Birthdate", "Day must be between 01 and 31.");
                     return;
@@ -298,60 +298,60 @@ public class SignUp1 extends JFrame {
             
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
                 sdf.setLenient(false); // Enforce exact match
-                Date dob = sdf.parse(birthdate);
+                Date datDob = sdf.parse(strBirthdate);
             
-                Calendar parsed = Calendar.getInstance();
-                parsed.setTime(dob);
-                if ((parsed.get(Calendar.MONTH) + 1) != month || parsed.get(Calendar.DAY_OF_MONTH) != day) {
-                    birthdayField.setValidationBorderColor(Color.RED);
+                Calendar calParsed = Calendar.getInstance();
+                calParsed.setTime(datDob);
+                if ((calParsed.get(Calendar.MONTH) + 1) != intMonth || calParsed.get(Calendar.DAY_OF_MONTH) != intDay) {
+                    txtBirthday.setValidationBorderColor(Color.RED);
                     CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
                             "Invalid Birthdate", "The date you entered does not exist.");
                     return;
                 }
             
-                Calendar minAdult = Calendar.getInstance();
-                minAdult.add(Calendar.YEAR, -18);
-                if (dob.after(minAdult.getTime())) {
-                    birthdayField.setValidationBorderColor(Color.RED);
+                Calendar calMinAdult = Calendar.getInstance();
+                calMinAdult.add(Calendar.YEAR, -18);
+                if (datDob.after(calMinAdult.getTime())) {
+                    txtBirthday.setValidationBorderColor(Color.RED);
                     CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
                             "Underage", "You must be at least 18 years old to register.");
                     return;
                 }
             
             } catch (ParseException ex) {
-                birthdayField.setValidationBorderColor(Color.RED);
+                txtBirthday.setValidationBorderColor(Color.RED);
                 CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
                         "Invalid Birthdate", "Please enter a valid date in MM/dd/yyyy format.");
                 return;
             }
             
 
-            if (!mobile.matches("^\\+63\\s9\\d{2}-\\d{3}-\\d{4}$")) {
-                mobileField.setValidationBorderColor(Color.RED);
+            if (!strMobile.matches("^\\+63\\s9\\d{2}-\\d{3}-\\d{4}$")) {
+                txtMobileNo.setValidationBorderColor(Color.RED);
                 CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
                         "Invalid Mobile Number", "Mobile number must be in the format +63 9XX-XXX-XXXX.");
                 return;
             }
         
-            if (!email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,}$")) {
-                emailField.setValidationBorderColor(Color.RED);
+            if (!strEmail.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,}$")) {
+                txtEmail.setValidationBorderColor(Color.RED);
                 CustomDialogUtil.showStyledErrorDialog(SignUp1.this,
                         "Invalid Email", "Please enter a valid email address.");
                 return;
             }
         
-            // ✅ Everything passed, proceed and store data
-            UserApplicationData.set("Username", usernameField.getText().trim());
-            UserApplicationData.set("Password", passwordField.getText());
-            UserApplicationData.set("CustomerName", nameField.getText().trim());
-            UserApplicationData.set("Birthday", birthdayField.getText().trim());
-            UserApplicationData.set("Gender", (String) genderCombo.getSelectedItem());
-            UserApplicationData.set("CivilStatus", (String) civilCombo.getSelectedItem());
-            UserApplicationData.set("Nationality", nationalityField.getText().trim());
-            UserApplicationData.set("Mobile", mobileField.getText().trim());
-            UserApplicationData.set("Email", emailField.getText().trim());
-            UserApplicationData.set("MaidenName", maidenField.getText().trim());
-            UserApplicationData.set("Spouse", spouseField.getText().trim());
+            // everything passed, proceed and store data
+            UserApplicationData.set("Username", txtUsername.getText().trim());
+            UserApplicationData.set("Password", txtPassword.getText());
+            UserApplicationData.set("CustomerName", txtCustomerName.getText().trim());
+            UserApplicationData.set("Birthday", txtBirthday.getText().trim());
+            UserApplicationData.set("Gender", (String) cboGender.getSelectedItem());
+            UserApplicationData.set("CivilStatus", (String) cboCivilStatus.getSelectedItem());
+            UserApplicationData.set("Nationality", txtNationality.getText().trim());
+            UserApplicationData.set("Mobile", txtMobileNo.getText().trim());
+            UserApplicationData.set("Email", txtEmail.getText().trim());
+            UserApplicationData.set("MaidenName", txtMaidenName.getText().trim());
+            UserApplicationData.set("Spouse", txtSpouseName.getText().trim());
         
             new SignUp2();
             dispose();
@@ -359,52 +359,52 @@ public class SignUp1 extends JFrame {
         
 
         // Restore Data
-        usernameField.setText(UserApplicationData.get("Username"));
-        passwordField.setText(UserApplicationData.get("Password"));
-        nameField.setText(UserApplicationData.get("CustomerName"));
-        birthdayField.setText(UserApplicationData.get("Birthday"));
-        genderCombo.setSelectedItem(UserApplicationData.get("Gender"));
-        civilCombo.setSelectedItem(UserApplicationData.get("CivilStatus"));
-        nationalityField.setText(UserApplicationData.get("Nationality"));
-        mobileField.setText(UserApplicationData.get("Mobile"));
-        emailField.setText(UserApplicationData.get("Email"));
-        maidenField.setText(UserApplicationData.get("MaidenName"));
-        spouseField.setText(UserApplicationData.get("Spouse"));
+        txtUsername.setText(UserApplicationData.get("Username"));
+        txtPassword.setText(UserApplicationData.get("Password"));
+        txtCustomerName.setText(UserApplicationData.get("CustomerName"));
+        txtBirthday.setText(UserApplicationData.get("Birthday"));
+        cboGender.setSelectedItem(UserApplicationData.get("Gender"));
+        cboCivilStatus.setSelectedItem(UserApplicationData.get("CivilStatus"));
+        txtNationality.setText(UserApplicationData.get("Nationality"));
+        txtMobileNo.setText(UserApplicationData.get("Mobile"));
+        txtEmail.setText(UserApplicationData.get("Email"));
+        txtMaidenName.setText(UserApplicationData.get("MaidenName"));
+        txtSpouseName.setText(UserApplicationData.get("Spouse"));
 
         setVisible(true);
         SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
     }
 
 
-    private RoundedComponents.RoundedTextField createRoundedTextField(String placeholder) {
-        RoundedComponents.RoundedTextField field = new RoundedComponents.RoundedTextField(placeholder, 15);
+    private RoundedComponents.RoundedTextField createRoundedTextField(String strPlaceholder) {
+        RoundedComponents.RoundedTextField field = new RoundedComponents.RoundedTextField(strPlaceholder, 15);
         field.setFont(FontUtil.getOutfitFont(15f));
         field.setPreferredSize(new Dimension(375, 50));
         return field;
     }
 
-    private RoundedComponents.RoundedPasswordField createRoundedPasswordField(String placeholder) {
-        RoundedComponents.RoundedPasswordField field = new RoundedComponents.RoundedPasswordField(placeholder, 15);
+    private RoundedComponents.RoundedPasswordField createRoundedPasswordField(String strPlaceholder) {
+        RoundedComponents.RoundedPasswordField field = new RoundedComponents.RoundedPasswordField(strPlaceholder, 15);
         field.setFont(FontUtil.getOutfitFont(15f));
         field.setPreferredSize(new Dimension(375, 50));
         return field;
     }
 
-    private JPanel createPairPanel(JComponent left, JComponent right) {
-        JPanel panel = new JPanel(new GridLayout(1, 2, 10, 0));
-        panel.setOpaque(false);
-        left.setPreferredSize(new Dimension(180, 50));
-        right.setPreferredSize(new Dimension(180, 50));
-        JPanel leftWrapper = new JPanel(new BorderLayout());
-        leftWrapper.setOpaque(false);
-        leftWrapper.add(left, BorderLayout.CENTER);
-        JPanel rightWrapper = new JPanel(new BorderLayout());
-        rightWrapper.setOpaque(false);
-        rightWrapper.add(right, BorderLayout.CENTER);
-        panel.add(leftWrapper);
-        panel.add(rightWrapper);
-        panel.setPreferredSize(new Dimension(375, 50));
-        return panel;
+    private JPanel createPairPanel(JComponent cmpLeft, JComponent cmpRight) {
+        JPanel pnlPanel = new JPanel(new GridLayout(1, 2, 10, 0));
+        pnlPanel.setOpaque(false);
+        cmpLeft.setPreferredSize(new Dimension(180, 50));
+        cmpRight.setPreferredSize(new Dimension(180, 50));
+        JPanel pnlLeftWrapper = new JPanel(new BorderLayout());
+        pnlLeftWrapper.setOpaque(false);
+        pnlLeftWrapper.add(cmpLeft, BorderLayout.CENTER);
+        JPanel pnlRightWrapper = new JPanel(new BorderLayout());
+        pnlRightWrapper.setOpaque(false);
+        pnlRightWrapper.add(cmpRight, BorderLayout.CENTER);
+        pnlPanel.add(pnlLeftWrapper);
+        pnlPanel.add(pnlRightWrapper);
+        pnlPanel.setPreferredSize(new Dimension(375, 50));
+        return pnlPanel;
     }
 
     public static void main(String[] args) {

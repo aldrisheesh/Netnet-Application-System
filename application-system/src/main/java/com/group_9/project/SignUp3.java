@@ -13,320 +13,320 @@ public class SignUp3 extends JFrame {
 
     public SignUp3() {
         BaseFrameSetup.applyAppIcon(this);
-        BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
+        BackgroundPanel pnlBackground = BaseFrameSetup.setupCompleteFrame(this, 1);
 
-        JPanel container = new RoundedComponents.RoundedShadowPanel(25, 4);
-        container.setBounds(235, 165, 970, 695);
-        background.add(container);
+        JPanel pnlContainer = new RoundedComponents.RoundedShadowPanel(25, 4);
+        pnlContainer.setBounds(235, 165, 970, 695);
+        pnlBackground.add(pnlContainer);
 
-        JPanel innerContent = new JPanel();
-        innerContent.setLayout(new BoxLayout(innerContent, BoxLayout.Y_AXIS));
-        innerContent.setOpaque(false);
-        innerContent.setBounds(40, 40, 890, 615);
+        JPanel pnlInnerContent = new JPanel();
+        pnlInnerContent.setLayout(new BoxLayout(pnlInnerContent, BoxLayout.Y_AXIS));
+        pnlInnerContent.setOpaque(false);
+        pnlInnerContent.setBounds(40, 40, 890, 615);
 
-        innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        Color titleColor = Color.decode("#2B0243");
-        Color subColor = Color.decode("#302E2E");
+        Color clrTitle = Color.decode("#2B0243");
+        Color clrSub = Color.decode("#302E2E");
 
-        JLabel title = new JLabel("SERVICE APPLICATION", SwingConstants.CENTER);
-        title.setFont(FontUtil.getOutfitBoldFont(26f));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        title.setForeground(titleColor);
-        innerContent.add(title);
+        JLabel lblTitle = new JLabel("SERVICE APPLICATION", SwingConstants.CENTER);
+        lblTitle.setFont(FontUtil.getOutfitBoldFont(26f));
+        lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblTitle.setForeground(clrTitle);
+        pnlInnerContent.add(lblTitle);
 
-        innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        JPanel stepWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        stepWrapper.setOpaque(false);
-        stepWrapper.add(CreateStepTracker.createStepTracker(1));
-        innerContent.add(stepWrapper);
-        innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
+        JPanel pnlStepWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        pnlStepWrapper.setOpaque(false);
+        pnlStepWrapper.add(CreateStepTracker.createStepTracker(1));
+        pnlInnerContent.add(pnlStepWrapper);
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        JPanel infoPanel = new JPanel();
-        infoPanel.setOpaque(false);
-        infoPanel.setLayout(new BorderLayout());
-        infoPanel.setMaximumSize(new Dimension(826, 60));
+        JPanel pnlInfo = new JPanel();
+        pnlInfo.setOpaque(false);
+        pnlInfo.setLayout(new BorderLayout());
+        pnlInfo.setMaximumSize(new Dimension(826, 60));
 
-        JPanel leftLabels = new JPanel();
-        leftLabels.setLayout(new BoxLayout(leftLabels, BoxLayout.Y_AXIS));
-        leftLabels.setOpaque(false);
+        JPanel pnlLeftLabels = new JPanel();
+        pnlLeftLabels.setLayout(new BoxLayout(pnlLeftLabels, BoxLayout.Y_AXIS));
+        pnlLeftLabels.setOpaque(false);
 
-        JLabel subtitle = new JLabel("CHOOSE YOUR PLAN", SwingConstants.LEFT);
-        subtitle.setFont(FontUtil.getOutfitFont(16f));
-        subtitle.setForeground(subColor);
+        JLabel lblSubtitle = new JLabel("CHOOSE YOUR PLAN", SwingConstants.LEFT);
+        lblSubtitle.setFont(FontUtil.getOutfitFont(16f));
+        lblSubtitle.setForeground(clrSub);
 
-        JLabel subNote = new JLabel("Choose one or more plans to get started. You can also add more later.");
-        subNote.setFont(FontUtil.getInterFont(14f));
-        subNote.setForeground(subColor);
+        JLabel lblSubNote = new JLabel("Choose one or more plans to get started. You can also add more later.");
+        lblSubNote.setFont(FontUtil.getInterFont(14f));
+        lblSubNote.setForeground(clrSub);
 
-        leftLabels.add(subtitle);
-        leftLabels.add(Box.createRigidArea(new Dimension(0, 5)));
-        leftLabels.add(subNote);
+        pnlLeftLabels.add(lblSubtitle);
+        pnlLeftLabels.add(Box.createRigidArea(new Dimension(0, 5)));
+        pnlLeftLabels.add(lblSubNote);
 
-        infoPanel.add(leftLabels, BorderLayout.WEST);
-        innerContent.add(infoPanel);
+        pnlInfo.add(pnlLeftLabels, BorderLayout.WEST);
+        pnlInnerContent.add(pnlInfo);
 
-        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
-        separator.setMaximumSize(new Dimension(826, 2));
-        separator.setForeground(Color.decode("#B2B2B2"));
-        separator.setAlignmentX(Component.CENTER_ALIGNMENT);
-        innerContent.add(Box.createRigidArea(new Dimension(0, 10)));
-        innerContent.add(separator);
-        innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
+        JSeparator sepHorizontal = new JSeparator(SwingConstants.HORIZONTAL);
+        sepHorizontal.setMaximumSize(new Dimension(826, 2));
+        sepHorizontal.setForeground(Color.decode("#B2B2B2"));
+        sepHorizontal.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 10)));
+        pnlInnerContent.add(sepHorizontal);
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        JPanel planPanel = new JPanel(new GridBagLayout());
-        planPanel.setOpaque(false);
-        planPanel.setMaximumSize(new Dimension(826, 350));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 20, 10, 20);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        JPanel pnlPlan = new JPanel(new GridBagLayout());
+        pnlPlan.setOpaque(false);
+        pnlPlan.setMaximumSize(new Dimension(826, 350));
+        GridBagConstraints gbcLayout = new GridBagConstraints();
+        gbcLayout.insets = new Insets(10, 20, 10, 20);
+        gbcLayout.fill = GridBagConstraints.HORIZONTAL;
 
-        ArrayList<SelectablePlanPanel> planBoxes = new ArrayList<>();
+        ArrayList<SelectablePlanPanel> lstPlanBoxes = new ArrayList<>();
 
-        planBoxes.add(new SelectablePlanPanel("P001", "FIBERX 1500", "₱1500", "Installation Fee: ₱125/24mo."));
-        planBoxes.add(new SelectablePlanPanel("P002", "FIBER Xtream 4500", "₱4500", "Installation Fee: WAIVED"));
-        planBoxes.add(new SelectablePlanPanel("P003", "FIBERX 2500", "₱2500", "Installation Fee: ₱125/24mo."));
-        planBoxes.add(new SelectablePlanPanel("P004", "FIBER Xtream 7000", "₱7000", "Installation Fee: WAIVED"));
-        planBoxes.add(new SelectablePlanPanel("P005", "FIBERX 3500", "₱3500", "Installation Fee: ₱125/12mo."));
+        lstPlanBoxes.add(new SelectablePlanPanel("P001", "FIBERX 1500", "₱1500", "Installation Fee: ₱125/24mo."));
+        lstPlanBoxes.add(new SelectablePlanPanel("P002", "FIBER Xtream 4500", "₱4500", "Installation Fee: WAIVED"));
+        lstPlanBoxes.add(new SelectablePlanPanel("P003", "FIBERX 2500", "₱2500", "Installation Fee: ₱125/24mo."));
+        lstPlanBoxes.add(new SelectablePlanPanel("P004", "FIBER Xtream 7000", "₱7000", "Installation Fee: WAIVED"));
+        lstPlanBoxes.add(new SelectablePlanPanel("P005", "FIBERX 3500", "₱3500", "Installation Fee: ₱125/12mo."));
 
-        for (int i = 0; i < planBoxes.size(); i++) {
-            gbc.gridx = i % 2;
-            gbc.gridy = i / 2;
-            planPanel.add(planBoxes.get(i), gbc);
+        for (int intIndex = 0; intIndex < lstPlanBoxes.size(); intIndex++) {
+            gbcLayout.gridx = intIndex % 2;
+            gbcLayout.gridy = intIndex / 2;
+            pnlPlan.add(lstPlanBoxes.get(intIndex), gbcLayout);
 
-            if (i == 4) {
-                gbc.gridx = 1;
-                JTextArea note = new JTextArea(
+            if (intIndex == 4) {
+                gbcLayout.gridx = 1;
+                JTextArea txtNote = new JTextArea(
                         "*With outright Payment Option of Php 2,500 for\n" +
                         "Plans 1500 & 2500, and Php 1,250 for Plan 3500.\n" +
                         "Waived Installation Fee for Plans 4500 and 7000.\n" +
                         "*Prices are VAT Inclusive"
                 );
-                note.setFont(FontUtil.getOutfitFont(14f));
-                note.setEditable(false);
-                note.setOpaque(false);
-                planPanel.add(note, gbc);
+                txtNote.setFont(FontUtil.getOutfitFont(14f));
+                txtNote.setEditable(false);
+                txtNote.setOpaque(false);
+                pnlPlan.add(txtNote, gbcLayout);
             }
         }
 
-        String savedPlans = UserApplicationData.get("selectedPlans");
-        String savedPlanIDs = UserApplicationData.get("selectedPlanIDs");
+        String strSavedPlans = UserApplicationData.get("selectedPlans");
+        String strSavedPlanIDs = UserApplicationData.get("selectedPlanIDs");
         
-        if (!savedPlanIDs.isEmpty()) {
-            String[] selectedPlanIDs = savedPlanIDs.split(",");
-            for (SelectablePlanPanel panel : planBoxes) {
-                for (String selectedID : selectedPlanIDs) {
-                    if (panel.getPlanID().equalsIgnoreCase(selectedID.trim())) {
-                        panel.setSelected(true);
+        if (!strSavedPlanIDs.isEmpty()) {
+            String[] arrSelectedPlanIDs = strSavedPlanIDs.split(",");
+            for (SelectablePlanPanel pnlPlanItem : lstPlanBoxes) {
+                for (String strSelectedID : arrSelectedPlanIDs) {
+                    if (pnlPlanItem.getPlanID().equalsIgnoreCase(strSelectedID.trim())) {
+                        pnlPlanItem.setSelected(true);
                         break;
                     }
                 }
             }
         }
 
-        gbc.gridx = 0;
-        gbc.gridy++;
-        gbc.gridwidth = 2;
-        innerContent.add(planPanel);
+        gbcLayout.gridx = 0;
+        gbcLayout.gridy++;
+        gbcLayout.gridwidth = 2;
+        pnlInnerContent.add(pnlPlan);
 
-        innerContent.add(Box.createRigidArea(new Dimension(0, 40)));
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 40)));
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setOpaque(false);
-        buttonPanel.setLayout(new BorderLayout());
-        buttonPanel.setMaximumSize(new Dimension(826, 50));
+        JPanel pnlButton = new JPanel();
+        pnlButton.setOpaque(false);
+        pnlButton.setLayout(new BorderLayout());
+        pnlButton.setMaximumSize(new Dimension(826, 50));
 
-        RoundedComponents.RoundedButton nextButton = new RoundedComponents.RoundedButton("NEXT", 25);
-        nextButton.setPreferredSize(new Dimension(148, 41));
-        nextButton.setBackground(Color.decode("#2A0243"));
-        nextButton.setForeground(Color.WHITE);
-        nextButton.setFont(FontUtil.getOutfitBoldFont(16f));
-        nextButton.setBorderColor(Color.decode("#2A0243"));
+        RoundedComponents.RoundedButton cmdNext = new RoundedComponents.RoundedButton("NEXT", 25);
+        cmdNext.setPreferredSize(new Dimension(148, 41));
+        cmdNext.setBackground(Color.decode("#2A0243"));
+        cmdNext.setForeground(Color.WHITE);
+        cmdNext.setFont(FontUtil.getOutfitBoldFont(16f));
+        cmdNext.setBorderColor(Color.decode("#2A0243"));
 
-        RoundedComponents.RoundedButton backButton = new RoundedComponents.RoundedButton("BACK", 25);
-        backButton.setPreferredSize(new Dimension(148, 41));
-        backButton.setBackground(Color.decode("#FFF1FF"));
-        backButton.setForeground(Color.decode("#2B0243"));
-        backButton.setFont(FontUtil.getOutfitBoldFont(16f));
-        backButton.setBorderColor(Color.decode("#2B0243"));
+        RoundedComponents.RoundedButton cmdBack = new RoundedComponents.RoundedButton("BACK", 25);
+        cmdBack.setPreferredSize(new Dimension(148, 41));
+        cmdBack.setBackground(Color.decode("#FFF1FF"));
+        cmdBack.setForeground(Color.decode("#2B0243"));
+        cmdBack.setFont(FontUtil.getOutfitBoldFont(16f));
+        cmdBack.setBorderColor(Color.decode("#2B0243"));
 
-        buttonPanel.add(backButton, BorderLayout.WEST);
-        buttonPanel.add(nextButton, BorderLayout.EAST);
+        pnlButton.add(cmdBack, BorderLayout.WEST);
+        pnlButton.add(cmdNext, BorderLayout.EAST);
 
-        innerContent.add(buttonPanel);
+        pnlInnerContent.add(pnlButton);
 
-        nextButton.addActionListener(e -> {
-            ArrayList<String> selectedPlans = new ArrayList<>();
-            ArrayList<String> selectedPlanIDs = new ArrayList<>();
+        cmdNext.addActionListener(evtAction -> {
+            ArrayList<String> lstSelectedPlans = new ArrayList<>();
+            ArrayList<String> lstSelectedPlanIDs = new ArrayList<>();
 
-            for (SelectablePlanPanel panel : planBoxes) {
-                if (panel.isSelected()) {
-                    selectedPlans.add(panel.getPlanTitle());
-                    selectedPlanIDs.add(panel.getPlanID());
+            for (SelectablePlanPanel pnlPlanItem : lstPlanBoxes) {
+                if (pnlPlanItem.isSelected()) {
+                    lstSelectedPlans.add(pnlPlanItem.getPlanTitle());
+                    lstSelectedPlanIDs.add(pnlPlanItem.getPlanID());
                 }
             }
 
-            if (selectedPlans.isEmpty()) {
+            if (lstSelectedPlans.isEmpty()) {
                 CustomDialogUtil.showStyledErrorDialog(SignUp3.this, "No Plan Selected", "Please select at least one plan to proceed.");
             } else {
-                String joinedPlans = String.join(",", selectedPlans);
-                String joinedPlanIDs = String.join(",", selectedPlanIDs);
+                String strJoinedPlans = String.join(",", lstSelectedPlans);
+                String strJoinedPlanIDs = String.join(",", lstSelectedPlanIDs);
                 
-                UserApplicationData.set("selectedPlans", joinedPlans);
-                UserApplicationData.set("selectedPlanIDs", joinedPlanIDs);
+                UserApplicationData.set("selectedPlans", strJoinedPlans);
+                UserApplicationData.set("selectedPlanIDs", strJoinedPlanIDs);
                 
                 new SignUp5();
                 dispose();
             }
         });
 
-        backButton.addActionListener(e -> {
-            ArrayList<String> selectedPlans = new ArrayList<>();
-            ArrayList<String> selectedPlanIDs = new ArrayList<>();
+        cmdBack.addActionListener(evtAction -> {
+            ArrayList<String> lstSelectedPlans = new ArrayList<>();
+            ArrayList<String> lstSelectedPlanIDs = new ArrayList<>();
         
-            for (SelectablePlanPanel panel : planBoxes) {
-                if (panel.isSelected()) {
-                    selectedPlans.add(panel.getPlanTitle());
-                    selectedPlanIDs.add(panel.getPlanID());
+            for (SelectablePlanPanel pnlPlanItem : lstPlanBoxes) {
+                if (pnlPlanItem.isSelected()) {
+                    lstSelectedPlans.add(pnlPlanItem.getPlanTitle());
+                    lstSelectedPlanIDs.add(pnlPlanItem.getPlanID());
                 }
             }
         
-            String joinedPlans = String.join(",", selectedPlans);
-            String joinedPlanIDs = String.join(",", selectedPlanIDs);
+            String strJoinedPlans = String.join(",", lstSelectedPlans);
+            String strJoinedPlanIDs = String.join(",", lstSelectedPlanIDs);
             
-            UserApplicationData.set("selectedPlans", joinedPlans);
-            UserApplicationData.set("selectedPlanIDs", joinedPlanIDs);
+            UserApplicationData.set("selectedPlans", strJoinedPlans);
+            UserApplicationData.set("selectedPlanIDs", strJoinedPlanIDs);
         
             new SignUp2();
             dispose();
         });        
 
-        container.add(innerContent);
+        pnlContainer.add(pnlInnerContent);
 
         setVisible(true);
-        SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
+        SwingUtilities.invokeLater(() -> pnlBackground.requestFocusInWindow());
     }
 
 
     class SelectablePlanPanel extends JPanel {
-        private boolean selected = false;
-        private final Color borderColorDefault = Color.LIGHT_GRAY;
-        private final Color borderColorHover = Color.GRAY;
-        private final Color borderColorSelected = Color.decode("#7E4CA5");
-        private final Color squareColorSelected = Color.decode("#2B0243");
-        private final Color squareColorUnselected = Color.WHITE;
-        private final int borderRadius = 12;
+        private boolean mBoolSelected = false;
+        private final Color mClrBorderDefault = Color.LIGHT_GRAY;
+        private final Color mClrBorderHover = Color.GRAY;
+        private final Color mClrBorderSelected = Color.decode("#7E4CA5");
+        private final Color mClrSquareSelected = Color.decode("#2B0243");
+        private final Color mClrSquareUnselected = Color.WHITE;
+        private final int mIntBorderRadius = 12;
 
-        private final JPanel checkboxPanel;
-        private final String planID;
-        private final String planTitle;
-        private final String planPrice;
-        private final String planFee;
+        private final JPanel mPnlCheckbox;
+        private final String mStrPlanID;
+        private final String mStrPlanTitle;
+        private final String mStrPlanPrice;
+        private final String mStrPlanFee;
 
-        public SelectablePlanPanel(String planID, String title, String price, String fee) {
-            this.planID = planID;
-            this.planTitle = title;
-            this.planPrice = price;
-            this.planFee = fee;
+        public SelectablePlanPanel(String strPlanID, String strTitle, String strPrice, String strFee) {
+            this.mStrPlanID = strPlanID;
+            this.mStrPlanTitle = strTitle;
+            this.mStrPlanPrice = strPrice;
+            this.mStrPlanFee = strFee;
             
             setLayout(new BorderLayout(10, 0));
             setBackground(Color.WHITE);
             setPreferredSize(new Dimension(370, 75));
-            setBorder(createRoundedBorder(borderColorDefault, 1));
+            setBorder(createRoundedBorder(mClrBorderDefault, 1));
 
-            checkboxPanel = new JPanel() {
+            mPnlCheckbox = new JPanel() {
                 @Override
                 protected void paintComponent(Graphics g) {
                     super.paintComponent(g);
-                    Graphics2D g2 = (Graphics2D) g;
-                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    g2.setColor(selected ? squareColorSelected : squareColorUnselected);
-                    g2.fillRect(0, 0, getWidth(), getHeight());
-                    g2.setColor(borderColorSelected);
-                    g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+                    Graphics2D g2d = (Graphics2D) g;
+                    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    g2d.setColor(mBoolSelected ? mClrSquareSelected : mClrSquareUnselected);
+                    g2d.fillRect(0, 0, getWidth(), getHeight());
+                    g2d.setColor(mClrBorderSelected);
+                    g2d.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
                 }
             };
-            checkboxPanel.setPreferredSize(new Dimension(50, 50));
-            checkboxPanel.setOpaque(false);
+            mPnlCheckbox.setPreferredSize(new Dimension(50, 50));
+            mPnlCheckbox.setOpaque(false);
 
-            JPanel checkboxWrapper = new JPanel(new GridBagLayout());
-            checkboxWrapper.setOpaque(false);
-            checkboxWrapper.setPreferredSize(new Dimension(70, 70));
-            checkboxWrapper.add(checkboxPanel);
+            JPanel pnlCheckboxWrapper = new JPanel(new GridBagLayout());
+            pnlCheckboxWrapper.setOpaque(false);
+            pnlCheckboxWrapper.setPreferredSize(new Dimension(70, 70));
+            pnlCheckboxWrapper.add(mPnlCheckbox);
 
-            add(checkboxWrapper, BorderLayout.WEST);
+            add(pnlCheckboxWrapper, BorderLayout.WEST);
 
-            JPanel contentPanel = new JPanel();
-            contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-            contentPanel.setOpaque(false);
-            contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 15));
+            JPanel pnlContent = new JPanel();
+            pnlContent.setLayout(new BoxLayout(pnlContent, BoxLayout.Y_AXIS));
+            pnlContent.setOpaque(false);
+            pnlContent.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 15));
 
-            JPanel titlePriceRow = new JPanel();
-            titlePriceRow.setLayout(new BoxLayout(titlePriceRow, BoxLayout.X_AXIS));
-            titlePriceRow.setOpaque(false);
+            JPanel pnlTitlePriceRow = new JPanel();
+            pnlTitlePriceRow.setLayout(new BoxLayout(pnlTitlePriceRow, BoxLayout.X_AXIS));
+            pnlTitlePriceRow.setOpaque(false);
 
-            JLabel titleLabel = new JLabel(title);
-            titleLabel.setFont(FontUtil.getOutfitBoldFont(16f));
-            titlePriceRow.add(titleLabel);
-            titlePriceRow.add(Box.createRigidArea(new Dimension(70, 0)));
-            titlePriceRow.add(Box.createHorizontalGlue());
+            JLabel lblTitle = new JLabel(strTitle);
+            lblTitle.setFont(FontUtil.getOutfitBoldFont(16f));
+            pnlTitlePriceRow.add(lblTitle);
+            pnlTitlePriceRow.add(Box.createRigidArea(new Dimension(70, 0)));
+            pnlTitlePriceRow.add(Box.createHorizontalGlue());
 
-            JLabel priceLabel = new JLabel(price);
-            priceLabel.setFont(FontUtil.getInterFont(14f));
-            priceLabel.setForeground(Color.decode("#1E1E1E"));
-            titlePriceRow.add(priceLabel);
+            JLabel lblPrice = new JLabel(strPrice);
+            lblPrice.setFont(FontUtil.getInterFont(14f));
+            lblPrice.setForeground(Color.decode("#1E1E1E"));
+            pnlTitlePriceRow.add(lblPrice);
 
-            JPanel feeRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-            feeRow.setOpaque(false);
-            JLabel feeLabel = new JLabel(fee);
-            feeLabel.setFont(FontUtil.getInterFont(14f));
-            feeLabel.setForeground(Color.decode("#1E1E1E"));
-            feeRow.add(feeLabel);
+            JPanel pnlFeeRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+            pnlFeeRow.setOpaque(false);
+            JLabel lblFee = new JLabel(strFee);
+            lblFee.setFont(FontUtil.getInterFont(14f));
+            lblFee.setForeground(Color.decode("#1E1E1E"));
+            pnlFeeRow.add(lblFee);
 
-            contentPanel.add(titlePriceRow);
-            contentPanel.add(Box.createVerticalStrut(5));
-            contentPanel.add(feeRow);
+            pnlContent.add(pnlTitlePriceRow);
+            pnlContent.add(Box.createVerticalStrut(5));
+            pnlContent.add(pnlFeeRow);
 
-            add(contentPanel, BorderLayout.CENTER);
+            add(pnlContent, BorderLayout.CENTER);
             setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
             addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseEntered(MouseEvent e) {
-                    setBorder(createRoundedBorder(borderColorHover, 2));
+                public void mouseEntered(MouseEvent evtMouse) {
+                    setBorder(createRoundedBorder(mClrBorderHover, 2));
                 }
 
                 @Override
-                public void mouseExited(MouseEvent e) {
-                    setBorder(selected ? createRoundedBorder(borderColorSelected, 2) : createRoundedBorder(borderColorDefault, 1));
+                public void mouseExited(MouseEvent evtMouse) {
+                    setBorder(mBoolSelected ? createRoundedBorder(mClrBorderSelected, 2) : createRoundedBorder(mClrBorderDefault, 1));
                 }
 
                 @Override
-                public void mouseClicked(MouseEvent e) {
-                    selected = !selected;
-                    setBorder(selected ? createRoundedBorder(borderColorSelected, 2) : createRoundedBorder(borderColorDefault, 1));
+                public void mouseClicked(MouseEvent evtMouse) {
+                    mBoolSelected = !mBoolSelected;
+                    setBorder(mBoolSelected ? createRoundedBorder(mClrBorderSelected, 2) : createRoundedBorder(mClrBorderDefault, 1));
                     repaint();
                 }
             });
         }
 
-        private Border createRoundedBorder(Color color, int visualThickness) {
+        private Border createRoundedBorder(Color clrBorder, int intVisualThickness) {
             return new Border() {
                 @Override
-                public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+                public void paintBorder(Component ctlComponent, Graphics g, int intX, int intY, int intWidth, int intHeight) {
                     Graphics2D g2d = (Graphics2D) g.create();
                     g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    g2d.setColor(color);
+                    g2d.setColor(clrBorder);
                     g2d.setStroke(new BasicStroke(1.5f));
-                    for (int i = 0; i < visualThickness; i++) {
-                        g2d.drawRoundRect(x + i, y + i, width - 1 - 2 * i, height - 1 - 2 * i, borderRadius, borderRadius);
+                    for (int intIndex = 0; intIndex < intVisualThickness; intIndex++) {
+                        g2d.drawRoundRect(intX + intIndex, intY + intIndex, intWidth - 1 - 2 * intIndex, intHeight - 1 - 2 * intIndex, mIntBorderRadius, mIntBorderRadius);
                     }
                     g2d.dispose();
                 }
 
                 @Override
-                public Insets getBorderInsets(Component c) {
+                public Insets getBorderInsets(Component ctlComponent) {
                     return new Insets(5, 5, 5, 5);
                 }
 
@@ -338,29 +338,29 @@ public class SignUp3 extends JFrame {
         }
 
         public boolean isSelected() {
-            return selected;
+            return mBoolSelected;
         }
 
-        public void setSelected(boolean value) {
-            this.selected = value;
-            setBorder(selected ? createRoundedBorder(borderColorSelected, 2) : createRoundedBorder(borderColorDefault, 1));
+        public void setSelected(boolean boolValue) {
+            this.mBoolSelected = boolValue;
+            setBorder(mBoolSelected ? createRoundedBorder(mClrBorderSelected, 2) : createRoundedBorder(mClrBorderDefault, 1));
             repaint();
         }
 
         public String getPlanID() {
-            return planID;
+            return mStrPlanID;
         }
 
         public String getPlanTitle() {
-            return planTitle;
+            return mStrPlanTitle;
         }
 
         public String getPlanPrice() {
-            return planPrice;
+            return mStrPlanPrice;
         }
 
         public String getPlanFee() {
-            return planFee;
+            return mStrPlanFee;
         }
     }
 

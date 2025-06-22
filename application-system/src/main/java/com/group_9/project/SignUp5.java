@@ -20,450 +20,431 @@ import java.util.function.Predicate;
 
 public class SignUp5 extends JFrame {
 
-    private RoundedComponents.RoundedTextField cardholderName, cardNumber, expiryDate, cvv;
-    private final List<JTextComponent> paymentFields = new ArrayList<>();
-    private JRadioButton full, install;
+    private RoundedComponents.RoundedTextField txtCardholderName, txtCardNumber, txtExpiryDate, txtCvv;
+    private final List<JTextComponent> lstPaymentFields = new ArrayList<>();
+    private JRadioButton rbtnFull, rbtnInstall;
 
     public SignUp5() {
         BaseFrameSetup.applyAppIcon(this);
-        BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
+        BackgroundPanel pnlBackground = BaseFrameSetup.setupCompleteFrame(this, 1);
 
-        // Main content container
-        JPanel container = new RoundedComponents.RoundedShadowPanel(25, 4);
-        container.setBounds(235, 165, 970, 695);
-        background.add(container);
+        JPanel pnlContainer = new RoundedComponents.RoundedShadowPanel(25, 4);
+        pnlContainer.setBounds(235, 165, 970, 695);
+        pnlBackground.add(pnlContainer);
 
-        JPanel innerContent = new JPanel();
-        innerContent.setLayout(new BoxLayout(innerContent, BoxLayout.Y_AXIS));
-        innerContent.setOpaque(false);
-        innerContent.setBounds(40, 40, 890, 615);
+        JPanel pnlInnerContent = new JPanel();
+        pnlInnerContent.setLayout(new BoxLayout(pnlInnerContent, BoxLayout.Y_AXIS));
+        pnlInnerContent.setOpaque(false);
+        pnlInnerContent.setBounds(40, 40, 890, 615);
 
-        innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        Color titleColor = Color.decode("#2B0243");
-        Color subColor = Color.decode("#302E2E");
+        Color clrTitle = Color.decode("#2B0243");
+        Color clrSub = Color.decode("#302E2E");
 
-        JLabel title = new JLabel("SERVICE APPLICATION", SwingConstants.CENTER);
-        title.setFont(FontUtil.getOutfitBoldFont(26f));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        title.setForeground(titleColor);
-        innerContent.add(title);
+        JLabel lblTitle = new JLabel("SERVICE APPLICATION", SwingConstants.CENTER);
+        lblTitle.setFont(FontUtil.getOutfitBoldFont(26f));
+        lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblTitle.setForeground(clrTitle);
+        pnlInnerContent.add(lblTitle);
 
-        // adds spacing
-        innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // step tracker panel using the new separate class
-        JPanel stepWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        stepWrapper.setOpaque(false);
-        stepWrapper.add(CreateStepTracker.createStepTracker(2));
-        innerContent.add(stepWrapper);
-        innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
+        JPanel pnlStepWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        pnlStepWrapper.setOpaque(false);
+        pnlStepWrapper.add(CreateStepTracker.createStepTracker(2));
+        pnlInnerContent.add(pnlStepWrapper);
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // personal info panel
-        JPanel infoPanel = new JPanel();
-        infoPanel.setOpaque(false);
-        infoPanel.setLayout(new BorderLayout());
-        infoPanel.setMaximumSize(new Dimension(826, 60));
+        JPanel pnlInfo = new JPanel();
+        pnlInfo.setOpaque(false);
+        pnlInfo.setLayout(new BorderLayout());
+        pnlInfo.setMaximumSize(new Dimension(826, 60));
+ 
+        JPanel pnlLeftLabels = new JPanel();
+        pnlLeftLabels.setLayout(new BoxLayout(pnlLeftLabels, BoxLayout.Y_AXIS));
+        pnlLeftLabels.setOpaque(false);
+        pnlLeftLabels.setBorder(BorderFactory.createEmptyBorder(9, 0, 0, 0)); 
 
-        // left labels for the info panel 
-        JPanel leftLabels = new JPanel();
-        leftLabels.setLayout(new BoxLayout(leftLabels, BoxLayout.Y_AXIS));
-        leftLabels.setOpaque(false);
-        leftLabels.setBorder(BorderFactory.createEmptyBorder(9, 0, 0, 0)); 
+        JLabel lblSubtitle = new JLabel("SECURE YOUR PAYMENT", SwingConstants.LEFT);
+        lblSubtitle.setFont(FontUtil.getOutfitFont(16f));
+        lblSubtitle.setForeground(clrSub);
 
-        JLabel subtitle = new JLabel("SECURE YOUR PAYMENT", SwingConstants.LEFT);
-        subtitle.setFont(FontUtil.getOutfitFont(16f));
-        subtitle.setForeground(subColor);
+        JLabel lblSubNote = new JLabel("Secure your application by completing the payment using your preferred method.");
+        lblSubNote.setFont(FontUtil.getInterFont(14f));
+        lblSubNote.setForeground(clrSub);
 
-        JLabel subNote = new JLabel("Secure your application by completing the payment using your preferred method.");
-        subNote.setFont(FontUtil.getInterFont(14f));
-        subNote.setForeground(subColor);
+        pnlLeftLabels.add(lblSubtitle);
+        pnlLeftLabels.add(Box.createRigidArea(new Dimension(0, 5)));
+        pnlLeftLabels.add(lblSubNote);
 
-        leftLabels.add(subtitle);
-        leftLabels.add(Box.createRigidArea(new Dimension(0, 5)));
-        leftLabels.add(subNote);
+        pnlInfo.add(pnlLeftLabels, BorderLayout.WEST);
+        pnlInnerContent.add(pnlInfo);
 
-        infoPanel.add(leftLabels, BorderLayout.WEST);
-        innerContent.add(infoPanel);
+        JSeparator sepHorizontal = new JSeparator(SwingConstants.HORIZONTAL);
+        sepHorizontal.setMaximumSize(new Dimension(826, 2));
+        sepHorizontal.setForeground(Color.decode("#B2B2B2"));
+        sepHorizontal.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 10)));
+        pnlInnerContent.add(sepHorizontal);
 
-        // adds horizontal separator
-        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
-        separator.setMaximumSize(new Dimension(826, 2));
-        separator.setForeground(Color.decode("#B2B2B2"));
-        separator.setAlignmentX(Component.CENTER_ALIGNMENT);
-        innerContent.add(Box.createRigidArea(new Dimension(0, 10)));
-        innerContent.add(separator);
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        innerContent.add(Box.createRigidArea(new Dimension(0, 20)));
+        JPanel pnlRow = new JPanel();
+        pnlRow.setLayout(new BoxLayout(pnlRow, BoxLayout.X_AXIS));
+        pnlRow.setOpaque(false);
+        pnlRow.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlRow.add(createPlanSummaryPanel());
+        pnlRow.add(Box.createRigidArea(new Dimension(30, 0)));
+        pnlRow.add(createPaymentSectionPanel());
+        pnlInnerContent.add(pnlRow);
+        pnlInnerContent.add(Box.createRigidArea(new Dimension(0, 40)));
 
-        JPanel rowPanel = new JPanel();
-        rowPanel.setLayout(new BoxLayout(rowPanel, BoxLayout.X_AXIS));
-        rowPanel.setOpaque(false);
-        rowPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        rowPanel.add(createPlanSummaryPanel());
-        rowPanel.add(Box.createRigidArea(new Dimension(30, 0)));
-        rowPanel.add(createPaymentSectionPanel());
-        innerContent.add(rowPanel);
-        innerContent.add(Box.createRigidArea(new Dimension(0, 40)));
+        JPanel pnlButton = new JPanel(new BorderLayout());
+        pnlButton.setOpaque(false);
+        pnlButton.setMaximumSize(new Dimension(826, 50));
 
-        JPanel buttonPanel = new JPanel(new BorderLayout());
-        buttonPanel.setOpaque(false);
-        buttonPanel.setMaximumSize(new Dimension(826, 50));
+        RoundedComponents.RoundedButton cmdBack = new RoundedComponents.RoundedButton("BACK", 25);
+        cmdBack.setPreferredSize(new Dimension(148, 41));
+        cmdBack.setBackground(Color.decode("#FFF1FF"));
+        cmdBack.setForeground(Color.decode("#2B0243"));
+        cmdBack.setFont(FontUtil.getOutfitBoldFont(16f));
+        cmdBack.setBorderColor(Color.decode("#2B0243"));
 
-        RoundedComponents.RoundedButton backButton = new RoundedComponents.RoundedButton("BACK", 25);
-        backButton.setPreferredSize(new Dimension(148, 41));
-        backButton.setBackground(Color.decode("#FFF1FF"));
-        backButton.setForeground(Color.decode("#2B0243"));
-        backButton.setFont(FontUtil.getOutfitBoldFont(16f));
-        backButton.setBorderColor(Color.decode("#2B0243"));
+        cmdBack.addActionListener(evtAction -> {
+            UserApplicationData.set("cardholderName", txtCardholderName.getText());
+            UserApplicationData.set("cardNumber", txtCardNumber.getText());
+            UserApplicationData.set("expiryDate", txtExpiryDate.getText());
+            UserApplicationData.set("cvv", txtCvv.getText());
+            UserApplicationData.set("paymentOption", rbtnFull.isSelected() ? "full" : (rbtnInstall.isSelected() ? "installment" : ""));
 
-        backButton.addActionListener(e -> {
-            // Save current form data
-            UserApplicationData.set("cardholderName", cardholderName.getText());
-            UserApplicationData.set("cardNumber", cardNumber.getText());
-            UserApplicationData.set("expiryDate", expiryDate.getText());
-            UserApplicationData.set("cvv", cvv.getText());
-            UserApplicationData.set("paymentOption", full.isSelected() ? "full" : (install.isSelected() ? "installment" : ""));
-
-            new SignUp3(); // Navigate back
-            dispose();     // Close current form
+            new SignUp3();
+            dispose();    
         });
 
-        RoundedComponents.RoundedButton confirmBtn = new RoundedComponents.RoundedButton("CONFIRM PAYMENT", 25);
-        confirmBtn.setPreferredSize(new Dimension(194, 41));
-        confirmBtn.setBackground(Color.decode("#623CBB"));
-        confirmBtn.setForeground(Color.WHITE);
-        confirmBtn.setFont(FontUtil.getOutfitBoldFont(16f));
-        confirmBtn.setBorderColor(Color.decode("#623CBB"));
-        confirmBtn.setFocusPainted(false);
-        confirmBtn.setFocusable(false);
+        RoundedComponents.RoundedButton cmdConfirm = new RoundedComponents.RoundedButton("CONFIRM PAYMENT", 25);
+        cmdConfirm.setPreferredSize(new Dimension(194, 41));
+        cmdConfirm.setBackground(Color.decode("#623CBB"));
+        cmdConfirm.setForeground(Color.WHITE);
+        cmdConfirm.setFont(FontUtil.getOutfitBoldFont(16f));
+        cmdConfirm.setBorderColor(Color.decode("#623CBB"));
+        cmdConfirm.setFocusPainted(false);
+        cmdConfirm.setFocusable(false);
 
-        confirmBtn.addActionListener((ActionEvent e) -> {
-            boolean allFilled = true;
+        cmdConfirm.addActionListener((ActionEvent evtAction) -> {
+            boolean boolAllFilled = true;
         
-            for (JTextComponent field : paymentFields) {
-                if (field.getText().trim().isEmpty()) {
-                    allFilled = false;
-                    if (field instanceof RoundedComponents.RoundedTextField tf) {
-                        tf.setValidationBorderColor(Color.RED);
+            for (JTextComponent txtField : lstPaymentFields) {
+                if (txtField.getText().trim().isEmpty()) {
+                    boolAllFilled = false;
+                    if (txtField instanceof RoundedComponents.RoundedTextField txtRoundedField) {
+                        txtRoundedField.setValidationBorderColor(Color.RED);
                     }
                 } else {
-                    if (field instanceof RoundedComponents.RoundedTextField tf) {
-                        tf.setValidationBorderColor(Color.GRAY);
+                    if (txtField instanceof RoundedComponents.RoundedTextField txtRoundedField) {
+                        txtRoundedField.setValidationBorderColor(Color.GRAY);
                     }
                 }
             }
 
-            if (!allFilled) {
+            if (!boolAllFilled) {
                 CustomDialogUtil.showStyledErrorDialog(SignUp5.this, "Missing Information", "Please fill in all required fields before proceeding.");
                 return;
             }
 
-            if (!full.isSelected() && !install.isSelected()) {
+            if (!rbtnFull.isSelected() && !rbtnInstall.isSelected()) {
                 CustomDialogUtil.showStyledErrorDialog(SignUp5.this, "Payment Option Required", "Please select a payment option before confirming.");
                 return;
             }            
 
-            String rawCard = cardNumber.getText().replaceAll("\\s", "");
+            String strRawCard = txtCardNumber.getText().replaceAll("\\s", "");
 
-            if (!rawCard.matches("\\d{16}")) {
-                cardNumber.setValidationBorderColor(Color.RED);
+            if (!strRawCard.matches("\\d{16}")) {
+                txtCardNumber.setValidationBorderColor(Color.RED);
                 CustomDialogUtil.showStyledErrorDialog(SignUp5.this, "Invalid Card Number", "Card number must be exactly 16 digits.");
                 return;
             }
 
-            if (!expiryDate.getText().matches("^(0[1-9]|1[0-2])/\\d{2}$")) {
-                expiryDate.setValidationBorderColor(Color.RED);
+            if (!txtExpiryDate.getText().matches("^(0[1-9]|1[0-2])/\\d{2}$")) {
+                txtExpiryDate.setValidationBorderColor(Color.RED);
                 CustomDialogUtil.showStyledErrorDialog(SignUp5.this, "Invalid Expiry", "Expiry date must be valid in MM/YY format.");
                 return;
             }
 
-            String[] parts = expiryDate.getText().split("/");
-            int month = Integer.parseInt(parts[0]);
-            int year = 2000 + Integer.parseInt(parts[1]);
+            String[] arrParts = txtExpiryDate.getText().split("/");
+            int intMonth = Integer.parseInt(arrParts[0]);
+            int intYear = 2000 + Integer.parseInt(arrParts[1]);
 
-            Calendar now = Calendar.getInstance();
-            int currYear = now.get(Calendar.YEAR);
-            int currMonth = now.get(Calendar.MONTH) + 1;
-            if (year < currYear || (year == currYear && month < currMonth)) {
-                expiryDate.setValidationBorderColor(Color.RED);
+            Calendar calNow = Calendar.getInstance();
+            int intCurrYear = calNow.get(Calendar.YEAR);
+            int intCurrMonth = calNow.get(Calendar.MONTH) + 1;
+            if (intYear < intCurrYear || (intYear == intCurrYear && intMonth < intCurrMonth)) {
+                txtExpiryDate.setValidationBorderColor(Color.RED);
                 CustomDialogUtil.showStyledErrorDialog(SignUp5.this, "Card Expired", "The expiry date has already passed.");
                 return;
             }
 
-            if (!cvv.getText().matches("\\d{3,4}")) {
-                cvv.setValidationBorderColor(Color.RED);
+            if (!txtCvv.getText().matches("\\d{3,4}")) {
+                txtCvv.setValidationBorderColor(Color.RED);
                 CustomDialogUtil.showStyledErrorDialog(SignUp5.this, "Invalid CVV", "CVV must be 3 or 4 digits.");
                 return;
             }
 
-    // Set the payment option in UserApplicationData
-            String paymentOption = full.isSelected() ? "full" : "installment";
-            UserApplicationData.set("paymentOption", paymentOption);
+            String strPaymentOption = rbtnFull.isSelected() ? "full" : "installment";
+            UserApplicationData.set("paymentOption", strPaymentOption);
     
-    // Store payment details if needed (optional)
-            UserApplicationData.set("card_number", rawCard);
-            UserApplicationData.set("expiry_date", expiryDate.getText());
-            UserApplicationData.set("cvv", cvv.getText());
-            UserApplicationData.set("cardholder_name", cardholderName.getText());
+            UserApplicationData.set("card_number", strRawCard);
+            UserApplicationData.set("expiry_date", txtExpiryDate.getText());
+            UserApplicationData.set("cvv", txtCvv.getText());
+            UserApplicationData.set("cardholder_name", txtCardholderName.getText());
 
-    // Process the application in the database
-            ApplicationService applicationService = new ApplicationService();
-            boolean success = applicationService.processApplication();
+            ApplicationService svcApplication = new ApplicationService();
+            boolean boolSuccess = svcApplication.processApplication();
     
-            if (success) {
-        // Show success message
+            if (boolSuccess) {
                 CustomDialogUtil.showStyledInfoDialog(SignUp5.this, "Success", "Application submitted successfully!");
                 
-        // Navigate to next page
                 new SignUp6();
                 dispose();
             } else {
-        // Show error message
                 CustomDialogUtil.showStyledErrorDialog(SignUp5.this, "Error", "Failed to process application. Please try again.");
             }
         });
 
-        confirmBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent e) {
-                confirmBtn.setBackground(Color.decode("#4B278F"));
-                confirmBtn.setBorderColor(Color.decode("#4B278F"));
+        cmdConfirm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evtMouse) {
+                cmdConfirm.setBackground(Color.decode("#4B278F"));
+                cmdConfirm.setBorderColor(Color.decode("#4B278F"));
             }
 
-            public void mouseExited(java.awt.event.MouseEvent e) {
-                confirmBtn.setBackground(Color.decode("#623CBB"));
-                confirmBtn.setBorderColor(Color.decode("#623CBB"));
+            public void mouseExited(java.awt.event.MouseEvent evtMouse) {
+                cmdConfirm.setBackground(Color.decode("#623CBB"));
+                cmdConfirm.setBorderColor(Color.decode("#623CBB"));
             }
         });
 
-        buttonPanel.add(backButton, BorderLayout.WEST);
-        buttonPanel.add(confirmBtn, BorderLayout.EAST);
-        innerContent.add(buttonPanel);
+        pnlButton.add(cmdBack, BorderLayout.WEST);
+        pnlButton.add(cmdConfirm, BorderLayout.EAST);
+        pnlInnerContent.add(pnlButton);
 
-        container.add(innerContent);
+        pnlContainer.add(pnlInnerContent);
         setVisible(true);
-        SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
+        SwingUtilities.invokeLater(() -> pnlBackground.requestFocusInWindow());
 
-        String savedName = UserApplicationData.get("cardholderName");
-        if (savedName != null) cardholderName.setText(savedName);
+        String strSavedName = UserApplicationData.get("cardholderName");
+        if (strSavedName != null) txtCardholderName.setText(strSavedName);
 
-        String savedCard = UserApplicationData.get("cardNumber");
-        if (savedCard != null) cardNumber.setText(savedCard);
+        String strSavedCard = UserApplicationData.get("cardNumber");
+        if (strSavedCard != null) txtCardNumber.setText(strSavedCard);
 
-        String savedExpiry = UserApplicationData.get("expiryDate");
-        if (savedExpiry != null) expiryDate.setText(savedExpiry);
+        String strSavedExpiry = UserApplicationData.get("expiryDate");
+        if (strSavedExpiry != null) txtExpiryDate.setText(strSavedExpiry);
 
-        String savedCVV = UserApplicationData.get("cvv");
-        if (savedCVV != null) cvv.setText(savedCVV);
+        String strSavedCVV = UserApplicationData.get("cvv");
+        if (strSavedCVV != null) txtCvv.setText(strSavedCVV);
 
-        String paymentOption = UserApplicationData.get("paymentOption");
-        if ("full".equals(paymentOption)) full.setSelected(true);
-        else if ("installment".equals(paymentOption)) install.setSelected(true);
+        String strPaymentOption = UserApplicationData.get("paymentOption");
+        if ("full".equals(strPaymentOption)) rbtnFull.setSelected(true);
+        else if ("installment".equals(strPaymentOption)) rbtnInstall.setSelected(true);
     }
 
 
     private JPanel createPlanSummaryPanel() {
-        Color txtColor = Color.decode("#1E1E1E");
+        Color clrTxt = Color.decode("#1E1E1E");
     
-        JPanel parent = new JPanel();
-        parent.setLayout(new BoxLayout(parent, BoxLayout.Y_AXIS));
-        parent.setOpaque(false);
-        parent.setAlignmentX(Component.LEFT_ALIGNMENT);
-        parent.setBorder(BorderFactory.createEmptyBorder(0, 27, 0, 0));
+        JPanel pnlParent = new JPanel();
+        pnlParent.setLayout(new BoxLayout(pnlParent, BoxLayout.Y_AXIS));
+        pnlParent.setOpaque(false);
+        pnlParent.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pnlParent.setBorder(BorderFactory.createEmptyBorder(0, 27, 0, 0));
     
-        JLabel summaryTitle = new JLabel("Your Plan Summary");
-        summaryTitle.setFont(FontUtil.getOutfitFont(15f));
-        summaryTitle.setForeground(txtColor);
-        parent.add(summaryTitle);
-        parent.add(Box.createRigidArea(new Dimension(0, 20)));
+        JLabel lblSummaryTitle = new JLabel("Your Plan Summary");
+        lblSummaryTitle.setFont(FontUtil.getOutfitFont(15f));
+        lblSummaryTitle.setForeground(clrTxt);
+        pnlParent.add(lblSummaryTitle);
+        pnlParent.add(Box.createRigidArea(new Dimension(0, 20)));
     
-        // Create rounded summary content panel
-        RoundedPanel summaryContent = new RoundedPanel(20);
-        summaryContent.setLayout(new BoxLayout(summaryContent, BoxLayout.Y_AXIS));
-        summaryContent.setBackground(Color.WHITE);
-        summaryContent.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        RoundedPanel pnlSummaryContent = new RoundedPanel(20);
+        pnlSummaryContent.setLayout(new BoxLayout(pnlSummaryContent, BoxLayout.Y_AXIS));
+        pnlSummaryContent.setBackground(Color.WHITE);
+        pnlSummaryContent.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
     
-        // Header
-        JPanel header = new JPanel(new GridLayout(1, 2));
-        header.setOpaque(false);
-        header.add(new JLabel("Product and Service") {{
+        JPanel pnlHeader = new JPanel(new GridLayout(1, 2));
+        pnlHeader.setOpaque(false);
+        pnlHeader.add(new JLabel("Product and Service") {{
             setFont(FontUtil.getInterFont(16f));
-            setForeground(txtColor);
+            setForeground(clrTxt);
         }});
-        header.add(new JLabel("Amount") {{
+        pnlHeader.add(new JLabel("Amount") {{
             setFont(FontUtil.getInterFont(16f));
-            setForeground(txtColor);
+            setForeground(clrTxt);
             setHorizontalAlignment(SwingConstants.RIGHT);
         }});
-        summaryContent.add(header);
-        summaryContent.add(Box.createRigidArea(new Dimension(0, 10)));
+        pnlSummaryContent.add(pnlHeader);
+        pnlSummaryContent.add(Box.createRigidArea(new Dimension(0, 10)));
     
-        summaryContent.add(new JSeparator(SwingConstants.HORIZONTAL) {{
+        pnlSummaryContent.add(new JSeparator(SwingConstants.HORIZONTAL) {{
             setMaximumSize(new Dimension(331, 2));
             setForeground(Color.decode("#B2B2B2"));
         }});
-        summaryContent.add(Box.createRigidArea(new Dimension(0, 20)));
+        pnlSummaryContent.add(Box.createRigidArea(new Dimension(0, 20)));
     
-        // Load selected plans
-        String savedPlans = UserApplicationData.get("selectedPlans");
-        if (savedPlans != null && !savedPlans.isEmpty()) {
-            String[] plans = savedPlans.split(",");
-            for (int i = 0; i < plans.length; i++) {
-                String plan = plans[i].trim();
+        String strSavedPlans = UserApplicationData.get("selectedPlans");
+        if (strSavedPlans != null && !strSavedPlans.isEmpty()) {
+            String[] arrPlans = strSavedPlans.split(",");
+            for (int intIndex = 0; intIndex < arrPlans.length; intIndex++) {
+                String strPlan = arrPlans[intIndex].trim();
     
-                summaryContent.add(new GridPanel(plan, "") {{
+                pnlSummaryContent.add(new GridPanel(strPlan, "") {{
                     ((JLabel) getComponent(0)).setFont(FontUtil.getOutfitBoldFont(18f));
                     ((JLabel) getComponent(0)).setForeground(Color.decode("#2B0243"));
                     ((JLabel) getComponent(1)).setText("");
                 }});
-                summaryContent.add(new GridPanel("Monthly Service Fee", getPriceForPlan(plan)));
-                summaryContent.add(new GridPanel("Installation Fee", getInstallationFeeForPlan(plan)));
+                pnlSummaryContent.add(new GridPanel("Monthly Service Fee", getPriceForPlan(strPlan)));
+                pnlSummaryContent.add(new GridPanel("Installation Fee", getInstallationFeeForPlan(strPlan)));
     
-                if (i < plans.length - 1) {
-                    summaryContent.add(Box.createRigidArea(new Dimension(0, 20)));
+                if (intIndex < arrPlans.length - 1) {
+                    pnlSummaryContent.add(Box.createRigidArea(new Dimension(0, 20)));
                 }
             }
         }
     
-        // ScrollPane Setup
-        JScrollPane scrollPane = new JScrollPane(summaryContent);
-        scrollPane.setPreferredSize(new Dimension(375, 210));
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER); // start with hidden
-        scrollPane.setBorder(null);
-        scrollPane.setOpaque(false);
-        scrollPane.getViewport().setOpaque(false);
-        scrollPane.setBackground(Color.WHITE);
+        JScrollPane scrPane = new JScrollPane(pnlSummaryContent);
+        scrPane.setPreferredSize(new Dimension(375, 210));
+        scrPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER); 
+        scrPane.setBorder(null);
+        scrPane.setOpaque(false);
+        scrPane.getViewport().setOpaque(false);
+        scrPane.setBackground(Color.WHITE);
     
-        JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
-        verticalScrollBar.setUI(new CustomScrollBarUI());
-        verticalScrollBar.setPreferredSize(new Dimension(8, Integer.MAX_VALUE));
-        verticalScrollBar.setUnitIncrement(16);
-        verticalScrollBar.setVisible(false); // HIDE by default
+        JScrollBar scrVertical = scrPane.getVerticalScrollBar();
+        scrVertical.setUI(new CustomScrollBarUI());
+        scrVertical.setPreferredSize(new Dimension(8, Integer.MAX_VALUE));
+        scrVertical.setUnitIncrement(16);
+        scrVertical.setVisible(false); 
     
-        // Show on hover, hide on exit
-        scrollPane.addMouseListener(new java.awt.event.MouseAdapter() {
+        scrPane.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
-            public void mouseEntered(java.awt.event.MouseEvent e) {
-                verticalScrollBar.setVisible(true);
-                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-                scrollPane.revalidate();
-                scrollPane.repaint();
+            public void mouseEntered(java.awt.event.MouseEvent evtMouse) {
+                scrVertical.setVisible(true);
+                scrPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                scrPane.revalidate();
+                scrPane.repaint();
             }
     
             @Override
-            public void mouseExited(java.awt.event.MouseEvent e) {
-                verticalScrollBar.setVisible(false);
-                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-                scrollPane.revalidate();
-                scrollPane.repaint();
+            public void mouseExited(java.awt.event.MouseEvent evtMouse) {
+                scrVertical.setVisible(false);
+                scrPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+                scrPane.revalidate();
+                scrPane.repaint();
             }
         });
     
-        // Rounded outer wrapper
-        RoundedScrollContainer roundedWrapper = new RoundedScrollContainer(scrollPane, 20);
-        roundedWrapper.setPreferredSize(new Dimension(375, 210));
-        roundedWrapper.setBackground(Color.WHITE);
+        RoundedScrollContainer pnlRoundedWrapper = new RoundedScrollContainer(scrPane, 20);
+        pnlRoundedWrapper.setPreferredSize(new Dimension(375, 210));
+        pnlRoundedWrapper.setBackground(Color.WHITE);
         
-        parent.add(roundedWrapper);        
-        parent.add(Box.createRigidArea(new Dimension(0, 20)));
+        pnlParent.add(pnlRoundedWrapper);        
+        pnlParent.add(Box.createRigidArea(new Dimension(0, 20)));
     
-        parent.add(new JLabel("*Full Payment means paying the installation fee upfront.") {{
+        pnlParent.add(new JLabel("*Full Payment means paying the installation fee upfront.") {{
             setFont(FontUtil.getOutfitFont(13f).deriveFont(Font.ITALIC));
-            setForeground(txtColor);
+            setForeground(clrTxt);
         }});
-        parent.add(new JLabel("MSF is billed separately every month.") {{
+        pnlParent.add(new JLabel("MSF is billed separately every month.") {{
             setFont(FontUtil.getOutfitFont(13f).deriveFont(Font.ITALIC));
-            setForeground(txtColor);
+            setForeground(clrTxt);
         }});
     
-        return parent;
+        return pnlParent;
     }
     
 
     private static class GridPanel extends JPanel {
-        public GridPanel(String left, String right) {
+        public GridPanel(String strLeft, String strRight) {
             super(new GridLayout(1, 2));
             setOpaque(false);
-            JLabel l = new JLabel(left);
-            JLabel r = new JLabel(right);
-            l.setFont(FontUtil.getInterFont(16f));
-            r.setFont(FontUtil.getInterFont(16f));
-            l.setForeground(Color.decode("#1E1E1E"));
-            r.setForeground(Color.decode("#1E1E1E"));
-            r.setHorizontalAlignment(SwingConstants.RIGHT);
-            add(l);
-            add(r);
+            JLabel lblLeft = new JLabel(strLeft);
+            JLabel lblRight = new JLabel(strRight);
+            lblLeft.setFont(FontUtil.getInterFont(16f));
+            lblRight.setFont(FontUtil.getInterFont(16f));
+            lblLeft.setForeground(Color.decode("#1E1E1E"));
+            lblRight.setForeground(Color.decode("#1E1E1E"));
+            lblRight.setHorizontalAlignment(SwingConstants.RIGHT);
+            add(lblLeft);
+            add(lblRight);
         }
     }
 
     private static class CustomScrollBarUI extends BasicScrollBarUI {
-        private static final Color THUMB_COLOR = new Color(42, 2, 67);
+        private static final Color CLR_THUMB = new Color(42, 2, 67);
 
         @Override
         protected void configureScrollBarColors() {
-            thumbColor = THUMB_COLOR;
+            thumbColor = CLR_THUMB;
             trackColor = new Color(0, 0, 0, 0);
         }
 
         @Override
-        protected JButton createDecreaseButton(int orientation) {
+        protected JButton createDecreaseButton(int intOrientation) {
             return createZeroButton();
         }
 
         @Override
-        protected JButton createIncreaseButton(int orientation) {
+        protected JButton createIncreaseButton(int intOrientation) {
             return createZeroButton();
         }
 
         private JButton createZeroButton() {
-            JButton button = new JButton();
-            button.setPreferredSize(new Dimension(0, 0));
-            return button;
+            JButton cmdButton = new JButton();
+            cmdButton.setPreferredSize(new Dimension(0, 0));
+            return cmdButton;
         }
 
         @Override
-        protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
-            if (!scrollbar.isEnabled() || thumbBounds.isEmpty()) return;
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setColor(THUMB_COLOR);
-            g2.fillRoundRect(thumbBounds.x, thumbBounds.y, thumbBounds.width, thumbBounds.height, 10, 10);
-            g2.dispose();
+        protected void paintThumb(Graphics g, JComponent ctlComponent, Rectangle recThumbBounds) {
+            if (!scrollbar.isEnabled() || recThumbBounds.isEmpty()) return;
+            Graphics2D g2d = (Graphics2D) g.create();
+            g2d.setColor(CLR_THUMB);
+            g2d.fillRoundRect(recThumbBounds.x, recThumbBounds.y, recThumbBounds.width, recThumbBounds.height, 10, 10);
+            g2d.dispose();
         }
 
         @Override
-        protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {}
+        protected void paintTrack(Graphics g, JComponent ctlComponent, Rectangle recTrackBounds) {}
     }
 
     private static class RoundedScrollContainer extends JPanel {
-        private final int radius;
+        private final int intRadius;
 
-        public RoundedScrollContainer(Component content, int radius) {
+        public RoundedScrollContainer(Component ctlContent, int intRadius) {
             super(new BorderLayout());
-            this.radius = radius;
+            this.intRadius = intRadius;
             setOpaque(false);
-            add(content, BorderLayout.CENTER);
+            add(ctlContent, BorderLayout.CENTER);
         }
 
         @Override
         protected void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            Graphics2D g2d = (Graphics2D) g.create();
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            Shape clip = new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), radius, radius);
-            g2.setClip(clip);
+            Shape shpClip = new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), intRadius, intRadius);
+            g2d.setClip(shpClip);
 
-            g2.setColor(getBackground());
-            g2.fill(clip);
+            g2d.setColor(getBackground());
+            g2d.fill(shpClip);
 
-            super.paintComponent(g2);
-            g2.dispose();
+            super.paintComponent(g2d);
+            g2d.dispose();
         }
     }
 
 
-    private String getPriceForPlan(String planName) {
-        return switch (planName.toUpperCase()) {
+    private String getPriceForPlan(String strPlanName) {
+        return switch (strPlanName.toUpperCase()) {
             case "FIBERX 1500" -> "₱1500";
             case "FIBERX 2500" -> "₱2500";
             case "FIBERX 3500" -> "₱3500";
@@ -473,8 +454,8 @@ public class SignUp5 extends JFrame {
         };
     }
 
-    private String getInstallationFeeForPlan(String planName) {
-        return switch (planName.toUpperCase()) {
+    private String getInstallationFeeForPlan(String strPlanName) {
+        return switch (strPlanName.toUpperCase()) {
             case "FIBER XTREAM 4500", "FIBER XTREAM 7000" -> "WAIVED";
             case "FIBERX 1500", "FIBERX 2500" -> "₱125/24mo.";
             case "FIBERX 3500" -> "₱125/12mo.";
@@ -482,130 +463,127 @@ public class SignUp5 extends JFrame {
         };
     }
 
-    private RoundedComponents.RoundedTextField createValidatedField(String placeholder, Predicate<String> validator) {
-        var field = new RoundedComponents.RoundedTextField(placeholder, 15);
-        field.setFont(FontUtil.getOutfitFont(15f));
-        field.setPreferredSize(new Dimension(175, 38));
-        field.setMaximumSize(new Dimension(175, 38));
-        paymentFields.add(field);
-        ValidationUtil.addTextValidation(field, validator);
-        return field;
+    private RoundedComponents.RoundedTextField createValidatedField(String strPlaceholder, Predicate<String> prdValidator) {
+        var txtField = new RoundedComponents.RoundedTextField(strPlaceholder, 15);
+        txtField.setFont(FontUtil.getOutfitFont(15f));
+        txtField.setPreferredSize(new Dimension(175, 38));
+        txtField.setMaximumSize(new Dimension(175, 38));
+        lstPaymentFields.add(txtField);
+        ValidationUtil.addTextValidation(txtField, prdValidator);
+        return txtField;
     }
 
     private JPanel createPaymentSectionPanel() {
-        Color txtColor = Color.decode("#1E1E1E");
+        Color clrTxt = Color.decode("#1E1E1E");
 
-        JPanel paymentPanel = new JPanel();
-        paymentPanel.setLayout(new BoxLayout(paymentPanel, BoxLayout.Y_AXIS));
-        paymentPanel.setOpaque(false);
-        paymentPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 10, 0));
-        paymentPanel.setMaximumSize(new Dimension(400, 450));
+        JPanel pnlPayment = new JPanel();
+        pnlPayment.setLayout(new BoxLayout(pnlPayment, BoxLayout.Y_AXIS));
+        pnlPayment.setOpaque(false);
+        pnlPayment.setBorder(BorderFactory.createEmptyBorder(0, 50, 10, 0));
+        pnlPayment.setMaximumSize(new Dimension(400, 450));
 
-        JLabel paymentTitle = new JLabel("Payment Section");
-        paymentTitle.setFont(FontUtil.getOutfitFont(15f));
-        paymentTitle.setForeground(txtColor);
-        paymentTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
-        paymentPanel.add(paymentTitle);
-        paymentPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        JLabel lblPaymentTitle = new JLabel("Payment Section");
+        lblPaymentTitle.setFont(FontUtil.getOutfitFont(15f));
+        lblPaymentTitle.setForeground(clrTxt);
+        lblPaymentTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pnlPayment.add(lblPaymentTitle);
+        pnlPayment.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        ButtonGroup paymentGroup = new ButtonGroup();
-        ImageIcon iconOff = new ImageIcon(getClass().getResource("/icons/radio_off.png"));
-        ImageIcon iconOn = new ImageIcon(getClass().getResource("/icons/radio_on.png"));
-        int iconSize = 18;
-        iconOff = new ImageIcon(iconOff.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
-        iconOn = new ImageIcon(iconOn.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
+        ButtonGroup grpPayment = new ButtonGroup();
+        ImageIcon icoOff = new ImageIcon(getClass().getResource("/icons/radio_off.png"));
+        ImageIcon icoOn = new ImageIcon(getClass().getResource("/icons/radio_on.png"));
+        int intIconSize = 18;
+        icoOff = new ImageIcon(icoOff.getImage().getScaledInstance(intIconSize, intIconSize, Image.SCALE_SMOOTH));
+        icoOn = new ImageIcon(icoOn.getImage().getScaledInstance(intIconSize, intIconSize, Image.SCALE_SMOOTH));
 
-        full = new JRadioButton("Full Payment");
-        full.setFont(FontUtil.getInterFont(15f));
-        full.setForeground(txtColor);
-        full.setOpaque(false);
-        full.setFocusPainted(false);
-        full.setContentAreaFilled(false);
-        full.setBorderPainted(false);
-        full.setIcon(iconOff);
-        full.setSelectedIcon(iconOn);
+        rbtnFull = new JRadioButton("Full Payment");
+        rbtnFull.setFont(FontUtil.getInterFont(15f));
+        rbtnFull.setForeground(clrTxt);
+        rbtnFull.setOpaque(false);
+        rbtnFull.setFocusPainted(false);
+        rbtnFull.setContentAreaFilled(false);
+        rbtnFull.setBorderPainted(false);
+        rbtnFull.setIcon(icoOff);
+        rbtnFull.setSelectedIcon(icoOn);
 
-        install = new JRadioButton("Installment");
-        install.setFont(FontUtil.getInterFont(15f));
-        install.setForeground(txtColor);
-        install.setOpaque(false);
-        install.setFocusPainted(false);
-        install.setContentAreaFilled(false);
-        install.setBorderPainted(false);
-        install.setIcon(iconOff);
-        install.setSelectedIcon(iconOn);
+        rbtnInstall = new JRadioButton("Installment");
+        rbtnInstall.setFont(FontUtil.getInterFont(15f));
+        rbtnInstall.setForeground(clrTxt);
+        rbtnInstall.setOpaque(false);
+        rbtnInstall.setFocusPainted(false);
+        rbtnInstall.setContentAreaFilled(false);
+        rbtnInstall.setBorderPainted(false);
+        rbtnInstall.setIcon(icoOff);
+        rbtnInstall.setSelectedIcon(icoOn);
 
-        paymentGroup.add(full);
-        paymentGroup.add(install);
+        grpPayment.add(rbtnFull);
+        grpPayment.add(rbtnInstall);
 
-        JPanel radioPanel = new JPanel();
-        radioPanel.setLayout(new BoxLayout(radioPanel, BoxLayout.X_AXIS));
-        radioPanel.setOpaque(false);
-        radioPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        radioPanel.add(full);
-        radioPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        radioPanel.add(install);
+        JPanel pnlRadio = new JPanel();
+        pnlRadio.setLayout(new BoxLayout(pnlRadio, BoxLayout.X_AXIS));
+        pnlRadio.setOpaque(false);
+        pnlRadio.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pnlRadio.add(rbtnFull);
+        pnlRadio.add(Box.createRigidArea(new Dimension(10, 0)));
+        pnlRadio.add(rbtnInstall);
 
-        paymentPanel.add(radioPanel);
-        paymentPanel.add(Box.createRigidArea(new Dimension(0, 25)));
+        pnlPayment.add(pnlRadio);
+        pnlPayment.add(Box.createRigidArea(new Dimension(0, 25)));
 
-        // Cardholder Name
-        cardholderName = createValidatedField("Cardholder Name", s -> !s.trim().isEmpty());
-        ToolTipUtil.attachCustomTooltip(cardholderName, "Enter name as shown on card");
-        cardholderName.setAlignmentX(Component.LEFT_ALIGNMENT);
-        paymentPanel.add(cardholderName);
-        paymentPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        txtCardholderName = createValidatedField("Cardholder Name", strInput -> !strInput.trim().isEmpty());
+        ToolTipUtil.attachCustomTooltip(txtCardholderName, "Enter name as shown on card");
+        txtCardholderName.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pnlPayment.add(txtCardholderName);
+        pnlPayment.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        // Card Number
-        cardNumber = createValidatedField("Card Number", s -> s.matches("(\\d{4} ){3}\\d{4}"));
-        SmartFieldFormatter.attachCardNumberFormatter(cardNumber);
-        ((AbstractDocument) cardNumber.getDocument()).setDocumentFilter(new LengthLimitFilter(19));
-        ToolTipUtil.attachCustomTooltip(cardNumber, "Enter 16-digit card number");        
-        cardNumber.setAlignmentX(Component.LEFT_ALIGNMENT);
-        paymentPanel.add(cardNumber);
-        paymentPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        txtCardNumber = createValidatedField("Card Number", strInput -> strInput.matches("(\\d{4} ){3}\\d{4}"));
+        SmartFieldFormatter.attachCardNumberFormatter(txtCardNumber);
+        ((AbstractDocument) txtCardNumber.getDocument()).setDocumentFilter(new LengthLimitFilter(19));
+        ToolTipUtil.attachCustomTooltip(txtCardNumber, "Enter 16-digit card number");        
+        txtCardNumber.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pnlPayment.add(txtCardNumber);
+        pnlPayment.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        // Expiry & CVV Panel
-        JPanel expCvvPanel = new JPanel();
-        expCvvPanel.setLayout(new BoxLayout(expCvvPanel, BoxLayout.X_AXIS));
-        expCvvPanel.setOpaque(false);
-        expCvvPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JPanel pnlExpCvv = new JPanel();
+        pnlExpCvv.setLayout(new BoxLayout(pnlExpCvv, BoxLayout.X_AXIS));
+        pnlExpCvv.setOpaque(false);
+        pnlExpCvv.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        expiryDate = createValidatedField("MM/YY", s -> {
-            if (!s.matches("^(0[1-9]|1[0-2])/\\d{2}$")) return false;
+        txtExpiryDate = createValidatedField("MM/YY", strInput -> {
+            if (!strInput.matches("^(0[1-9]|1[0-2])/\\d{2}$")) return false;
             try {
-                String[] parts = s.split("/");
-                int month = Integer.parseInt(parts[0]);
-                int year = 2000 + Integer.parseInt(parts[1]);
+                String[] arrParts = strInput.split("/");
+                int intMonth = Integer.parseInt(arrParts[0]);
+                int intYear = 2000 + Integer.parseInt(arrParts[1]);
         
-                Calendar now = Calendar.getInstance();
-                int currYear = now.get(Calendar.YEAR);
-                int currMonth = now.get(Calendar.MONTH) + 1;
-        
-                return !(year < currYear || (year == currYear && month < currMonth));
+                Calendar calNow = Calendar.getInstance();
+                int intCurrYear = calNow.get(Calendar.YEAR);
+                int intCurrMonth = calNow.get(Calendar.MONTH) + 1;
+                        
+                    return !(intYear < intCurrYear || (intYear == intCurrYear && intMonth < intCurrMonth));
             } catch (Exception e) {
                 return false;
             }
         });        
-        SmartFieldFormatter.attachExpiryDateFormatter(expiryDate);
-        ((AbstractDocument) expiryDate.getDocument()).setDocumentFilter(new LengthLimitFilter(5));
-        ToolTipUtil.attachCustomTooltip(expiryDate, "Enter expiry date (MM/YY)");        
-        expiryDate.setMaximumSize(new Dimension(100, 38));
-        expiryDate.setPreferredSize(new Dimension(100, 38));
-        expCvvPanel.add(expiryDate);
-        expCvvPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        SmartFieldFormatter.attachExpiryDateFormatter(txtExpiryDate);
+        ((AbstractDocument) txtExpiryDate.getDocument()).setDocumentFilter(new LengthLimitFilter(5));
+        ToolTipUtil.attachCustomTooltip(txtExpiryDate, "Enter expiry date (MM/YY)");        
+        txtExpiryDate.setMaximumSize(new Dimension(100, 38));
+        txtExpiryDate.setPreferredSize(new Dimension(100, 38));
+        pnlExpCvv.add(txtExpiryDate);
+        pnlExpCvv.add(Box.createRigidArea(new Dimension(20, 0)));
 
-        cvv = createValidatedField("CVV", s -> s.matches("\\d{3,4}"));
-        ((AbstractDocument) cvv.getDocument()).setDocumentFilter(new LengthLimitFilter(4));
-        ToolTipUtil.attachCustomTooltip(cvv, "Enter CVV (3-digit or 4-digit)");
-        cvv.setMaximumSize(new Dimension(80, 38));
-        cvv.setPreferredSize(new Dimension(80, 38));
-        expCvvPanel.add(cvv);
+        txtCvv = createValidatedField("CVV", s -> s.matches("\\d{3,4}"));
+        ((AbstractDocument) txtCvv.getDocument()).setDocumentFilter(new LengthLimitFilter(4));
+        ToolTipUtil.attachCustomTooltip(txtCvv, "Enter CVV (3-digit or 4-digit)");
+        txtCvv.setMaximumSize(new Dimension(80, 38));
+        txtCvv.setPreferredSize(new Dimension(80, 38));
+        pnlExpCvv.add(txtCvv);
 
-        paymentPanel.add(expCvvPanel);
-        paymentPanel.add(Box.createRigidArea(new Dimension(0, 40)));
+        pnlPayment.add(pnlExpCvv);
+        pnlPayment.add(Box.createRigidArea(new Dimension(0, 40)));
 
-        return paymentPanel;
+        return pnlPayment;
     }
 
     public static void main(String[] args) {

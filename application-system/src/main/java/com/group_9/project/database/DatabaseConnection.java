@@ -17,7 +17,7 @@ public class DatabaseConnection {
         String strDb = "fiberxpress";                   // database 
         String strConn = strJDBC + strHost + ":" + strPort + "/" + strDb + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
         String strUser = "root";
-        String strPass = "DB.18.database";
+        String strPass = "";
 
         try {
             // load the driver
