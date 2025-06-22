@@ -244,19 +244,19 @@ public class ApplicationService {
             psStmt.setString(4, UserApplicationData.get("strCustomerName"));
             
             // Handle birthdate - convert from MM/dd/yyyy to yyyy-MM-dd format
-            String birthdate = UserApplicationData.get("strBirthday");
+            String strBirthdate = UserApplicationData.get("strBirthday");
             try {
                 // Assuming input format is MM/dd/yyyy (like "07/11/2005")
-                String[] parts = birthdate.split("/");
-                if (parts.length == 3) {
-                    String formattedDate = parts[2] + "-" + String.format("%02d", Integer.parseInt(parts[0])) + "-" + String.format("%02d", Integer.parseInt(parts[1]));
-                    psStmt.setDate(5, Date.valueOf(formattedDate));
+                String[] arrParts = strBirthdate.split("/");
+                if (arrParts.length == 3) {
+                    String strFormattedDate = arrParts[2] + "-" + String.format("%02d", Integer.parseInt(arrParts[0])) + "-" + String.format("%02d", Integer.parseInt(arrParts[1]));
+                    psStmt.setDate(5, Date.valueOf(strFormattedDate));
                 } else {
                     // If already in yyyy-MM-dd format
-                    psStmt.setDate(5, Date.valueOf(birthdate));
+                    psStmt.setDate(5, Date.valueOf(strBirthdate));
                 }
             } catch (Exception e) {
-                throw new SQLException("Invalid birthdate format: " + birthdate + ". Expected format: MM/dd/yyyy or yyyy-MM-dd");
+                throw new SQLException("Invalid birthdate format: " + strBirthdate + ". Expected format: MM/dd/yyyy or yyyy-MM-dd");
             }
             
             psStmt.setString(6, UserApplicationData.get("strGender"));

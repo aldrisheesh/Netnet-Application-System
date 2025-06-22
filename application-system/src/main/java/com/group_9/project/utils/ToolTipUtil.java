@@ -33,27 +33,27 @@ public class ToolTipUtil {
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            String tipText = ((JToolTip) c).getTipText();
-            Font font = FontUtil.getInterFont(13f);
-            g2.setFont(font);
+            String strTipText = ((JToolTip) c).getTipText();
+            Font ftFont = FontUtil.getInterFont(13f);
+            g2.setFont(ftFont);
             FontMetrics fm = g2.getFontMetrics();
 
-            int width = fm.stringWidth(tipText) + 16;
-            int height = fm.getHeight() + 10;
+            int intWidth = fm.stringWidth(strTipText) + 16;
+            int intHeight = fm.getHeight() + 10;
 
             g2.setColor(new Color(60, 60, 60));
-            g2.fillRoundRect(0, 0, width, height, arc, arc);
+            g2.fillRoundRect(0, 0, intWidth, intHeight, arc, arc);
 
             g2.setColor(Color.WHITE);
-            g2.drawString(tipText, 8, fm.getAscent() + 5);
+            g2.drawString(strTipText, 8, fm.getAscent() + 5);
         }
 
         @Override
         public Dimension getPreferredSize(JComponent c) {
-            String tipText = ((JToolTip) c).getTipText();
-            Font font = FontUtil.getInterFont(13f);
-            FontMetrics fm = c.getFontMetrics(font);
-            return new Dimension(fm.stringWidth(tipText) + 16, fm.getHeight() + 10);
+            String strTipText = ((JToolTip) c).getTipText();
+            Font ftFont = FontUtil.getInterFont(13f);
+            FontMetrics fm = c.getFontMetrics(ftFont);
+            return new Dimension(fm.stringWidth(strTipText) + 16, fm.getHeight() + 10);
         }
     }
 

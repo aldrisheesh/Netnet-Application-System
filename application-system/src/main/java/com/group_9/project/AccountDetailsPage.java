@@ -113,25 +113,25 @@ public class AccountDetailsPage extends Template {
             if (i == 1) intYLeft += 130;
         }
     
-        JLabel contactLabel = new JLabel("Contact Information");
-        contactLabel.setFont(FontUtil.getOutfitBoldFont(17f));
-        contactLabel.setBounds(95, 350, 300, 20);
-        pnlDetailsContainer.add(contactLabel);
-    
-        JLabel contactInfo = new JLabel("<html>Keep your contact info up to date so we can reach you with important updates.</html>");
-        contactInfo.setFont(FontUtil.getInterFont(14f));
-        contactInfo.setBounds(95, 375, 350, 40);
-        pnlDetailsContainer.add(contactInfo);
+        JLabel lblContactLabel = new JLabel("Contact Information");
+        lblContactLabel.setFont(FontUtil.getOutfitBoldFont(17f));
+        lblContactLabel.setBounds(95, 350, 300, 20);
+        pnlDetailsContainer.add(lblContactLabel);
+
+        JLabel lblContactInfo = new JLabel("<html>Keep your contact info up to date so we can reach you with important updates.</html>");
+        lblContactInfo.setFont(FontUtil.getInterFont(14f));
+        lblContactInfo.setBounds(95, 375, 350, 40);
+        pnlDetailsContainer.add(lblContactInfo);
     
         int intYRight = 150;
         for (int i = 0; i < arrRightLabels.length; i++) {
-            String labelText = arrRightLabels[i];
+            String strLabelText = arrRightLabels[i];
 
-            JLabel lblLabel = new JLabel(labelText);
+            JLabel lblLabel = new JLabel(strLabelText);
             lblLabel.setFont(FontUtil.getOutfitBoldFont(13f));
             lblLabel.setForeground(new Color(42, 2, 67));
     
-            if (labelText.equals("BIRTHDAY")) {
+            if (strLabelText.equals("BIRTHDAY")) {
                 lblLabel.setBounds(490, intYRight + 5, 150, 28);
                 pnlDetailsContainer.add(lblLabel);
     
@@ -177,7 +177,7 @@ public class AccountDetailsPage extends Template {
     
                 intYRight += 77;
                 i++;
-            } else if (labelText.equals("CIVIL STATUS")) {
+            } else if (strLabelText.equals("CIVIL STATUS")) {
               
                 lblLabel.setBounds(490, intYRight + 5, 150, 20);
                 pnlDetailsContainer.add(lblLabel);
@@ -218,7 +218,7 @@ public class AccountDetailsPage extends Template {
                 lblLabel.setBounds(490, intYRight + 10, 270, 20);
                 pnlDetailsContainer.add(lblLabel);
     
-                JTextField txtField = new RoundedTextField("Enter " + labelText.toLowerCase(), 20);
+                JTextField txtField = new RoundedTextField("Enter " + strLabelText.toLowerCase(), 20);
                 txtField.setFont(FontUtil.getOutfitFont(15f));
                 txtField.setBackground(Color.WHITE);
                 txtField.setForeground(Color.BLACK);
@@ -413,8 +413,8 @@ public class AccountDetailsPage extends Template {
         lstComboBoxes.get(0).setSelectedItem(UserApplicationData.get("strGender"));
         lstComboBoxes.get(1).setSelectedItem(UserApplicationData.get("strCivilStatus"));
         lstTextFields.get(6).setText(UserApplicationData.get("strNationality"));
-        String spouse = UserApplicationData.get("strSpouse").trim();
-        lstTextFields.get(7).setText(spouse.isEmpty() ? "N/A" : spouse);
+        String strSpouse = UserApplicationData.get("strSpouse").trim();
+        lstTextFields.get(7).setText(strSpouse.isEmpty() ? "N/A" : strSpouse);
         lstTextFields.get(8).setText(UserApplicationData.get("strMaidenName"));
     }
 

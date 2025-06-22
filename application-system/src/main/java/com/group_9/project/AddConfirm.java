@@ -139,8 +139,8 @@ public class AddConfirm extends JFrame {
         if (!validateAllFields()) return;
 
         // 2) Gather data
-        String appNo = UserApplicationData.get("strApplicationNo");
-        if (appNo == null) {
+        String strAppNo = UserApplicationData.get("strApplicationNo");
+        if (strAppNo == null) {
             CustomDialogUtil.showStyledErrorDialog(this,
                 "Missing Application",
                 "No application number found. Please start over."
@@ -148,11 +148,11 @@ public class AddConfirm extends JFrame {
             return;
         }
 
-        String paymentOpt = rbtnFull.isSelected() ? "full" : "installment";
-        String[] planIds = Optional.ofNullable(UserApplicationData.get("strSelectedPlanIDs"))
-                                   .map(s -> s.split(","))
+        String strPaymentOpt = rbtnFull.isSelected() ? "full" : "installment";
+        String[] arrPlanIds = Optional.ofNullable(UserApplicationData.get("strSelectedPlanIDs"))
+                                    .map(s -> s.split(","))
                                    .orElse(new String[0]);
-        if (planIds.length == 0) {
+       if (arrPlanIds.length == 0) {
             CustomDialogUtil.showStyledErrorDialog(this,
                 "No Plans",
                 "No plan IDs found. Please go back and select plans."
@@ -164,16 +164,16 @@ public class AddConfirm extends JFrame {
         new SwingWorker<Boolean, Void>() {
             @Override
             protected Boolean doInBackground() {
-                String sql = """
+                String strSql = """
                     INSERT INTO tbl_payment(application_no, plan_ID, payment_option)
                     VALUES(?, ?, ?)
                 """;
                 try (Connection conn = DatabaseConnection.getConnection();
-                     PreparedStatement ps = conn.prepareStatement(sql)) {
-                    for (String pid : planIds) {
-                        ps.setString(1, appNo.trim());
-                        ps.setString(2, pid.trim());
-                        ps.setString(3, paymentOpt);
+                     PreparedStatement ps = conn.prepareStatement(strSql)) {
+                    for (String strPid : arrPlanIds) {
+                        ps.setString(1, strAppNo.trim());
+                        ps.setString(2, strPid.trim());
+                        ps.setString(3, strPaymentOpt);
                         ps.addBatch();
                     }
                     ps.executeBatch();
@@ -274,9 +274,9 @@ public class AddConfirm extends JFrame {
                 .ifPresent(txtExpiryDate::setText);
         Optional.ofNullable(UserApplicationData.get("strCVV"))
                 .ifPresent(txtCvv::setText);
-        String opt = UserApplicationData.get("strPaymentOption");
-        if ("full".equals(opt)) rbtnFull.setSelected(true);
-        else if ("installment".equals(opt)) rbtnInstall.setSelected(true);
+        String strOpt = UserApplicationData.get("strPaymentOption");
+        if ("full".equals(strOpt)) rbtnFull.setSelected(true);
+        else if ("installment".equals(strOpt)) rbtnInstall.setSelected(true);
     }
 
     // --- All helper/UI methods below ---
@@ -321,9 +321,9 @@ public class AddConfirm extends JFrame {
         }});
         pnlSummaryContent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        String savedPlans = UserApplicationData.get("strSelectedPlans");
-        if (savedPlans != null && !savedPlans.isEmpty()) {
-            String[] arrPlans = savedPlans.split(",");
+        String strSavedPlans = UserApplicationData.get("strSelectedPlans");
+        if (strSavedPlans != null && !strSavedPlans.isEmpty()) {
+            String[] arrPlans = strSavedPlans.split(",");
             for (int i = 0; i < arrPlans.length; i++) {
                 String strPlan = arrPlans[i].trim();
                 pnlSummaryContent.add(new GridPanel(strPlan, ""));

@@ -251,12 +251,12 @@ class RoundedLabelUI extends javax.swing.plaf.basic.BasicLabelUI {
         g2.setColor(label.getForeground());
         g2.setFont(label.getFont());
         FontMetrics fm = g2.getFontMetrics();
-        String text = label.getText();
-        int textWidth = fm.stringWidth(text);
+        String strText = label.getText();
+        int intTextWidth = fm.stringWidth(strText);
         int textHeight = fm.getAscent();
-        int x = (diameter - textWidth) / 2;
-        int y = (diameter + textHeight) / 2 - 2;
-        g2.drawString(text, x, y);
+        int intX = (diameter - intTextWidth) / 2;
+        int intY = (diameter + textHeight) / 2 - 2;
+        g2.drawString(strText, intX, intY);
 
         g2.dispose();
     }

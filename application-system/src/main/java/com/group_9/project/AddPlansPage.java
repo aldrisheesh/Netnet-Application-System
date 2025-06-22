@@ -193,11 +193,11 @@ public class AddPlansPage extends JFrame {
                     ps.setString(2, strPlanId);
                     try (ResultSet rs = ps.executeQuery()) {
                         if (rs.next()) {
-                            String servicePlanName = rs.getString("service_plan");
+                            String strServicePlanName = rs.getString("service_plan");
                             CustomDialogUtil.showStyledErrorDialog(
                                 AddPlansPage.this,
                                 "Plan Already Subscribed",
-                                "You already have the \"" + servicePlanName + "\" plan."
+                                "You already have the \"" + strServicePlanName + "\" plan."
                             );
                             return;
                         }
@@ -254,8 +254,8 @@ public class AddPlansPage extends JFrame {
 
     // --- inner class for selectable plan cards ---
     class SelectablePlanPanel extends JPanel {
-        private boolean selected = false;
-        private boolean disabled = false;
+        private boolean bolSelected = false;
+        private boolean bolDisabled = false;
 
         private final Color borderDefault  = Color.LIGHT_GRAY;
         private final Color borderHover    = Color.GRAY;
@@ -290,9 +290,9 @@ public class AddPlansPage extends JFrame {
                     // if disabled, always show selected fill but greyed border
                     Color fill = fillDefault;
                     Color border = borderDefault;
-                    if (selected)      fill = fillSelected;
-                    if (disabled)      border = Color.DARK_GRAY;
-                    else if (selected) border = borderSelected;
+                    if (bolSelected)      fill = fillSelected;
+                    if (bolDisabled)      border = Color.DARK_GRAY;
+                    else if (bolSelected) border = borderSelected;
 
                     g2.setColor(fill);
                     g2.fillRect(0,0,getWidth(),getHeight());
@@ -341,24 +341,24 @@ public class AddPlansPage extends JFrame {
             addMouseListener(new MouseAdapter(){
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    if (disabled) return;
+                    if (bolDisabled) return;
                     setBorder(createBorder(borderHover, 2));
                 }
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    if (disabled) return;
+                    if (bolDisabled) return;
                     setBorder(createBorder(
-                        selected? borderSelected: borderDefault,
-                        selected? 2:1
+                        bolSelected? borderSelected: borderDefault,
+                        bolSelected? 2:1
                     ));
                 }
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    if (disabled) return;
-                    selected = !selected;
+                    if (bolDisabled) return;
+                    bolSelected = !bolSelected;
                     setBorder(createBorder(
-                        selected? borderSelected: borderDefault,
-                        selected? 2:1
+                        bolSelected? borderSelected: borderDefault,
+                        bolSelected? 2:1
                     ));
                     repaint();
                 }
@@ -387,15 +387,15 @@ public class AddPlansPage extends JFrame {
         }
 
         // getters & setters
-        public boolean isSelected()       { return selected;     }
+        public boolean isSelected()       { return bolSelected;     }
         public String  getPlanID()        { return strPlanID;    }
         public String  getPlanTitle()     { return strPlanTitle; }
-        public boolean isDisabled()       { return disabled;     }
+        public boolean isDisabled()       { return bolDisabled;     }
 
         /** Mark this panel as already-subscribed: locks selection on, disallows clicks. */
         public void setDisabled(boolean d) {
-            this.disabled = d;
-            this.selected = true;
+            this.bolDisabled = d;
+            this.bolSelected = true;
             setBorder(createBorder(d? Color.DARK_GRAY : borderSelected, d? 1 : 2));
             repaint();
         }
