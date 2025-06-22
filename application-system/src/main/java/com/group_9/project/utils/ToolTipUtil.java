@@ -9,7 +9,7 @@ import java.util.TimerTask;
 
 public class ToolTipUtil {
 
-    public static JWindow activePopup = null;
+    public static JWindow wndActivePopup = null;
 
     public static class CustomToolTip extends JToolTip {
         public CustomToolTip() {
@@ -57,99 +57,99 @@ public class ToolTipUtil {
         }
     }
 
-    public static void attachCustomTooltip(JComponent target, String message) {
-        CustomToolTip tooltip = new CustomToolTip();
-        tooltip.setTipText(message);
-        tooltip.setComponent(target);
-        tooltip.setSize(tooltip.getPreferredSize());
+    public static void attachCustomTooltip(JComponent cmpTarget, String strMessage) {
+        CustomToolTip ttpTooltip = new CustomToolTip();
+        ttpTooltip.setTipText(strMessage);
+        ttpTooltip.setComponent(cmpTarget);
+        ttpTooltip.setSize(ttpTooltip.getPreferredSize());
 
-        JWindow popupWindow = new JWindow();
-        popupWindow.setBackground(new Color(0, 0, 0, 0));
-        popupWindow.add(tooltip);
-        popupWindow.pack();
+        JWindow wndPopup = new JWindow();
+        wndPopup.setBackground(new Color(0, 0, 0, 0));
+        wndPopup.add(ttpTooltip);
+        wndPopup.pack();
 
-        final boolean[] shown = {false};
-        final boolean[] persistent = {false}; // 👈 true = user typed, don't auto-hide
-        final Timer[] autoHideTimer = {null};
+        final boolean[] bolShown = {false};
+        final boolean[] bolPersistent = {false}; // 👈 true = user typed, don't auto-hide
+        final Timer[] arrAutoHideTimer = {null};
 
-        Runnable hideTip = () -> {
-            popupWindow.setVisible(false);
-            if (activePopup == popupWindow) {
-                activePopup = null;
+        Runnable rnbHideTip = () -> {
+            wndPopup.setVisible(false);
+            if (wndActivePopup == wndPopup) {
+                wndActivePopup = null;
             }
-            shown[0] = false;
-            persistent[0] = false;
+            bolShown[0] = false;
+            bolPersistent[0] = false;
         };
 
-        Runnable showTip = () -> {
+        Runnable rnbShowTip = () -> {
             try {
-                Point location = target.getLocationOnScreen();
+                Point ptLocation = cmpTarget.getLocationOnScreen();
 
                 // Close any other tooltip
-                if (activePopup != null && activePopup.isVisible()) {
-                    activePopup.setVisible(false);
+                if (wndActivePopup != null && wndActivePopup.isVisible()) {
+                    wndActivePopup.setVisible(false);
                 }
 
                 SwingUtilities.invokeLater(() -> {
-                    popupWindow.setLocation(
-                        location.x,
-                        location.y - popupWindow.getHeight() - 4
+                    wndPopup.setLocation(
+                        ptLocation.x,
+                        ptLocation.y - wndPopup.getHeight() - 4
                     );
-                    popupWindow.setVisible(true);
-                    activePopup = popupWindow;
-                    shown[0] = true;
+                    wndPopup.setVisible(true);
+                    wndActivePopup = wndPopup;
+                    bolShown[0] = true;
                 });
 
             } catch (IllegalComponentStateException ignored) {}
         };
 
         // 🔤 Typed → show persistently
-        target.addKeyListener(new KeyAdapter() {
+        cmpTarget.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                persistent[0] = true;
+                bolPersistent[0] = true;
 
-                if (!shown[0]) {
-                    showTip.run();
+                if (!bolShown[0]) {
+                    rnbShowTip.run();
                 }
 
                 // Cancel auto-hide timer if any
-                if (autoHideTimer[0] != null) {
-                    autoHideTimer[0].cancel();
-                    autoHideTimer[0] = null;
+                if (arrAutoHideTimer[0] != null) {
+                    arrAutoHideTimer[0].cancel();
+                    arrAutoHideTimer[0] = null;
                 }
             }
         });
 
         // 🖱️ Click → show, then auto-hide after 1.5s unless user types
-        target.addMouseListener(new MouseAdapter() {
+        cmpTarget.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                showTip.run();
-                persistent[0] = false;
+                rnbShowTip.run();
+                bolPersistent[0] = false;
 
                 // Reset and schedule timer
-                if (autoHideTimer[0] != null) {
-                    autoHideTimer[0].cancel();
+                if (arrAutoHideTimer[0] != null) {
+                    arrAutoHideTimer[0].cancel();
                 }
 
-                Timer timer = new Timer();
-                autoHideTimer[0] = timer;
-                timer.schedule(new TimerTask() {
+                Timer tmrTimer = new Timer();
+                arrAutoHideTimer[0] = tmrTimer;
+                tmrTimer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        if (!persistent[0]) {
-                            SwingUtilities.invokeLater(hideTip);
+                        if (!bolPersistent[0]) {
+                            SwingUtilities.invokeLater(rnbHideTip);
                         }
                     }
                 }, 5000);
             }
         });
 
-        target.addFocusListener(new FocusAdapter() {
+        cmpTarget.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
-                hideTip.run();
+                rnbHideTip.run();
             }
         });
     }

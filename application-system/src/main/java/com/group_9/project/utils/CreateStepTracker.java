@@ -5,101 +5,101 @@ import javax.swing.*;
 
 public class CreateStepTracker {
     
-    public static JPanel createStepTracker(int activeIndex) {
-        Color stepTextColor = Color.decode("#2B0243");
-        Color stepColor = Color.decode("#FFF1FF");
-        Color borderColor = Color.decode("#7E4CA5");
+    public static JPanel createStepTracker(int intActiveIndex) {
+        Color clrStepText = Color.decode("#2B0243");
+        Color clrStep = Color.decode("#FFF1FF");
+        Color clrBorder = Color.decode("#7E4CA5");
 
-        String[] steps = {"YOUR INFO", "CHOOSE A PLAN", "PAY HERE", "CHECK STATUS"};
-        int circleDiameter = 41;
-        int spacingBetweenCenters = 163;
-        int barWidth = spacingBetweenCenters - circleDiameter;
+        String[] arrSteps = {"YOUR INFO", "CHOOSE A PLAN", "PAY HERE", "CHECK STATUS"};
+        int intCircleDiameter = 41;
+        int intSpacingBetweenCenters = 163;
+        int intBarWidth = intSpacingBetweenCenters - intCircleDiameter;
 
         // main container
-        JPanel stepTracker = new JPanel();
-        stepTracker.setLayout(new BoxLayout(stepTracker, BoxLayout.Y_AXIS));
-        stepTracker.setOpaque(false);
+        JPanel pnlStepTracker = new JPanel();
+        pnlStepTracker.setLayout(new BoxLayout(pnlStepTracker, BoxLayout.Y_AXIS));
+        pnlStepTracker.setOpaque(false);
 
         // circle + bar
-        JPanel topRow = new JPanel(new GridBagLayout());
-        topRow.setOpaque(false);
+        JPanel pnlTopRow = new JPanel(new GridBagLayout());
+        pnlTopRow.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER;
 
-        for (int i = 0; i < steps.length; i++) {
-            boolean isActive = (i == activeIndex);
-            Color circleBgColor = isActive ? stepColor : stepTextColor;
-            Color numberFgColor = isActive ? stepTextColor : stepColor;
+        for (int i = 0; i < arrSteps.length; i++) {
+            boolean boolActive = (i == intActiveIndex);
+            Color clrCircleBg = boolActive ? clrStep : clrStepText;
+            Color clrNumberFg = boolActive ? clrStepText : clrStep;
 
             // Create circle panel
-            JPanel circlePanel = new JPanel() {
+            JPanel pnlCircle = new JPanel() {
                 protected void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     Graphics2D g2 = (Graphics2D) g;
                     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                     int intStrokeWidth = 1;
                     int intInset = intStrokeWidth / 2;
-                    int intDiameter = circleDiameter - intStrokeWidth;
+                    int intDiameter = intCircleDiameter - intStrokeWidth;
 
-                    g2.setColor(circleBgColor);
+                    g2.setColor(clrCircleBg);
                     g2.fillOval(intInset, intInset, intDiameter, intDiameter);
-                    g2.setColor(borderColor);
+                    g2.setColor(clrBorder);
                     g2.setStroke(new BasicStroke(intStrokeWidth));
                     g2.drawOval(intInset, intInset, intDiameter, intDiameter);
                 }
             };
-            circlePanel.setPreferredSize(new Dimension(circleDiameter, circleDiameter));
-            circlePanel.setOpaque(false);
-            circlePanel.setLayout(new BorderLayout());
+            pnlCircle.setPreferredSize(new Dimension(intCircleDiameter, intCircleDiameter));
+            pnlCircle.setOpaque(false);
+            pnlCircle.setLayout(new BorderLayout());
 
-            JLabel number = new JLabel(String.valueOf(i + 1), SwingConstants.CENTER);
-            number.setFont(FontUtil.getOutfitBoldFont(16f));
-            number.setForeground(numberFgColor);
-            circlePanel.add(number, BorderLayout.CENTER);
+            JLabel lblNumber = new JLabel(String.valueOf(i + 1), SwingConstants.CENTER);
+            lblNumber.setFont(FontUtil.getOutfitBoldFont(16f));
+            lblNumber.setForeground(clrNumberFg);
+            pnlCircle.add(lblNumber, BorderLayout.CENTER);
 
             // Add circle to layout
             gbc.gridx = i * 2;
-            topRow.add(circlePanel, gbc);
+            pnlTopRow.add(pnlCircle, gbc);
 
             // Add bar between circles
-            if (i < steps.length - 1) {
-                JPanel bar = new JPanel();
-                bar.setBackground(borderColor);
-                bar.setPreferredSize(new Dimension(barWidth, 2));
-                bar.setMaximumSize(new Dimension(barWidth, 2));
-                bar.setMinimumSize(new Dimension(barWidth, 2));
+            if (i < arrSteps.length - 1) {
+                JPanel pnlBar = new JPanel();
+                pnlBar.setBackground(clrBorder);
+                pnlBar.setPreferredSize(new Dimension(intBarWidth, 2));
+                pnlBar.setMaximumSize(new Dimension(intBarWidth, 2));
+                pnlBar.setMinimumSize(new Dimension(intBarWidth, 2));
                 gbc.gridx = i * 2 + 1;
-                topRow.add(bar, gbc);
+                pnlTopRow.add(pnlBar, gbc);
             }
         }
 
         // Bottom: Step Labels aligned under each circle
-        JPanel bottomRow = new JPanel(new GridBagLayout());
-        bottomRow.setOpaque(false);
-        GridBagConstraints labelGbc = new GridBagConstraints();
-        labelGbc.gridy = 0;
-        labelGbc.anchor = GridBagConstraints.CENTER;
+        JPanel pnlBottomRow = new JPanel(new GridBagLayout());
+        pnlBottomRow.setOpaque(false);
+        GridBagConstraints gbcLabel = new GridBagConstraints();
+        gbcLabel.gridy = 0;
+        gbcLabel.anchor = GridBagConstraints.CENTER;
 
-        for (int i = 0; i < steps.length; i++) {
-            JLabel label = new JLabel(steps[i], SwingConstants.CENTER);
-            label.setFont(FontUtil.getOutfitFont(13f));
-            label.setForeground(stepTextColor);
+        for (int i = 0; i < arrSteps.length; i++) {
+            JLabel lblLabel = new JLabel(arrSteps[i], SwingConstants.CENTER);
+            lblLabel.setFont(FontUtil.getOutfitFont(13f));
+            lblLabel.setForeground(clrStepText);
 
-            JPanel labelPanel = new JPanel(new BorderLayout());
-            labelPanel.setOpaque(false);
-            labelPanel.setPreferredSize(new Dimension(spacingBetweenCenters, 20));
-            labelPanel.add(label, BorderLayout.CENTER);
+            JPanel pnlLabelPanel = new JPanel(new BorderLayout());
+            pnlLabelPanel.setOpaque(false);
+            pnlLabelPanel.setPreferredSize(new Dimension(intSpacingBetweenCenters, 20));
+            pnlLabelPanel.add(lblLabel, BorderLayout.CENTER);
 
-            labelGbc.gridx = i * 2;
-            bottomRow.add(labelPanel, labelGbc);
+            gbcLabel.gridx = i * 2;
+            pnlBottomRow.add(pnlLabelPanel, gbcLabel);
         }
 
         // === Assemble tracker ===
-        stepTracker.add(topRow);
-        stepTracker.add(Box.createVerticalStrut(8));
-        stepTracker.add(bottomRow);
+        pnlStepTracker.add(pnlTopRow);
+        pnlStepTracker.add(Box.createVerticalStrut(8));
+        pnlStepTracker.add(pnlBottomRow);
 
-        return stepTracker;
+        return pnlStepTracker;
     }
 }

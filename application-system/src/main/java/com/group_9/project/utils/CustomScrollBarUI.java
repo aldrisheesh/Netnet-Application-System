@@ -25,9 +25,9 @@ public class CustomScrollBarUI extends BasicScrollBarUI {
     }
 
     private JButton createZeroButton() {
-        JButton button = new JButton();
-        button.setPreferredSize(new Dimension(0, 0));
-        return button;
+        JButton cmdButton = new JButton();
+        cmdButton.setPreferredSize(new Dimension(0, 0));
+        return cmdButton;
     }
 
     @Override

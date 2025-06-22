@@ -9,43 +9,43 @@ public class SmartFieldFormatter {
     // 📆 DATE FORMATTER (MM/dd/yyyy)
     public static void attachDateFormatter(JTextField field) {
         field.getDocument().addDocumentListener(new DocumentListener() {
-            boolean isUpdating = false;
+            boolean bolUpdating = false;
 
             @Override public void insertUpdate(DocumentEvent e) { format(field); }
             @Override public void removeUpdate(DocumentEvent e) { format(field); }
             @Override public void changedUpdate(DocumentEvent e) {}
 
             private void format(JTextField field) {
-                if (isUpdating) return;
-                isUpdating = true;
+                if (bolUpdating) return;
+                bolUpdating = true;
 
                 SwingUtilities.invokeLater(() -> {
                     try {
-                        String raw = field.getText();
-                        int caretPos = field.getCaretPosition();
+                        String strRaw = field.getText();
+                        int intCaretPos = field.getCaretPosition();
 
                         // Get only digits
-                        String digits = raw.replaceAll("\\D", "");
-                        if (digits.length() > 8) digits = digits.substring(0, 8);
+                        String strDigits = strRaw.replaceAll("\\D", "");
+                        if (strDigits.length() > 8) strDigits = strDigits.substring(0, 8);
 
                         // Format: MM/dd/yyyy
-                        StringBuilder formatted = new StringBuilder();
-                        int newCaret = caretPos;
+                        StringBuilder sbFormatted = new StringBuilder();
+                        int intNewCaret = intCaretPos;
 
-                        for (int i = 0; i < digits.length(); i++) {
+                        for (int i = 0; i < strDigits.length(); i++) {
                             if (i == 2 || i == 4) {
-                                formatted.append('/');
-                                if (i < caretPos) newCaret++;
+                                sbFormatted.append('/');
+                                if (i < intCaretPos) intNewCaret++;
                             }
-                            formatted.append(digits.charAt(i));
-                            if (i < caretPos) newCaret++;
+                            sbFormatted.append(strDigits.charAt(i));
+                            if (i < intCaretPos) intNewCaret++;
                         }
 
-                        field.setText(formatted.toString());
-                        field.setCaretPosition(Math.min(newCaret, formatted.length()));
+                        field.setText(sbFormatted.toString());
+                        field.setCaretPosition(Math.min(intNewCaret, sbFormatted.length()));
 
                     } finally {
-                        isUpdating = false;
+                        bolUpdating = false;
                     }
                 });
             }
@@ -55,58 +55,58 @@ public class SmartFieldFormatter {
     // 📱 MOBILE FORMATTER (+63 9XX-XXX-XXXX)
     public static void attachMobileFormatter(JTextField field) {
         field.getDocument().addDocumentListener(new DocumentListener() {
-            boolean isUpdating = false;
+            boolean bolUpdating = false;
     
             @Override public void insertUpdate(DocumentEvent e) { formatMobile(field); }
             @Override public void removeUpdate(DocumentEvent e) { formatMobile(field); }
             @Override public void changedUpdate(DocumentEvent e) {}
     
             private void formatMobile(JTextField field) {
-                if (isUpdating) return;
-                isUpdating = true;
+                if (bolUpdating) return;
+                bolUpdating = true;
     
                 SwingUtilities.invokeLater(() -> {
                     try {
-                        int caret = field.getCaretPosition();
-                        String raw = field.getText();
+                        int intCaret = field.getCaretPosition();
+                        String strRaw = field.getText();
     
                         // Strip all non-digits
-                        String digits = raw.replaceAll("\\D", "");
+                        String strDigits = strRaw.replaceAll("\\D", "");
     
                         // Remove Philippine prefix if present
-                        if (digits.startsWith("63")) {
-                            digits = digits.substring(2);
+                        if (strDigits.startsWith("63")) {
+                            strDigits = strDigits.substring(2);
                         }
     
                         // 🚫 Remove leading 0 if present
-                        if (digits.startsWith("0")) {
-                            digits = digits.substring(1);
-                            if (caret > 0) caret--;
+                        if (strDigits.startsWith("0")) {
+                            strDigits = strDigits.substring(1);
+                            if (intCaret > 0) intCaret--;
                         }
     
                         // Trim to 10 digits
-                        if (digits.length() > 10) {
-                            digits = digits.substring(0, 10);
+                        if (strDigits.length() > 10) {
+                            strDigits = strDigits.substring(0, 10);
                         }
     
                         // Format as +63 9XX-XXX-XXXX
-                        StringBuilder formatted = new StringBuilder("+63 ");
-                        int newCaret = 4;
+                        StringBuilder sbFormatted = new StringBuilder("+63 ");
+                        int intNewCaret = 4;
     
-                        for (int i = 0; i < digits.length(); i++) {
+                        for (int i = 0; i < strDigits.length(); i++) {
                             if (i == 3 || i == 6) {
-                                formatted.append('-');
-                                if (i < caret) newCaret++;
+                                sbFormatted.append('-');
+                                if (i < intCaret) intNewCaret++;
                             }
-                            formatted.append(digits.charAt(i));
-                            if (i < caret) newCaret++;
+                            sbFormatted.append(strDigits.charAt(i));
+                            if (i < intCaret) intNewCaret++;
                         }
-    
-                        field.setText(formatted.toString());
-                        field.setCaretPosition(Math.min(newCaret, formatted.length()));
+
+                        field.setText(sbFormatted.toString());
+                        field.setCaretPosition(Math.min(intNewCaret, sbFormatted.length()));
     
                     } finally {
-                        isUpdating = false;
+                        bolUpdating = false;
                     }
                 });
             }
@@ -116,48 +116,48 @@ public class SmartFieldFormatter {
     // 💳 CARD NUMBER FORMATTER (XXXX XXXX XXXX XXXX)
     public static void attachCardNumberFormatter(JTextField field) {
         field.getDocument().addDocumentListener(new DocumentListener() {
-            boolean isUpdating = false;
+            boolean bolUpdating = false;
 
             @Override public void insertUpdate(DocumentEvent e) { formatCard(field); }
             @Override public void removeUpdate(DocumentEvent e) { formatCard(field); }
             @Override public void changedUpdate(DocumentEvent e) {}
 
             private void formatCard(JTextField field) {
-                if (isUpdating) return;
-                isUpdating = true;
+                if (bolUpdating) return;
+                bolUpdating = true;
 
                 SwingUtilities.invokeLater(() -> {
                     try {
-                        int caret = field.getCaretPosition();
-                        String raw = field.getText();
+                        int intCaret = field.getCaretPosition();
+                        String strRaw = field.getText();
 
                         // Strip all non-digits
-                        String digits = raw.replaceAll("\\D", "");
+                        String strDigits = strRaw.replaceAll("\\D", "");
 
                         // Trim to max 19 digits (standard max for card numbers)
-                        if (digits.length() > 19) {
-                            digits = digits.substring(0, 19);
+                        if (strDigits.length() > 19) {
+                            strDigits = strDigits.substring(0, 19);
                         }
 
-                        StringBuilder formatted = new StringBuilder();
-                        int newCaret = caret;
-                        int digitCount = 0;
+                        StringBuilder sbFormatted = new StringBuilder();
+                        int intNewCaret = intCaret;
+                        int intDigitCount = 0;
 
-                        for (int i = 0; i < digits.length(); i++) {
+                        for (int i = 0; i < strDigits.length(); i++) {
                             if (i > 0 && i % 4 == 0) {
-                                formatted.append(" ");
-                                if (i < caret) newCaret++;
+                                sbFormatted.append(" ");
+                                if (i < intCaret) intNewCaret++;
                             }
-                            formatted.append(digits.charAt(i));
-                            if (i < caret) newCaret++;
-                            digitCount++;
+                            sbFormatted.append(strDigits.charAt(i));
+                            if (i < intCaret) intNewCaret++;
+                            intDigitCount++;
                         }
 
-                        field.setText(formatted.toString());
-                        field.setCaretPosition(Math.min(newCaret, formatted.length()));
+                        field.setText(sbFormatted.toString());
+                        field.setCaretPosition(Math.min(intNewCaret, sbFormatted.length()));
 
                     } finally {
-                        isUpdating = false;
+                        bolUpdating = false;
                     }
                 });
             }
@@ -167,45 +167,45 @@ public class SmartFieldFormatter {
     // 🗓️ EXPIRY DATE FORMATTER (MM/YY)
     public static void attachExpiryDateFormatter(JTextField field) {
         field.getDocument().addDocumentListener(new DocumentListener() {
-            boolean isUpdating = false;
+            boolean bolUpdating = false;
 
             @Override public void insertUpdate(DocumentEvent e) { formatExpiry(field); }
             @Override public void removeUpdate(DocumentEvent e) { formatExpiry(field); }
             @Override public void changedUpdate(DocumentEvent e) {}
 
             private void formatExpiry(JTextField field) {
-                if (isUpdating) return;
-                isUpdating = true;
+                if (bolUpdating) return;
+                bolUpdating = true;
 
                 SwingUtilities.invokeLater(() -> {
                     try {
-                        String raw = field.getText();
-                        int caret = field.getCaretPosition();
+                        String strRaw = field.getText();
+                        int intCaret = field.getCaretPosition();
 
                         // Strip all non-digit
-                        String digits = raw.replaceAll("\\D", "");
+                        String strDigits = strRaw.replaceAll("\\D", "");
 
-                        if (digits.length() > 4) {
-                            digits = digits.substring(0, 4);
+                        if (strDigits.length() > 4) {
+                            strDigits = strDigits.substring(0, 4);
                         }
 
-                        StringBuilder formatted = new StringBuilder();
-                        int newCaret = caret;
+                        StringBuilder sbFormatted = new StringBuilder();
+                        int intNewCaret = intCaret;
 
-                        for (int i = 0; i < digits.length(); i++) {
+                        for (int i = 0; i < strDigits.length(); i++) {
                             if (i == 2) {
-                                formatted.append('/');
-                                if (i < caret) newCaret++;
+                                sbFormatted.append('/');
+                                if (i < intCaret) intNewCaret++;
                             }
-                            formatted.append(digits.charAt(i));
-                            if (i < caret) newCaret++;
+                            sbFormatted.append(strDigits.charAt(i));
+                            if (i < intCaret) intNewCaret++;
                         }
 
-                        field.setText(formatted.toString());
-                        field.setCaretPosition(Math.min(newCaret, formatted.length()));
+                        field.setText(sbFormatted.toString());
+                        field.setCaretPosition(Math.min(intNewCaret, sbFormatted.length()));
 
                     } finally {
-                        isUpdating = false;
+                        bolUpdating = false;
                     }
                 });
             }

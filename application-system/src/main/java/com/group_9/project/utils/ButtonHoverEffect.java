@@ -8,57 +8,57 @@ import java.awt.event.MouseEvent;
 
 public class ButtonHoverEffect {
 
-    public static void apply(JButton button, Color hoverBg, Color hoverFg, Color normalBg, Color normalFg,
-                             Color hoverBorder, Color normalBorder) {
-        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        button.setBackground(normalBg);
-        button.setForeground(normalFg);
-        button.setBorder(new CustomLineBorder(normalBorder, 2));
+    public static void apply(JButton cmdButton, Color clrHoverBg, Color clrHoverFg, Color clrNormalBg, Color clrNormalFg,
+                             Color clrHoverBorder, Color clrNormalBorder) {
+        cmdButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        cmdButton.setBackground(clrNormalBg);
+        cmdButton.setForeground(clrNormalFg);
+        cmdButton.setBorder(new CustomLineBorder(clrNormalBorder, 2));
 
-        button.addMouseListener(new MouseAdapter() {
+        cmdButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                button.setBackground(hoverBg);
-                button.setForeground(hoverFg);
-                button.setBorder(new CustomLineBorder(hoverBorder, 2));
+                cmdButton.setBackground(clrHoverBg);
+                cmdButton.setForeground(clrHoverFg);
+                cmdButton.setBorder(new CustomLineBorder(clrHoverBorder, 2));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                button.setBackground(normalBg);
-                button.setForeground(normalFg);
-                button.setBorder(new CustomLineBorder(normalBorder, 2));
+                cmdButton.setBackground(clrNormalBg);
+                cmdButton.setForeground(clrNormalFg);
+                cmdButton.setBorder(new CustomLineBorder(clrNormalBorder, 2));
             }
         });
     }
 
     // Static inner class for the custom line border
     private static class CustomLineBorder extends AbstractBorder {
-        private final Color color;
-        private final int thickness;
+        private final Color clrColor;
+        private final int intThickness;
 
-        public CustomLineBorder(Color color, int thickness) {
-            this.color = color;
-            this.thickness = thickness;
+        public CustomLineBorder(Color clrColor, int intThickness) {
+            this.clrColor = clrColor;
+            this.intThickness = intThickness;
         }
 
         @Override
         public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
             Graphics2D g2 = (Graphics2D) g.create();
-            g2.setColor(color);
-            g2.setStroke(new BasicStroke(thickness));
-            g2.drawRect(x + thickness / 2, y + thickness / 2, width - thickness, height - thickness);
+            g2.setColor(clrColor);
+            g2.setStroke(new BasicStroke(intThickness));
+            g2.drawRect(x + intThickness / 2, y + intThickness / 2, width - intThickness, height - intThickness);
             g2.dispose();
         }
 
         @Override
         public Insets getBorderInsets(Component c) {
-            return new Insets(thickness, thickness, thickness, thickness);
+            return new Insets(intThickness, intThickness, intThickness, intThickness);
         }
 
         @Override
         public Insets getBorderInsets(Component c, Insets insets) {
-            insets.set(thickness, thickness, thickness, thickness);
+            insets.set(intThickness, intThickness, intThickness, intThickness);
             return insets;
         }
     }

@@ -4,44 +4,44 @@ import java.awt.*;
 import java.io.InputStream;
 
 public class FontUtil {
-    private static Font outfitRegular;
-    private static Font outfitBold;
-    private static Font interRegular;
+    private static Font fntOutfitRegular;
+    private static Font fntOutfitBold;
+    private static Font fntInterRegular;
 
     static {
         try {
-            InputStream regularStream = FontUtil.class.getClassLoader().getResourceAsStream("fonts/OutfitRegular.ttf");
-            InputStream boldStream = FontUtil.class.getClassLoader().getResourceAsStream("fonts/OutfitBold.ttf");
-            InputStream interRegularStream = FontUtil.class.getClassLoader().getResourceAsStream("fonts/InterRegular.otf");
+            InputStream insRegular = FontUtil.class.getClassLoader().getResourceAsStream("fonts/OutfitRegular.ttf");
+            InputStream insBold = FontUtil.class.getClassLoader().getResourceAsStream("fonts/OutfitBold.ttf");
+            InputStream insInterRegular = FontUtil.class.getClassLoader().getResourceAsStream("fonts/InterRegular.otf");
 
-            if (regularStream == null || boldStream == null || interRegularStream == null)
+            if (insRegular == null || insBold == null || insInterRegular == null)
                 throw new RuntimeException("Font files not found in Resource folder.");
 
-            outfitRegular = Font.createFont(Font.TRUETYPE_FONT, regularStream);
-            outfitBold = Font.createFont(Font.TRUETYPE_FONT, boldStream);
-            interRegular = Font.createFont(Font.TRUETYPE_FONT, interRegularStream);
+            fntOutfitRegular = Font.createFont(Font.TRUETYPE_FONT, insRegular);
+            fntOutfitBold = Font.createFont(Font.TRUETYPE_FONT, insBold);
+            fntInterRegular = Font.createFont(Font.TRUETYPE_FONT, insInterRegular);
 
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(outfitRegular);
-            ge.registerFont(outfitBold);
-            ge.registerFont(interRegular);
+            GraphicsEnvironment geEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            geEnv.registerFont(fntOutfitRegular);
+            geEnv.registerFont(fntOutfitBold);
+            geEnv.registerFont(fntInterRegular);
         } catch (Exception e) {
             e.printStackTrace();
-            outfitRegular = new Font("SansSerif", Font.PLAIN, 14); // fallback
-            outfitBold = new Font("SansSerif", Font.BOLD, 14);     // fallback
-            interRegular = new Font("SansSerif", Font.PLAIN, 14);  // fallback
+            fntOutfitRegular = new Font("SansSerif", Font.PLAIN, 14); // fallback
+            fntOutfitBold = new Font("SansSerif", Font.BOLD, 14);     // fallback
+            fntInterRegular = new Font("SansSerif", Font.PLAIN, 14);  // fallback
         }
     }
 
     public static Font getOutfitFont(float size) {
-        return outfitRegular.deriveFont(size);
+        return fntOutfitRegular.deriveFont(size);
     }
 
     public static Font getOutfitBoldFont(float size) {
-        return outfitBold.deriveFont(size);
+        return fntOutfitBold.deriveFont(size);
     }
 
     public static Font getInterFont(float size) {
-        return interRegular.deriveFont(size);
+        return fntInterRegular.deriveFont(size);
     }
 }
