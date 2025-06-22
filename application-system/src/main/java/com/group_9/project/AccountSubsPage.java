@@ -212,7 +212,7 @@ public class AccountSubsPage extends Template {
                             "Plan removed from your subscriptions."
                     );
                     new AccountSubsPage().setVisible(true);
-                    AccountSubsPage.this.dispose();
+                    dispose();
                 } else {
                     CustomDialogUtil.showStyledErrorDialog(
                             AccountSubsPage.this,
