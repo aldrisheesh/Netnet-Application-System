@@ -11,7 +11,7 @@ public class ApplicationService {
     public boolean processApplication() {
         System.out.println("\n=== STARTING APPLICATION PROCESSING ===");
         
-        Connection conn = null;
+        Connection connDb = null;
         try {
             // test database connection first
             System.out.println("Testing database connection...");
@@ -20,14 +20,14 @@ public class ApplicationService {
                 return false;
             }
 
-            conn = DatabaseConnection.getConnection();
-            if (conn == null) {
+            connDb = DatabaseConnection.getConnection();
+            if (connDb == null) {
                 System.err.println("Failed to get database connection");
                 return false;
             }
 
             System.out.println("Database connection established successfully");
-            conn.setAutoCommit(false); // Start transaction
+            connDb.setAutoCommit(false); // Start transaction
             System.out.println("Transaction started (autoCommit = false)");
 
             // print all data before validation
@@ -43,34 +43,34 @@ public class ApplicationService {
 
             // generate IDs
             System.out.println("Generating IDs...");
-            String residenceId = generateResidenceId(conn);
-            String customerId = generateCustomerId(conn);
-            String applicationNo = generateApplicationNo(conn);
+            String strResidenceId = generateResidenceId(connDb);
+            String strCustomerId = generateCustomerId(connDb);
+            String strApplicationNo = generateApplicationNo(connDb);
             
             System.out.println("Generated IDs:");
-            System.out.println("  Residence ID: " + residenceId);
-            System.out.println("  Customer ID: " + customerId);
-            System.out.println("  Application No: " + applicationNo);
+            System.out.println("  Residence ID: " + strResidenceId);
+            System.out.println("  Customer ID: " + strCustomerId);
+            System.out.println("  Application No: " + strApplicationNo);
 
             System.out.println("Inserting data into database...");
             
             System.out.println("1. Inserting residence data...");
-            insertResidence(conn, residenceId);
+            insertResidence(connDb, strResidenceId);
             
             System.out.println("2. Inserting customer data...");
-            insertCustomer(conn, customerId, residenceId);
+            insertCustomer(connDb, strCustomerId, strResidenceId);
             
             System.out.println("3. Inserting application data...");
-            insertApplication(conn, applicationNo, customerId);
+            insertApplication(connDb, strApplicationNo, strCustomerId);
             
             System.out.println("4. Inserting payment data...");
-            insertPayment(conn, applicationNo);
+            insertPayment(connDb, strApplicationNo);
 
             System.out.println("All data inserted successfully, committing transaction...");
-            conn.commit();
+            connDb.commit();
             
             System.out.println("✓ Transaction committed successfully!");
-            System.out.println("✓ Application processed successfully. Application No: " + applicationNo);
+            System.out.println("✓ Application processed successfully. Application No: " + strApplicationNo);
             return true;
 
         } catch (SQLException e) {
@@ -80,9 +80,9 @@ public class ApplicationService {
             System.err.println("Message: " + e.getMessage());
             
             try {
-                if (conn != null) {
+                if (connDb != null) {
                     System.out.println("Rolling back transaction...");
-                    conn.rollback();
+                    connDb.rollback();
                     System.out.println("✓ Transaction rolled back successfully");
                 }
             } catch (SQLException rollbackEx) {
@@ -98,9 +98,9 @@ public class ApplicationService {
             System.err.println("Message: " + e.getMessage());
             
             try {
-                if (conn != null) {
+                if (connDb != null) {
                     System.out.println("Rolling back transaction due to unexpected error...");
-                    conn.rollback();
+                    connDb.rollback();
                     System.out.println("✓ Transaction rolled back successfully");
                 }
             } catch (SQLException rollbackEx) {
@@ -113,9 +113,9 @@ public class ApplicationService {
             
         } finally {
             try {
-                if (conn != null) {
-                    conn.setAutoCommit(true); 
-                    conn.close();
+                if (connDb != null) {
+                    connDb.setAutoCommit(true);
+                    connDb.close();
                     System.out.println("Database connection closed");
                 }
             } catch (SQLException e) {
@@ -148,64 +148,64 @@ public class ApplicationService {
         return overallValid;
     }
 
-    private String generateResidenceId(Connection conn) throws SQLException {
-        String sql = "SELECT MAX(CAST(SUBSTRING(residence_ID, 2) AS UNSIGNED)) as max_id FROM tbl_residence";
-        try (PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-            int nextId = 1;
+    private String generateResidenceId(Connection connDb) throws SQLException {
+        String strSql = "SELECT MAX(CAST(SUBSTRING(residence_ID, 2) AS UNSIGNED)) as max_id FROM tbl_residence";
+        try (PreparedStatement psStmt = connDb.prepareStatement(strSql);
+             ResultSet rs = psStmt.executeQuery()) {
+            int intNextId = 1;
             if (rs.next() && rs.getObject("max_id") != null) {
-                nextId = rs.getInt("max_id") + 1;
+                intNextId = rs.getInt("max_id") + 1;
             }
-            String id = String.format("R%05d", nextId);
-            System.out.println("Generated residence ID: " + id);
-            return id;
+            String strId = String.format("R%05d", intNextId);
+            System.out.println("Generated residence ID: " + strId);
+            return strId;
         }
     }
 
-    private String generateCustomerId(Connection conn) throws SQLException {
-        String sql = "SELECT MAX(CAST(SUBSTRING(customer_ID, 2) AS UNSIGNED)) as max_id FROM tbl_customer";
-        try (PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-            int nextId = 1;
+    private String generateCustomerId(Connection connDb) throws SQLException {
+        String strSql = "SELECT MAX(CAST(SUBSTRING(customer_ID, 2) AS UNSIGNED)) as max_id FROM tbl_customer";
+        try (PreparedStatement psStmt = connDb.prepareStatement(strSql);
+             ResultSet rs = psStmt.executeQuery()) {
+            int intNextId = 1;
             if (rs.next() && rs.getObject("max_id") != null) {
-                nextId = rs.getInt("max_id") + 1;
+                intNextId = rs.getInt("max_id") + 1;
             }
-            String id = String.format("C%05d", nextId);
-            System.out.println("Generated customer ID: " + id);
-            return id;
+            String strId = String.format("C%05d", intNextId);
+            System.out.println("Generated customer ID: " + strId);
+            return strId;
         }
     }
 
-    private String generateApplicationNo(Connection conn) throws SQLException {
-        String sql = "SELECT MAX(CAST(SUBSTRING(application_no, 2) AS UNSIGNED)) as max_id FROM tbl_application";
-        try (PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-            int nextId = 1;
+    private String generateApplicationNo(Connection connDb) throws SQLException {
+        String strSql = "SELECT MAX(CAST(SUBSTRING(application_no, 2) AS UNSIGNED)) as max_id FROM tbl_application";
+        try (PreparedStatement psStmt = connDb.prepareStatement(strSql);
+             ResultSet rs = psStmt.executeQuery()) {
+            int intNextId = 1;
             if (rs.next() && rs.getObject("max_id") != null) {
-                nextId = rs.getInt("max_id") + 1;
+                intNextId = rs.getInt("max_id") + 1;
             }
-            String id = String.format("A%05d", nextId);
-            System.out.println("Generated application no: " + id);
-            return id;
+            String strId = String.format("A%05d", intNextId);
+            System.out.println("Generated application no: " + strId);
+            return strId;
         }
     }
 
-    private void insertResidence(Connection conn, String residenceId) throws SQLException {
-        String sql = "INSERT INTO tbl_residence (residence_ID, owner_name, owner_contact, residence_add) VALUES (?, ?, ?, ?)";
+    private void insertResidence(Connection connDb, String strResidenceId) throws SQLException {
+        String strSql = "INSERT INTO tbl_residence (residence_ID, owner_name, owner_contact, residence_add) VALUES (?, ?, ?, ?)";
         
         System.out.println("Executing residence insert with values:");
-        System.out.println("  residence_ID: " + residenceId);
+        System.out.println("  residence_ID: " + strResidenceId);
         System.out.println("  owner_name: '" + UserApplicationData.get("NameOfOwner") + "'");
         System.out.println("  owner_contact: '" + UserApplicationData.get("ContactNumber") + "'");
         System.out.println("  residence_add: '" + UserApplicationData.get("ResidenceAddress") + "'");
         
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, residenceId);
-            stmt.setString(2, UserApplicationData.get("NameOfOwner"));
-            stmt.setString(3, UserApplicationData.get("ContactNumber"));
-            stmt.setString(4, UserApplicationData.get("ResidenceAddress"));
+        try (PreparedStatement psStmt = connDb.prepareStatement(strSql)) {
+            psStmt.setString(1, strResidenceId);
+            psStmt.setString(2, UserApplicationData.get("NameOfOwner"));
+            psStmt.setString(3, UserApplicationData.get("ContactNumber"));
+            psStmt.setString(4, UserApplicationData.get("ResidenceAddress"));
             
-            int rowsAffected = stmt.executeUpdate();
+            int rowsAffected = psStmt.executeUpdate();
             System.out.println("✓ Residence inserted: " + rowsAffected + " row(s)");
             
             if (rowsAffected == 0) {
@@ -214,13 +214,13 @@ public class ApplicationService {
         }
     }
 
-    private void insertCustomer(Connection conn, String customerId, String residenceId) throws SQLException {
-        String sql = "INSERT INTO tbl_customer (customer_ID, username, password, customer_name, birthdate, gender, " +
+    private void insertCustomer(Connection connDb, String strCustomerId, String strResidenceId) throws SQLException {
+        String strSql = "INSERT INTO tbl_customer (customer_ID, username, password, customer_name, birthdate, gender, " +
                      "civil_status, mother_mn, spouse_name, nationality, contact_no, email_add, " +
                      "residence_ID, residence_type, residence_yrs, comp_paid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         System.out.println("Executing customer insert with values:");
-        System.out.println("  customer_ID: " + customerId);
+        System.out.println("  customer_ID: " + strCustomerId);
         System.out.println("  username: '" + UserApplicationData.get("Username") + "'");
         System.out.println("  password: '" + UserApplicationData.get("Password") + "'");
         System.out.println("  customer_name: '" + UserApplicationData.get("CustomerName") + "'");
@@ -232,16 +232,16 @@ public class ApplicationService {
         System.out.println("  nationality: '" + UserApplicationData.get("Nationality") + "'");
         System.out.println("  contact_no: '" + UserApplicationData.get("Mobile") + "'");
         System.out.println("  email_add: '" + UserApplicationData.get("Email") + "'");
-        System.out.println("  residence_ID: " + residenceId);
+        System.out.println("  residence_ID: " + strResidenceId);
         System.out.println("  residence_type: '" + UserApplicationData.get("HomeOwnership") + "'");
         System.out.println("  residence_yrs: '" + UserApplicationData.get("YearsOfResidency") + "'");
         System.out.println("  comp_paid: '" + UserApplicationData.get("CompanyPaid") + "'");
         
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, customerId);
-            stmt.setString(2, UserApplicationData.get("Username"));
-            stmt.setString(3, UserApplicationData.get("Password"));
-            stmt.setString(4, UserApplicationData.get("CustomerName"));
+        try (PreparedStatement psStmt = connDb.prepareStatement(strSql)) {
+            psStmt.setString(1, strCustomerId);
+            psStmt.setString(2, UserApplicationData.get("Username"));
+            psStmt.setString(3, UserApplicationData.get("Password"));
+            psStmt.setString(4, UserApplicationData.get("CustomerName"));
             
             // Handle birthdate - convert from MM/dd/yyyy to yyyy-MM-dd format
             String birthdate = UserApplicationData.get("Birthday");
@@ -250,42 +250,42 @@ public class ApplicationService {
                 String[] parts = birthdate.split("/");
                 if (parts.length == 3) {
                     String formattedDate = parts[2] + "-" + String.format("%02d", Integer.parseInt(parts[0])) + "-" + String.format("%02d", Integer.parseInt(parts[1]));
-                    stmt.setDate(5, Date.valueOf(formattedDate));
+                    psStmt.setDate(5, Date.valueOf(formattedDate));
                 } else {
                     // If already in yyyy-MM-dd format
-                    stmt.setDate(5, Date.valueOf(birthdate));
+                    psStmt.setDate(5, Date.valueOf(birthdate));
                 }
             } catch (Exception e) {
                 throw new SQLException("Invalid birthdate format: " + birthdate + ". Expected format: MM/dd/yyyy or yyyy-MM-dd");
             }
             
-            stmt.setString(6, UserApplicationData.get("Gender"));
-            stmt.setString(7, UserApplicationData.get("CivilStatus"));
-            stmt.setString(8, UserApplicationData.get("MaidenName"));
+            psStmt.setString(6, UserApplicationData.get("Gender"));
+            psStmt.setString(7, UserApplicationData.get("CivilStatus"));
+            psStmt.setString(8, UserApplicationData.get("MaidenName"));
 
             String spouseName = UserApplicationData.get("Spouse");
             if (spouseName == null || spouseName.trim().isEmpty()) {
-                stmt.setNull(9, Types.VARCHAR);
+                psStmt.setNull(9, Types.VARCHAR);
             } else {
-                stmt.setString(9, spouseName);
+                psStmt.setString(9, spouseName);
             }
 
-            stmt.setString(10, UserApplicationData.get("Nationality"));
-            stmt.setString(11, UserApplicationData.get("Mobile"));
-            stmt.setString(12, UserApplicationData.get("Email"));
-            stmt.setString(13, residenceId);
-            stmt.setString(14, UserApplicationData.get("HomeOwnership"));
+            psStmt.setString(10, UserApplicationData.get("Nationality"));
+            psStmt.setString(11, UserApplicationData.get("Mobile"));
+            psStmt.setString(12, UserApplicationData.get("Email"));
+            psStmt.setString(13, strResidenceId);
+            psStmt.setString(14, UserApplicationData.get("HomeOwnership"));
             
             try {
-                int residenceYrs = Integer.parseInt(UserApplicationData.get("YearsOfResidency"));
-                stmt.setInt(15, residenceYrs);
+                int intResidenceYrs = Integer.parseInt(UserApplicationData.get("YearsOfResidency"));
+                psStmt.setInt(15, intResidenceYrs);
             } catch (NumberFormatException e) {
                 throw new SQLException("Invalid residence years: " + UserApplicationData.get("YearsOfResidency"));
             }
             
-            stmt.setString(16, UserApplicationData.get("CompanyPaid"));
+            psStmt.setString(16, UserApplicationData.get("CompanyPaid"));
             
-            int rowsAffected = stmt.executeUpdate();
+            int rowsAffected = psStmt.executeUpdate();
             System.out.println("✓ Customer inserted: " + rowsAffected + " row(s)");
             
             if (rowsAffected == 0) {
@@ -294,21 +294,21 @@ public class ApplicationService {
         }
     }
 
-    private void insertApplication(Connection conn, String applicationNo, String customerId) throws SQLException {
-        String sql = "INSERT INTO tbl_application (application_no, application_date, customer_ID) VALUES (?, ?, ?)";
+    private void insertApplication(Connection connDb, String strApplicationNo, String strCustomerId) throws SQLException {
+        String strSql = "INSERT INTO tbl_application (application_no, application_date, customer_ID) VALUES (?, ?, ?)";
         
         LocalDateTime now = LocalDateTime.now();
         System.out.println("Executing application insert with values:");
-        System.out.println("  application_no: " + applicationNo);
+        System.out.println("  application_no: " + strApplicationNo);
         System.out.println("  application_date: " + now);
-        System.out.println("  customer_ID: " + customerId);
+        System.out.println("  customer_ID: " + strCustomerId);
         
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, applicationNo);
-            stmt.setTimestamp(2, Timestamp.valueOf(now));
-            stmt.setString(3, customerId);
+        try (PreparedStatement psStmt = connDb.prepareStatement(strSql)) {
+            psStmt.setString(1, strApplicationNo);
+            psStmt.setTimestamp(2, Timestamp.valueOf(now));
+            psStmt.setString(3, strCustomerId);
             
-            int rowsAffected = stmt.executeUpdate();
+            int rowsAffected = psStmt.executeUpdate();
             System.out.println("✓ Application inserted: " + rowsAffected + " row(s)");
             
             if (rowsAffected == 0) {
@@ -317,51 +317,51 @@ public class ApplicationService {
         }
     }
 
-    private void insertPayment(Connection conn, String applicationNo) throws SQLException {
-        String sql = "INSERT INTO tbl_payment (application_no, plan_ID, payment_option) VALUES (?, ?, ?)";
-        
+    private void insertPayment(Connection connDb, String strApplicationNo) throws SQLException {
+        String strSql = "INSERT INTO tbl_payment (application_no, plan_ID, payment_option) VALUES (?, ?, ?)";
+
         // Get the selected plan IDs (comma-separated string)
-        String selectedPlanIDs = UserApplicationData.get("selectedPlanIDs");
-        String paymentOption = UserApplicationData.get("paymentOption");
-        
+        String strSelectedPlanIDs = UserApplicationData.get("selectedPlanIDs");
+        String strPaymentOption = UserApplicationData.get("paymentOption");
+
         System.out.println("Executing payment insert with values:");
-        System.out.println("  application_no: " + applicationNo);
-        System.out.println("  plan_IDs: '" + selectedPlanIDs + "'");
-        System.out.println("  payment_option: '" + paymentOption + "'");
-        
-        if (selectedPlanIDs == null || selectedPlanIDs.trim().isEmpty()) {
+        System.out.println("  application_no: " + strApplicationNo);
+        System.out.println("  plan_IDs: '" + strSelectedPlanIDs + "'");
+        System.out.println("  payment_option: '" + strPaymentOption + "'");
+
+        if (strSelectedPlanIDs == null || strSelectedPlanIDs.trim().isEmpty()) {
             throw new SQLException("No plan IDs selected for payment");
         }
-        
+
         // split the plan IDs by comma and insert each one separately
-        String[] planIds = selectedPlanIDs.split(",");
-        int totalRowsAffected = 0;
-        
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            for (String planId : planIds) {
-                planId = planId.trim(); // Remove any whitespace
-                if (!planId.isEmpty()) {
-                    System.out.println("  Inserting payment record for plan_ID: '" + planId + "'");
-                    
-                    stmt.setString(1, applicationNo);
-                    stmt.setString(2, planId);
-                    stmt.setString(3, paymentOption);
-                    
-                    int rowsAffected = stmt.executeUpdate();
-                    totalRowsAffected += rowsAffected;
-                    
+        String[] arrPlanIds = strSelectedPlanIDs.split(",");
+        int intTotalRowsAffected = 0;
+
+        try (PreparedStatement psStmt = connDb.prepareStatement(strSql)) {
+            for (String strPlanId : arrPlanIds) {
+                strPlanId = strPlanId.trim();
+                if (!strPlanId.isEmpty()) {
+                    System.out.println("  Inserting payment record for plan_ID:'" + strPlanId + "'");
+
+                    psStmt.setString(1, strApplicationNo);
+                    psStmt.setString(2, strPlanId);
+                    psStmt.setString(3, strPaymentOption);
+
+                    int rowsAffected = psStmt.executeUpdate();
+                    intTotalRowsAffected += rowsAffected;
+
                     if (rowsAffected == 0) {
-                        throw new SQLException("Failed to insert payment for plan ID: " + planId + " - no rows affected");
+                        throw new SQLException("Failed to insert payment for plan ID: " + strPlanId + " - no rows affected");
                     }
-                    
-                    System.out.println("    ✓ Payment record inserted for plan " + planId + ": " + rowsAffected + " row(s)");
+
+                    System.out.println("    ✓ Payment record inserted for plan " + strPlanId + ": " + rowsAffected + " row(s)");
                 }
             }
         }
-        
-        System.out.println("✓ All payment records inserted: " + totalRowsAffected + " total row(s) for " + planIds.length + " plan(s)");
-        
-        if (totalRowsAffected == 0) {
+
+        System.out.println("✓ All payment records inserted: " + intTotalRowsAffected + " total row(s) for " + arrPlanIds.length + " plan(s)");
+
+        if (intTotalRowsAffected == 0) {
             throw new SQLException("Failed to insert any payment records - no rows affected");
         }
     }
@@ -370,22 +370,22 @@ public class ApplicationService {
      * Get available service plans for display in the UI
      */
     public ResultSet getServicePlans() throws SQLException {
-        Connection conn = DatabaseConnection.getConnection();
-        if (conn == null) {
+        Connection connDb = DatabaseConnection.getConnection();
+        if (connDb == null) {
             throw new SQLException("Cannot get database connection");
         }
-        
-        String sql = "SELECT * FROM tbl_service ORDER BY service_fee";
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        return stmt.executeQuery();
+
+        String strSql = "SELECT * FROM tbl_service ORDER BY service_fee";
+        PreparedStatement psStmt = connDb.prepareStatement(strSql);
+        return psStmt.executeQuery();
     }
 
     // db struct verification
     public void testDatabaseStructure() {
-        Connection conn = null;
+        Connection connDb = null;
         try {
-            conn = DatabaseConnection.getConnection();
-            if (conn == null) {
+            connDb = DatabaseConnection.getConnection();
+            if (connDb == null) {
                 System.err.println("Cannot connect to database for structure test");
                 return;
             }
@@ -393,17 +393,17 @@ public class ApplicationService {
             System.out.println("=== TESTING DATABASE STRUCTURE ===");
             
             // Test each table
-            String[] tables = {"tbl_residence", "tbl_customer", "tbl_application", "tbl_payment", "tbl_service"};
-            
-            for (String table : tables) {
+            String[] arrTables = {"tbl_residence", "tbl_customer", "tbl_application", "tbl_payment", "tbl_service"};
+
+            for (String table : arrTables) {
                 try {
-                    String sql = "SELECT COUNT(*) FROM " + table;
-                    PreparedStatement stmt = conn.prepareStatement(sql);
-                    ResultSet rs = stmt.executeQuery();
+                    String strSql = "SELECT COUNT(*) FROM " + table;
+                    PreparedStatement psStmt = connDb.prepareStatement(strSql);
+                    ResultSet rs = psStmt.executeQuery();
                     if (rs.next()) {
                         System.out.println("✓ Table " + table + " exists (rows: " + rs.getInt(1) + ")");
                     }
-                    stmt.close();
+                    psStmt.close();
                 } catch (SQLException e) {
                     System.err.println("✗ Table " + table + " - Error: " + e.getMessage());
                 }
@@ -412,9 +412,9 @@ public class ApplicationService {
         } catch (Exception e) {
             System.err.println("Error testing database structure: " + e.getMessage());
         } finally {
-            if (conn != null) {
+            if (connDb != null) {
                 try {
-                    conn.close();
+                    connDb.close();
                 } catch (SQLException e) {
                     System.err.println("Error closing connection: " + e.getMessage());
                 }
@@ -436,26 +436,26 @@ public class ApplicationService {
      * Fetches the most recent application for the given username.
      * Returns null if the user or any application row is not found.
      */
-    public static ApplicationInfo getLatestApplicationFor(String username) {
-        String findCustomer = "SELECT customer_ID FROM tbl_customer WHERE username = ?";
-        String findApp      = "SELECT application_no, application_date"
+    public static ApplicationInfo getLatestApplicationFor(String strUsername) {
+        String strFindCustomer = "SELECT customer_ID FROM tbl_customer WHERE username = ?";
+        String strFindApp      = "SELECT application_no, application_date"
                             + "  FROM tbl_application"
                             + " WHERE customer_ID = ?"
                             + " ORDER BY application_date DESC"
                             + " LIMIT 1";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement psCust = conn.prepareStatement(findCustomer)) {
+        try (Connection connDb = DatabaseConnection.getConnection();
+             PreparedStatement psCust = connDb.prepareStatement(strFindCustomer)) {
 
-            psCust.setString(1, username);
+            psCust.setString(1, strUsername);
             try (ResultSet rsCust = psCust.executeQuery()) {
                 if (!rsCust.next()) {
                     return null;
                 }
-                String custId = rsCust.getString("customer_ID");
+                String strCustId = rsCust.getString("customer_ID");
 
-                try (PreparedStatement psApp = conn.prepareStatement(findApp)) {
-                    psApp.setString(1, custId);
+                try (PreparedStatement psApp = connDb.prepareStatement(strFindApp)) {
+                    psApp.setString(1, strCustId);
                     try (ResultSet rsApp = psApp.executeQuery()) {
                         if (rsApp.next()) {
                             String no = rsApp.getString("application_no");

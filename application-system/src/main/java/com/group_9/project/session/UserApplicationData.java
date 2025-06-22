@@ -6,35 +6,35 @@ import java.util.List;
 import java.util.Arrays;
 
 public class UserApplicationData {
-    private static final Map<String, String> data = new HashMap<>();
+    private static final Map<String, String> mapData = new HashMap<>();
 
-    public static void set(String key, String value) {
-        String cleanValue = (value != null) ? value.trim() : "";
-        data.put(key, cleanValue);
-        System.out.println("UserApplicationData.set: " + key + " = '" + cleanValue + "'");
+    public static void set(String strKey, String strValue) {
+        String strCleanValue = (strValue != null) ? strValue.trim() : "";
+        mapData.put(strKey, strCleanValue);
+        System.out.println("UserApplicationData.set: " + strKey + " = '" + strCleanValue + "'");
     }
 
-    public static String get(String key) {
-        String value = data.getOrDefault(key, "");
-        return value;
+    public static String get(String strKey) {
+        String strValue = mapData.getOrDefault(strKey, "");
+        return strValue;
     }
 
     public static void clear() {
         System.out.println("Clearing UserApplicationData...");
-        data.clear();
+        mapData.clear();
     }
 
     public static Map<String, String> getAll() {
-        return new HashMap<>(data);
+        return new HashMap<>(mapData);
     }
 
     public static void printAllData() {
         System.out.println("=== ALL USER APPLICATION DATA ===");
-        if (data.isEmpty()) {
+        if (mapData.isEmpty()) {
             System.out.println("No data stored");
         } else {
-            for (Map.Entry<String, String> entry : data.entrySet()) {
-                System.out.println(entry.getKey() + " = '" + entry.getValue() + "'");
+            for (Map.Entry<String, String> entData : mapData.entrySet()) {
+                System.out.println(entData.getKey() + " = '" + entData.getValue() + "'");
             }
         }
         System.out.println("===================================");
@@ -101,60 +101,60 @@ public class UserApplicationData {
     }
 
     // convenience setters with validation
-    public static void setCustomerInfo(String username, String password, String customerName, String birthdate, String gender, 
-                                     String civilStatus, String motherMn, String spouseName, 
-                                     String nationality, String contactNo, String emailAdd,
-                                     String residenceType, int residenceYrs, String compPaid) {
+    public static void setCustomerInfo(String strUsername, String strPassword, String strCustomerName, String strBirthdate, String strGender,
+                                     String strCivilStatus, String strMotherMn, String strSpouseName,
+                                     String strNationality, String strContactNo, String strEmailAdd,
+                                     String strResidenceType, int intResidenceYrs, String strCompPaid) {
         System.out.println("Setting customer info...");
-        set("Username", username);
-        set("Password", password);
-        set("CustomerName", customerName);
-        set("Birthday", birthdate);
-        set("Gender", gender);
-        set("CivilStatus", civilStatus);
-        set("MaidenName", motherMn);
-        set("Spouse", spouseName);
-        set("Nationality", nationality);
-        set("Mobile", contactNo);
-        set("Email", emailAdd);
-        set("HomeOwnership", residenceType);
-        set("YearsOfResidency", String.valueOf(residenceYrs));
-        set("CompanyPaid", compPaid);
+        set("Username", strUsername);
+        set("Password", strPassword);
+        set("CustomerName", strCustomerName);
+        set("Birthday", strBirthdate);
+        set("Gender", strGender);
+        set("CivilStatus", strCivilStatus);
+        set("MaidenName", strMotherMn);
+        set("Spouse", strSpouseName);
+        set("Nationality", strNationality);
+        set("Mobile", strContactNo);
+        set("Email", strEmailAdd);
+        set("HomeOwnership", strResidenceType);
+        set("YearsOfResidency", String.valueOf(intResidenceYrs));
+        set("CompanyPaid", strCompPaid);
     }
 
-    public static void setResidenceInfo(String ownerName, String ownerContact, String residenceAdd) {
+    public static void setResidenceInfo(String strOwnerName, String strOwnerContact, String strResidenceAdd) {
         System.out.println("Setting residence info...");
-        set("NameOfOwner", ownerName);
-        set("ContactNumber", ownerContact);
-        set("ResidenceAddress", residenceAdd);
+        set("NameOfOwner", strOwnerName);
+        set("ContactNumber", strOwnerContact);
+        set("ResidenceAddress", strResidenceAdd);
     }
 
-    public static void setPlanInfo(String planId, String paymentOption) {
+    public static void setPlanInfo(String strPlanId, String strPaymentOption) {
         System.out.println("Setting plan info...");
-        set("selectedPlanIDs", planId);
-        set("selectedPlans", planId);
-        set("paymentOption", paymentOption);
+        set("selectedPlanIDs", strPlanId);
+        set("selectedPlans", strPlanId);
+        set("paymentOption", strPaymentOption);
     }
 
     // set multiple plan IDs at once
-    public static void setPlanInfo(List<String> planIds, String paymentOption) {
+    public static void setPlanInfo(List<String> lstPlanIds, String strPaymentOption) {
         System.out.println("Setting multiple plan info...");
-        String planIdsStr = String.join(",", planIds);
-        set("selectedPlanIDs", planIdsStr);
-        set("selectedPlans", planIdsStr);
-        set("paymentOption", paymentOption);
-        System.out.println("Set " + planIds.size() + " plan(s): " + planIdsStr);
+        String strPlanIds = String.join(",", lstPlanIds);
+        set("selectedPlanIDs", strPlanIds);
+        set("selectedPlans", strPlanIds);
+        set("paymentOption", strPaymentOption);
+        System.out.println("Set " + lstPlanIds.size() + " plan(s): " + strPlanIds);
     }
 
-    public static void setPlanInfo(String[] planIds, String paymentOption) {
-        setPlanInfo(Arrays.asList(planIds), paymentOption);
+    public static void setPlanInfo(String[] arrPlanIds, String strPaymentOption) {
+        setPlanInfo(Arrays.asList(arrPlanIds), strPaymentOption);
     }
 
-    public static void setPaymentInfo(String cardNumber, String expiryDate, String cvv, String cardholderName) {
+    public static void setPaymentInfo(String strCardNumber, String strExpiryDate, String strCvv, String strCardholderName) {
         System.out.println("Setting payment info...");
-        set("cardNumber", cardNumber);
-        set("expiryDate", expiryDate);
-        set("cvv", cvv);
-        set("cardholderName", cardholderName);
+        set("cardNumber", strCardNumber);
+        set("expiryDate", strExpiryDate);
+        set("cvv", strCvv);
+        set("cardholderName", strCardholderName);
     }
 }

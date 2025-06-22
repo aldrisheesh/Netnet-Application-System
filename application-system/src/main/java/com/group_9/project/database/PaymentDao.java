@@ -24,36 +24,36 @@ public class PaymentDao {
     /**
      * Inserts one payment row per plan ID for the given application.
      *
-     * @param applicationNo   the application number (e.g. "A00001")
-     * @param planIdsCsv      comma-separated plan IDs (e.g. "P001,P003")
-     * @param paymentOption   either "full" or "installment"
+     * @param strApplicationNo   the application number (e.g. "A00001")
+     * @param strPlanIdsCsv      comma-separated plan IDs (e.g. "P001,P003")
+     * @param strPaymentOption   either "full" or "installment"
      * @throws SQLException   if any insert fails
      */
-    public void insertPayments(String applicationNo, String planIdsCsv, String paymentOption) throws SQLException {
-        if (applicationNo == null || applicationNo.isBlank()) {
+    public void insertPayments(String strApplicationNo, String strPlanIdsCsv, String strPaymentOption) throws SQLException {
+        if (strApplicationNo == null || strApplicationNo.isBlank()) {
             throw new IllegalArgumentException("applicationNo must not be blank");
         }
-        if (planIdsCsv == null || planIdsCsv.isBlank()) {
+        if (strPlanIdsCsv == null || strPlanIdsCsv.isBlank()) {
             throw new IllegalArgumentException("planIdsCsv must not be blank");
         }
         // Split & trim
-        String[] planIds = planIdsCsv.split(",");
+        String[] arrPlanIds = strPlanIdsCsv.split(",");
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(INSERT_SQL)) {
+             PreparedStatement psStmt = conn.prepareStatement(INSERT_SQL)) {
 
-            for (String rawId : planIds) {
-                String planId = rawId.trim();
-                if (planId.isEmpty()) continue;
+            for (String strRawId : arrPlanIds) {
+                String strPlanId = strRawId.trim();
+                if (strPlanId.isEmpty()) continue;
 
-                ps.setString(1, applicationNo);
-                ps.setString(2, planId);
-                ps.setString(3, paymentOption);
-                ps.addBatch();
+                psStmt.setString(1, strApplicationNo);
+                psStmt.setString(2, strPlanId);
+                psStmt.setString(3, strPaymentOption);
+                psStmt.addBatch();
             }
-            int[] results = ps.executeBatch();
+            int[] arrResults = psStmt.executeBatch();
             // optional: verify results
-            for (int count : results) {
-                if (count == PreparedStatement.EXECUTE_FAILED) {
+            for (int intCount : arrResults) {
+                if (intCount == PreparedStatement.EXECUTE_FAILED) {
                     throw new SQLException("Batch insert failed for one or more payments");
                 }
             }
@@ -64,34 +64,34 @@ public class PaymentDao {
      * Convenience: pull parameters from UserApplicationData session.
      */
     public void insertCurrentUserPayments() throws SQLException {
-        String appNo    = UserApplicationData.get("applicationNo");
-        String planIds  = UserApplicationData.get("selectedPlanIDs");
-        String option   = UserApplicationData.get("paymentOption");
-        insertPayments(appNo, planIds, option);
+        String strAppNo   = UserApplicationData.get("applicationNo");
+        String strPlanIds = UserApplicationData.get("selectedPlanIDs");
+        String strOption  = UserApplicationData.get("paymentOption");
+        insertPayments(strAppNo, strPlanIds, strOption);
     }
 
     /**
      * Deletes a payment row for the given application number and plan ID.
      *
-     * @param applicationNo the application number
-     * @param planId        the plan ID to remove
+     * @param strApplicationNo the application number
+     * @param strPlanId        the plan ID to remove
      * @return true if a row was deleted
      * @throws SQLException if the delete fails
      */
-    public boolean deletePayment(String applicationNo, String planId) throws SQLException {
-        if (applicationNo == null || applicationNo.isBlank()) {
+    public boolean deletePayment(String strApplicationNo, String strPlanId) throws SQLException {
+        if (strApplicationNo == null || strApplicationNo.isBlank()) {
             throw new IllegalArgumentException("applicationNo must not be blank");
         }
-        if (planId == null || planId.isBlank()) {
+        if (strPlanId == null || strPlanId.isBlank()) {
             throw new IllegalArgumentException("planId must not be blank");
         }
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(DELETE_SQL)) {
-            ps.setString(1, applicationNo.trim());
-            ps.setString(2, planId.trim());
-            int count = ps.executeUpdate();
-            return count > 0;
+             PreparedStatement psStmt = conn.prepareStatement(DELETE_SQL)) {
+            psStmt.setString(1, strApplicationNo.trim());
+            psStmt.setString(2, strPlanId.trim());
+            int intCount = psStmt.executeUpdate();
+            return intCount > 0;
         }
     }
 }
