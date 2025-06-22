@@ -4,6 +4,7 @@ import com.group_9.project.database.AccountService;
 import com.group_9.project.database.AccountService.Subscription;
 import com.group_9.project.session.UserApplicationData;
 import com.group_9.project.utils.*;
+import com.group_9.project.database.PaymentDao;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
@@ -89,7 +90,8 @@ public class AccountSubsPage extends Template {
                     String.format("₱%,.2f", s.planDetails.serviceFee),
                     s.planDetails.installFee,
                     s.applicationNo,
-                    s.dateSubmitted
+                    s.dateSubmitted,
+                    s.planDetails.planId
                 );
                 container.add(card);
             }
@@ -98,16 +100,21 @@ public class AccountSubsPage extends Template {
             // 1) Build a JPanel with GridLayout(0,2)
             JPanel grid = new JPanel(new GridLayout(0, 2, hGap, vGap));
             grid.setOpaque(false);
+            int rows = (int) Math.ceil(subs.size() / 2.0);
+            int gridW = 2 * boxW + hGap;
+            int gridH = rows * boxH + (rows - 1) * vGap;
+            grid.setPreferredSize(new Dimension(gridW, gridH));
     
             for (Subscription s : subs) {
                 // each card will auto–size via GridLayout
                 JPanel card = createWhiteBox(
-                    0, 0, 
+                    0, 0,
                     s.planDetails.servicePlan,
                     String.format("₱%,.2f", s.planDetails.serviceFee),
                     s.planDetails.installFee,
                     s.applicationNo,
-                    s.dateSubmitted
+                    s.dateSubmitted,
+                    s.planDetails.planId
                 );
                 grid.add(card);
             }
@@ -131,7 +138,7 @@ public class AccountSubsPage extends Template {
     
 
     JPanel createWhiteBox(int x, int y, String product, String monthlyFee, String installFee,
-                                  String appNo, String submittedDate) {
+                                  String appNo, String submittedDate, String planId) {
         JPanel applicantBox = new JPanel(null) {
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
@@ -149,6 +156,7 @@ public class AccountSubsPage extends Template {
             }
         };
         applicantBox.setBounds(x, y, 380, 220);
+        applicantBox.setPreferredSize(new Dimension(380, 220));
 
         JLabel header = new JLabel("Product and Service");
         header.setFont(FontUtil.getOutfitFont(17f));
@@ -180,6 +188,53 @@ public class AccountSubsPage extends Template {
         details.setFont(FontUtil.getOutfitBoldFont(12f));
         details.setBounds(20, 130, 300, 75);
         applicantBox.add(details);
+
+        RoundedComponents.RoundedButton unsubBtn = new RoundedComponents.RoundedButton("UNSUBSCRIBE", 20);
+        unsubBtn.setFont(FontUtil.getOutfitBoldFont(14f));
+        unsubBtn.setBounds(230, 170, 130, 35);
+        unsubBtn.setBackground(new Color(98, 60, 187));
+        unsubBtn.setForeground(Color.WHITE);
+        unsubBtn.setBorderColor(new Color(98, 60, 187));
+        ButtonHoverEffect.apply(
+                unsubBtn,
+                new Color(75, 39, 143), Color.WHITE,
+                new Color(98, 60, 187), Color.WHITE,
+                new Color(120, 90, 200), new Color(98, 60, 187)
+        );
+        unsubBtn.addActionListener(e -> {
+            boolean confirm = CustomDialogUtil.showStyledConfirmDialog(
+                    AccountSubsPage.this,
+                    "Unsubscribe",
+                    "Are you sure you want to unsubscribe from this plan?"
+            );
+            if (!confirm) return;
+            try {
+                boolean deleted = new PaymentDao().deletePayment(appNo, planId);
+                if (deleted) {
+                    CustomDialogUtil.showStyledInfoDialog(
+                            AccountSubsPage.this,
+                            "Unsubscribed",
+                            "Plan removed from your subscriptions."
+                    );
+                    new AccountSubsPage().setVisible(true);
+                    AccountSubsPage.this.dispose();
+                } else {
+                    CustomDialogUtil.showStyledErrorDialog(
+                            AccountSubsPage.this,
+                            "Not Found",
+                            "Subscription could not be removed."
+                    );
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                CustomDialogUtil.showStyledErrorDialog(
+                        AccountSubsPage.this,
+                        "Database Error",
+                        "Failed to remove subscription."
+                );
+            }
+        });
+        applicantBox.add(unsubBtn);
 
         return applicantBox;
     }
