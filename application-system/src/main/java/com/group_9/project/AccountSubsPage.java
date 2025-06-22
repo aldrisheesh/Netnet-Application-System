@@ -13,6 +13,7 @@ import java.util.List;
 public class AccountSubsPage extends Template {
     public AccountSubsPage() {
         BaseFrameSetup.applyAppIcon(this);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 3);
 
         JPanel sidebar = AccountSidebarUtil.createSidebar(this, "My Subscriptions");
@@ -195,6 +196,7 @@ public class AccountSubsPage extends Template {
         unsubBtn.setBackground(new Color(98, 60, 187));
         unsubBtn.setForeground(Color.WHITE);
         unsubBtn.setBorderColor(new Color(98, 60, 187));
+        unsubBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         ButtonHoverEffect.apply(
                 unsubBtn,
                 new Color(75, 39, 143), Color.WHITE,

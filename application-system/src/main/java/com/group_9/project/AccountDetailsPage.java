@@ -27,6 +27,7 @@ public class AccountDetailsPage extends Template {
 
     public AccountDetailsPage() {
         BaseFrameSetup.applyAppIcon(this);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 3);
 
         JPanel sidebar = AccountSidebarUtil.createSidebar(this, "My Details");
