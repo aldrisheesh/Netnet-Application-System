@@ -16,6 +16,11 @@ public class PaymentDao {
         VALUES(?, ?, ?)
         """;
 
+    private static final String DELETE_SQL = """
+        DELETE FROM tbl_payment
+         WHERE application_no = ? AND plan_ID = ?
+        """;
+
     /**
      * Inserts one payment row per plan ID for the given application.
      *
@@ -63,5 +68,30 @@ public class PaymentDao {
         String planIds  = UserApplicationData.get("selectedPlanIDs");
         String option   = UserApplicationData.get("paymentOption");
         insertPayments(appNo, planIds, option);
+    }
+
+    /**
+     * Deletes a payment row for the given application number and plan ID.
+     *
+     * @param applicationNo the application number
+     * @param planId        the plan ID to remove
+     * @return true if a row was deleted
+     * @throws SQLException if the delete fails
+     */
+    public boolean deletePayment(String applicationNo, String planId) throws SQLException {
+        if (applicationNo == null || applicationNo.isBlank()) {
+            throw new IllegalArgumentException("applicationNo must not be blank");
+        }
+        if (planId == null || planId.isBlank()) {
+            throw new IllegalArgumentException("planId must not be blank");
+        }
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(DELETE_SQL)) {
+            ps.setString(1, applicationNo.trim());
+            ps.setString(2, planId.trim());
+            int count = ps.executeUpdate();
+            return count > 0;
+        }
     }
 }
