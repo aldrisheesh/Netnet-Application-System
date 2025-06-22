@@ -112,7 +112,6 @@ public class BaseFrameSetup {
 
                 @Override public void mouseClicked(MouseEvent e) {
                     AccountNavigationUtil.openAccountPageByApplication(frmCurrent);
-                    new AccountDetailsPage().setVisible(true);
                     frmCurrent.dispose();
                 }
             });

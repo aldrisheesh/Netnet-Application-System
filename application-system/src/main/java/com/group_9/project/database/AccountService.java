@@ -63,8 +63,8 @@ public class AccountService {
     /**
      * Fetches the full customer + residence info for a given login ID (username or email).
      */
-    public static CustomerProfile getCustomerInfoByLogin(String loginId) throws SQLException {
-        String sql = """
+    public static CustomerProfile getCustomerInfoByLogin(String strLoginId) throws SQLException {
+        String strSql = """
             SELECT c.username,
                    c.password,
                    c.customer_name,
@@ -90,12 +90,12 @@ public class AccountService {
             """;
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement psStmt = conn.prepareStatement(strSql)) {
 
-            ps.setString(1, loginId);
-            ps.setString(2, loginId);
+            psStmt.setString(1, strLoginId);
+            psStmt.setString(2, strLoginId);
 
-            try (ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = psStmt.executeQuery()) {
                 if (!rs.next()) return null;
                 return new CustomerProfile(
                     rs.getString("username"),
@@ -123,8 +123,8 @@ public class AccountService {
     /**
      * Fetches customer + residence info based on an application number.
      */
-    public static CustomerProfile getCustomerInfoByApplication(String applicationNo) throws SQLException {
-        String sql = """
+    public static CustomerProfile getCustomerInfoByApplication(String strApplicationNo) throws SQLException {
+        String strSql = """
             SELECT c.username,
                    c.password,
                    c.customer_name,
@@ -151,11 +151,11 @@ public class AccountService {
             """;
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement psStmt = conn.prepareStatement(strSql)) {
 
-            ps.setString(1, applicationNo);
+            psStmt.setString(1, strApplicationNo);
 
-            try (ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = psStmt.executeQuery()) {
                 if (!rs.next()) return null;
                 return new CustomerProfile(
                     rs.getString("username"),
@@ -188,19 +188,19 @@ public class AccountService {
      * Persists updated customer fields back to tbl_customer (keyed by username).
      */
     public static void updateCustomerInfoByUsername(
-            String   originalUsername,
-            String   newPassword,
-            String   newName,
-            Date     newBirthdate,   // java.sql.Date
-            String   newGender,
-            String   newCivilStatus,
-            String   newMotherMn,
-            String   newSpouseName,
-            String   newNationality,
-            String   newContactNo,
-            String   newEmailAdd
+            String   strOriginalUsername,
+            String   strNewPassword,
+            String   strNewName,
+            Date     dtNewBirthdate,   // java.sql.Date
+            String   strNewGender,
+            String   strNewCivilStatus,
+            String   strNewMotherMn,
+            String   strNewSpouseName,
+            String   strNewNationality,
+            String   strNewContactNo,
+            String   strNewEmailAdd
     ) throws SQLException {
-        String sql = """
+        String strSql = """
             UPDATE tbl_customer
                SET password      = ?,
                    customer_name = ?,
@@ -216,21 +216,21 @@ public class AccountService {
             """;
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement psStmt = conn.prepareStatement(strSql)) {
 
-            ps.setString(1, newPassword);
-            ps.setString(2, newName);
-            ps.setDate(   3, newBirthdate);
-            ps.setString(4, newGender);
-            ps.setString(5, newCivilStatus);
-            ps.setString(6, newMotherMn);
-            ps.setString(7, newSpouseName);
-            ps.setString(8, newNationality);
-            ps.setString(9, newContactNo);
-            ps.setString(10, newEmailAdd);
-            ps.setString(11, originalUsername);
+            psStmt.setString(1, strNewPassword);
+            psStmt.setString(2, strNewName);
+            psStmt.setDate(   3, dtNewBirthdate);
+            psStmt.setString(4, strNewGender);
+            psStmt.setString(5, strNewCivilStatus);
+            psStmt.setString(6, strNewMotherMn);
+            psStmt.setString(7, strNewSpouseName);
+            psStmt.setString(8, strNewNationality);
+            psStmt.setString(9, strNewContactNo);
+            psStmt.setString(10, strNewEmailAdd);
+            psStmt.setString(11, strOriginalUsername);
 
-            ps.executeUpdate();
+            psStmt.executeUpdate();
         }
     }
 
@@ -255,8 +255,8 @@ public class AccountService {
      * Fetches the plan details (service_plan, service_fee, install_fee)
      * for the given application number.
      */
-    public static PlanDetails getPlanDetailsByApplication(String applicationNo) throws SQLException {
-        String sql = """
+    public static PlanDetails getPlanDetailsByApplication(String strApplicationNo) throws SQLException {
+        String strSql = """
             SELECT s.plan_ID,
                    s.service_plan,
                    s.service_fee,
@@ -268,10 +268,10 @@ public class AccountService {
             """;
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement psStmt = conn.prepareStatement(strSql)) {
 
-            ps.setString(1, applicationNo);
-            try (ResultSet rs = ps.executeQuery()) {
+            psStmt.setString(1, strApplicationNo);
+            try (ResultSet rs = psStmt.executeQuery()) {
                 if (!rs.next()) return null;
                 return new PlanDetails(
                     rs.getString("plan_ID"),
@@ -303,8 +303,8 @@ public class AccountService {
     /**
      * Fetches all subscriptions (applications + plan details) for a given username.
      */
-    public static List<Subscription> getSubscriptionsByUsername(String username) throws SQLException {
-        String sql = """
+    public static List<Subscription> getSubscriptionsByUsername(String strUsername) throws SQLException {
+        String strSql = """
             SELECT a.application_no,
                    DATE_FORMAT(a.application_date, '%m/%d/%Y') AS date_submitted,
                    p.payment_option      AS status,
@@ -319,12 +319,12 @@ public class AccountService {
              WHERE c.username = ?
             """;
 
-        List<Subscription> out = new ArrayList<>();
+        List<Subscription> lstSubscriptions = new ArrayList<>();
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement psStmt = conn.prepareStatement(strSql)) {
 
-            ps.setString(1, username);
-            try (ResultSet rs = ps.executeQuery()) {
+            psStmt.setString(1, strUsername);
+            try (ResultSet rs = psStmt.executeQuery()) {
                 while (rs.next()) {
                     PlanDetails pd = new PlanDetails(
                         rs.getString("plan_ID"),
@@ -332,7 +332,7 @@ public class AccountService {
                         rs.getDouble("service_fee"),
                         rs.getString("install_fee")
                     );
-                    out.add(new Subscription(
+                    lstSubscriptions.add(new Subscription(
                         rs.getString("application_no"),
                         rs.getString("date_submitted"),
                         rs.getString("status"),
@@ -341,7 +341,7 @@ public class AccountService {
                 }
             }
         }
-        return out;
+        return lstSubscriptions;
     }
 
         /** Simple DTO for your applications (one row per application). */
@@ -360,8 +360,8 @@ public class AccountService {
         /**
          * Fetches all application rows (one per application_no) for a given username.
          */
-        public static List<ApplicationInfo> getApplicationsByUsername(String username) throws SQLException {
-            String sql = """
+        public static List<ApplicationInfo> getApplicationsByUsername(String strUsername) throws SQLException {
+            String strSql = """
                 SELECT a.application_no,
                        DATE_FORMAT(a.application_date, '%m/%d/%Y') AS date_submitted,
                        p.payment_option AS status
@@ -372,14 +372,14 @@ public class AccountService {
                  ORDER BY a.application_date DESC
                 """;
     
-            List<ApplicationInfo> out = new ArrayList<>();
+            List<ApplicationInfo> lstApplications = new ArrayList<>();
             try (Connection conn = DatabaseConnection.getConnection();
-                 PreparedStatement ps = conn.prepareStatement(sql)) {
-    
-                ps.setString(1, username);
-                try (ResultSet rs = ps.executeQuery()) {
+                 PreparedStatement psStmt = conn.prepareStatement(strSql)) {
+
+                psStmt.setString(1, strUsername);
+                try (ResultSet rs = psStmt.executeQuery()) {
                     while (rs.next()) {
-                        out.add(new ApplicationInfo(
+                        lstApplications.add(new ApplicationInfo(
                             rs.getString("application_no"),
                             rs.getString("date_submitted"),
                             rs.getString("status")
@@ -387,6 +387,6 @@ public class AccountService {
                     }
                 }
             }
-            return out;
-        }    
+            return lstApplications;
+        }
 }
