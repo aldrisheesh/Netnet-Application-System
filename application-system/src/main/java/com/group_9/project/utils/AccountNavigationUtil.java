@@ -17,11 +17,11 @@ public final class AccountNavigationUtil {
      *
      * @param parentFrame the JFrame to dispose after navigation
      */
-    public static void openAccountPageByApplication(JFrame parentFrame) {
-        String appNo = UserApplicationData.get("ApplicationNo");
-        if (appNo == null || appNo.isEmpty()) {
+    public static void openAccountPageByApplication(JFrame frmParent) {
+        String strAppNo = UserApplicationData.get("ApplicationNo");
+        if (strAppNo == null || strAppNo.isEmpty()) {
             CustomDialogUtil.showStyledErrorDialog(
-                parentFrame,
+                frmParent,
                 "No Application",
                 "No application number found in session."
             );
@@ -29,45 +29,45 @@ public final class AccountNavigationUtil {
         }
 
         try {
-            var profile = AccountService.getCustomerInfoByApplication(appNo);
-            if (profile == null) {
+            var objProfile = AccountService.getCustomerInfoByApplication(strAppNo);
+            if (objProfile == null) {
                 CustomDialogUtil.showStyledErrorDialog(
-                    parentFrame,
+                    frmParent,
                     "Load Error",
-                    "No account found for application #" + appNo
+                    "No account found for application #" + strAppNo
                 );
                 return;
             }
 
             // Populate session with all needed fields
-            UserApplicationData.set("Username",        profile.username);
-            UserApplicationData.set("Password",        profile.password);
-            UserApplicationData.set("CustomerName",    profile.fullName);
-            UserApplicationData.set("Birthday",        profile.birthdate);
-            UserApplicationData.set("Gender",          profile.gender);
-            UserApplicationData.set("CivilStatus",     profile.civilStatus);
-            UserApplicationData.set("MaidenName",      profile.motherMn);
-            UserApplicationData.set("Spouse",          profile.spouseName != null ? profile.spouseName : "");
-            UserApplicationData.set("Nationality",     profile.nationality);
-            UserApplicationData.set("Email",           profile.emailAdd);
-            UserApplicationData.set("Mobile",          profile.contactNo);
-            UserApplicationData.set("HomeOwnership",   profile.residenceType);
-            UserApplicationData.set("YearsOfResidency",String.valueOf(profile.residenceYrs));
-            UserApplicationData.set("CompanyPaid",     profile.compPaid);
-            UserApplicationData.set("NameOfOwner",     profile.ownerName);
-            UserApplicationData.set("ContactNumber",   profile.ownerContact);
-            UserApplicationData.set("ResidenceAddress",profile.residenceAdd);
+            UserApplicationData.set("Username",        objProfile.username);
+            UserApplicationData.set("Password",        objProfile.password);
+            UserApplicationData.set("CustomerName",    objProfile.fullName);
+            UserApplicationData.set("Birthday",        objProfile.birthdate);
+            UserApplicationData.set("Gender",          objProfile.gender);
+            UserApplicationData.set("CivilStatus",     objProfile.civilStatus);
+            UserApplicationData.set("MaidenName",      objProfile.motherMn);
+            UserApplicationData.set("Spouse",          objProfile.spouseName != null ? objProfile.spouseName : "");
+            UserApplicationData.set("Nationality",     objProfile.nationality);
+            UserApplicationData.set("Email",           objProfile.emailAdd);
+            UserApplicationData.set("Mobile",          objProfile.contactNo);
+            UserApplicationData.set("HomeOwnership",   objProfile.residenceType);
+            UserApplicationData.set("YearsOfResidency",String.valueOf(objProfile.residenceYrs));
+            UserApplicationData.set("CompanyPaid",     objProfile.compPaid);
+            UserApplicationData.set("NameOfOwner",     objProfile.ownerName);
+            UserApplicationData.set("ContactNumber",   objProfile.ownerContact);
+            UserApplicationData.set("ResidenceAddress",objProfile.residenceAdd);
 
             // Launch the details page
             new AccountDetailsPage().setVisible(true);
-            parentFrame.dispose();
+            frmParent.dispose();
 
         } catch (SQLException ex) {
             ex.printStackTrace();
             CustomDialogUtil.showStyledErrorDialog(
-                parentFrame,
+                frmParent,
                 "Database Error",
-                "Failed to load account details for application #" + appNo
+                "Failed to load account details for application #" + strAppNo
             );
         }
     }
