@@ -123,20 +123,13 @@ public class AccountSubsPage extends Template {
             // 2) Wrap it in a JScrollPane sized to show exactly 4 cards (2×2)
             int viewportWidth  = 2 * boxW + hGap;
             int viewportHeight = 2 * boxH + vGap;
-            JScrollPane scroll = new JScrollPane(
-                    grid,
-                    JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                    JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            JScrollPane scroll = new JScrollPane(grid,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
             scroll.setBounds(startX, startY, viewportWidth, viewportHeight);
             scroll.setBorder(null);
             scroll.setOpaque(false);
             scroll.getViewport().setOpaque(false);
-
-            JScrollBar vsb = scroll.getVerticalScrollBar();
-            vsb.setUI(new CustomScrollBarUI());
-            vsb.setOpaque(false);
-            vsb.setPreferredSize(new Dimension(10, 0));
-            vsb.setUnitIncrement(16);
     
             container.add(scroll);
         }
