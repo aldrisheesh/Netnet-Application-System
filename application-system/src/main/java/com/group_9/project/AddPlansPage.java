@@ -317,11 +317,11 @@ public class AddPlansPage extends JFrame {
             JPanel row = new JPanel();
             row.setOpaque(false);
             row.setLayout(new BoxLayout(row, BoxLayout.X_AXIS));
-            JLabel lblTitle = new JLabel(title);
+            JLabel lblTitle = new JLabel(strPlanTitle);
             lblTitle.setFont(FontUtil.getOutfitBoldFont(16f));
             row.add(lblTitle);
             row.add(Box.createHorizontalGlue());
-            JLabel lblPrice = new JLabel(price);
+            JLabel lblPrice = new JLabel(strPlanPrice);
             lblPrice.setFont(FontUtil.getInterFont(14f));
             row.add(lblPrice);
             content.add(row);
@@ -329,7 +329,7 @@ public class AddPlansPage extends JFrame {
             content.add(Box.createVerticalStrut(5));
             JPanel feeRow = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
             feeRow.setOpaque(false);
-            JLabel lblFee = new JLabel(fee);
+            JLabel lblFee = new JLabel(strPlanFee);
             lblFee.setFont(FontUtil.getInterFont(14f));
             feeRow.add(lblFee);
             content.add(feeRow);
