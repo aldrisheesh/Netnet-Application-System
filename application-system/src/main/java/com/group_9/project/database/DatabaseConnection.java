@@ -8,7 +8,6 @@ public class DatabaseConnection {
 
     private static Connection objConn;
 
-    // get database connection with proper error handling
     public static Connection getConnection() {
         String strDriver = "com.mysql.cj.jdbc.Driver";  // MySQL
         String strJDBC = "jdbc:mysql://";               // driver for MySQL
@@ -78,9 +77,9 @@ public class DatabaseConnection {
         System.out.println("Testing database connection...");
         
         if (testConnection()) {
-            System.out.println("✓ Database connection test successful!");
+            System.out.println("Database connection test successful!");
         } else {
-            System.out.println("✗ Database connection test failed!");
+            System.out.println("Database connection test failed!");
         }
     }
 }
