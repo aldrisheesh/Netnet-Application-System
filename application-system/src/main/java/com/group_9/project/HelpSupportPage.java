@@ -133,34 +133,3 @@ public class HelpSupportPage extends JFrame {
         });
     }
 }
-
-class RoundedPanel extends JPanel {
-    private final int cornerRadius;
-
-    public RoundedPanel(int radius) {
-        super(null); // null layout
-        this.cornerRadius = radius;
-        setOpaque(false);
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        int width = getWidth();
-        int height = getHeight();
-
-        // Draw rounded background
-        g2.setColor(getBackground());
-        g2.fillRoundRect(0, 0, width, height, cornerRadius, cornerRadius);
-
-        // Draw rounded border
-        g2.setColor(new Color(126, 76, 165, 180)); // border color
-        g2.setStroke(new BasicStroke(1.5f));
-        g2.drawRoundRect(0, 0, width - 1, height - 1, cornerRadius, cornerRadius);
-
-        g2.dispose();
-        super.paintComponent(g); // Paint children
-    }
-}

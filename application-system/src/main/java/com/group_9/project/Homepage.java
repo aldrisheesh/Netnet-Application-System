@@ -266,39 +266,3 @@ class RoundedLabelUI extends javax.swing.plaf.basic.BasicLabelUI {
         return new Dimension(diameter, diameter);
     }
 }
-
-class RoundedPanel extends JPanel {
-    private final int arc;
-    private final int shadowOffset = 4;
-    private final Color shadowColor = new Color(0, 0, 0, 20);
-
-    public RoundedPanel(int arc) {
-        this.arc = arc;
-        setOpaque(false);
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        int w = getWidth();
-        int h = getHeight();
-
-        // Draw shadow
-        g2.setColor(shadowColor);
-        g2.fillRoundRect(shadowOffset, shadowOffset, w - shadowOffset, h - shadowOffset, arc, arc);
-
-        // Draw main panel
-        g2.setColor(new Color(255, 255, 255, 180));
-        g2.fillRoundRect(0, 0, w - shadowOffset, h - shadowOffset, arc, arc);
-
-        // Optional soft border
-        g2.setColor(new Color(220, 220, 220));
-        g2.setStroke(new BasicStroke(1));
-        g2.drawRoundRect(0, 0, w - shadowOffset - 1, h - shadowOffset - 1, arc, arc);
-
-        g2.dispose();
-        super.paintComponent(g);
-    }
-}
