@@ -9,22 +9,22 @@ public class DatabaseConnection {
     private static Connection objConn;
 
     public static Connection getConnection() {
-        String strDriver = "com.mysql.cj.jdbc.Driver";  // MySQL
-        String strJDBC = "jdbc:mysql://";               // driver for MySQL
-        String strHost = "localhost";                   // hostname
-        String strPort = "3306";                        // port number
-        String strDb = "fiberxpress";                   // database 
+        String strDriver = "com.mysql.cj.jdbc.Driver";  // MySQL JDBC driver class
+        String strJDBC = "jdbc:mysql://";               // JDBC URL protocol for MySQL
+        String strHost = "localhost";                   // Database server hostname
+        String strPort = "3306";                        // MySQL default port number
+        String strDb = "fiberxpress";                   // target database name
         String strConn = strJDBC + strHost + ":" + strPort + "/" + strDb + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-        String strUser = "root";
-        String strPass = "";
+        String strUser = "root"; // MySQL username
+        String strPass = ""; // MySQL password
 
         try {
-            // load the driver
+            // load the MySQL JDBC driver
             Class.forName(strDriver);
             
             System.out.println("Attempting to connect to database: " + strDb);
             
-            // initialize and return the connection
+            // establish connection using DriverManager
             Connection conn = DriverManager.getConnection(strConn, strUser, strPass);
             
             if (conn != null && !conn.isClosed()) {
@@ -32,7 +32,7 @@ public class DatabaseConnection {
                 return conn;
             } else {
                 System.out.println("Failed to establish database connection");
-                return null;
+                return null; 
             }
 
         } catch (ClassNotFoundException e) {
@@ -73,6 +73,7 @@ public class DatabaseConnection {
         }
     }
 
+    // main method for testing database connection
     public static void main(String[] args) {
         System.out.println("Testing database connection...");
         
