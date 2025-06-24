@@ -1,26 +1,55 @@
 package com.group_9.project;
 
-import com.group_9.project.session.UserApplicationData;
-import com.group_9.project.utils.*;
-
-import javax.swing.*;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.JTextComponent;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.JTextComponent;
+
+import com.group_9.project.session.UserApplicationData;
+import com.group_9.project.utils.BackgroundPanel;
+import com.group_9.project.utils.BaseFrameSetup;
+import com.group_9.project.utils.CreateStepTracker;
+import com.group_9.project.utils.CustomDialogUtil;
+import com.group_9.project.utils.FontUtil;
+import com.group_9.project.utils.FormComponent;
+import com.group_9.project.utils.LengthLimitFilter;
+import com.group_9.project.utils.RoundedComponents;
+import com.group_9.project.utils.SmartFieldFormatter;
+import com.group_9.project.utils.ToolTipUtil;
+import com.group_9.project.utils.ValidationUtil;
 
 public class SignUp1 extends JFrame {
 
     public SignUp1() {
         BaseFrameSetup.applyAppIcon(this);
-        BackgroundPanel background = BaseFrameSetup.setupCompleteFrame(this, 1);
+        BackgroundPanel pnlBackground = BaseFrameSetup.setupCompleteFrame(this, 1);
         JPanel pnlContainer = new RoundedComponents.RoundedShadowPanel(25, 4);
         pnlContainer.setBounds(235, 165, 970, 695);
-        background.add(pnlContainer);
+        pnlBackground.add(pnlContainer);
 
         JPanel pnlInnerContent = new JPanel();
         pnlInnerContent.setLayout(new BoxLayout(pnlInnerContent, BoxLayout.Y_AXIS));
@@ -373,7 +402,7 @@ public class SignUp1 extends JFrame {
         txtSpouseName.setText(UserApplicationData.get("strSpouse"));
 
         setVisible(true);
-        SwingUtilities.invokeLater(() -> background.requestFocusInWindow());
+        SwingUtilities.invokeLater(() -> pnlBackground.requestFocusInWindow());
     }
 
 
